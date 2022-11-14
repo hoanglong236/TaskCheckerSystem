@@ -72,6 +72,31 @@ public class NodeTaskPanel extends TaskPanel {
         setPopup(this.popup);
     }
 
+    private void updateStatusChecker(boolean checked) {
+        this.statusChecker.update(checked);
+    }
+
+    private void updateImportantLabel(boolean important) {
+        if (important) {
+            this.importantLabel.update(ViewConstant.ICON_LOCATION_IMPORTANT);
+        } else {
+            this.importantLabel.update(ViewConstant.ICON_LOCATION_UNIMPORTANT);
+        }
+    }
+
+    @Override
+    public void update(TaskPanelDto taskPanelDto) {
+        super.update(taskPanelDto);
+        updateStatusChecker(taskPanelDto.isCompleted());
+        updateImportantLabel(taskPanelDto.isImportant());
+    }
+
+    @Override
+    protected void setNotResizableChildComponents() {
+        this.statusChecker.setResizable(false);
+        this.importantLabel.setResizable(false);
+    }
+
     @Override
     protected void loadOtherChildComponentsSize() {
         final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;

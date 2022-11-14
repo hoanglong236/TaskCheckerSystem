@@ -5,7 +5,9 @@ import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.WrapperComponent;
 import org.swing.app.view.components.ui.TextButton;
-import org.swing.app.view.home.components.roottask.RootTaskPanelContainer;
+import org.swing.app.view.home.components.TaskPanelContainer;
+import org.swing.app.view.home.components.factory.TaskPanelContainerFactory;
+import org.swing.app.view.home.components.roottask.factory.RootTaskPanelContainerFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -16,27 +18,32 @@ public class HomeSideBar extends WrapperComponent {
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER,
             ViewConstant.MEDIUM_H_GAP, ViewConstant.MEDIUM_V_GAP);
 
-    private RootTaskPanelContainer repeatTaskPanelContainer;
-    private RootTaskPanelContainer nonRepeatTaskPanelContainer;
+    private TaskPanelContainer repeatTaskPanelContainer;
+    private TaskPanelContainer nonRepeatTaskPanelContainer;
+
+    private TaskPanelContainerFactory taskPanelContainerFactory;
     private TextButton addTaskBtn;
 
     public HomeSideBar(Set<TaskPanelDto> repeatTaskPanelDtos, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
         super();
         this.component.setLayout(MAIN_LAYOUT);
+        this.taskPanelContainerFactory = new RootTaskPanelContainerFactory();
         init(repeatTaskPanelDtos, nonRepeatTaskPanelDtos);
     }
 
     private void initRepeatTaskPanelContainer(Set<TaskPanelDto> taskPanelDtos) {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final String repeatTaskPanelContainerTitle = messageLoader.getMessage("repeat.task.panel.container.title");
-        this.repeatTaskPanelContainer = new RootTaskPanelContainer(repeatTaskPanelContainerTitle, taskPanelDtos);
+        this.repeatTaskPanelContainer = this.taskPanelContainerFactory.createTaskPanelContainer(
+                repeatTaskPanelContainerTitle, taskPanelDtos);
     }
 
     private void initNonRepeatTaskPanelContainer(Set<TaskPanelDto> taskPanelDtos) {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final String nonRepeatTaskPanelContainerTitle =
                 messageLoader.getMessage("non.repeat.task.panel.container.title");
-        this.nonRepeatTaskPanelContainer = new RootTaskPanelContainer(nonRepeatTaskPanelContainerTitle, taskPanelDtos);
+        this.nonRepeatTaskPanelContainer = this.taskPanelContainerFactory.createTaskPanelContainer(
+                nonRepeatTaskPanelContainerTitle, taskPanelDtos);
     }
 
     private void initAddTaskBtn() {
@@ -73,5 +80,12 @@ public class HomeSideBar extends WrapperComponent {
 
         final int addTaskBtnHeight = 50;
         this.childComponentSizeMap.put(this.addTaskBtn, new Dimension(maxChildComponentWidth, addTaskBtnHeight));
+    }
+
+    @Override
+    protected void setNotResizableChildComponents() {
+        this.repeatTaskPanelContainer.setResizable(false);
+        this.nonRepeatTaskPanelContainer.setResizable(false);
+        this.addTaskBtn.setResizable(false);
     }
 }

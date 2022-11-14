@@ -5,7 +5,6 @@ import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.WrapperComponent;
 import org.swing.app.view.components.ui.TextLabel;
 
-import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -13,10 +12,6 @@ public abstract class TaskCenterPanel extends WrapperComponent {
 
     protected static FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
-    // Van de: neu o class super goi ham init
-    // init se thuc hien o ham init con
-    // init con goi init cha
-    // init cha lai phu thuoc vao init con thi sao ??????
 
     private TextLabel titleLabel;
 

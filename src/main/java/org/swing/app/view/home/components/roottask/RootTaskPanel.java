@@ -3,7 +3,6 @@ package org.swing.app.view.home.components.roottask;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.ControllablePopup;
 import org.swing.app.view.components.ui.ActivationLabel;
 import org.swing.app.view.components.ui.Popup;
 import org.swing.app.view.components.ui.PopupItem;
@@ -17,8 +16,7 @@ public class RootTaskPanel extends TaskPanel {
     private ActivationLabel activationLabel;
     private Popup popup;
 
-    public RootTaskPanel(TaskPanelDto taskPanelDto,
-            TaskCenterPanelFactory taskCenterPanelFactory) {
+    public RootTaskPanel(TaskPanelDto taskPanelDto, TaskCenterPanelFactory taskCenterPanelFactory) {
         super(taskPanelDto, taskCenterPanelFactory);
         this.activationLabel = null;
     }
@@ -47,6 +45,11 @@ public class RootTaskPanel extends TaskPanel {
 
         initPopup();
         setPopup(this.popup);
+    }
+
+    @Override
+    protected void setNotResizableChildComponents() {
+        this.activationLabel.setResizable(false);
     }
 
     @Override

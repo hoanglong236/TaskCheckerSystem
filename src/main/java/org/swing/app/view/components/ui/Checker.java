@@ -1,7 +1,6 @@
 package org.swing.app.view.components.ui;
 
 import org.swing.app.view.components.SimpleComponent;
-import org.swing.app.view.components.ViewComponentBase;
 
 import javax.swing.JCheckBox;
 

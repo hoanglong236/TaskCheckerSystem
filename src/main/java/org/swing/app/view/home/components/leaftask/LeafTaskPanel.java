@@ -40,6 +40,22 @@ public class LeafTaskPanel extends TaskPanel {
         addChildComponent(this.removeLabel);
     }
 
+    private void updateStatusChecker(boolean checked) {
+        this.statusChecker.update(checked);
+    }
+
+    @Override
+    public void update(TaskPanelDto taskPanelDto) {
+        super.update(taskPanelDto);
+        updateStatusChecker(taskPanelDto.isCompleted());
+    }
+
+    @Override
+    protected void setNotResizableChildComponents() {
+        this.statusChecker.setResizable(false);
+        this.removeLabel.setResizable(false);
+    }
+
     @Override
     protected void loadOtherChildComponentsSize() {
         final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;

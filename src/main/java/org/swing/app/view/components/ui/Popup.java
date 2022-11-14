@@ -31,6 +31,7 @@ public class Popup {
     public void removeItem(PopupItem popupItem) {
         this.popupItems.remove(popupItem);
         this.popupMenu.remove(popupItem.getMenuItem());
+        this.popupMenu.pack();
     }
 
     public Iterator<PopupItem> getPopupItemIterator() {

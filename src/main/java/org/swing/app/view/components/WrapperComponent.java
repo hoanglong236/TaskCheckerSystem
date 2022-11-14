@@ -2,6 +2,7 @@ package org.swing.app.view.components;
 
 import javax.swing.JPanel;
 import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -20,6 +21,10 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
     @Override
     public boolean isEmpty() {
         return this.childComponents.size() == 0;
+    }
+
+    protected void setLayout(LayoutManager layoutManager) {
+        this.component.setLayout(layoutManager);
     }
 
     @Override
@@ -58,11 +63,14 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
         }
     }
 
+    protected abstract void setNotResizableChildComponents();
+
     @Override
     public void resize(Dimension dimension) {
         this.component.setPreferredSize(dimension);
         loadChildComponentsSize();
         resizeChildComponents();
+        setNotResizableChildComponents();
     }
 
     private void disposeChildComponents() {

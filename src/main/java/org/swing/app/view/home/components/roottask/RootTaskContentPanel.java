@@ -8,8 +8,7 @@ import java.util.Set;
 
 public class RootTaskContentPanel extends TaskContentPanel {
 
-    public RootTaskContentPanel( String title,
-            Set<TaskPanelDto> taskPanelDtos) {
+    public RootTaskContentPanel(String title, Set<TaskPanelDto> taskPanelDtos) {
         super(new RootTaskPanelContainerFactory(), title, taskPanelDtos);
     }
 }
