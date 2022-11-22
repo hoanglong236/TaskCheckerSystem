@@ -7,12 +7,12 @@ import org.swing.app.view.components.form.components.FormInputComponent;
 import javax.swing.JTextArea;
 import java.awt.Font;
 
-class FormTextArea extends SimpleComponent implements FormInputComponent {
+class FormTextArea extends FormInputComponent {
 
     private static final Font TEXT_FIELD_FONT = new Font(ViewConstant.PRIMARY_FONT_NAME,
             Font.PLAIN, ViewConstant.F_TEXT_FIELD_FONT_SIZE);
 
-    public FormTextArea(Object initValue) {
+    public FormTextArea(String initValue) {
         super();
         this.component = new JTextArea();
         this.component.setFont(TEXT_FIELD_FONT);
@@ -25,16 +25,15 @@ class FormTextArea extends SimpleComponent implements FormInputComponent {
             clear();
             return;
         }
-        try {
-            ((JTextArea) this.component).setText((String) value);
-        } catch (ClassCastException ex) {
-            ex.printStackTrace();
+        if (!(value instanceof String)) {
+            throw new IllegalArgumentException();
         }
+        ((JTextArea) this.component).setText((String) value);
     }
 
     @Override
     public Object getValue() {
-        String inputValue = ((JTextArea) this.component).getText();
+        final String inputValue = ((JTextArea) this.component).getText();
         return inputValue == null ? null : inputValue.trim();
     }
 

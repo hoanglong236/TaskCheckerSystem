@@ -68,4 +68,9 @@ public class TaskContentPanel extends WrapperComponent {
         final int addTaskBtnHeight = 50;
         this.childComponentSizeMap.put(this.addTaskBtn, new Dimension(addTaskBtnWidth, addTaskBtnHeight));
     }
+
+    @Override
+    protected void setNotResizableChildComponents() {
+
+    }
 }

@@ -93,4 +93,8 @@ public class TaskPanelContainer extends WrapperComponent {
         this.childComponentSizeMap.put(this.verticalScrollPane,
                 new Dimension(verticalScrollPaneWidth, verticalScrollPaneHeight));
     }
+
+    @Override
+    protected void setNotResizableChildComponents() {
+    }
 }

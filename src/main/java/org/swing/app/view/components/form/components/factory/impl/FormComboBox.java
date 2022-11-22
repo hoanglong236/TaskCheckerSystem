@@ -1,26 +1,25 @@
 package org.swing.app.view.components.form.components.factory.impl;
 
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.form.components.FormInputComponent;
 
 import javax.swing.JComboBox;
 import java.util.Set;
 
-class FormComboBox<E> extends SimpleComponent implements FormInputComponent {
+class FormComboBox extends FormInputComponent {
 
-    private Set<E> valueRanges;
+    private Set<String> valueRange;
 
-    public FormComboBox(Set<E> valueRanges, E value) {
+    public FormComboBox(Set<String> valueRange, String initValue) {
         super();
-        if (valueRanges == null || valueRanges.isEmpty()) {
+        if (valueRange == null || valueRange.isEmpty()) {
             final MessageLoader messageLoader = MessageLoader.getInstance();
             throw new IllegalArgumentException(messageLoader.getMessage("..."));
         }
-        final Object[] valueRangeArray = valueRanges.toArray();
+        final String[] valueRangeArray = this.valueRange.toArray(new String[0]);
         this.component = new JComboBox<>(valueRangeArray);
-        this.valueRanges = valueRanges;
-        setValue(value);
+        this.valueRange = valueRange;
+        setValue(initValue);
     }
 
     @Override
@@ -29,16 +28,13 @@ class FormComboBox<E> extends SimpleComponent implements FormInputComponent {
             clear();
             return;
         }
-        try {
-            if (this.valueRanges.contains(value)) {
-                ((JComboBox) this.component).setSelectedItem(value);
-            } else {
-                MessageLoader messLoader = MessageLoader.getInstance();
-                throw new IllegalArgumentException(messLoader.getMessage("..."));
-            }
-        } catch (ClassCastException ex) {
-            ex.printStackTrace();
+        if (!(value instanceof String)) {
+            throw new IllegalArgumentException();
         }
+        if (!this.valueRange.contains(value)) {
+            throw new IllegalArgumentException();
+        }
+        ((JComboBox) this.component).setSelectedItem(value);
     }
 
     @Override
@@ -48,7 +44,7 @@ class FormComboBox<E> extends SimpleComponent implements FormInputComponent {
 
     @Override
     public void clear() {
-        final Object firstValueInRanges = this.valueRanges.iterator().next();
-        ((JComboBox) this.component).setSelectedItem(firstValueInRanges);
+        final String firstValueInRange = this.valueRange.iterator().next();
+        ((JComboBox) this.component).setSelectedItem(firstValueInRange);
     }
 }

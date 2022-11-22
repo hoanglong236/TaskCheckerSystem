@@ -1,6 +1,6 @@
 package org.swing.app.view.components.ui;
 
-import org.swing.app.common.CustomIterator;
+import org.swing.app.common.ArrayIterator;
 
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
@@ -33,7 +33,7 @@ public class PopupItem {
     }
 
     private void removeActionListeners() {
-        final Iterator<ActionListener> actionListenerIterator = new CustomIterator<>(getActionListeners());
+        final Iterator<ActionListener> actionListenerIterator = new ArrayIterator<>(getActionListeners());
 
         while (actionListenerIterator.hasNext()) {
             final ActionListener actionListener = actionListenerIterator.next();
@@ -54,7 +54,7 @@ public class PopupItem {
     }
 
     private void removeMouseListeners() {
-        final Iterator<MouseListener> mouseListenerIterator = new CustomIterator<>(getMouseListeners());
+        final Iterator<MouseListener> mouseListenerIterator = new ArrayIterator<>(getMouseListeners());
 
         while (mouseListenerIterator.hasNext()) {
             final MouseListener mouseListener = mouseListenerIterator.next();

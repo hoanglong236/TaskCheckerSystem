@@ -1,7 +1,7 @@
 package org.swing.app.view.components.ui;
 
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.ViewComponentBase;
+import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.WrapperComponent;
 
 import java.awt.Dimension;
@@ -26,10 +26,10 @@ public class VerticalViewportView extends WrapperComponent {
     @Override
     protected void loadChildComponentsSize() {
         final int preferChildComponentWidth = getPreferChildComponentWidth();
-        final Iterator<ViewComponentBase> childComponentIterator = getChildComponentIterator();
+        final Iterator<ViewComponent> childComponentIterator = getChildComponentIterator();
 
         while (childComponentIterator.hasNext()) {
-            final ViewComponentBase component = childComponentIterator.next();
+            final ViewComponent component = childComponentIterator.next();
             int componentWidth = component.getSize().width;
             final int componentHeight = component.getSize().height;
 
@@ -39,5 +39,9 @@ public class VerticalViewportView extends WrapperComponent {
 
             this.childComponentSizeMap.replace(component, new Dimension(componentWidth, componentHeight));
         }
+    }
+
+    @Override
+    protected void setNotResizableChildComponents() {
     }
 }

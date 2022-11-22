@@ -2,12 +2,12 @@ package org.swing.app.common;
 
 import java.util.Iterator;
 
-public class CustomIterator<E> implements Iterator<E> {
+public class ArrayIterator<E> implements Iterator<E> {
 
     private final E[] elements;
     private int position;
 
-    public CustomIterator(E[] elements) {
+    public ArrayIterator(E[] elements) {
         this.elements = elements;
         this.position = 0;
     }

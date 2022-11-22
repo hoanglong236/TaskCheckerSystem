@@ -1,8 +1,10 @@
 package org.swing.app.view.components.form.components;
 
-public interface FormInputComponent {
+import org.swing.app.view.components.SimpleComponent;
 
-    void setValue(Object value);
-    Object getValue();
-    void clear();
+public abstract class FormInputComponent extends SimpleComponent {
+
+    public abstract void setValue(Object value);
+    public abstract Object getValue();
+    public abstract void clear();
 }

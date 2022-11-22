@@ -1,18 +1,17 @@
 package org.swing.app.view.components.form.components.factory.impl;
 
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.form.components.FormInputComponent;
 
 import javax.swing.JTextField;
 import java.awt.Font;
 
-class FormTextField extends SimpleComponent implements FormInputComponent {
+class FormTextField extends FormInputComponent {
 
     private static final Font TEXT_FIELD_FONT = new Font(ViewConstant.PRIMARY_FONT_NAME,
             Font.PLAIN, ViewConstant.F_TEXT_FIELD_FONT_SIZE);
 
-    public FormTextField(Object initValue) {
+    public FormTextField(String initValue) {
         super();
         this.component = new JTextField();
         this.component.setFont(TEXT_FIELD_FONT);
@@ -25,16 +24,15 @@ class FormTextField extends SimpleComponent implements FormInputComponent {
             clear();
             return;
         }
-        try {
-            ((JTextField) this.component).setText((String) value);
-        } catch (ClassCastException ex) {
-            ex.printStackTrace();
+        if (!(value instanceof String)) {
+            throw new IllegalArgumentException();
         }
+        ((JTextField) this.component).setText((String) value);
     }
 
     @Override
     public Object getValue() {
-        String inputValue = ((JTextField) this.component).getText();
+        final String inputValue = ((JTextField) this.component).getText();
         return inputValue == null ? null : inputValue.trim();
     }
 

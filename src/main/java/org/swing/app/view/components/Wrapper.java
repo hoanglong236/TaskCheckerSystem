@@ -5,9 +5,9 @@ import java.util.Iterator;
 public interface Wrapper {
 
     boolean isEmpty();
-    void addChildComponent(ViewComponentBase childComponent);
-    void addChildComponentToTheFirstPosition(ViewComponentBase childComponent);
-    void addChildComponent(ViewComponentBase childComponent, int position);
-    void removeChildComponent(ViewComponentBase childComponent);
-    Iterator<ViewComponentBase> getChildComponentIterator();
+    void addChildComponent(ViewComponent childComponent);
+    void addChildComponentToTheFirstPosition(ViewComponent childComponent);
+    void addChildComponent(ViewComponent childComponent, int position);
+    void removeChildComponent(ViewComponent childComponent);
+    Iterator<ViewComponent> getChildComponentIterator();
 }

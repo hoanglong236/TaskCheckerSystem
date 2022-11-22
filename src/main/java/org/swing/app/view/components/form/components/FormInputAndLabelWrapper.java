@@ -2,9 +2,11 @@ package org.swing.app.view.components.form.components;
 
 import org.swing.app.view.components.WrapperComponent;
 
-public class FormInputAndLabelWrapperComponent extends WrapperComponent {
+public abstract class FormInputAndLabelWrapper extends WrapperComponent {
 
-    public FormInputAndLabelWrapperComponent() {
+
+
+    public FormInputAndLabelWrapper() {
     }
 
     @Override

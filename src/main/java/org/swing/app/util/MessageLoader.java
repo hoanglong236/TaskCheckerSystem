@@ -13,9 +13,9 @@ public class MessageLoader {
 
     private MessageLoader() {
         this.properties = new Properties();
-
         try {
-            final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(Constant.MESSAGE_FILE_PATH);
+            final ClassLoader currentClassLoader = getClass().getClassLoader();
+            final InputStream inputStream = currentClassLoader.getResourceAsStream(Constant.MESSAGE_FILE_PATH);
             this.properties.load(inputStream);
         } catch (IOException ex) {
             ex.printStackTrace();

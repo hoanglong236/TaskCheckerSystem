@@ -1,6 +1,6 @@
 package org.swing.app.view.components.ui;
 
-import org.swing.app.common.CustomIterator;
+import org.swing.app.common.ArrayIterator;
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.util.ViewUtil;
 
@@ -45,7 +45,7 @@ public class Button extends SimpleComponent {
     }
 
     private void removeActionListeners(ActionListener[] actionListeners) {
-        final Iterator<ActionListener> actionListenerIterator = new CustomIterator<>(actionListeners);
+        final Iterator<ActionListener> actionListenerIterator = new ArrayIterator<>(actionListeners);
 
         while (actionListenerIterator.hasNext()) {
             final ActionListener actionListener = actionListenerIterator.next();

@@ -11,8 +11,8 @@ import java.util.Set;
 
 public abstract class WrapperComponent extends ViewComponentBase implements Wrapper {
 
-    protected Map<ViewComponentBase, Dimension> childComponentSizeMap = new HashMap<>();
-    protected Set<ViewComponentBase> childComponents = new LinkedHashSet<>();
+    protected Map<ViewComponent, Dimension> childComponentSizeMap = new HashMap<>();
+    protected Set<ViewComponent> childComponents = new LinkedHashSet<>();
 
     public WrapperComponent() {
         this.component = new JPanel();
@@ -28,23 +28,23 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
     }
 
     @Override
-    public void addChildComponent(ViewComponentBase childComponent) {
+    public void addChildComponent(ViewComponent childComponent) {
         addChildComponent(childComponent, -1);
     }
 
     @Override
-    public void addChildComponentToTheFirstPosition(ViewComponentBase childComponent) {
+    public void addChildComponentToTheFirstPosition(ViewComponent childComponent) {
         addChildComponent(childComponent, 0);
     }
 
     @Override
-    public void addChildComponent(ViewComponentBase childComponent, int position) {
+    public void addChildComponent(ViewComponent childComponent, int position) {
         this.childComponents.add(childComponent);
         this.component.add(childComponent.getComponent(), position);
     }
 
     @Override
-    public void removeChildComponent(ViewComponentBase childComponent) {
+    public void removeChildComponent(ViewComponent childComponent) {
         this.childComponents.remove(childComponent);
         this.component.remove(childComponent.getComponent());
     }
@@ -52,10 +52,10 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
     protected abstract void loadChildComponentsSize();
 
     private void resizeChildComponents() {
-        final Iterator<ViewComponentBase> childComponentIterator = getChildComponentIterator();
+        final Iterator<ViewComponent> childComponentIterator = getChildComponentIterator();
 
         while (childComponentIterator.hasNext()) {
-            final ViewComponentBase childComponent = childComponentIterator.next();
+            final ViewComponent childComponent = childComponentIterator.next();
 
             if (childComponent.isResizable()) {
                 childComponent.resize(this.childComponentSizeMap.get(childComponent));
@@ -74,10 +74,10 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
     }
 
     private void disposeChildComponents() {
-        final Iterator<ViewComponentBase> childComponentIterator = getChildComponentIterator();
+        final Iterator<ViewComponent> childComponentIterator = getChildComponentIterator();
 
         while (childComponentIterator.hasNext()) {
-            final ViewComponentBase childComponent = childComponentIterator.next();
+            final ViewComponent childComponent = childComponentIterator.next();
             childComponent.dispose();
         }
     }
@@ -89,7 +89,7 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
     }
 
     @Override
-    public Iterator<ViewComponentBase> getChildComponentIterator() {
+    public Iterator<ViewComponent> getChildComponentIterator() {
         return this.childComponents.iterator();
     }
 }

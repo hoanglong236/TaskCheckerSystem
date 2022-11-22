@@ -3,6 +3,8 @@ package org.swing.app.view.components.form.components.factory.impl;
 import org.swing.app.view.components.form.components.FormInputComponent;
 import org.swing.app.view.components.form.components.factory.FormInputComponentFactory;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Set;
 
 public class FormInputComponentFactoryImpl implements FormInputComponentFactory {
@@ -10,6 +12,11 @@ public class FormInputComponentFactoryImpl implements FormInputComponentFactory 
     @Override
     public FormInputComponent createLabelField(String text) {
         return new FormLabelField(text);
+    }
+
+    @Override
+    public FormInputComponent createLabelArea(String text) {
+        return null;
     }
 
     @Override
@@ -23,17 +30,17 @@ public class FormInputComponentFactoryImpl implements FormInputComponentFactory 
     }
 
     @Override
-    public FormInputComponent createComboBox(Set<String> valueRanges, String value) {
-        return new FormComboBox<String>(valueRanges, value);
+    public FormInputComponent createComboBox(Set<String> valueRange, String value) {
+        return new FormComboBox(valueRange, value);
     }
 
     @Override
-    public FormInputComponent createRadioField() {
+    public FormInputComponent createDateChooser(Date date) {
         return null;
     }
 
     @Override
-    public FormInputComponent createDateTimeChooser() {
+    public FormInputComponent createDateTimeChooser(LocalDateTime dateTime) {
         return null;
     }
 }

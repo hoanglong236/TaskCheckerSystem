@@ -17,9 +17,11 @@ public class ViewConstant {
     public static final byte SMALL_RESERVE_HEIGHT = 3;
 
     public static final byte SMALL_H_GAP = 3;
-    public static final byte MEDIUM_H_GAP = 5;
     public static final byte SMALL_V_GAP = 3;
+    public static final byte MEDIUM_H_GAP = 5;
     public static final byte MEDIUM_V_GAP = 5;
+    public static final byte LARGE_H_GAP = 10;
+    public static final byte LARGE_V_GAP = 10;
 
     public static final String ICON_LOCATION_CHECK = "icons/check.png";
     public static final String ICON_LOCATION_DEADLINE = "icons/deadline.png";

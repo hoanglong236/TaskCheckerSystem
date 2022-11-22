@@ -71,6 +71,12 @@ public class DeadlineLabel extends Label implements CountdownObserver {
     }
 
     @Override
+    public void dispose() {
+        this.countdownObservable.removeObserver(this);
+        super.dispose();
+    }
+
+    @Override
     public void decreaseCountDown() {
         if (this.hideCountDown > 0) {
             this.hideCountDown--;
@@ -87,8 +93,7 @@ public class DeadlineLabel extends Label implements CountdownObserver {
     }
 
     @Override
-    public void dispose() {
-        this.countdownObservable.removeObserver(this);
-        super.dispose();
+    public void update() {
+        decreaseCountDown();
     }
 }

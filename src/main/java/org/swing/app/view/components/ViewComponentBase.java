@@ -1,6 +1,6 @@
 package org.swing.app.view.components;
 
-import org.swing.app.common.CustomIterator;
+import org.swing.app.common.ArrayIterator;
 
 import javax.swing.JComponent;
 import java.awt.Dimension;
@@ -8,11 +8,12 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseListener;
 import java.util.Iterator;
 
-public abstract class ViewComponentBase {
+public abstract class ViewComponentBase implements ViewComponent {
 
     protected JComponent component = null;
     private boolean resizable = false;
 
+    @Override
     public JComponent getComponent() {
         return this.component;
     }
@@ -52,7 +53,7 @@ public abstract class ViewComponentBase {
     }
 
     private void removeComponentListeners(ComponentListener[] componentListeners) {
-        final Iterator<ComponentListener> componentListenerIterator = new CustomIterator<>(componentListeners);
+        final Iterator<ComponentListener> componentListenerIterator = new ArrayIterator<>(componentListeners);
 
         while (componentListenerIterator.hasNext()) {
             final ComponentListener componentListener = componentListenerIterator.next();
@@ -73,7 +74,7 @@ public abstract class ViewComponentBase {
     }
 
     private void removeMouseListeners(MouseListener[] mouseListeners) {
-        final Iterator<MouseListener> mouseListenerIterator = new CustomIterator<>(mouseListeners);
+        final Iterator<MouseListener> mouseListenerIterator = new ArrayIterator<>(mouseListeners);
 
         while (mouseListenerIterator.hasNext()) {
             final MouseListener mouseListener = mouseListenerIterator.next();
