@@ -18,8 +18,8 @@ public class ViewConstant {
 
     public static final byte SMALL_H_GAP = 3;
     public static final byte SMALL_V_GAP = 3;
-    public static final byte MEDIUM_H_GAP = 5;
-    public static final byte MEDIUM_V_GAP = 5;
+    public static final byte MEDIUM_H_GAP = 6;
+    public static final byte MEDIUM_V_GAP = 6;
     public static final byte LARGE_H_GAP = 10;
     public static final byte LARGE_V_GAP = 10;
 
@@ -46,6 +46,9 @@ public class ViewConstant {
     public static final byte STEP_PANEL_HEIGHT = 40;
 
     public static final Dimension EDIT_LIST_FRAME_PREFER_SIZE = new Dimension(650, 650);
-    public static final byte F_TEXT_FIELD_FONT_SIZE = 15;
+    public static final byte INPUT_TEXT_FONT_SIZE = 15;
     public static final byte F_TEXT_AREA_FONT_SIZE = 13;
+
+    public static final byte DEFAULT_LABEL_WIDTH = 80;
+    public static final byte DEFAULT_DATE_CHOOSER_WIDTH = 100;
 }

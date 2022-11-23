@@ -1,16 +1,17 @@
-package org.swing.app.view.components.form.components.factory.impl;
+package org.swing.app.view.components.form.components.factory.impl.input;
 
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.form.components.FormInputComponent;
+import org.swing.app.view.components.SimpleComponent;
+import org.swing.app.view.components.form.components.InputComponent;
 
 import javax.swing.JLabel;
 import java.awt.Font;
 
-class FormLabelField extends FormInputComponent {
+class LabelField extends SimpleComponent implements InputComponent {
     private static final Font TEXT_FIELD_FONT = new Font(ViewConstant.PRIMARY_FONT_NAME,
-            Font.PLAIN, ViewConstant.F_TEXT_FIELD_FONT_SIZE);
+            Font.PLAIN, ViewConstant.INPUT_TEXT_FONT_SIZE);
 
-    public FormLabelField(String initValue) {
+    public LabelField(String initValue) {
         super();
         this.component = new JLabel();
         this.component.setFont(TEXT_FIELD_FONT);

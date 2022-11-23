@@ -1,19 +1,20 @@
-package org.swing.app.view.components.form.components.factory.impl;
+package org.swing.app.view.components.form.components.factory.impl.input;
 
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.form.components.FormInputComponent;
+import org.swing.app.view.components.SimpleComponent;
+import org.swing.app.view.components.form.components.InputComponent;
 
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import java.awt.Font;
 
-class FormTextField extends FormInputComponent {
+class TextArea extends SimpleComponent implements InputComponent {
 
     private static final Font TEXT_FIELD_FONT = new Font(ViewConstant.PRIMARY_FONT_NAME,
-            Font.PLAIN, ViewConstant.F_TEXT_FIELD_FONT_SIZE);
+            Font.PLAIN, ViewConstant.INPUT_TEXT_FONT_SIZE);
 
-    public FormTextField(String initValue) {
+    public TextArea(String initValue) {
         super();
-        this.component = new JTextField();
+        this.component = new JTextArea();
         this.component.setFont(TEXT_FIELD_FONT);
         setValue(initValue);
     }
@@ -27,17 +28,17 @@ class FormTextField extends FormInputComponent {
         if (!(value instanceof String)) {
             throw new IllegalArgumentException();
         }
-        ((JTextField) this.component).setText((String) value);
+        ((JTextArea) this.component).setText((String) value);
     }
 
     @Override
     public Object getValue() {
-        final String inputValue = ((JTextField) this.component).getText();
+        final String inputValue = ((JTextArea) this.component).getText();
         return inputValue == null ? null : inputValue.trim();
     }
 
     @Override
     public void clear() {
-        ((JTextField) this.component).setText("");
+        ((JTextArea) this.component).setText("");
     }
 }

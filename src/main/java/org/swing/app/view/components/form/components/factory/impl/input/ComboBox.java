@@ -1,16 +1,17 @@
-package org.swing.app.view.components.form.components.factory.impl;
+package org.swing.app.view.components.form.components.factory.impl.input;
 
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.components.form.components.FormInputComponent;
+import org.swing.app.view.components.SimpleComponent;
+import org.swing.app.view.components.form.components.InputComponent;
 
 import javax.swing.JComboBox;
 import java.util.Set;
 
-class FormComboBox extends FormInputComponent {
+class ComboBox extends SimpleComponent implements InputComponent {
 
     private Set<String> valueRange;
 
-    public FormComboBox(Set<String> valueRange, String initValue) {
+    public ComboBox(Set<String> valueRange, String initValue) {
         super();
         if (valueRange == null || valueRange.isEmpty()) {
             final MessageLoader messageLoader = MessageLoader.getInstance();
