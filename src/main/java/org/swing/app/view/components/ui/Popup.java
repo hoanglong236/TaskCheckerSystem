@@ -1,21 +1,22 @@
 package org.swing.app.view.components.ui;
 
+import org.swing.app.view.components.SimpleComponent;
+
 import javax.swing.JPopupMenu;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class Popup {
+public class Popup extends SimpleComponent {
 
-    protected final JPopupMenu popupMenu;
     protected final Set<PopupItem> popupItems = new LinkedHashSet<>();
 
     public Popup() {
-        this.popupMenu = new JPopupMenu();
+        this.component = JCOMPONENT_FACTORY.createJPopupMenu();
     }
 
     public JPopupMenu getPopupMenu() {
-        return this.popupMenu;
+        return (JPopupMenu) this.component;
     }
 
     public void addPopupItemByName(String itemName) {
@@ -25,13 +26,14 @@ public class Popup {
 
     public void addPopupItem(PopupItem popupItem) {
         this.popupItems.add(popupItem);
-        this.popupMenu.add(popupItem.getMenuItem());
+        this.component.add(popupItem.getMenuItem());
+        pack();
     }
 
     public void removeItem(PopupItem popupItem) {
         this.popupItems.remove(popupItem);
-        this.popupMenu.remove(popupItem.getMenuItem());
-        this.popupMenu.pack();
+        this.component.remove(popupItem.getMenuItem());
+        pack();
     }
 
     public Iterator<PopupItem> getPopupItemIterator() {
@@ -49,5 +51,9 @@ public class Popup {
             final PopupItem popupItem = popupItemIterator.next();
             popupItem.dispose();
         }
+    }
+
+    private void pack() {
+        ((JPopupMenu) this.component).pack();
     }
 }

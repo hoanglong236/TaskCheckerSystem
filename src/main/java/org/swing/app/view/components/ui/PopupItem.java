@@ -1,35 +1,34 @@
 package org.swing.app.view.components.ui;
 
 import org.swing.app.common.ArrayIterator;
+import org.swing.app.view.components.SimpleComponent;
 
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.Iterator;
 
-public class PopupItem {
-
-    private final JMenuItem menuItem;
+public class PopupItem extends SimpleComponent {
 
     public PopupItem(String itemName) {
-        this.menuItem = new JMenuItem();
-        this.menuItem.setText(itemName);
+        this.component = JCOMPONENT_FACTORY.createJMenuItem();
+        ((JMenuItem) this.component).setText(itemName);
     }
 
     public JMenuItem getMenuItem() {
-        return this.menuItem;
+        return (JMenuItem) this.component;
     }
 
     public void addActionListener(ActionListener actionListener) {
-        this.menuItem.addActionListener(actionListener);
+        ((JMenuItem) this.component).addActionListener(actionListener);
     }
 
     public void removeActionListener(ActionListener actionListener) {
-        this.menuItem.removeActionListener(actionListener);
+        ((JMenuItem) this.component).removeActionListener(actionListener);
     }
 
     private ActionListener[] getActionListeners() {
-        return this.menuItem.getActionListeners();
+        return  ((JMenuItem) this.component).getActionListeners();
     }
 
     private void removeActionListeners() {
@@ -41,16 +40,8 @@ public class PopupItem {
         }
     }
 
-    public void addMouseListener(MouseListener mouseListener) {
-        this.menuItem.addMouseListener(mouseListener);
-    }
-
-    public void removeMouseListener(MouseListener mouseListener) {
-        this.menuItem.removeMouseListener(mouseListener);
-    }
-
     private MouseListener[] getMouseListeners() {
-        return this.menuItem.getMouseListeners();
+        return this.component.getMouseListeners();
     }
 
     private void removeMouseListeners() {

@@ -15,8 +15,18 @@ public class InputAndLabelWrapperFactoryImpl implements InputAndLabelWrapperFact
     }
 
     @Override
+    public InputAndLabelWrapper createTextAndLabelWrapper(String labelText) {
+        return new TextFieldAndLabelWrapper(labelText, null);
+    }
+
+    @Override
     public InputAndLabelWrapper createTextAreaAndLabelWrapper(String labelText, String initValue) {
         return new TextAreaAndLabelWrapper(labelText, initValue);
+    }
+
+    @Override
+    public InputAndLabelWrapper createTextAreaAndLabelWrapper(String labelText) {
+        return new TextAreaAndLabelWrapper(labelText, null);
     }
 
     @Override
@@ -26,12 +36,27 @@ public class InputAndLabelWrapperFactoryImpl implements InputAndLabelWrapperFact
     }
 
     @Override
+    public InputAndLabelWrapper createComboBoxAndLabelWrapper(String labelText, Set<String> valueRange) {
+        return new ComboBoxAndLabelWrapper(labelText, valueRange, null);
+    }
+
+    @Override
     public InputAndLabelWrapper createDateChooserAndLabelWrapper(String labelText, LocalDate initValue) {
         return new DateChooserAndLabelWrapper(labelText, initValue);
     }
 
     @Override
+    public InputAndLabelWrapper createDateChooserAndLabelWrapper(String labelText) {
+        return new DateChooserAndLabelWrapper(labelText, null);
+    }
+
+    @Override
     public InputAndLabelWrapper createDateTimeChooserAndLabelWrapper(String labelText, LocalDateTime initValue) {
         return new DateTimeChooserAndLabelWrapper(labelText, initValue);
+    }
+
+    @Override
+    public InputAndLabelWrapper createDateTimeChooserAndLabelWrapper(String labelText) {
+        return new DateTimeChooserAndLabelWrapper(labelText, null);
     }
 }

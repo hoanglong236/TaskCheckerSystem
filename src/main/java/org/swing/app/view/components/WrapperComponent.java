@@ -1,5 +1,7 @@
 package org.swing.app.view.components;
 
+import org.swing.app.view.components.ui.Popup;
+
 import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
@@ -91,5 +93,9 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
     @Override
     public Iterator<ViewComponent> getChildComponentIterator() {
         return this.childComponents.iterator();
+    }
+
+    protected void setPopup(Popup popup) {
+        ((JPanel) this.component).setComponentPopupMenu(popup.getPopupMenu());
     }
 }

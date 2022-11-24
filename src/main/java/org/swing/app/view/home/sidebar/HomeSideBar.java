@@ -21,7 +21,7 @@ public class HomeSideBar extends WrapperComponent {
     private TaskPanelContainer repeatTaskPanelContainer;
     private TaskPanelContainer nonRepeatTaskPanelContainer;
 
-    private TaskPanelContainerFactory taskPanelContainerFactory;
+    private final TaskPanelContainerFactory taskPanelContainerFactory;
     private TextButton addTaskBtn;
 
     public HomeSideBar(Set<TaskPanelDto> repeatTaskPanelDtos, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {

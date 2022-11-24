@@ -113,8 +113,4 @@ public class NodeTaskPanel extends TaskPanel {
         this.childComponentSizeMap.put(this.importantLabel,
                 new Dimension(importantLabelWidth, maxChildComponentHeight));
     }
-
-    private void setPopup(Popup popup) {
-        this.component.setComponentPopupMenu(popup.getPopupMenu());
-    }
 }

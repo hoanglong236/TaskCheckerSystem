@@ -6,15 +6,15 @@ public class ActivationLabel extends Label {
 
     public ActivationLabel() {
         super("");
-        this.component.setBackground(ViewConstant.ACTIVATION_COLOR);
+        setBackgroundColor(ViewConstant.ACTIVATION_COLOR);
         deactivate();
     }
 
     public void activate() {
-        this.component.setOpaque(true);
+        setOpaque(true);
     }
 
     public void deactivate() {
-        this.component.setOpaque(false);
+        setOpaque(false);
     }
 }

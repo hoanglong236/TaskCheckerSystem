@@ -9,12 +9,14 @@ import javax.swing.JLabel;
 public class Label extends SimpleComponent {
 
     protected Label(String iconLocation, String labelText) {
-        this.component = new JLabel(labelText);
+        this.component = JCOMPONENT_FACTORY.createJLabel();
         setIcon(iconLocation);
+        setText(labelText);
     }
 
     protected Label(String labelText) {
-        this.component = new JLabel(labelText);
+        this.component = JCOMPONENT_FACTORY.createJLabel();
+        setText(labelText);
     }
 
     protected void setIcon(String iconLocation) {

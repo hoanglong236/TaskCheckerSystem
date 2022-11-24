@@ -12,12 +12,14 @@ import java.util.Iterator;
 public class Button extends SimpleComponent {
 
     protected Button(String iconLocation, String buttonText) {
-        this.component = new JButton(buttonText);
+        this.component = JCOMPONENT_FACTORY.createJButton();
         setIcon(iconLocation);
+        setText(buttonText);
     }
 
     protected Button(String buttonText) {
-        this.component = new JButton(buttonText);
+        this.component = JCOMPONENT_FACTORY.createJButton();
+        setText(buttonText);
     }
 
     protected void setIcon(String iconLocation) {

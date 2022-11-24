@@ -7,7 +7,7 @@ import javax.swing.JCheckBox;
 public class Checker extends SimpleComponent {
 
     public Checker(boolean checked) {
-        this.component = new JCheckBox();
+        this.component = JCOMPONENT_FACTORY.createJCheckBox();
         setChecked(checked);
     }
 

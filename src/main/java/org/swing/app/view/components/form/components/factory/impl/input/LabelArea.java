@@ -17,8 +17,8 @@ class LabelArea extends SimpleComponent implements InputComponent {
         super();
         this.component = new JTextArea();
         this.component.setFont(TEXT_FIELD_FONT);
-        this.component.setOpaque(true);
-        this.component.setBorder(BorderFactory.createEmptyBorder());
+        setOpaque(true);
+        setBorder(BorderFactory.createEmptyBorder());
         ((JTextArea) this.component).setEditable(false);
         setValue(initValue);
     }

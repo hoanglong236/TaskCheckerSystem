@@ -1,5 +1,6 @@
 package org.swing.app.view.components;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ComponentListener;
@@ -24,4 +25,5 @@ public interface ViewComponent {
     void removeMouseListener(MouseListener mouseListener);
 
     void dispose();
+    void setBackgroundColor(Color color);
 }

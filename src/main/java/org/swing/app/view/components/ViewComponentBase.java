@@ -2,7 +2,9 @@ package org.swing.app.view.components;
 
 import org.swing.app.common.ArrayIterator;
 
-import javax.swing.JComponent;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseListener;
@@ -10,11 +12,11 @@ import java.util.Iterator;
 
 public abstract class ViewComponentBase implements ViewComponent {
 
-    protected JComponent component = null;
+    protected Container component = null;
     private boolean resizable = false;
 
     @Override
-    public JComponent getComponent() {
+    public Component getComponent() {
         return this.component;
     }
 
@@ -80,6 +82,10 @@ public abstract class ViewComponentBase implements ViewComponent {
             final MouseListener mouseListener = mouseListenerIterator.next();
             removeMouseListener(mouseListener);
         }
+    }
+
+    public void setBackgroundColor(Color color) {
+        this.component.setBackground(color);
     }
 
     public void dispose() {

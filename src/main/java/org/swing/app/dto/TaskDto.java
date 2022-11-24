@@ -2,7 +2,7 @@ package org.swing.app.dto;
 
 import java.time.LocalDateTime;
 
-public class TaskPanelDto {
+public class TaskDto {
 
     private Integer id;
     private Integer parentId;
@@ -15,10 +15,8 @@ public class TaskPanelDto {
     private boolean completed;
     private boolean onSchedule;
     private String note;
-    private int childTaskCompletedCount;
-    private int childTaskCount;
 
-    public TaskPanelDto() {
+    public TaskDto() {
         this.id = null;
         this.parentId = null;
         this.title = null;
@@ -30,8 +28,6 @@ public class TaskPanelDto {
         this.completed = true;
         this.onSchedule = true;
         this.note = null;
-        this.childTaskCompletedCount = 0;
-        this.childTaskCount = 0;
     }
 
     public Integer getId() {
@@ -120,21 +116,5 @@ public class TaskPanelDto {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public int getChildTaskCompletedCount() {
-        return childTaskCompletedCount;
-    }
-
-    public void setChildTaskCompletedCount(int childTaskCompletedCount) {
-        this.childTaskCompletedCount = childTaskCompletedCount;
-    }
-
-    public int getChildTaskCount() {
-        return childTaskCount;
-    }
-
-    public void setChildTaskCount(int childTaskCount) {
-        this.childTaskCount = childTaskCount;
     }
 }

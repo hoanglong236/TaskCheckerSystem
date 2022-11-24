@@ -14,12 +14,12 @@ public class VerticalScrollPane extends SimpleComponent {
     private VerticalViewportView viewportView;
 
     public VerticalScrollPane() {
-        this.component = new JScrollPane();
+        this.component = JCOMPONENT_FACTORY.createJScrollPane();
         init();
     }
 
     public VerticalScrollPane(VerticalViewportView viewportViewPanel) {
-        this.component = new JScrollPane();
+        this.component = JCOMPONENT_FACTORY.createJScrollPane();
         this.viewportView = viewportViewPanel;
         init();
     }

@@ -72,10 +72,6 @@ public class RootTaskPanel extends TaskPanel {
         this.activationLabel.deactivate();
     }
 
-    private void setPopup(Popup popup) {
-        this.component.setComponentPopupMenu(popup.getPopupMenu());
-    }
-
     // TODO: handle dispose popup
     public void disposePopup() {
     }
