@@ -2,6 +2,7 @@ package org.swing.app.view.components.ui;
 
 import org.swing.app.common.ArrayIterator;
 import org.swing.app.view.components.SimpleComponent;
+import org.swing.app.view.components.factory.JComponentFactory;
 
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
@@ -11,7 +12,7 @@ import java.util.Iterator;
 public class PopupItem extends SimpleComponent {
 
     public PopupItem(String itemName) {
-        this.component = JCOMPONENT_FACTORY.createJMenuItem();
+        this.component = JComponentFactory.createJMenuItem();
         ((JMenuItem) this.component).setText(itemName);
     }
 

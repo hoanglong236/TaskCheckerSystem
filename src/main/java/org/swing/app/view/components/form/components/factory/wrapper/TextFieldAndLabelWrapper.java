@@ -1,6 +1,7 @@
-package org.swing.app.view.components.form.components.factory.impl.wrapper;
+package org.swing.app.view.components.form.components.factory.wrapper;
 
 import org.swing.app.view.components.form.components.InputAndLabelWrapper;
+import org.swing.app.view.components.form.components.factory.input.InputComponentFactory;
 
 class TextFieldAndLabelWrapper extends InputAndLabelWrapper {
 
@@ -10,7 +11,7 @@ class TextFieldAndLabelWrapper extends InputAndLabelWrapper {
     }
 
     private void initInputField(String initValue) {
-        this.inputField = INPUT_COMPONENT_FACTORY.createTextField(initValue);
+        this.inputField = InputComponentFactory.createTextField(initValue);
     }
 
     private void init(String labelText, String initValue) {

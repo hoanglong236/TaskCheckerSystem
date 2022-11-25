@@ -2,8 +2,7 @@ package org.swing.app.view.components.form.components;
 
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.WrapperComponent;
-import org.swing.app.view.components.form.components.factory.InputComponentFactory;
-import org.swing.app.view.components.form.components.factory.impl.input.InputComponentFactoryImpl;
+import org.swing.app.view.components.form.components.factory.input.InputComponentFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -12,9 +11,6 @@ public abstract class InputAndLabelWrapper extends WrapperComponent {
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.MEDIUM_H_GAP, ViewConstant.MEDIUM_V_GAP);
-
-    protected static final InputComponentFactory INPUT_COMPONENT_FACTORY =
-            new InputComponentFactoryImpl();
 
     protected InputComponent labelField;
     protected InputComponent inputField;
@@ -38,7 +34,7 @@ public abstract class InputAndLabelWrapper extends WrapperComponent {
     }
 
     protected void initLabelField(String labelText) {
-        this.labelField = INPUT_COMPONENT_FACTORY.createLabelField(labelText);
+        this.labelField = InputComponentFactory.createLabelField(labelText);
     }
 
     public void setValue(Object value) {

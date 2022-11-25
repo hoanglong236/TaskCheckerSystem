@@ -3,6 +3,7 @@ package org.swing.app.view.components.ui;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.ViewComponentBase;
+import org.swing.app.view.components.factory.JComponentFactory;
 
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -14,12 +15,12 @@ public class VerticalScrollPane extends SimpleComponent {
     private VerticalViewportView viewportView;
 
     public VerticalScrollPane() {
-        this.component = JCOMPONENT_FACTORY.createJScrollPane();
+        this.component = JComponentFactory.createJScrollPane();
         init();
     }
 
     public VerticalScrollPane(VerticalViewportView viewportViewPanel) {
-        this.component = JCOMPONENT_FACTORY.createJScrollPane();
+        this.component = JComponentFactory.createJScrollPane();
         this.viewportView = viewportViewPanel;
         init();
     }

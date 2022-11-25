@@ -1,6 +1,7 @@
-package org.swing.app.view.components.form.components.factory.impl.wrapper;
+package org.swing.app.view.components.form.components.factory.wrapper;
 
 import org.swing.app.view.components.form.components.InputAndLabelWrapper;
+import org.swing.app.view.components.form.components.factory.input.InputComponentFactory;
 
 import java.util.Set;
 
@@ -12,7 +13,7 @@ class ComboBoxAndLabelWrapper extends InputAndLabelWrapper {
     }
 
     private void initInputField(Set<String> valueRange, String initValue) {
-        this.inputField = INPUT_COMPONENT_FACTORY.createComboBox(valueRange, initValue);
+        this.inputField = InputComponentFactory.createComboBox(valueRange, initValue);
     }
 
     private void init(String labelText, Set<String> valueRange, String initValue) {

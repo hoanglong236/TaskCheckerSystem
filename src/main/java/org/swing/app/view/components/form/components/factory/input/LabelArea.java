@@ -1,4 +1,4 @@
-package org.swing.app.view.components.form.components.factory.impl.input;
+package org.swing.app.view.components.form.components.factory.input;
 
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.SimpleComponent;

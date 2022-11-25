@@ -1,6 +1,7 @@
-package org.swing.app.view.components.form.components.factory.impl.wrapper;
+package org.swing.app.view.components.form.components.factory.wrapper;
 
 import org.swing.app.view.components.form.components.InputAndLabelWrapper;
+import org.swing.app.view.components.form.components.factory.input.InputComponentFactory;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +13,7 @@ public class DateTimeChooserAndLabelWrapper extends InputAndLabelWrapper {
     }
 
     private void initInputField(LocalDateTime initValue) {
-        this.inputField = INPUT_COMPONENT_FACTORY.createDateTimeChooser(initValue);
+        this.inputField = InputComponentFactory.createDateTimeChooser(initValue);
     }
 
     private void init(String labelText, LocalDateTime initValue) {

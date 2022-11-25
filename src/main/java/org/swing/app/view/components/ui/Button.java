@@ -2,6 +2,7 @@ package org.swing.app.view.components.ui;
 
 import org.swing.app.common.ArrayIterator;
 import org.swing.app.view.components.SimpleComponent;
+import org.swing.app.view.components.factory.JComponentFactory;
 import org.swing.app.view.util.ViewUtil;
 
 import javax.swing.ImageIcon;
@@ -12,13 +13,13 @@ import java.util.Iterator;
 public class Button extends SimpleComponent {
 
     protected Button(String iconLocation, String buttonText) {
-        this.component = JCOMPONENT_FACTORY.createJButton();
+        this.component = JComponentFactory.createJButton();
         setIcon(iconLocation);
         setText(buttonText);
     }
 
     protected Button(String buttonText) {
-        this.component = JCOMPONENT_FACTORY.createJButton();
+        this.component = JComponentFactory.createJButton();
         setText(buttonText);
     }
 

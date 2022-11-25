@@ -1,13 +1,14 @@
 package org.swing.app.view.components.ui;
 
 import org.swing.app.view.components.SimpleComponent;
+import org.swing.app.view.components.factory.JComponentFactory;
 
 import javax.swing.JCheckBox;
 
 public class Checker extends SimpleComponent {
 
     public Checker(boolean checked) {
-        this.component = JCOMPONENT_FACTORY.createJCheckBox();
+        this.component = JComponentFactory.createJCheckBox();
         setChecked(checked);
     }
 

@@ -3,6 +3,7 @@ package org.swing.app.view.components.form;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.form.components.InputAndLabelWrapper;
+import org.swing.app.view.components.form.components.factory.wrapper.InputAndLabelWrapperFactory;
 
 import java.awt.Dimension;
 import java.time.LocalDateTime;
@@ -36,35 +37,35 @@ public abstract class TaskForm extends FormBase<TaskDto> {
 
     protected void initTitleInputWrapper(String title) {
         final String labelText = TITLE_LABEL;
-        this.titleInputWrapper = INPUT_AND_LABEL_WRAPPER_FACTORY.createTextAndLabelWrapper(labelText, title);
+        this.titleInputWrapper = InputAndLabelWrapperFactory.createTextAndLabelWrapper(labelText, title);
     }
 
     protected void initTitleInputWrapper() {
         final String labelText = TITLE_LABEL;
-        this.titleInputWrapper = INPUT_AND_LABEL_WRAPPER_FACTORY.createTextAndLabelWrapper(labelText);
+        this.titleInputWrapper = InputAndLabelWrapperFactory.createTextAndLabelWrapper(labelText);
     }
 
     protected void initStartDateTimeInputWrapper(LocalDateTime startDateTime) {
         final String labelText = START_DATETIME_LABEL;
-        this.startDateTimeInputWrapper = INPUT_AND_LABEL_WRAPPER_FACTORY
+        this.startDateTimeInputWrapper = InputAndLabelWrapperFactory
                 .createDateTimeChooserAndLabelWrapper(labelText);
     }
 
     protected void initStartDateTimeInputWrapper() {
         final String labelText = START_DATETIME_LABEL;
-        this.startDateTimeInputWrapper = INPUT_AND_LABEL_WRAPPER_FACTORY
+        this.startDateTimeInputWrapper = InputAndLabelWrapperFactory
                 .createDateTimeChooserAndLabelWrapper(labelText);
     }
 
     protected void initFinishDateTimeInputWrapper(LocalDateTime finishDateTime) {
         final String labelText = FINISH_DATETIME_LABEL;
-        this.finishDateTimeInputWrapper = INPUT_AND_LABEL_WRAPPER_FACTORY
+        this.finishDateTimeInputWrapper = InputAndLabelWrapperFactory
                 .createDateTimeChooserAndLabelWrapper(labelText);
     }
 
     protected void initFinishDateTimeInputWrapper() {
         final String labelText = FINISH_DATETIME_LABEL;
-        this.finishDateTimeInputWrapper = INPUT_AND_LABEL_WRAPPER_FACTORY
+        this.finishDateTimeInputWrapper = InputAndLabelWrapperFactory
                 .createDateTimeChooserAndLabelWrapper(labelText);
     }
 
