@@ -14,6 +14,5 @@ public class MainApplication {
         Set<TaskPanelDto> nonRepeatTaskPanelDtos = new LinkedHashSet<>();
         HomeFrame homeFrame = new HomeFrame(repeatTaskPanelDtos, nonRepeatTaskPanelDtos);
         homeFrame.resize(ViewConstant.HOME_FRAME_PREFER_SIZE);
-        homeFrame.setVisible(true);
     }
 }

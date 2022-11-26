@@ -73,6 +73,7 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
         loadChildComponentsSize();
         resizeChildComponents();
         setNotResizableChildComponents();
+        refreshUI();
     }
 
     private void disposeChildComponents() {
@@ -93,6 +94,12 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
     @Override
     public Iterator<ViewComponent> getChildComponentIterator() {
         return this.childComponents.iterator();
+    }
+
+    @Override
+    public void refreshUI() {
+        this.component.revalidate();
+        this.component.repaint();
     }
 
     protected void setPopup(Popup popup) {

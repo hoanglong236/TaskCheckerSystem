@@ -2,16 +2,15 @@ package org.swing.app.view.home;
 
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.WrapperComponent;
+import org.swing.app.view.components.FrameWrapperComponent;
 import org.swing.app.view.home.body.HomeBodyPanel;
 import org.swing.app.view.home.sidebar.HomeSideBar;
 
-import javax.swing.JFrame;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Set;
 
-public class HomeFrame extends WrapperComponent {
+public class HomeFrame extends FrameWrapperComponent {
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.LARGE_H_GAP, ViewConstant.LARGE_V_GAP);
@@ -21,7 +20,6 @@ public class HomeFrame extends WrapperComponent {
 
     public HomeFrame(Set<TaskPanelDto> repeatTaskPanelDtos, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
         super();
-        this.component = new JFrame();
         setLayout(MAIN_LAYOUT);
         init(repeatTaskPanelDtos, nonRepeatTaskPanelDtos);
     }
@@ -65,12 +63,6 @@ public class HomeFrame extends WrapperComponent {
         final int bodyPanelWidth = availableWidth - MAIN_LAYOUT.getHgap()
                 - sideBarWidth - MAIN_LAYOUT.getHgap();
         this.childComponentSizeMap.put(this.bodyPanel, new Dimension(bodyPanelWidth, maxChildComponentHeight));
-    }
-
-    @Override
-    public void resize(Dimension dimension) {
-        super.resize(dimension);
-        ((JFrame) this.component).pack();
     }
 
     @Override
