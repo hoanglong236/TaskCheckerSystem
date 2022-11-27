@@ -4,9 +4,9 @@ import org.swing.app.view.components.form.components.input.InputComponentFactory
 
 import java.time.LocalDate;
 
-public class DateChooserAndLabelWrapper extends InputAndLabelWrapper {
+public class LabelAndDateChooserWrapper extends LabelAndInputWrapper {
 
-    public DateChooserAndLabelWrapper(String labelText, LocalDate initValue) {
+    public LabelAndDateChooserWrapper(String labelText, LocalDate initValue) {
         super();
         init(labelText, initValue);
     }

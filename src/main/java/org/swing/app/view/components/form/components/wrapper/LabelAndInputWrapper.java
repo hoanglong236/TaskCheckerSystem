@@ -8,7 +8,7 @@ import org.swing.app.view.components.form.components.input.InputComponentFactory
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-public abstract class InputAndLabelWrapper extends PanelWrapperComponent {
+public abstract class LabelAndInputWrapper extends PanelWrapperComponent {
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.MEDIUM_H_GAP, ViewConstant.MEDIUM_V_GAP);
@@ -19,7 +19,7 @@ public abstract class InputAndLabelWrapper extends PanelWrapperComponent {
     private int labelFieldWidth;
     private float rateOfLabelFieldWidthInTotal;
 
-    public InputAndLabelWrapper() {
+    public LabelAndInputWrapper() {
         super();
         setLayout(MAIN_LAYOUT);
         this.labelFieldWidth = ViewConstant.DEFAULT_LABEL_WIDTH;

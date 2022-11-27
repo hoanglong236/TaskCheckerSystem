@@ -9,4 +9,16 @@ public abstract class FormBase<T> extends PanelWrapperComponent implements Form<
 
     protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.LARGE_H_GAP, ViewConstant.LARGE_V_GAP);
+
+    public FormBase() {
+        setLayout(MAIN_LAYOUT);
+    }
+
+    public abstract T getFormData();
+
+    public abstract void setFormData(T formData);
+
+    public abstract void reset();
+
+    public abstract void clear();
 }

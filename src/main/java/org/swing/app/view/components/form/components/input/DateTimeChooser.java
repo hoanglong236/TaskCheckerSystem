@@ -2,8 +2,8 @@ package org.swing.app.view.components.form.components.input;
 
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.PanelWrapperComponent;
-import org.swing.app.view.components.form.components.wrapper.InputAndLabelWrapper;
-import org.swing.app.view.components.form.components.wrapper.InputAndLabelWrapperFactory;
+import org.swing.app.view.components.form.components.wrapper.LabelAndInputWrapper;
+import org.swing.app.view.components.form.components.wrapper.LabelAndInputWrapperFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -18,9 +18,9 @@ class DateTimeChooser extends PanelWrapperComponent implements InputComponent {
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.MEDIUM_H_GAP, ViewConstant.SMALL_V_GAP);
     private DateChooser dateChooser;
-    private InputAndLabelWrapper hourSelector;
-    private InputAndLabelWrapper minuteSelector;
-    private InputAndLabelWrapper secondSelector;
+    private LabelAndInputWrapper hourSelector;
+    private LabelAndInputWrapper minuteSelector;
+    private LabelAndInputWrapper secondSelector;
 
     private int dateChooserWidth;
 
@@ -45,8 +45,8 @@ class DateTimeChooser extends PanelWrapperComponent implements InputComponent {
         for (byte h = 0; h < 24; h++) {
             hourValueRange.add(String.valueOf(h));
         }
-        this.hourSelector = InputAndLabelWrapperFactory.createComboBoxAndLabelWrapper(hourSelectorLabelText,
-                hourValueRange, String.valueOf(hour));
+        this.hourSelector = LabelAndInputWrapperFactory.createLabelAndComboBoxWrapper(
+                hourSelectorLabelText, hourValueRange, String.valueOf(hour));
     }
 
     private void initMinuteSelector(int minute) {
@@ -55,7 +55,7 @@ class DateTimeChooser extends PanelWrapperComponent implements InputComponent {
         for (byte h = 0; h < 60; h++) {
             minuteValueRange.add(String.valueOf(h));
         }
-        this.minuteSelector = InputAndLabelWrapperFactory.createComboBoxAndLabelWrapper(minuteSelectorLabelText,
+        this.minuteSelector = LabelAndInputWrapperFactory.createLabelAndComboBoxWrapper(minuteSelectorLabelText,
                 minuteValueRange, String.valueOf(minute));
     }
 
@@ -65,7 +65,7 @@ class DateTimeChooser extends PanelWrapperComponent implements InputComponent {
         for (byte h = 0; h < 60; h++) {
             secondValueRange.add(String.valueOf(h));
         }
-        this.secondSelector = InputAndLabelWrapperFactory.createComboBoxAndLabelWrapper(secondSelectorLabelText,
+        this.secondSelector = LabelAndInputWrapperFactory.createLabelAndComboBoxWrapper(secondSelectorLabelText,
                 secondValueRange, String.valueOf(second));
     }
 

@@ -10,7 +10,7 @@ import org.swing.app.view.home.components.factory.TaskCenterPanelFactory;
 
 import java.awt.Dimension;
 
-public class RootTaskCenterPanelFactory implements TaskCenterPanelFactory {
+class RootTaskCenterPanelFactory implements TaskCenterPanelFactory {
 
     @Override
     public TaskCenterPanel createTaskCenterPanel(TaskPanelDto taskPanelDto) {

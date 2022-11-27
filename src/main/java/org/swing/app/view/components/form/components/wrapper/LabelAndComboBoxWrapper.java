@@ -4,9 +4,9 @@ import org.swing.app.view.components.form.components.input.InputComponentFactory
 
 import java.util.Set;
 
-class ComboBoxAndLabelWrapper extends InputAndLabelWrapper {
+class LabelAndComboBoxWrapper extends LabelAndInputWrapper {
 
-    public ComboBoxAndLabelWrapper(String labelText, Set<String> valueRange, String initValue) {
+    public LabelAndComboBoxWrapper(String labelText, Set<String> valueRange, String initValue) {
         super();
         init(labelText, valueRange, initValue);
     }
