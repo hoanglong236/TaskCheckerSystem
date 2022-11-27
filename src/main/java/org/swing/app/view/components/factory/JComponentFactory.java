@@ -1,5 +1,7 @@
 package org.swing.app.view.components.factory;
 
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.*;
 
 public class JComponentFactory {
@@ -24,8 +26,8 @@ public class JComponentFactory {
         return new JTextArea();
     }
 
-    public static JComponent createJComboBox() {
-        return new JComboBox<>();
+    public static JComponent createJComboBox(String[] stringArray) {
+        return new JComboBox<>(stringArray);
     }
 
     public static JComponent createJPopupMenu() {
@@ -42,5 +44,9 @@ public class JComponentFactory {
 
     public static JComponent createJCheckBox() {
         return new JCheckBox();
+    }
+
+    public static JDateChooser createJDateChooser() {
+        return new JDateChooser();
     }
 }

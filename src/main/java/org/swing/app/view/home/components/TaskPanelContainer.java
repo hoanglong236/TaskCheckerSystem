@@ -2,9 +2,10 @@ package org.swing.app.view.home.components;
 
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.WrapperComponent;
-import org.swing.app.view.components.ui.IconButton;
-import org.swing.app.view.components.ui.TextLabel;
+import org.swing.app.view.components.PanelWrapperComponent;
+import org.swing.app.view.components.ui.Button;
+import org.swing.app.view.components.ui.Label;
+import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.components.ui.VerticalScrollPane;
 import org.swing.app.view.home.components.factory.TaskPanelContainerChildComponentFactory;
 
@@ -12,13 +13,13 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Set;
 
-public class TaskPanelContainer extends WrapperComponent {
+public class TaskPanelContainer extends PanelWrapperComponent {
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
 
-    private TextLabel titleLabel;
-    private IconButton filterButton;
+    private Label titleLabel;
+    private Button filterButton;
     private VerticalScrollPane verticalScrollPane;
     private TaskPanelContainerChildComponentFactory taskPanelFactory;
 
@@ -30,18 +31,15 @@ public class TaskPanelContainer extends WrapperComponent {
     }
 
     private void initTitleLabel(String title) {
-        this.titleLabel = new TextLabel(title);
-        this.titleLabel.setResizable(true);
+        this.titleLabel = UIComponentFactory.createLabel(title);
     }
 
     private void initFilterButton() {
-        this.filterButton = new IconButton(ViewConstant.ICON_LOCATION_FILTER);
-        this.filterButton.setResizable(false);
+        this.filterButton = UIComponentFactory.createButton(ViewConstant.ICON_LOCATION_FILTER);
     }
 
     private void initVerticalScrollPane(Set<TaskPanelDto> taskPanelDtos) {
         this.verticalScrollPane = this.taskPanelFactory.createVerticalScrollPane();
-        this.verticalScrollPane.setResizable(true);
 
         for (final TaskPanelDto taskPanelDto : taskPanelDtos) {
             addTaskPanel(this.taskPanelFactory.createTaskPanel(taskPanelDto));
@@ -96,5 +94,8 @@ public class TaskPanelContainer extends WrapperComponent {
 
     @Override
     protected void setNotResizableChildComponents() {
+        this.verticalScrollPane.setResizable(true);
+        this.filterButton.setResizable(false);
+        this.titleLabel.setResizable(true);
     }
 }

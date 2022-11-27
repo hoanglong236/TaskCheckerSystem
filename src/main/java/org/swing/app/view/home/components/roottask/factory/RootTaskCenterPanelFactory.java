@@ -4,11 +4,11 @@ import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.ui.CompletionRateLabel;
 import org.swing.app.view.components.ui.DeadlineLabel;
+import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.TaskCenterPanel;
 import org.swing.app.view.home.components.factory.TaskCenterPanelFactory;
 
 import java.awt.Dimension;
-import java.time.LocalDateTime;
 
 public class RootTaskCenterPanelFactory implements TaskCenterPanelFactory {
 
@@ -31,12 +31,13 @@ class RootTaskCenterPanel extends TaskCenterPanel {
     protected void init(TaskPanelDto taskPanelDto) {
         super.init(taskPanelDto);
         if (taskPanelDto.getFinishDateTime() != null) {
-            this.deadlineLabel = new DeadlineLabel(taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
+            this.deadlineLabel = UIComponentFactory.createDeadlineLabel(
+                    taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
             addChildComponent(this.deadlineLabel);
         }
         if (taskPanelDto.getChildTaskCount() == 0) {
-            this.completionRateLabel = new CompletionRateLabel(taskPanelDto.getChildTaskCompletedCount(),
-                    taskPanelDto.getChildTaskCount());
+            this.completionRateLabel = UIComponentFactory.createCompletionRateLabel(
+                    taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
             addChildComponent(this.completionRateLabel);
         }
     }
@@ -59,8 +60,8 @@ class RootTaskCenterPanel extends TaskCenterPanel {
             if (this.deadlineLabel == null) {
                 this.deadlineLabel.update(taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
             } else {
-                this.deadlineLabel = new DeadlineLabel(taskPanelDto.getStartDateTime(),
-                        taskPanelDto.getFinishDateTime());
+                this.deadlineLabel = UIComponentFactory.createDeadlineLabel(
+                        taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
                 addChildComponent(this.deadlineLabel);
             }
         }
@@ -72,11 +73,11 @@ class RootTaskCenterPanel extends TaskCenterPanel {
             }
         } else {
             if (this.completionRateLabel != null) {
-                this.completionRateLabel.update(taskPanelDto.getChildTaskCompletedCount(),
-                        taskPanelDto.getChildTaskCount());
+                this.completionRateLabel.update(
+                        taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
             } else {
-                this.completionRateLabel = new CompletionRateLabel(taskPanelDto.getChildTaskCompletedCount(),
-                        taskPanelDto.getChildTaskCount());
+                this.completionRateLabel = UIComponentFactory.createCompletionRateLabel(
+                        taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
                 addChildComponent(this.completionRateLabel);
             }
         }

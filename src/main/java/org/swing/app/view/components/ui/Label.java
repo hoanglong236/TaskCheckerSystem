@@ -9,18 +9,18 @@ import javax.swing.JLabel;
 
 public class Label extends SimpleComponent {
 
-    protected Label(String iconLocation, String labelText) {
+    protected Label(String text, String iconLocation) {
         this.component = JComponentFactory.createJLabel();
+        setText(text);
         setIcon(iconLocation);
-        setText(labelText);
     }
 
-    protected Label(String labelText) {
+    protected Label(String text) {
         this.component = JComponentFactory.createJLabel();
-        setText(labelText);
+        setText(text);
     }
 
-    protected void setIcon(String iconLocation) {
+    public void setIcon(String iconLocation) {
         final byte iconWidth = 15;
         final byte iconHeight = 15;
         final ImageIcon imageIcon = ViewUtil.getImageIcon(iconLocation, iconWidth, iconHeight);
@@ -28,7 +28,7 @@ public class Label extends SimpleComponent {
         ((JLabel) this.component).setIcon(imageIcon);
     }
 
-    protected void setText(String text) {
+    public void setText(String text) {
         ((JLabel) this.component).setText(text);
     }
 }

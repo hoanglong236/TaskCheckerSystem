@@ -1,21 +1,25 @@
-package org.swing.app.view.components.form.components.factory.input;
+package org.swing.app.view.components.form.components.input;
 
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.SimpleComponent;
-import org.swing.app.view.components.form.components.InputComponent;
+import org.swing.app.view.components.factory.JComponentFactory;
 
+import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 import java.awt.Font;
 
-class TextArea extends SimpleComponent implements InputComponent {
+class LabelArea extends SimpleComponent implements InputComponent {
 
     private static final Font TEXT_FIELD_FONT = new Font(ViewConstant.PRIMARY_FONT_NAME,
             Font.PLAIN, ViewConstant.INPUT_TEXT_FONT_SIZE);
 
-    public TextArea(String initValue) {
+    public LabelArea(String initValue) {
         super();
-        this.component = new JTextArea();
+        this.component = JComponentFactory.createJTextArea();
         this.component.setFont(TEXT_FIELD_FONT);
+        setOpaque(true);
+        setBorder(BorderFactory.createEmptyBorder());
+        ((JTextArea) this.component).setEditable(false);
         setValue(initValue);
     }
 

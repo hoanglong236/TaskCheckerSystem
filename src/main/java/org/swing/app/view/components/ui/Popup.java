@@ -12,7 +12,7 @@ public class Popup extends SimpleComponent {
 
     protected final Set<PopupItem> popupItems = new LinkedHashSet<>();
 
-    public Popup() {
+    protected Popup() {
         this.component = JComponentFactory.createJPopupMenu();
     }
 
@@ -21,7 +21,7 @@ public class Popup extends SimpleComponent {
     }
 
     public void addPopupItemByName(String itemName) {
-        final PopupItem popupItem = new PopupItem(itemName);
+        final PopupItem popupItem = UIComponentFactory.createPopupItem(itemName);
         addPopupItem(popupItem);
     }
 

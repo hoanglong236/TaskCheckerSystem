@@ -6,6 +6,7 @@ import org.swing.app.view.components.FrameWrapperComponent;
 import org.swing.app.view.home.body.HomeBodyPanel;
 import org.swing.app.view.home.sidebar.HomeSideBar;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Set;
@@ -21,11 +22,14 @@ public class HomeFrame extends FrameWrapperComponent {
     public HomeFrame(Set<TaskPanelDto> repeatTaskPanelDtos, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
         super();
         setLayout(MAIN_LAYOUT);
+        setBackgroundColor(ViewConstant.PRIMARY_BACKGROUND_COLOR);
         init(repeatTaskPanelDtos, nonRepeatTaskPanelDtos);
     }
 
     private void initSideBar(Set<TaskPanelDto> repeatTaskPanelDtos, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
         this.sideBar = new HomeSideBar(repeatTaskPanelDtos, nonRepeatTaskPanelDtos);
+        this.sideBar.setBackgroundColor(Color.cyan);
+        this.sideBar.setOpaque(true);
     }
 
     private void initBodyPanel() {
@@ -36,8 +40,8 @@ public class HomeFrame extends FrameWrapperComponent {
         initSideBar(repeatTaskPanelDtos, nonRepeatTaskPanelDtos);
         addChildComponent(this.sideBar);
 
-        initBodyPanel();
-        addChildComponent(this.bodyPanel);
+//        initBodyPanel();
+//        addChildComponent(this.bodyPanel);
     }
 
     public void loadRootTaskContentPanel(String taskTitle, Set<TaskPanelDto> childTaskPanelDtos) {
@@ -60,14 +64,14 @@ public class HomeFrame extends FrameWrapperComponent {
         final int sideBarWidth = ViewConstant.SIDEBAR_WIDTH;
         this.childComponentSizeMap.put(this.sideBar, new Dimension(sideBarWidth, maxChildComponentHeight));
 
-        final int bodyPanelWidth = availableWidth - MAIN_LAYOUT.getHgap()
-                - sideBarWidth - MAIN_LAYOUT.getHgap();
-        this.childComponentSizeMap.put(this.bodyPanel, new Dimension(bodyPanelWidth, maxChildComponentHeight));
+//        final int bodyPanelWidth = availableWidth - MAIN_LAYOUT.getHgap()
+//                - sideBarWidth - MAIN_LAYOUT.getHgap();
+//        this.childComponentSizeMap.put(this.bodyPanel, new Dimension(bodyPanelWidth, maxChildComponentHeight));
     }
 
     @Override
     protected void setNotResizableChildComponents() {
-        this.sideBar.setResizable(false);
-        this.bodyPanel.setResizable(false);
+        this.sideBar.setResizable(true);
+//        this.bodyPanel.setResizable(false);
     }
 }

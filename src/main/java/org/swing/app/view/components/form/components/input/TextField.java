@@ -1,8 +1,8 @@
-package org.swing.app.view.components.form.components.factory.input;
+package org.swing.app.view.components.form.components.input;
 
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.SimpleComponent;
-import org.swing.app.view.components.form.components.InputComponent;
+import org.swing.app.view.components.factory.JComponentFactory;
 
 import javax.swing.JTextField;
 import java.awt.Font;
@@ -14,7 +14,7 @@ class TextField extends SimpleComponent implements InputComponent {
 
     public TextField(String initValue) {
         super();
-        this.component = new JTextField();
+        this.component = JComponentFactory.createJTextField();
         this.component.setFont(TEXT_FIELD_FONT);
         setValue(initValue);
     }

@@ -2,14 +2,14 @@ package org.swing.app.view.home.components;
 
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.WrapperComponent;
+import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.home.components.factory.TaskCenterPanelFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Iterator;
 
-public abstract class TaskPanel extends WrapperComponent {
+public abstract class TaskPanel extends PanelWrapperComponent {
 
     protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);

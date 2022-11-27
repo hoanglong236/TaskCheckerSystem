@@ -1,19 +1,19 @@
 package org.swing.app.view.components.ui;
 
 import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ViewComponent;
-import org.swing.app.view.components.WrapperComponent;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Iterator;
 
-public class VerticalViewportView extends WrapperComponent {
+public class VerticalViewportView extends PanelWrapperComponent {
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
 
-    public VerticalViewportView() {
+    protected VerticalViewportView() {
         super();
         this.component.setLayout(MAIN_LAYOUT);
     }

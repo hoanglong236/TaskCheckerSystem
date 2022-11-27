@@ -1,4 +1,4 @@
-package org.swing.app.view.components.form.components;
+package org.swing.app.view.components.form.components.input;
 
 import org.swing.app.view.components.ViewComponent;
 

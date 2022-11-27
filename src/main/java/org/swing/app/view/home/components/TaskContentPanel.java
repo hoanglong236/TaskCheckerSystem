@@ -3,22 +3,22 @@ package org.swing.app.view.home.components;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.WrapperComponent;
+import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ui.Button;
-import org.swing.app.view.components.ui.TextButton;
-import org.swing.app.view.components.ui.TextLabel;
+import org.swing.app.view.components.ui.Label;
+import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.factory.TaskPanelContainerFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Set;
 
-public class TaskContentPanel extends WrapperComponent {
+public class TaskContentPanel extends PanelWrapperComponent {
 
     protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
 
-    private TextLabel titleLabel = null;
+    private Label titleLabel = null;
     private TaskPanelContainer taskPanelContainer = null;
     private Button addTaskBtn = null;
 
@@ -31,11 +31,9 @@ public class TaskContentPanel extends WrapperComponent {
     }
 
     private void initTitleLabel(String title) {
-        this.titleLabel = new TextLabel(title);
-        this.titleLabel.setResizable(true);
+        this.titleLabel = UIComponentFactory.createLabel(title);
     }
 
-    // TODO: name of task container panel title????
     private void initTaskPanelContainer(Set<TaskPanelDto> taskPanelDtos) {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final String taskPanelContainerTitle = messageLoader.getMessage("...");
@@ -46,8 +44,7 @@ public class TaskContentPanel extends WrapperComponent {
 
     private void initAddTaskBtn() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        this.addTaskBtn = new TextButton((messageLoader.getMessage("button.add.task")));
-        this.addTaskBtn.setResizable(false);
+        this.addTaskBtn = UIComponentFactory.createButton((messageLoader.getMessage("button.add.task")));
     }
 
     @Override
@@ -71,6 +68,7 @@ public class TaskContentPanel extends WrapperComponent {
 
     @Override
     protected void setNotResizableChildComponents() {
-
+        this.titleLabel.setResizable(true);
+        this.addTaskBtn.setResizable(false);
     }
 }

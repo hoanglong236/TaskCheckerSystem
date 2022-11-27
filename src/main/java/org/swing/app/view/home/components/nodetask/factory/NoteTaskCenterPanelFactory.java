@@ -4,7 +4,8 @@ import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.ui.CompletionRateLabel;
 import org.swing.app.view.components.ui.DeadlineLabel;
-import org.swing.app.view.components.ui.IconLabel;
+import org.swing.app.view.components.ui.Label;
+import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.TaskCenterPanel;
 import org.swing.app.view.home.components.factory.TaskCenterPanelFactory;
 
@@ -23,24 +24,24 @@ class NodeTaskCenterPanel extends TaskCenterPanel {
 
     private DeadlineLabel deadlineLabel;
     private CompletionRateLabel completionRateLabel;
-    private IconLabel noteNotifyLabel;
+    private Label noteNotifyLabel;
 
     public NodeTaskCenterPanel(TaskPanelDto taskPanelDto) {
         super(taskPanelDto);
     }
 
     private void initDeadlineLabel(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
-        this.deadlineLabel = new DeadlineLabel(startDateTime, finishDateTime);
+        this.deadlineLabel = UIComponentFactory.createDeadlineLabel(startDateTime, finishDateTime);
         this.deadlineLabel.setResizable(false);
     }
 
     private void initCompletionRateLabel(int completedCount, int totalCount) {
-        this.completionRateLabel = new CompletionRateLabel(completedCount, totalCount);
+        this.completionRateLabel = UIComponentFactory.createCompletionRateLabel(completedCount, totalCount);
         this.completionRateLabel.setResizable(false);
     }
 
     private void initNoteNotifyLabel() {
-        this.noteNotifyLabel = new IconLabel(ViewConstant.ICON_LOCATION_NOTE);
+        this.noteNotifyLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_NOTE);
         this.noteNotifyLabel.setResizable(false);
     }
 

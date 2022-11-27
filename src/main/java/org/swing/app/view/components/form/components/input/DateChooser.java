@@ -1,9 +1,9 @@
-package org.swing.app.view.components.form.components.factory.input;
+package org.swing.app.view.components.form.components.input;
 
 import com.toedter.calendar.JDateChooser;
 import org.swing.app.util.DateConverter;
 import org.swing.app.view.components.SimpleComponent;
-import org.swing.app.view.components.form.components.InputComponent;
+import org.swing.app.view.components.factory.JComponentFactory;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -12,7 +12,7 @@ class DateChooser extends SimpleComponent implements InputComponent {
 
     public DateChooser(LocalDate initValue) {
         super();
-        this.component = new JDateChooser();
+        this.component = JComponentFactory.createJDateChooser();
         setValue(initValue);
     }
 

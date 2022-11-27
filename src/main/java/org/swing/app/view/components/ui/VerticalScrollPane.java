@@ -14,7 +14,7 @@ public class VerticalScrollPane extends SimpleComponent {
 
     private VerticalViewportView viewportView;
 
-    public VerticalScrollPane() {
+    protected VerticalScrollPane() {
         this.component = JComponentFactory.createJScrollPane();
         init();
     }
@@ -33,7 +33,7 @@ public class VerticalScrollPane extends SimpleComponent {
 
     private void initViewportViewPanel() {
         if (this.viewportView == null) {
-            this.viewportView = new VerticalViewportView();
+            this.viewportView = UIComponentFactory.createVerticalViewportView();
         }
         this.viewportView.resize(new Dimension(0, ViewConstant.SMALL_RESERVE_HEIGHT));
     }
@@ -43,10 +43,8 @@ public class VerticalScrollPane extends SimpleComponent {
         ((JScrollPane) this.component).setViewportView(this.viewportView.getComponent());
         ((JScrollPane) this.component).setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         ((JScrollPane) this.component).setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        customVerticalScrollBar();
 
-        this.component.revalidate();
-        this.component.repaint();
+        customVerticalScrollBar();
     }
 
     @Override
@@ -69,7 +67,7 @@ public class VerticalScrollPane extends SimpleComponent {
         this.viewportView.addChildComponent(childComponent, position);
     }
 
-    public void addChildComponentToTheFirstPosition(ViewComponentBase childComponent, int position) {
+    public void addChildComponentToTheFirstPosition(ViewComponentBase childComponent) {
         this.viewportView.addChildComponentToTheFirstPosition(childComponent);
     }
 

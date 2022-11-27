@@ -1,8 +1,5 @@
 package org.swing.app.view.components;
 
-import org.swing.app.view.components.ui.Popup;
-
-import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.util.HashMap;
@@ -17,7 +14,6 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
     protected Set<ViewComponent> childComponents = new LinkedHashSet<>();
 
     public WrapperComponent() {
-        this.component = new JPanel();
     }
 
     @Override
@@ -100,9 +96,5 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
     public void refreshUI() {
         this.component.revalidate();
         this.component.repaint();
-    }
-
-    protected void setPopup(Popup popup) {
-        ((JPanel) this.component).setComponentPopupMenu(popup.getPopupMenu());
     }
 }

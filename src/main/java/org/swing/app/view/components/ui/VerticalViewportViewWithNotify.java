@@ -1,25 +1,22 @@
-package org.swing.app.view.home.components;
+package org.swing.app.view.components.ui;
 
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.components.ViewComponent;
-import org.swing.app.view.components.ui.TextLabel;
-import org.swing.app.view.components.ui.VerticalViewportView;
 
 import java.awt.Component;
 
 public class VerticalViewportViewWithNotify extends VerticalViewportView {
 
-    private TextLabel notifyLabel;
+    private Label notifyLabel = null;
 
-    public VerticalViewportViewWithNotify() {
+    protected VerticalViewportViewWithNotify() {
         super();
-        this.notifyLabel = null;
         init();
     }
 
     private void initNotifyLabel() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        this.notifyLabel = new TextLabel(messageLoader.getMessage("label.notify.text"));
+        this.notifyLabel = UIComponentFactory.createLabel(messageLoader.getMessage("label.notify.text"));
     }
 
     private void init() {
@@ -53,7 +50,8 @@ public class VerticalViewportViewWithNotify extends VerticalViewportView {
 
     private boolean isChildComponentInTheLastPositionInUI(ViewComponent childComponent) {
         final Component[] components = this.component.getComponents();
+        final int componentCount = components.length;
         final Component component = childComponent.getComponent();
-        return (components[components.length] == component);
+        return (components[componentCount - 1] == component);
     }
 }

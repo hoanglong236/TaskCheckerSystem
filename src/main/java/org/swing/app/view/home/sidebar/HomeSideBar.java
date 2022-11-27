@@ -3,8 +3,9 @@ package org.swing.app.view.home.sidebar;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.WrapperComponent;
-import org.swing.app.view.components.ui.TextButton;
+import org.swing.app.view.components.PanelWrapperComponent;
+import org.swing.app.view.components.ui.Button;
+import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.TaskPanelContainer;
 import org.swing.app.view.home.components.factory.TaskPanelContainerFactory;
 import org.swing.app.view.home.components.roottask.factory.RootTaskPanelContainerFactory;
@@ -13,7 +14,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Set;
 
-public class HomeSideBar extends WrapperComponent {
+public class HomeSideBar extends PanelWrapperComponent {
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER,
             ViewConstant.MEDIUM_H_GAP, ViewConstant.MEDIUM_V_GAP);
@@ -22,7 +23,7 @@ public class HomeSideBar extends WrapperComponent {
     private TaskPanelContainer nonRepeatTaskPanelContainer;
 
     private final TaskPanelContainerFactory taskPanelContainerFactory;
-    private TextButton addTaskBtn;
+    private Button addTaskBtn;
 
     public HomeSideBar(Set<TaskPanelDto> repeatTaskPanelDtos, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
         super();
@@ -48,8 +49,7 @@ public class HomeSideBar extends WrapperComponent {
 
     private void initAddTaskBtn() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        this.addTaskBtn = new TextButton(messageLoader.getMessage("button.add.task"));
-        this.addTaskBtn.setResizable(false);
+        this.addTaskBtn = UIComponentFactory.createButton(messageLoader.getMessage("button.add.task"));
     }
 
     private void init(Set<TaskPanelDto> repeatTaskPanelDtos, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {

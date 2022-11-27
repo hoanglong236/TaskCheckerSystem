@@ -1,19 +1,20 @@
-package org.swing.app.view.components.form.components.factory.input;
+package org.swing.app.view.components.form.components.input;
 
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.SimpleComponent;
-import org.swing.app.view.components.form.components.InputComponent;
+import org.swing.app.view.components.factory.JComponentFactory;
 
-import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import java.awt.Font;
 
-class LabelField extends SimpleComponent implements InputComponent {
+class TextArea extends SimpleComponent implements InputComponent {
+
     private static final Font TEXT_FIELD_FONT = new Font(ViewConstant.PRIMARY_FONT_NAME,
             Font.PLAIN, ViewConstant.INPUT_TEXT_FONT_SIZE);
 
-    public LabelField(String initValue) {
+    public TextArea(String initValue) {
         super();
-        this.component = new JLabel();
+        this.component = JComponentFactory.createJTextArea();
         this.component.setFont(TEXT_FIELD_FONT);
         setValue(initValue);
     }
@@ -27,17 +28,17 @@ class LabelField extends SimpleComponent implements InputComponent {
         if (!(value instanceof String)) {
             throw new IllegalArgumentException();
         }
-        ((JLabel) this.component).setText((String) value);
+        ((JTextArea) this.component).setText((String) value);
     }
 
     @Override
     public Object getValue() {
-        final String inputValue = ((JLabel) this.component).getText();
+        final String inputValue = ((JTextArea) this.component).getText();
         return inputValue == null ? null : inputValue.trim();
     }
 
     @Override
     public void clear() {
-        ((JLabel) this.component).setText("");
+        ((JTextArea) this.component).setText("");
     }
 }

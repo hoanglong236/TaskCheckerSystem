@@ -1,8 +1,8 @@
-package org.swing.app.view.components.form.components.factory.input;
+package org.swing.app.view.components.form.components.input;
 
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.components.SimpleComponent;
-import org.swing.app.view.components.form.components.InputComponent;
+import org.swing.app.view.components.factory.JComponentFactory;
 
 import javax.swing.JComboBox;
 import java.util.Set;
@@ -18,7 +18,7 @@ class ComboBox extends SimpleComponent implements InputComponent {
             throw new IllegalArgumentException(messageLoader.getMessage("..."));
         }
         final String[] valueRangeArray = this.valueRange.toArray(new String[0]);
-        this.component = new JComboBox<>(valueRangeArray);
+        this.component = JComponentFactory.createJComboBox(valueRangeArray);
         this.valueRange = valueRange;
         setValue(initValue);
     }

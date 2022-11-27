@@ -2,7 +2,7 @@ package org.swing.app.view.home.body;
 
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.WrapperComponent;
+import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.home.components.TaskContentPanel;
 import org.swing.app.view.home.components.nodetask.NodeTaskContentPanel;
 import org.swing.app.view.home.components.roottask.RootTaskContentPanel;
@@ -11,7 +11,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Set;
 
-public class HomeBodyPanel extends WrapperComponent {
+public class HomeBodyPanel extends PanelWrapperComponent {
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.MEDIUM_H_GAP, ViewConstant.MEDIUM_V_GAP);

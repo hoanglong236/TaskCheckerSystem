@@ -5,9 +5,10 @@ import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.ui.ActivationLabel;
 import org.swing.app.view.components.ui.Checker;
-import org.swing.app.view.components.ui.IconLabel;
+import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.Popup;
 import org.swing.app.view.components.ui.PopupItem;
+import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.TaskPanel;
 import org.swing.app.view.home.components.factory.TaskCenterPanelFactory;
 
@@ -17,7 +18,7 @@ public class NodeTaskPanel extends TaskPanel {
 
     private ActivationLabel  activationLabel;
     private Checker statusChecker;
-    private IconLabel importantLabel;
+    private Label importantLabel;
     private Popup popup;
 
     public NodeTaskPanel(TaskPanelDto taskPanelDto,
@@ -26,30 +27,33 @@ public class NodeTaskPanel extends TaskPanel {
     }
 
     private void initActivationLabel() {
-        this.activationLabel = new ActivationLabel();
+        this.activationLabel = UIComponentFactory.createActivationLabel();
         this.activationLabel.setResizable(false);
     }
 
     private void initStatusChecker(boolean checked) {
-        this.statusChecker = new Checker(checked);
+        this.statusChecker = UIComponentFactory.createChecker(checked);
         this.statusChecker.setResizable(false);
     }
 
     private void initImportantLabel(boolean important) {
         if (important) {
-            this.importantLabel = new IconLabel(ViewConstant.ICON_LOCATION_IMPORTANT);
+            this.importantLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_IMPORTANT);
         } else {
-            this.importantLabel = new IconLabel(ViewConstant.ICON_LOCATION_UNIMPORTANT);
+            this.importantLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_UNIMPORTANT);
         }
         this.importantLabel.setResizable(false);
     }
 
     // TODO: pack popup
     private void initPopup() {
-        this.popup = new Popup();
+        this.popup = UIComponentFactory.createPopup();
+
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        final PopupItem editPopupItem = new PopupItem(messageLoader.getMessage("popup.item.edit"));
-        final PopupItem removePopupItem = new PopupItem(messageLoader.getMessage("popup.item.remove"));
+        final PopupItem editPopupItem = UIComponentFactory.createPopupItem(
+                messageLoader.getMessage("popup.item.edit"));
+        final PopupItem removePopupItem = UIComponentFactory.createPopupItem(
+                messageLoader.getMessage("popup.item.remove"));
 
         this.popup.addPopupItem(editPopupItem);
         this.popup.addPopupItem(removePopupItem);
@@ -73,14 +77,14 @@ public class NodeTaskPanel extends TaskPanel {
     }
 
     private void updateStatusChecker(boolean checked) {
-        this.statusChecker.update(checked);
+        this.statusChecker.setChecked(checked);
     }
 
     private void updateImportantLabel(boolean important) {
         if (important) {
-            this.importantLabel.update(ViewConstant.ICON_LOCATION_IMPORTANT);
+            this.importantLabel.setIcon(ViewConstant.ICON_LOCATION_IMPORTANT);
         } else {
-            this.importantLabel.update(ViewConstant.ICON_LOCATION_UNIMPORTANT);
+            this.importantLabel.setIcon(ViewConstant.ICON_LOCATION_UNIMPORTANT);
         }
     }
 

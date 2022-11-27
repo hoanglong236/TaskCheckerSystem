@@ -1,13 +1,14 @@
-package org.swing.app.view.components.form.components;
+package org.swing.app.view.components.form.components.wrapper;
 
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.WrapperComponent;
-import org.swing.app.view.components.form.components.factory.input.InputComponentFactory;
+import org.swing.app.view.components.PanelWrapperComponent;
+import org.swing.app.view.components.form.components.input.InputComponent;
+import org.swing.app.view.components.form.components.input.InputComponentFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-public abstract class InputAndLabelWrapper extends WrapperComponent {
+public abstract class InputAndLabelWrapper extends PanelWrapperComponent {
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.MEDIUM_H_GAP, ViewConstant.MEDIUM_V_GAP);

@@ -1,8 +1,9 @@
 package org.swing.app.view.components;
 
+
 import javax.swing.JFrame;
 
-public abstract class FrameWrapperComponent extends WrapperComponent implements Frame {
+public abstract class FrameWrapperComponent extends WrapperComponent {
 
     protected FrameWrapperComponent() {
         super();
@@ -10,13 +11,11 @@ public abstract class FrameWrapperComponent extends WrapperComponent implements 
         initFrameState();
     }
 
-    @Override
     public void initFrameState() {
         setVisible(true);
         ((JFrame) this.component).setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    @Override
     public void setFrameTitle(String title) {
         ((JFrame) this.component).setTitle(title);
     }

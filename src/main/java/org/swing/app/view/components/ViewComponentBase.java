@@ -13,7 +13,7 @@ import java.util.Iterator;
 public abstract class ViewComponentBase implements ViewComponent {
 
     protected Container component = null;
-    private boolean resizable = false;
+    private boolean resizable = true;
 
     @Override
     public Component getComponent() {

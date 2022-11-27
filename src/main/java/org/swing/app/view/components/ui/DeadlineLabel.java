@@ -15,7 +15,7 @@ public class DeadlineLabel extends Label implements CountdownObserver {
     private long displayCountDown;
     private long hideCountDown;
 
-    public DeadlineLabel(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
+    protected DeadlineLabel(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
         super(ViewConstant.ICON_LOCATION_DEADLINE, null);
         setValueForCountDowns(startDateTime, finishDateTime);
 

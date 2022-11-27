@@ -2,18 +2,19 @@ package org.swing.app.view.home.components;
 
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.WrapperComponent;
-import org.swing.app.view.components.ui.TextLabel;
+import org.swing.app.view.components.PanelWrapperComponent;
+import org.swing.app.view.components.ui.Label;
+import org.swing.app.view.components.ui.UIComponentFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-public abstract class TaskCenterPanel extends WrapperComponent {
+public abstract class TaskCenterPanel extends PanelWrapperComponent {
 
     protected static FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
 
-    private TextLabel titleLabel;
+    private Label titleLabel;
 
     public TaskCenterPanel(TaskPanelDto taskPanelDto) {
         super();
@@ -28,12 +29,12 @@ public abstract class TaskCenterPanel extends WrapperComponent {
     protected abstract void loadOtherChildComponentsSize();
 
     protected void init(TaskPanelDto taskPanelDto) {
-        this.titleLabel = new TextLabel(taskPanelDto.getTitle());
+        this.titleLabel = UIComponentFactory.createLabel(taskPanelDto.getTitle());
         addChildComponent(this.titleLabel);
     }
 
     public void update(TaskPanelDto taskPanelDto) {
-        this.titleLabel.update(taskPanelDto.getTitle());
+        this.titleLabel.setText(taskPanelDto.getTitle());
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.ui.ActivationLabel;
 import org.swing.app.view.components.ui.Popup;
 import org.swing.app.view.components.ui.PopupItem;
+import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.TaskPanel;
 import org.swing.app.view.home.components.factory.TaskCenterPanelFactory;
 
@@ -22,15 +23,19 @@ public class RootTaskPanel extends TaskPanel {
     }
 
     private void initActivationLabel() {
-        this.activationLabel = new ActivationLabel();
+        this.activationLabel = UIComponentFactory.createActivationLabel();
         this.activationLabel.setResizable(false);
     }
 
     // TODO: pack popup
     private void initPopup() {
+        this.popup = UIComponentFactory.createPopup();
+
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        final PopupItem editPopupItem = new PopupItem(messageLoader.getMessage("popup.item.edit"));
-        final PopupItem removePopupItem = new PopupItem(messageLoader.getMessage("popup.item.remove"));
+        final PopupItem editPopupItem = UIComponentFactory.createPopupItem(
+                messageLoader.getMessage("popup.item.edit"));
+        final PopupItem removePopupItem = UIComponentFactory.createPopupItem(
+                messageLoader.getMessage("popup.item.remove"));
 
         this.popup.addPopupItem(editPopupItem);
         this.popup.addPopupItem(removePopupItem);

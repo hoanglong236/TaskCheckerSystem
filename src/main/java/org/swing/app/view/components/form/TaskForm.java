@@ -2,8 +2,8 @@ package org.swing.app.view.components.form;
 
 import org.swing.app.dto.TaskDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.form.components.InputAndLabelWrapper;
-import org.swing.app.view.components.form.components.factory.wrapper.InputAndLabelWrapperFactory;
+import org.swing.app.view.components.form.components.wrapper.InputAndLabelWrapper;
+import org.swing.app.view.components.form.components.wrapper.InputAndLabelWrapperFactory;
 
 import java.awt.Dimension;
 import java.time.LocalDateTime;

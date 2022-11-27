@@ -4,7 +4,7 @@ import org.swing.app.view.common.ViewConstant;
 
 public class ActivationLabel extends Label {
 
-    public ActivationLabel() {
+     protected ActivationLabel() {
         super("");
         setBackgroundColor(ViewConstant.ACTIVATION_COLOR);
         deactivate();

@@ -3,7 +3,8 @@ package org.swing.app.view.home.components.leaftask;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.ui.Checker;
-import org.swing.app.view.components.ui.IconLabel;
+import org.swing.app.view.components.ui.Label;
+import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.TaskPanel;
 import org.swing.app.view.home.components.factory.TaskCenterPanelFactory;
 
@@ -12,7 +13,7 @@ import java.awt.Dimension;
 public class LeafTaskPanel extends TaskPanel {
 
     private Checker statusChecker;
-    private IconLabel removeLabel;
+    private Label removeLabel;
 
     public LeafTaskPanel(TaskPanelDto taskPanelDto,
             TaskCenterPanelFactory taskCenterPanelFactory) {
@@ -20,12 +21,12 @@ public class LeafTaskPanel extends TaskPanel {
     }
 
     private void initStatusChecker(boolean checked) {
-        this.statusChecker = new Checker(checked);
+        this.statusChecker = UIComponentFactory.createChecker(checked);
         this.statusChecker.setResizable(false);
     }
 
     private void initRemoveLabel() {
-        this.removeLabel = new IconLabel(ViewConstant.ICON_LOCATION_REMOVE);
+        this.removeLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_REMOVE);
         this.removeLabel.setResizable(false);
     }
 
@@ -41,7 +42,7 @@ public class LeafTaskPanel extends TaskPanel {
     }
 
     private void updateStatusChecker(boolean checked) {
-        this.statusChecker.update(checked);
+        this.statusChecker.setChecked(checked);
     }
 
     @Override

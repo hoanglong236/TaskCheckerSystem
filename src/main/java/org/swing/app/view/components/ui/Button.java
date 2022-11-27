@@ -12,18 +12,18 @@ import java.util.Iterator;
 
 public class Button extends SimpleComponent {
 
-    protected Button(String iconLocation, String buttonText) {
+    protected Button(String text, String iconLocation) {
         this.component = JComponentFactory.createJButton();
+        setText(text);
         setIcon(iconLocation);
-        setText(buttonText);
     }
 
-    protected Button(String buttonText) {
+    protected Button(String text) {
         this.component = JComponentFactory.createJButton();
-        setText(buttonText);
+        setText(text);
     }
 
-    protected void setIcon(String iconLocation) {
+    public void setIcon(String iconLocation) {
         final byte iconWidth = 15;
         final byte iconHeight = 15;
         final ImageIcon imageIcon = ViewUtil.getImageIcon(iconLocation, iconWidth, iconHeight);
@@ -31,7 +31,7 @@ public class Button extends SimpleComponent {
         ((JButton) this.component).setIcon(imageIcon);
     }
 
-    protected void setText(String text) {
+    public void setText(String text) {
         ((JButton) this.component).setText(text);
     }
 
