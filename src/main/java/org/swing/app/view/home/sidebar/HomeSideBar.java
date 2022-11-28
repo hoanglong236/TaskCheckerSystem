@@ -78,7 +78,7 @@ public class HomeSideBar extends PanelWrapperComponent {
         this.childComponentSizeMap.put(this.nonRepeatTaskPanelContainer,
                 new Dimension(maxChildComponentWidth, nonRepeatTaskPanelContainerHeight));
 
-        final int addTaskBtnHeight = 50;
+        final int addTaskBtnHeight = 45;
         this.childComponentSizeMap.put(this.addTaskBtn, new Dimension(maxChildComponentWidth, addTaskBtnHeight));
     }
 

@@ -9,19 +9,19 @@ public class ViewConstant {
     public static final byte FRAME_RESERVE_HEIGHT = 50; // include navbar that contains minimum, maximum, close button.
     public static final byte SCROLL_RESERVE_WIDTH = 16;
     public static final byte VERTICAL_SCROLLBAR_WIDTH = 12;
-    public static final byte LARGE_RESERVE_WIDTH = 10;
-    public static final byte LARGE_RESERVE_HEIGHT = 10;
-    public static final byte MEDIUM_RESERVE_WIDTH = 6;
-    public static final byte MEDIUM_RESERVE_HEIGHT = 6;
-    public static final byte SMALL_RESERVE_WIDTH = 3;
-    public static final byte SMALL_RESERVE_HEIGHT = 3;
+    public static final byte LARGE_RESERVE_WIDTH = 12;
+    public static final byte LARGE_RESERVE_HEIGHT = 12;
+    public static final byte MEDIUM_RESERVE_WIDTH = 9;
+    public static final byte MEDIUM_RESERVE_HEIGHT = 9;
+    public static final byte SMALL_RESERVE_WIDTH = 6;
+    public static final byte SMALL_RESERVE_HEIGHT = 6;
 
-    public static final byte SMALL_H_GAP = 3;
-    public static final byte SMALL_V_GAP = 3;
-    public static final byte MEDIUM_H_GAP = 6;
-    public static final byte MEDIUM_V_GAP = 6;
-    public static final byte LARGE_H_GAP = 10;
-    public static final byte LARGE_V_GAP = 10;
+    public static final byte SMALL_H_GAP = 6;
+    public static final byte SMALL_V_GAP = 6;
+    public static final byte MEDIUM_H_GAP = 9;
+    public static final byte MEDIUM_V_GAP = 9;
+    public static final byte LARGE_H_GAP = 12;
+    public static final byte LARGE_V_GAP = 12;
 
     public static final String ICON_LOCATION_CHECK = "icons/check.png";
     public static final String ICON_LOCATION_DEADLINE = "icons/deadline.png";

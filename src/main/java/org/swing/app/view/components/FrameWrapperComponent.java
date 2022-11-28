@@ -1,7 +1,7 @@
 package org.swing.app.view.components;
 
-
 import javax.swing.JFrame;
+import java.awt.Color;
 
 public abstract class FrameWrapperComponent extends WrapperComponent {
 
@@ -22,8 +22,14 @@ public abstract class FrameWrapperComponent extends WrapperComponent {
 
     @Override
     public void refreshUI() {
-        super.refreshUI();
+        ((JFrame) this.component).getContentPane().revalidate();
+        ((JFrame) this.component).getContentPane().repaint();
         ((JFrame) this.component).pack();
         ((JFrame) this.component).setLocationRelativeTo(null);
+    }
+
+    @Override
+    public void setBackgroundColor(Color color) {
+        ((JFrame) this.component).getContentPane().setBackground(color);
     }
 }

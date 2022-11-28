@@ -1,6 +1,7 @@
 package org.swing.app.view.home;
 
 import org.swing.app.dto.TaskPanelDto;
+import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.FrameWrapperComponent;
 import org.swing.app.view.home.body.HomeBodyPanel;
@@ -24,6 +25,9 @@ public class HomeFrame extends FrameWrapperComponent {
         setLayout(MAIN_LAYOUT);
         setBackgroundColor(ViewConstant.PRIMARY_BACKGROUND_COLOR);
         init(repeatTaskPanelDtos, nonRepeatTaskPanelDtos);
+
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        setFrameTitle(messageLoader.getMessage("home.frame.title"));
     }
 
     private void initSideBar(Set<TaskPanelDto> repeatTaskPanelDtos, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
@@ -71,7 +75,7 @@ public class HomeFrame extends FrameWrapperComponent {
 
     @Override
     protected void setNotResizableChildComponents() {
-        this.sideBar.setResizable(true);
+//        this.sideBar.setResizable(true);
 //        this.bodyPanel.setResizable(false);
     }
 }

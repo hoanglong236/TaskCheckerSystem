@@ -4,6 +4,7 @@ import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.home.HomeFrame;
 
+import java.awt.Dimension;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
