@@ -78,7 +78,7 @@ public class TaskPanelContainer extends PanelWrapperComponent {
         final int hGap = MAIN_LAYOUT.getHgap();
         final int vGap = MAIN_LAYOUT.getVgap();
 
-        final int filterBtnWidth = 50;
+        final int filterBtnWidth = 40;
         final int filterBtnHeight = 40;
         this.childComponentSizeMap.put(this.filterButton, new Dimension(filterBtnWidth, filterBtnHeight));
 

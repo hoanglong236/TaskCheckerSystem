@@ -14,8 +14,6 @@ public abstract class TaskPanel extends PanelWrapperComponent {
     protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
 
-    // task center panel la vung chua chinh
-    // left side hay right chi don gian la addChildComponent thoi
     private TaskCenterPanel taskCenterPanel;
     private TaskCenterPanelFactory taskCenterPanelFactory;
 

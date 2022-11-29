@@ -8,11 +8,6 @@ public abstract class FrameWrapperComponent extends WrapperComponent {
     protected FrameWrapperComponent() {
         super();
         this.component = new JFrame();
-        initFrameState();
-    }
-
-    public void initFrameState() {
-        setVisible(true);
         ((JFrame) this.component).setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 

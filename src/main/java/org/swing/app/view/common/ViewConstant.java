@@ -40,7 +40,7 @@ public class ViewConstant {
     public static final byte PRIMARY_FONT_SIZE = 15;
 
     public static final Dimension HOME_FRAME_PREFER_SIZE = new Dimension(1140, 650);
-    public static final int SIDEBAR_WIDTH = 350;
+    public static final int SIDEBAR_WIDTH = 330;
     public static final Color ACTIVATION_COLOR = new Color(230, 230, 230);
     public static final byte LIST_PANEL_HEIGHT = 60;
     public static final byte TASK_PANEL_HEIGHT = 40;
