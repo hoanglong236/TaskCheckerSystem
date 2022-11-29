@@ -11,9 +11,7 @@ public class TaskPanelDto {
     private LocalDateTime startDateTime;
     private LocalDateTime finishDateTime;
     private LocalDateTime submitDateTime;
-    private boolean cancelable;
     private boolean completed;
-    private boolean onSchedule;
     private String note;
     private int childTaskCompletedCount;
     private int childTaskCount;
@@ -26,9 +24,7 @@ public class TaskPanelDto {
         this.startDateTime = null;
         this.finishDateTime = null;
         this.submitDateTime = null;
-        this.cancelable = false;
         this.completed = true;
-        this.onSchedule = true;
         this.note = null;
         this.childTaskCompletedCount = 0;
         this.childTaskCount = 0;
@@ -90,28 +86,12 @@ public class TaskPanelDto {
         this.submitDateTime = submitDateTime;
     }
 
-    public boolean isCancelable() {
-        return cancelable;
-    }
-
-    public void setCancelable(boolean cancelable) {
-        this.cancelable = cancelable;
-    }
-
     public boolean isCompleted() {
         return completed;
     }
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
-    }
-
-    public boolean isOnSchedule() {
-        return onSchedule;
-    }
-
-    public void setOnSchedule(boolean onSchedule) {
-        this.onSchedule = onSchedule;
     }
 
     public String getNote() {
