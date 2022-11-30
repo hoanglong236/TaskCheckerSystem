@@ -1,6 +1,5 @@
 package org.swing.app.view.edittask;
 
-import org.swing.app.dto.TaskDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ViewComponent;
@@ -22,16 +21,12 @@ public abstract class TaskFormBase extends PanelWrapperComponent implements Task
     protected static final String IMPORTANT_LABEL_TEXT = "Important: ";
     protected static final String START_DATETIME_LABEL_TEXT = "Start datetime: ";
     protected static final String FINISH_DATETIME_LABEL_TEXT = "Finish datetime: ";
-    protected static final String CANCELABLE_LABEL_TEXT = "Cancelable: ";
-    protected static final String COMPLETED_LABEL_TEXT = "Completed: ";
     protected static final String NOTE_LABEL_TEXT = "Note: ";
 
     protected LabelAndInputWrapper titleInputWrapper;
     protected LabelAndInputWrapper importantInputWrapper;
     protected LabelAndInputWrapper startDatetimeInputWrapper;
     protected LabelAndInputWrapper finishDatetimeInputWrapper;
-    protected LabelAndInputWrapper cancelableInputWrapper;
-    protected LabelAndInputWrapper completedInputWrapper;
     protected LabelAndInputWrapper noteInputWrapper;
 
     protected int labelWidthInWrapper;
@@ -42,10 +37,12 @@ public abstract class TaskFormBase extends PanelWrapperComponent implements Task
         setLayout(MAIN_LAYOUT);
     }
 
+    @Override
     public void setLabelWidthInWrapper(int labelWidthInWrapper) {
         this.labelWidthInWrapper = labelWidthInWrapper;
     }
 
+    @Override
     public void setRateOfLabelWidthInWrapper(float rateOfLabelWidthInWrapper) {
         this.rateOfLabelWidthInWrapper = rateOfLabelWidthInWrapper;
     }
@@ -102,48 +99,6 @@ public abstract class TaskFormBase extends PanelWrapperComponent implements Task
     public void initFinishDatetimeInputWrapper(LocalDateTime finishDateTime) {
         this.finishDatetimeInputWrapper = LabelAndInputWrapperFactory
                 .createLabelAndDateTimeChooserWrapper(FINISH_DATETIME_LABEL_TEXT, finishDateTime);
-    }
-
-    @Override
-    public void initCancelableInputWrapper() {
-        final Set<String> cancelableValueRange = new LinkedHashSet<>();
-        cancelableValueRange.add("Yes");
-        cancelableValueRange.add("No");
-
-        this.cancelableInputWrapper = LabelAndInputWrapperFactory
-                .createLabelAndComboBoxWrapper(CANCELABLE_LABEL_TEXT, cancelableValueRange);
-    }
-
-    @Override
-    public void initCancelableInputWrapper(boolean cancelable) {
-        final Set<String> cancelableValueRange = new LinkedHashSet<>();
-        cancelableValueRange.add("Yes");
-        cancelableValueRange.add("No");
-        final String initValue = cancelable ? "Yes" : "No";
-
-        this.cancelableInputWrapper = LabelAndInputWrapperFactory
-                .createLabelAndComboBoxWrapper(CANCELABLE_LABEL_TEXT, cancelableValueRange, initValue);
-    }
-
-    @Override
-    public void initCompletedInputWrapper() {
-        final Set<String> completedValueRange = new LinkedHashSet<>();
-        completedValueRange.add("Yes");
-        completedValueRange.add("No");
-
-        this.completedInputWrapper = LabelAndInputWrapperFactory
-                .createLabelAndComboBoxWrapper(COMPLETED_LABEL_TEXT, completedValueRange);
-    }
-
-    @Override
-    public void initCompletedInputWrapper(boolean completed) {
-        final Set<String> completedValueRange = new LinkedHashSet<>();
-        completedValueRange.add("Yes");
-        completedValueRange.add("No");
-        final String initValue = completed ? "Yes" : "No";
-
-        this.completedInputWrapper = LabelAndInputWrapperFactory
-                .createLabelAndComboBoxWrapper(COMPLETED_LABEL_TEXT, completedValueRange, initValue);
     }
 
     @Override

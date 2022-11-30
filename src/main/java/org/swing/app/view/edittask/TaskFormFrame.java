@@ -1,18 +1,28 @@
 package org.swing.app.view.edittask;
 
 import org.swing.app.dto.TaskDto;
+import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.FrameWrapperComponent;
+import org.swing.app.view.components.ui.Button;
+import org.swing.app.view.components.ui.UIComponentFactory;
 
+import javax.swing.JButton;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public abstract class TaskFormFrame extends FrameWrapperComponent {
+public class TaskFormFrame extends FrameWrapperComponent implements ActionListener {
 
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
-            ViewConstant.LARGE_H_GAP, ViewConstant.LARGE_V_GAP);
+    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER,
+            ViewConstant.FORM_FRAME_H_GAP, ViewConstant.FORM_FRAME_V_GAP);
 
-    private TaskFormBase taskForm;
+    private TaskForm taskForm;
+    private Button submitButton;
+    private Button resetButton;
+    private Button clearButton;
+
     private final TaskFormFactory taskFormFactory;
 
     private TaskDto taskDto = null;
@@ -39,14 +49,50 @@ public abstract class TaskFormFrame extends FrameWrapperComponent {
         this.taskForm = this.taskFormFactory.createTaskForm(taskDto);
     }
 
+    private void initSubmitButton() {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        this.submitButton = UIComponentFactory.createButton(messageLoader.getMessage("submit.button.text"));
+        this.submitButton.addActionListener(this);
+    }
+
+    private void initResetButton() {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        this.resetButton = UIComponentFactory.createButton(messageLoader.getMessage("reset.button.text"));
+        this.resetButton.addActionListener(this);
+    }
+
+    private void initClearButton() {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        this.clearButton = UIComponentFactory.createButton(messageLoader.getMessage("clear.button.text"));
+        this.clearButton.addActionListener(this);
+    }
+
     private void init() {
         initTaskForm();
         addChildComponent(this.taskForm);
+
+        initSubmitButton();
+        addChildComponent(this.submitButton);
+
+        initResetButton();
+        addChildComponent(this.resetButton);
+
+        initClearButton();
+        addChildComponent(this.clearButton);
     }
 
     private void init(TaskDto taskDto) {
         initTaskForm(taskDto);
         addChildComponent(this.taskForm);
+
+        initSubmitButton();
+        addChildComponent(this.submitButton);
+
+        initResetButton();
+        addChildComponent(this.resetButton);
+
+        initClearButton();
+        addChildComponent(this.clearButton);
     }
 
     public void setFormData(TaskDto taskDto) {
@@ -55,6 +101,10 @@ public abstract class TaskFormFrame extends FrameWrapperComponent {
 
     public TaskDto getFormData() {
         return this.taskForm.getFormData();
+    }
+
+    public void submit() {
+
     }
 
     public void reset() {
@@ -69,16 +119,40 @@ public abstract class TaskFormFrame extends FrameWrapperComponent {
     protected void loadChildComponentsSize() {
         this.childComponentSizeMap.clear();
 
-        final int availableWidth = getSize().width - ViewConstant.FRAME_RESERVE_WIDTH;
-        final int availableHeight = getSize().height - ViewConstant.FRAME_RESERVE_HEIGHT;
+        final int availableWidth = getSize().width - ViewConstant.FORM_FRAME_RESERVE_WIDTH;
+        final int availableHeight = getSize().height - ViewConstant.FORM_FRAME_RESERVE_HEIGHT;
 
         final int maxChildComponentWidth = availableWidth - MAIN_LAYOUT.getHgap();
-        final int maxChildComponentHeight = availableHeight - MAIN_LAYOUT.getVgap();
 
-        this.childComponentSizeMap.put(this.taskForm, new Dimension(maxChildComponentWidth, maxChildComponentHeight));
+        final int taskFormHeight = (int) ((float) 0.75 * availableHeight);
+        this.childComponentSizeMap.put(this.taskForm, new Dimension(maxChildComponentWidth, taskFormHeight));
+
+        final byte controlButtonWidth = 80;
+        final int controlButtonHeight = availableHeight - MAIN_LAYOUT.getVgap()
+                - taskFormHeight - MAIN_LAYOUT.getVgap();
+        this.childComponentSizeMap.put(this.submitButton, new Dimension(controlButtonWidth, controlButtonHeight));
+        this.childComponentSizeMap.put(this.resetButton, new Dimension(controlButtonWidth, controlButtonHeight));
+        this.childComponentSizeMap.put(this.clearButton, new Dimension(controlButtonWidth, controlButtonHeight));
     }
 
     @Override
     protected void setNotResizableChildComponents() {
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        final JButton eventSource = (JButton) e.getSource();
+
+        if (eventSource == this.submitButton.getComponent()) {
+            return;
+        }
+        if (eventSource == this.resetButton.getComponent()) {
+            reset();
+            return;
+        }
+        if (eventSource == this.clearButton.getComponent()) {
+            clear();
+            return;
+        }
     }
 }

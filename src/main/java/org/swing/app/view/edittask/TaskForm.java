@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 
 public interface TaskForm extends Form<TaskDto> {
 
+    void setLabelWidthInWrapper(int labelWidthInWrapper);
+    void setRateOfLabelWidthInWrapper(float rateOfLabelWidthInWrapper);
+
     void initTitleInputWrapper();
     void initTitleInputWrapper(String title);
     void initImportantInputWrapper();
@@ -15,10 +18,6 @@ public interface TaskForm extends Form<TaskDto> {
     void initStartDatetimeInputWrapper(LocalDateTime startDatetime);
     void initFinishDatetimeInputWrapper();
     void initFinishDatetimeInputWrapper(LocalDateTime finishDateTime);
-    void initCancelableInputWrapper();
-    void initCancelableInputWrapper(boolean cancelable);
-    void initCompletedInputWrapper();
-    void initCompletedInputWrapper(boolean completed);
     void initNoteInputWrapper();
     void initNoteInputWrapper(String note);
 }

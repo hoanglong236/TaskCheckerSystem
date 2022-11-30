@@ -1,18 +1,18 @@
-package org.swing.app.view.edittask.roottask;
+package org.swing.app.view.edittask.nodetask;
 
 import org.swing.app.dto.TaskDto;
 import org.swing.app.view.edittask.TaskForm;
 import org.swing.app.view.edittask.TaskFormFactory;
 
-public class RootTaskFormFactory implements TaskFormFactory {
+public class NodeTaskFormFactory implements TaskFormFactory {
 
     @Override
     public TaskForm createTaskForm() {
-        return new RootTaskForm();
+        return new NodeTaskForm();
     }
 
     @Override
     public TaskForm createTaskForm(TaskDto taskDto) {
-        return new RootTaskForm(taskDto);
+        return new NodeTaskForm(taskDto);
     }
 }

@@ -4,6 +4,6 @@ import org.swing.app.dto.TaskDto;
 
 public interface TaskFormFactory {
 
-    TaskFormBase createTaskForm();
-    TaskFormBase createTaskForm(TaskDto taskDto);
+    TaskForm createTaskForm();
+    TaskForm createTaskForm(TaskDto taskDto);
 }
