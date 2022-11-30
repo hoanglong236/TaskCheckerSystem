@@ -7,4 +7,5 @@ public interface Form<T> extends ViewComponent {
     boolean validate();
     T getFormData();
     void setFormData(T e);
+    void clear();
 }

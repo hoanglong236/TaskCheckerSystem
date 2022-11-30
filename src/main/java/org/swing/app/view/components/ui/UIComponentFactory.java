@@ -16,8 +16,8 @@ public class UIComponentFactory {
         return new CompletionRateLabel(completedCount, totalCount);
     }
 
-    public static DeadlineLabel createDeadlineLabel(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
-        return new DeadlineLabel(startDateTime, finishDateTime);
+    public static DeadlineLabel createDeadlineLabel(LocalDateTime startDatetime, LocalDateTime finishDatetime) {
+        return new DeadlineLabel(startDatetime, finishDatetime);
     }
 
     public static Button createButton(String text) {

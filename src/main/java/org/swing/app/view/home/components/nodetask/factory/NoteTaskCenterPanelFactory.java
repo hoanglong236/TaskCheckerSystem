@@ -30,8 +30,8 @@ class NodeTaskCenterPanel extends TaskCenterPanel {
         super(taskPanelDto);
     }
 
-    private void initDeadlineLabel(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
-        this.deadlineLabel = UIComponentFactory.createDeadlineLabel(startDateTime, finishDateTime);
+    private void initDeadlineLabel(LocalDateTime startDatetime, LocalDateTime finishDatetime) {
+        this.deadlineLabel = UIComponentFactory.createDeadlineLabel(startDatetime, finishDatetime);
         this.deadlineLabel.setResizable(false);
     }
 
@@ -49,7 +49,7 @@ class NodeTaskCenterPanel extends TaskCenterPanel {
     protected void init(TaskPanelDto taskPanelDto) {
         super.init(taskPanelDto);
 
-        initDeadlineLabel(taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
+        initDeadlineLabel(taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
         addChildComponent(this.deadlineLabel);
 
         initCompletionRateLabel(taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
@@ -64,7 +64,7 @@ class NodeTaskCenterPanel extends TaskCenterPanel {
     @Override
     public void update(TaskPanelDto taskPanelDto) {
         super.update(taskPanelDto);
-        if (taskPanelDto.getFinishDateTime() == null) {
+        if (taskPanelDto.getFinishDatetime() == null) {
             if (this.deadlineLabel != null) {
                 this.childComponents.remove(this.deadlineLabel);
                 this.deadlineLabel.dispose();
@@ -72,9 +72,9 @@ class NodeTaskCenterPanel extends TaskCenterPanel {
             }
         } else {
             if (this.deadlineLabel != null) {
-                this.deadlineLabel.update(taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
+                this.deadlineLabel.update(taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
             } else {
-                initDeadlineLabel(taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
+                initDeadlineLabel(taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
                 addChildComponent(this.deadlineLabel);
             }
         }

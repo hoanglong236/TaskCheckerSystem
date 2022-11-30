@@ -43,9 +43,9 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
         taskPanelDto.setTitle(resultSet.getString("title"));
 
         final Timestamp startTimestamp = resultSet.getTimestamp("start_datetime");
-        taskPanelDto.setStartDateTime(startTimestamp == null ? null : startTimestamp.toLocalDateTime());
+        taskPanelDto.setStartDatetime(startTimestamp == null ? null : startTimestamp.toLocalDateTime());
         final Timestamp finishTimestamp = resultSet.getTimestamp("finish_datetime");
-        taskPanelDto.setFinishDateTime(finishTimestamp == null ? null : finishTimestamp.toLocalDateTime());
+        taskPanelDto.setFinishDatetime(finishTimestamp == null ? null : finishTimestamp.toLocalDateTime());
 
         taskPanelDto.setChildTaskCompletedCount(resultSet.getInt("child_task_completed_count"));
         taskPanelDto.setChildTaskCount(resultSet.getInt("child_task_count"));
@@ -102,11 +102,11 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
         taskPanelDto.setTitle(resultSet.getString("title"));
 
         final Timestamp startTimestamp = resultSet.getTimestamp("start_datetime");
-        taskPanelDto.setStartDateTime(startTimestamp == null ? null : startTimestamp.toLocalDateTime());
+        taskPanelDto.setStartDatetime(startTimestamp == null ? null : startTimestamp.toLocalDateTime());
         final Timestamp finishTimestamp = resultSet.getTimestamp("finish_datetime");
-        taskPanelDto.setFinishDateTime(finishTimestamp == null ? null : finishTimestamp.toLocalDateTime());
+        taskPanelDto.setFinishDatetime(finishTimestamp == null ? null : finishTimestamp.toLocalDateTime());
         final Timestamp submitTimestamp = resultSet.getTimestamp("finish_datetime");
-        taskPanelDto.setFinishDateTime(submitTimestamp == null ? null : submitTimestamp.toLocalDateTime());
+        taskPanelDto.setSubmitDatetime(submitTimestamp == null ? null : submitTimestamp.toLocalDateTime());
 
         taskPanelDto.setCompleted(resultSet.getBoolean("is_completed"));
         taskPanelDto.setNote(resultSet.getString("note"));

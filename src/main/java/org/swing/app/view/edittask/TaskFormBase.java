@@ -1,15 +1,22 @@
 package org.swing.app.view.edittask;
 
 import org.swing.app.dto.TaskDto;
-import org.swing.app.view.components.form.FormBase;
+import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.components.PanelWrapperComponent;
+import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.form.components.wrapper.LabelAndInputWrapper;
 import org.swing.app.view.components.form.components.wrapper.LabelAndInputWrapperFactory;
 
+import java.awt.FlowLayout;
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public abstract class TaskFormBase extends FormBase<TaskDto> implements TaskForm {
+public abstract class TaskFormBase extends PanelWrapperComponent implements TaskForm {
+
+    protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
+            ViewConstant.LARGE_H_GAP, ViewConstant.LARGE_V_GAP);
 
     protected static final String TITLE_LABEL_TEXT = "Title: ";
     protected static final String IMPORTANT_LABEL_TEXT = "Important: ";
@@ -21,14 +28,27 @@ public abstract class TaskFormBase extends FormBase<TaskDto> implements TaskForm
 
     protected LabelAndInputWrapper titleInputWrapper;
     protected LabelAndInputWrapper importantInputWrapper;
-    protected LabelAndInputWrapper startDateTimeInputWrapper;
-    protected LabelAndInputWrapper finishDateTimeInputWrapper;
+    protected LabelAndInputWrapper startDatetimeInputWrapper;
+    protected LabelAndInputWrapper finishDatetimeInputWrapper;
     protected LabelAndInputWrapper cancelableInputWrapper;
     protected LabelAndInputWrapper completedInputWrapper;
     protected LabelAndInputWrapper noteInputWrapper;
 
-    private int labelWidthInWrapper;
-    private float rateOfLabelWidthInWrapper;
+    protected int labelWidthInWrapper;
+    protected float rateOfLabelWidthInWrapper;
+
+    public TaskFormBase() {
+        super();
+        setLayout(MAIN_LAYOUT);
+    }
+
+    public void setLabelWidthInWrapper(int labelWidthInWrapper) {
+        this.labelWidthInWrapper = labelWidthInWrapper;
+    }
+
+    public void setRateOfLabelWidthInWrapper(float rateOfLabelWidthInWrapper) {
+        this.rateOfLabelWidthInWrapper = rateOfLabelWidthInWrapper;
+    }
 
     @Override
     public void initTitleInputWrapper() {
@@ -61,26 +81,26 @@ public abstract class TaskFormBase extends FormBase<TaskDto> implements TaskForm
     }
 
     @Override
-    public void initStartDateTimeInputWrapper() {
-        this.startDateTimeInputWrapper = LabelAndInputWrapperFactory
+    public void initStartDatetimeInputWrapper() {
+        this.startDatetimeInputWrapper = LabelAndInputWrapperFactory
                 .createLabelAndDateTimeChooserWrapper(START_DATETIME_LABEL_TEXT);
     }
 
     @Override
-    public void initStartDateTimeInputWrapper(LocalDateTime startDateTime) {
-        this.startDateTimeInputWrapper = LabelAndInputWrapperFactory
-                .createLabelAndDateTimeChooserWrapper(START_DATETIME_LABEL_TEXT, startDateTime);
+    public void initStartDatetimeInputWrapper(LocalDateTime startDatetime) {
+        this.startDatetimeInputWrapper = LabelAndInputWrapperFactory
+                .createLabelAndDateTimeChooserWrapper(START_DATETIME_LABEL_TEXT, startDatetime);
     }
 
     @Override
-    public void initFinishDateTimeInputWrapper() {
-        this.finishDateTimeInputWrapper = LabelAndInputWrapperFactory
+    public void initFinishDatetimeInputWrapper() {
+        this.finishDatetimeInputWrapper = LabelAndInputWrapperFactory
                 .createLabelAndDateTimeChooserWrapper(FINISH_DATETIME_LABEL_TEXT);
     }
 
     @Override
-    public void initFinishDateTimeInputWrapper(LocalDateTime finishDateTime) {
-        this.finishDateTimeInputWrapper = LabelAndInputWrapperFactory
+    public void initFinishDatetimeInputWrapper(LocalDateTime finishDateTime) {
+        this.finishDatetimeInputWrapper = LabelAndInputWrapperFactory
                 .createLabelAndDateTimeChooserWrapper(FINISH_DATETIME_LABEL_TEXT, finishDateTime);
     }
 
@@ -134,5 +154,17 @@ public abstract class TaskFormBase extends FormBase<TaskDto> implements TaskForm
     @Override
     public void initNoteInputWrapper(String note) {
         this.noteInputWrapper = LabelAndInputWrapperFactory.createLabelAndTextAreaWrapper(NOTE_LABEL_TEXT, note);
+    }
+
+    @Override
+    public void clear() {
+        final Iterator<ViewComponent> childComponentIterator = getChildComponentIterator();
+
+        while (childComponentIterator.hasNext()) {
+            final ViewComponent childComponent = childComponentIterator.next();
+            if (childComponent instanceof LabelAndInputWrapper) {
+                ((LabelAndInputWrapper) childComponent).clear();
+            }
+        }
     }
 }

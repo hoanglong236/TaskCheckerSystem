@@ -30,9 +30,9 @@ class RootTaskCenterPanel extends TaskCenterPanel {
     @Override
     protected void init(TaskPanelDto taskPanelDto) {
         super.init(taskPanelDto);
-        if (taskPanelDto.getFinishDateTime() != null) {
+        if (taskPanelDto.getFinishDatetime() != null) {
             this.deadlineLabel = UIComponentFactory.createDeadlineLabel(
-                    taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
+                    taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
             addChildComponent(this.deadlineLabel);
         }
         if (taskPanelDto.getChildTaskCount() == 0) {
@@ -51,17 +51,17 @@ class RootTaskCenterPanel extends TaskCenterPanel {
     @Override
     public void update(TaskPanelDto taskPanelDto) {
         super.update(taskPanelDto);
-        if (taskPanelDto.getFinishDateTime() == null) {
+        if (taskPanelDto.getFinishDatetime() == null) {
             if (this.deadlineLabel != null) {
                 removeChildComponent(this.deadlineLabel);
                 this.deadlineLabel = null;
             }
         } else {
             if (this.deadlineLabel == null) {
-                this.deadlineLabel.update(taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
+                this.deadlineLabel.update(taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
             } else {
                 this.deadlineLabel = UIComponentFactory.createDeadlineLabel(
-                        taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
+                        taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
                 addChildComponent(this.deadlineLabel);
             }
         }
