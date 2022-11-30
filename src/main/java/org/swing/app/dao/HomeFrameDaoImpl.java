@@ -39,7 +39,7 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
     private TaskPanelDto getIncompleteRootTaskPanelDtoFromResultSet(ResultSet resultSet) throws SQLException {
         final TaskPanelDto taskPanelDto = new TaskPanelDto();
 
-        taskPanelDto.setId(resultSet.getInt("id"));
+        taskPanelDto.setId(resultSet.getString("id"));
         taskPanelDto.setTitle(resultSet.getString("title"));
 
         final Timestamp startTimestamp = resultSet.getTimestamp("start_datetime");
@@ -97,8 +97,8 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
     private TaskPanelDto getNodeTaskPanelDtoFromResultSet(ResultSet resultSet) throws SQLException {
         final TaskPanelDto taskPanelDto = new TaskPanelDto();
 
-        taskPanelDto.setId(resultSet.getInt("id"));
-        taskPanelDto.setParentId(resultSet.getInt("parent_id"));
+        taskPanelDto.setId(resultSet.getString("id"));
+        taskPanelDto.setParentId(resultSet.getString("parent_id"));
         taskPanelDto.setTitle(resultSet.getString("title"));
 
         final Timestamp startTimestamp = resultSet.getTimestamp("start_datetime");
@@ -117,13 +117,13 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
     }
 
     @Override
-    public Set<TaskPanelDto> getNodeTaskPanelDtosByParentId(int parentId) {
+    public Set<TaskPanelDto> getNodeTaskPanelDtosByParentId(String parentId) {
         final Set<TaskPanelDto> taskPanelDtos = new LinkedHashSet<>();
         final String query = getNodeTaskPanelDtosByParentIdQuery();
 
         try {
             final PreparedStatement preStmt = CONNECTION.prepareStatement(query);
-            preStmt.setInt(1, parentId);
+            preStmt.setString(1, parentId);
             final ResultSet resultSet = preStmt.executeQuery();
 
             while(resultSet.next()){
@@ -150,8 +150,8 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
     private TaskPanelDto getLeafTaskPanelDtoFromResultSet(ResultSet resultSet) throws SQLException {
         final TaskPanelDto taskPanelDto = new TaskPanelDto();
 
-        taskPanelDto.setId(resultSet.getInt("id"));
-        taskPanelDto.setParentId(resultSet.getInt("parent_id"));
+        taskPanelDto.setId(resultSet.getString("id"));
+        taskPanelDto.setParentId(resultSet.getString("parent_id"));
         taskPanelDto.setTitle(resultSet.getString("title"));
         taskPanelDto.setCompleted(resultSet.getBoolean("is_completed"));
 
@@ -159,13 +159,13 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
     }
 
     @Override
-    public Set<TaskPanelDto> getLeafTaskPanelDtosByParentId(int parentId) {
+    public Set<TaskPanelDto> getLeafTaskPanelDtosByParentId(String parentId) {
         final Set<TaskPanelDto> taskPanelDtos = new LinkedHashSet<>();
         final String query = getLeafTaskPanelDtosByParentIdQuery();
 
         try {
             final PreparedStatement preStmt = CONNECTION.prepareStatement(query);
-            preStmt.setInt(1, parentId);
+            preStmt.setString(1, parentId);
             final ResultSet resultSet = preStmt.executeQuery();
 
             while(resultSet.next()){

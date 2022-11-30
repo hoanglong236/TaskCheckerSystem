@@ -7,6 +7,6 @@ import java.util.Set;
 public interface HomeFrameDao {
 
     Set<TaskPanelDto> getIncompleteRootTaskPanelDtos();
-    Set<TaskPanelDto> getNodeTaskPanelDtosByParentId(int parentId);
-    Set<TaskPanelDto> getLeafTaskPanelDtosByParentId(int parentId);
+    Set<TaskPanelDto> getNodeTaskPanelDtosByParentId(String parentId);
+    Set<TaskPanelDto> getLeafTaskPanelDtosByParentId(String parentId);
 }

@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 public class TaskDto {
 
-    private Integer id;
-    private Integer parentId;
+    private String id;
+    private String parentId;
     private String title;
     private boolean important;
     private LocalDateTime startDatetime;
@@ -26,19 +26,19 @@ public class TaskDto {
         this.note = null;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Integer getParentId() {
+    public String getParentId() {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(String parentId) {
         this.parentId = parentId;
     }
 
