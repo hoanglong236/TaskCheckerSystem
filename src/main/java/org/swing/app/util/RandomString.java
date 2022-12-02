@@ -1,4 +1,4 @@
-package org.swing.app.common;
+package org.swing.app.util;
 
 import java.security.SecureRandom;
 import java.util.Random;

@@ -1,5 +1,6 @@
 package org.swing.app.view.edittask;
 
+import org.swing.app.controller.TaskFormFrameController;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
@@ -8,6 +9,7 @@ import org.swing.app.view.components.ui.Button;
 import org.swing.app.view.components.ui.UIComponentFactory;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -25,18 +27,28 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
 
     private final TaskFormFactory taskFormFactory;
 
+    private TaskFormFrameController taskFormFrameController;
+
+    private boolean isAddingTask;
+
     private TaskDto taskDto = null;
 
-    public TaskFormFrame(TaskFormFactory taskFormFactory) {
+    public TaskFormFrame(TaskFormFrameController taskFormFrameController, TaskFormFactory taskFormFactory) {
         super();
+        this.taskFormFrameController = taskFormFrameController;
         this.taskFormFactory = taskFormFactory;
+        this.isAddingTask = true;
         setLayout(MAIN_LAYOUT);
         init();
     }
 
-    public TaskFormFrame(TaskFormFactory taskFormFactory, TaskDto taskDto) {
+    public TaskFormFrame(TaskFormFrameController taskFormFrameController,
+            TaskFormFactory taskFormFactory, TaskDto taskDto) {
+
         super();
+        this.taskFormFrameController = taskFormFrameController;
         this.taskFormFactory = taskFormFactory;
+        this.isAddingTask = false;
         setLayout(MAIN_LAYOUT);
         init(taskDto);
     }
@@ -104,7 +116,13 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
     }
 
     public void submit() {
+        // TODO: handle validate
 
+        if (this.isAddingTask) {
+            this.taskFormFrameController.insertTaskByDto(getFormData());
+        } else {
+            this.taskFormFrameController.updateTaskByDto(getFormData());
+        }
     }
 
     public void reset() {
@@ -144,6 +162,7 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
         final JButton eventSource = (JButton) e.getSource();
 
         if (eventSource == this.submitButton.getComponent()) {
+            submit();
             return;
         }
         if (eventSource == this.resetButton.getComponent()) {
@@ -154,5 +173,9 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
             clear();
             return;
         }
+    }
+
+    public void showMessageDialog(String message) {
+        JOptionPane.showMessageDialog(getComponent(), message);
     }
 }
