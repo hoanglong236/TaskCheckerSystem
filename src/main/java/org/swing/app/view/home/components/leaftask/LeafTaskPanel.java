@@ -25,23 +25,20 @@ public class LeafTaskPanel extends TaskPanel {
 
     @Override
     protected void init(TaskPanelDto taskPanelDto) {
-        super.init(taskPanelDto);
-
         initStatusChecker(taskPanelDto.isCompleted());
-        addChildComponentToTheFirstPosition(this.statusChecker);
+        addChildComponent(this.statusChecker);
+
+        initTaskCenterPanel(taskPanelDto);
+        addChildComponent(this.taskCenterPanel);
 
         initRemoveLabel();
         addChildComponent(this.removeLabel);
     }
 
-    private void updateStatusChecker(boolean checked) {
-        this.statusChecker.setChecked(checked);
-    }
-
     @Override
     public void update(TaskPanelDto taskPanelDto) {
-        super.update(taskPanelDto);
         updateStatusChecker(taskPanelDto.isCompleted());
+        updateTaskCenterPanel(taskPanelDto);
     }
 
     @Override
@@ -51,8 +48,13 @@ public class LeafTaskPanel extends TaskPanel {
     }
 
     @Override
-    protected void loadOtherChildComponentsSize() {
+    protected void loadChildComponentsSize() {
+        this.childComponentSizeMap.clear();
+
+        final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
+
+        final int hGap = MAIN_LAYOUT.getHgap();
         final int maxChildComponentHeight = availableHeight - MAIN_LAYOUT.getVgap();
 
         final int statusCheckerWidth = 30;
@@ -60,5 +62,10 @@ public class LeafTaskPanel extends TaskPanel {
 
         final int removeLabelWidth = 30;
         this.childComponentSizeMap.put(this.removeLabel, new Dimension(removeLabelWidth, maxChildComponentHeight));
+
+        final int taskCenterPanelWidth = availableWidth - hGap - statusCheckerWidth
+                - hGap - removeLabelWidth - hGap;
+        this.childComponentSizeMap.put(this.taskCenterPanel,
+                new Dimension(taskCenterPanelWidth, maxChildComponentHeight));
     }
 }

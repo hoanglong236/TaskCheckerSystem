@@ -12,9 +12,7 @@ import org.swing.app.view.components.ui.PopupItem;
 import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.factory.TaskCenterPanelFactory;
 
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.Iterator;
 
 public abstract class TaskPanel extends PanelWrapperComponent {
 
@@ -73,48 +71,23 @@ public abstract class TaskPanel extends PanelWrapperComponent {
         this.taskCenterPanel = this.taskCenterPanelFactory.createTaskCenterPanel(taskPanelDto);
     }
 
-    protected void init(TaskPanelDto taskPanelDto) {
-        initTaskCenterPanel(taskPanelDto);
-        addChildComponent(this.taskCenterPanel);
+    protected abstract void init(TaskPanelDto taskPanelDto);
+
+    protected void updateStatusChecker(boolean checked) {
+        this.statusChecker.setChecked(checked);
     }
 
-    public void update(TaskPanelDto taskPanelDto) {
+    protected void updateImportantLabel(boolean important) {
+        if (important) {
+            this.importantLabel.setIcon(ViewConstant.ICON_LOCATION_IMPORTANT);
+        } else {
+            this.importantLabel.setIcon(ViewConstant.ICON_LOCATION_UNIMPORTANT);
+        }
+    }
+
+    protected void updateTaskCenterPanel(TaskPanelDto taskPanelDto) {
         this.taskCenterPanel.update(taskPanelDto);
     }
 
-    private int getWidthUsedByOtherChildComponents() {
-        final Iterator< Dimension> childComponentSizeIterator = this.childComponentSizeMap.values().iterator();
-        int sumOfWidth = 0;
-
-        while (childComponentSizeIterator.hasNext()) {
-            final Dimension childComponentSize = childComponentSizeIterator.next();
-            sumOfWidth += childComponentSize.width + MAIN_LAYOUT.getHgap();
-        }
-
-        return sumOfWidth;
-    }
-
-    private boolean hasOtherChildComponents() {
-        return this.childComponents.size() > 1;
-    }
-
-    protected abstract void loadOtherChildComponentsSize();
-
-    @Override
-    protected void loadChildComponentsSize() {
-        this.childComponentSizeMap.clear();
-
-        final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
-        final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
-
-        final int maxChildComponentHeight = availableHeight - MAIN_LAYOUT.getVgap();
-
-        if (hasOtherChildComponents()) {
-            loadOtherChildComponentsSize();
-        }
-
-        final int taskCenterPanelWidth = availableWidth - getWidthUsedByOtherChildComponents() - MAIN_LAYOUT.getHgap();
-        this.childComponentSizeMap.put(this.taskCenterPanel,
-                new Dimension(taskCenterPanelWidth, maxChildComponentHeight));
-    }
+    public abstract void update(TaskPanelDto taskPanelDto);
 }
