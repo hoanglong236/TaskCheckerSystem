@@ -1,10 +1,10 @@
-package org.swing.app.view.edittask;
+package org.swing.app.view.taskform;
 
 import org.swing.app.controller.TaskFormFrameController;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.edittask.nodetask.NodeTaskFormFactory;
-import org.swing.app.view.edittask.roottask.RootTaskFormFactory;
+import org.swing.app.view.taskform.nodetask.NodeTaskFormFactory;
+import org.swing.app.view.taskform.roottask.RootTaskFormFactory;
 
 public class TaskFormFrameFactory {
 

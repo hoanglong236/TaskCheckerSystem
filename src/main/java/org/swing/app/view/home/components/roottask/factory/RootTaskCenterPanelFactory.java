@@ -2,9 +2,6 @@ package org.swing.app.view.home.components.roottask.factory;
 
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.ui.CompletionRateLabel;
-import org.swing.app.view.components.ui.DeadlineLabel;
-import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.TaskCenterPanel;
 import org.swing.app.view.home.components.factory.TaskCenterPanelFactory;
 
@@ -20,9 +17,6 @@ class RootTaskCenterPanelFactory implements TaskCenterPanelFactory {
 
 class RootTaskCenterPanel extends TaskCenterPanel {
 
-    private DeadlineLabel deadlineLabel;
-    private CompletionRateLabel completionRateLabel;
-
     public RootTaskCenterPanel(TaskPanelDto taskPanelDto) {
         super(taskPanelDto);
     }
@@ -31,21 +25,23 @@ class RootTaskCenterPanel extends TaskCenterPanel {
     protected void init(TaskPanelDto taskPanelDto) {
         super.init(taskPanelDto);
         if (taskPanelDto.getFinishDatetime() != null) {
-            this.deadlineLabel = UIComponentFactory.createDeadlineLabel(
-                    taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
+            initDeadlineLabel(taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
             addChildComponent(this.deadlineLabel);
         }
         if (taskPanelDto.getChildTaskCount() == 0) {
-            this.completionRateLabel = UIComponentFactory.createCompletionRateLabel(
-                    taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
+            initCompletionRateLabel(taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
             addChildComponent(this.completionRateLabel);
         }
     }
 
     @Override
     protected void setNotResizableChildComponents() {
-        this.deadlineLabel.setResizable(false);
-        this.completionRateLabel.setResizable(false);
+        if (this.deadlineLabel != null) {
+            this.deadlineLabel.setResizable(false);
+        }
+        if (this.completionRateLabel != null) {
+            this.completionRateLabel.setResizable(false);
+        }
     }
 
     @Override
@@ -60,8 +56,7 @@ class RootTaskCenterPanel extends TaskCenterPanel {
             if (this.deadlineLabel == null) {
                 this.deadlineLabel.update(taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
             } else {
-                this.deadlineLabel = UIComponentFactory.createDeadlineLabel(
-                        taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
+                initDeadlineLabel(taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
                 addChildComponent(this.deadlineLabel);
             }
         }
@@ -76,8 +71,7 @@ class RootTaskCenterPanel extends TaskCenterPanel {
                 this.completionRateLabel.update(
                         taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
             } else {
-                this.completionRateLabel = UIComponentFactory.createCompletionRateLabel(
-                        taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
+                initCompletionRateLabel(taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
                 addChildComponent(this.completionRateLabel);
             }
         }
@@ -86,16 +80,16 @@ class RootTaskCenterPanel extends TaskCenterPanel {
     @Override
     protected void loadOtherChildComponentsSize() {
         final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
+        final int commonChildComponentHeight = availableHeight / 2 - MAIN_LAYOUT.getVgap();
         if (this.deadlineLabel != null) {
-            final int deadlineLabelWidth = 120;
-            final int deadlineLabelHeight = availableHeight / 2 - MAIN_LAYOUT.getVgap();
-            this.childComponentSizeMap.put(this.deadlineLabel, new Dimension(deadlineLabelWidth, deadlineLabelHeight));
+            final int deadlineLabelWidth = 100;
+            this.childComponentSizeMap.put(this.deadlineLabel,
+                    new Dimension(deadlineLabelWidth, commonChildComponentHeight));
         }
         if (this.completionRateLabel != null) {
-            final int completionRateLabelWidth = 120;
-            final int completionRateLabelHeight = availableHeight / 2 - MAIN_LAYOUT.getVgap();
+            final int completionRateLabelWidth = 80;
             this.childComponentSizeMap.put(this.completionRateLabel,
-                    new Dimension(completionRateLabelWidth, completionRateLabelHeight));
+                    new Dimension(completionRateLabelWidth, commonChildComponentHeight));
         }
     }
 

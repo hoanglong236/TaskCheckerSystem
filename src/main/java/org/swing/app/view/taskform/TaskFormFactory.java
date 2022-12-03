@@ -1,4 +1,4 @@
-package org.swing.app.view.edittask;
+package org.swing.app.view.taskform;
 
 import org.swing.app.dto.TaskDto;
 

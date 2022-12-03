@@ -1,8 +1,8 @@
-package org.swing.app.view.edittask.nodetask;
+package org.swing.app.view.taskform.nodetask;
 
 import org.swing.app.dto.TaskDto;
-import org.swing.app.view.edittask.TaskForm;
-import org.swing.app.view.edittask.TaskFormFactory;
+import org.swing.app.view.taskform.TaskForm;
+import org.swing.app.view.taskform.TaskFormFactory;
 
 public class NodeTaskFormFactory implements TaskFormFactory {
 

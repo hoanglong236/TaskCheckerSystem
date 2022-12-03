@@ -1,5 +1,6 @@
-package org.swing.app.view.edittask;
+package org.swing.app.view.taskform;
 
+import org.swing.app.dto.TaskDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ViewComponent;
@@ -35,6 +36,13 @@ public abstract class TaskFormBase extends PanelWrapperComponent implements Task
     public TaskFormBase() {
         super();
         setLayout(MAIN_LAYOUT);
+        init();
+    }
+
+    public TaskFormBase(TaskDto taskDto) {
+        super();
+        setLayout(MAIN_LAYOUT);
+        init(taskDto);
     }
 
     @Override
@@ -110,6 +118,10 @@ public abstract class TaskFormBase extends PanelWrapperComponent implements Task
     public void initNoteInputWrapper(String note) {
         this.noteInputWrapper = LabelAndInputWrapperFactory.createLabelAndTextAreaWrapper(NOTE_LABEL_TEXT, note);
     }
+
+    protected abstract void init();
+
+    protected abstract void init(TaskDto taskDto);
 
     @Override
     public void clear() {

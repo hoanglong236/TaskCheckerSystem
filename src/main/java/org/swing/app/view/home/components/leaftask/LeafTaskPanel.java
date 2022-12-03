@@ -2,7 +2,6 @@ package org.swing.app.view.home.components.leaftask;
 
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.ui.Checker;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.TaskPanel;
@@ -12,17 +11,11 @@ import java.awt.Dimension;
 
 public class LeafTaskPanel extends TaskPanel {
 
-    private Checker statusChecker;
     private Label removeLabel;
 
     public LeafTaskPanel(TaskPanelDto taskPanelDto,
             TaskCenterPanelFactory taskCenterPanelFactory) {
         super(taskPanelDto, taskCenterPanelFactory);
-    }
-
-    private void initStatusChecker(boolean checked) {
-        this.statusChecker = UIComponentFactory.createChecker(checked);
-        this.statusChecker.setResizable(false);
     }
 
     private void initRemoveLabel() {
@@ -35,7 +28,7 @@ public class LeafTaskPanel extends TaskPanel {
         super.init(taskPanelDto);
 
         initStatusChecker(taskPanelDto.isCompleted());
-        addChildComponent(this.statusChecker);
+        addChildComponentToTheFirstPosition(this.statusChecker);
 
         initRemoveLabel();
         addChildComponent(this.removeLabel);

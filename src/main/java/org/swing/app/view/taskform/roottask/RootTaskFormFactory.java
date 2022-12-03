@@ -1,8 +1,8 @@
-package org.swing.app.view.edittask.roottask;
+package org.swing.app.view.taskform.roottask;
 
 import org.swing.app.dto.TaskDto;
-import org.swing.app.view.edittask.TaskForm;
-import org.swing.app.view.edittask.TaskFormFactory;
+import org.swing.app.view.taskform.TaskForm;
+import org.swing.app.view.taskform.TaskFormFactory;
 
 public class RootTaskFormFactory implements TaskFormFactory {
 

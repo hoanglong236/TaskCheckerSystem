@@ -10,14 +10,6 @@ public class NoteTaskPanelContainerFactory implements TaskPanelContainerFactory 
 
     @Override
     public TaskPanelContainer createTaskPanelContainer(String title, Set<TaskPanelDto> taskPanelDtos) {
-        return new NodeTaskPanelContainer(title, taskPanelDtos);
+        return new TaskPanelContainer(new NodeTaskPanelContainerChildComponentFactory(), title, taskPanelDtos);
     }
 }
-
-class NodeTaskPanelContainer extends TaskPanelContainer {
-
-    public NodeTaskPanelContainer(String title, Set<TaskPanelDto> taskPanelDtos) {
-        super(new NodeTaskPanelContainerChildComponentFactory(), title, taskPanelDtos);
-    }
-}
-

@@ -1,12 +1,7 @@
 package org.swing.app.view.home.components.roottask;
 
 import org.swing.app.dto.TaskPanelDto;
-import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.ui.ActivationLabel;
-import org.swing.app.view.components.ui.Popup;
-import org.swing.app.view.components.ui.PopupItem;
-import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.TaskPanel;
 import org.swing.app.view.home.components.factory.TaskCenterPanelFactory;
 
@@ -14,31 +9,8 @@ import java.awt.Dimension;
 
 public class RootTaskPanel extends TaskPanel {
 
-    private ActivationLabel activationLabel;
-    private Popup popup;
-
     public RootTaskPanel(TaskPanelDto taskPanelDto, TaskCenterPanelFactory taskCenterPanelFactory) {
         super(taskPanelDto, taskCenterPanelFactory);
-        this.activationLabel = null;
-    }
-
-    private void initActivationLabel() {
-        this.activationLabel = UIComponentFactory.createActivationLabel();
-        this.activationLabel.setResizable(false);
-    }
-
-    // TODO: pack popup
-    private void initPopup() {
-        this.popup = UIComponentFactory.createPopup();
-
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-        final PopupItem editPopupItem = UIComponentFactory.createPopupItem(
-                messageLoader.getMessage("popup.item.edit"));
-        final PopupItem removePopupItem = UIComponentFactory.createPopupItem(
-                messageLoader.getMessage("popup.item.remove"));
-
-        this.popup.addPopupItem(editPopupItem);
-        this.popup.addPopupItem(removePopupItem);
     }
 
     @Override

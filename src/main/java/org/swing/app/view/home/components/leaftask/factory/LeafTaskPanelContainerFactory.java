@@ -10,13 +10,6 @@ public class LeafTaskPanelContainerFactory implements TaskPanelContainerFactory 
 
     @Override
     public TaskPanelContainer createTaskPanelContainer(String title, Set<TaskPanelDto> taskPanelDtos) {
-        return new LeafTaskPanelContainer(title, taskPanelDtos);
-    }
-}
-
-class LeafTaskPanelContainer extends TaskPanelContainer {
-
-    public LeafTaskPanelContainer(String title, Set<TaskPanelDto> taskPanelDtos) {
-        super(new LeafTaskPanelContainerChildComponentFactory(), title, taskPanelDtos);
+        return new TaskPanelContainer(new LeafTaskPanelContainerChildComponentFactory(), title, taskPanelDtos);
     }
 }

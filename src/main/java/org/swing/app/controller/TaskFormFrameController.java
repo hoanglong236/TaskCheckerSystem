@@ -3,8 +3,8 @@ package org.swing.app.controller;
 import org.swing.app.business.TaskFormFrameBusiness;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.edittask.TaskFormFrame;
-import org.swing.app.view.edittask.TaskFormFrameFactory;
+import org.swing.app.view.taskform.TaskFormFrame;
+import org.swing.app.view.taskform.TaskFormFrameFactory;
 
 public class TaskFormFrameController {
 

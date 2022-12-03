@@ -2,15 +2,10 @@ package org.swing.app.view.home.components.nodetask.factory;
 
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.ui.CompletionRateLabel;
-import org.swing.app.view.components.ui.DeadlineLabel;
-import org.swing.app.view.components.ui.Label;
-import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.TaskCenterPanel;
 import org.swing.app.view.home.components.factory.TaskCenterPanelFactory;
 
 import java.awt.Dimension;
-import java.time.LocalDateTime;
 
 class NoteTaskCenterPanelFactory implements TaskCenterPanelFactory {
 
@@ -22,27 +17,8 @@ class NoteTaskCenterPanelFactory implements TaskCenterPanelFactory {
 
 class NodeTaskCenterPanel extends TaskCenterPanel {
 
-    private DeadlineLabel deadlineLabel;
-    private CompletionRateLabel completionRateLabel;
-    private Label noteNotifyLabel;
-
     public NodeTaskCenterPanel(TaskPanelDto taskPanelDto) {
         super(taskPanelDto);
-    }
-
-    private void initDeadlineLabel(LocalDateTime startDatetime, LocalDateTime finishDatetime) {
-        this.deadlineLabel = UIComponentFactory.createDeadlineLabel(startDatetime, finishDatetime);
-        this.deadlineLabel.setResizable(false);
-    }
-
-    private void initCompletionRateLabel(int completedCount, int totalCount) {
-        this.completionRateLabel = UIComponentFactory.createCompletionRateLabel(completedCount, totalCount);
-        this.completionRateLabel.setResizable(false);
-    }
-
-    private void initNoteNotifyLabel() {
-        this.noteNotifyLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_NOTE);
-        this.noteNotifyLabel.setResizable(false);
     }
 
     @Override
@@ -117,19 +93,22 @@ class NodeTaskCenterPanel extends TaskCenterPanel {
     @Override
     protected void loadOtherChildComponentsSize() {
         final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
+        final int commonChildComponentHeight = availableHeight / 2 - MAIN_LAYOUT.getVgap();
 
-        final int deadlineLabelWidth = 100;
-        final int deadlineLabelHeight = availableHeight / 2 - MAIN_LAYOUT.getVgap();
-        this.childComponentSizeMap.put(this.deadlineLabel, new Dimension(deadlineLabelWidth, deadlineLabelHeight));
-
-        final int completionRateLabelWidth = 80;
-        final int completionRateLabelHeight = deadlineLabelHeight;
-        this.childComponentSizeMap.put(this.completionRateLabel,
-                new Dimension(completionRateLabelWidth, completionRateLabelHeight));
-
-        final int noteNotifyLabelWidth = 30;
-        final int noteNotifyLabelHeight = deadlineLabelHeight;
-        this.childComponentSizeMap.put(this.noteNotifyLabel,
-                new Dimension(noteNotifyLabelWidth, noteNotifyLabelHeight));
+        if (this.deadlineLabel != null) {
+            final int deadlineLabelWidth = 100;
+            this.childComponentSizeMap.put(this.deadlineLabel,
+                    new Dimension(deadlineLabelWidth, commonChildComponentHeight));
+        }
+        if (this.completionRateLabel != null) {
+            final int completionRateLabelWidth = 80;
+            this.childComponentSizeMap.put(this.completionRateLabel,
+                    new Dimension(completionRateLabelWidth, commonChildComponentHeight));
+        }
+        if (noteNotifyLabel != null) {
+            final int noteNotifyLabelWidth = 30;
+            this.childComponentSizeMap.put(this.noteNotifyLabel,
+                    new Dimension(noteNotifyLabelWidth, commonChildComponentHeight));
+        }
     }
 }
