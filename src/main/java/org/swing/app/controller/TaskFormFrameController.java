@@ -1,5 +1,6 @@
 package org.swing.app.controller;
 
+import org.swing.app.business.CommonBusiness;
 import org.swing.app.business.TaskFormFrameBusiness;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
@@ -10,15 +11,18 @@ public class TaskFormFrameController {
 
     private TaskFormFrame taskFormFrame;
     private TaskFormFrameBusiness taskFormFrameBusiness;
+    private CommonBusiness commonBusiness;
 
     public TaskFormFrameController() {
         this.taskFormFrame = null;
         this.taskFormFrameBusiness = new TaskFormFrameBusiness();
+        this.commonBusiness = new CommonBusiness();
     }
 
     public void insertTaskByDto(TaskDto taskDto) {
-        final boolean isSuccess = this.taskFormFrameBusiness.insertTaskByDto(taskDto);
+        final boolean isSuccess = this.commonBusiness.insertTaskByDto(taskDto);
         final MessageLoader messageLoader = MessageLoader.getInstance();
+
         if (isSuccess) {
             this.taskFormFrame.showMessageDialog(messageLoader.getMessage("insert.success"));
         } else {
@@ -29,6 +33,7 @@ public class TaskFormFrameController {
     public void updateTaskByDto(TaskDto taskDto) {
         final boolean isSuccess = this.taskFormFrameBusiness.updateTaskByDto(taskDto);
         final MessageLoader messageLoader = MessageLoader.getInstance();
+
         if (isSuccess) {
             this.taskFormFrame.showMessageDialog(messageLoader.getMessage("update.success"));
         } else {

@@ -7,7 +7,7 @@ import org.swing.app.view.components.ui.Button;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.components.ui.VerticalScrollPane;
-import org.swing.app.view.home.components.factory.TaskPanelContainerChildComponentFactory;
+import org.swing.app.view.home.components.factory.TaskComponentFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -21,12 +21,12 @@ public class TaskPanelContainer extends PanelWrapperComponent {
     private Label titleLabel;
     private Button filterButton;
     private VerticalScrollPane verticalScrollPane;
-    private TaskPanelContainerChildComponentFactory taskPanelFactory;
+    private TaskComponentFactory taskComponentFactory;
 
-    public TaskPanelContainer(TaskPanelContainerChildComponentFactory taskPanelFactory,
+    public TaskPanelContainer(TaskComponentFactory taskComponentFactory,
             String title, Set<TaskPanelDto> taskPanelDtos) {
         super();
-        this.taskPanelFactory = taskPanelFactory;
+        this.taskComponentFactory = taskComponentFactory;
         init(title, taskPanelDtos);
     }
 
@@ -39,10 +39,10 @@ public class TaskPanelContainer extends PanelWrapperComponent {
     }
 
     private void initVerticalScrollPane(Set<TaskPanelDto> taskPanelDtos) {
-        this.verticalScrollPane = this.taskPanelFactory.createVerticalScrollPane();
+        this.verticalScrollPane = this.taskComponentFactory.createScrollPaneToContainTaskPanels();
 
         for (final TaskPanelDto taskPanelDto : taskPanelDtos) {
-            addTaskPanel(this.taskPanelFactory.createTaskPanel(taskPanelDto));
+            addTaskPanel(this.taskComponentFactory.createTaskPanel(taskPanelDto));
         }
     }
 
@@ -58,7 +58,7 @@ public class TaskPanelContainer extends PanelWrapperComponent {
     }
 
     public void addTaskPanelByDto(TaskPanelDto taskPanelDto) {
-        final TaskPanel taskPanel = this.taskPanelFactory.createTaskPanel(taskPanelDto);
+        final TaskPanel taskPanel = this.taskComponentFactory.createTaskPanel(taskPanelDto);
         addTaskPanel(taskPanel);
     }
 

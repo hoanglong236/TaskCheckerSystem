@@ -5,7 +5,7 @@ import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.TaskPanel;
-import org.swing.app.view.home.components.factory.TaskCenterPanelFactory;
+import org.swing.app.view.home.components.factory.TaskComponentFactory;
 
 import java.awt.Dimension;
 
@@ -13,9 +13,8 @@ public class LeafTaskPanel extends TaskPanel {
 
     private Label removeLabel;
 
-    public LeafTaskPanel(TaskPanelDto taskPanelDto,
-            TaskCenterPanelFactory taskCenterPanelFactory) {
-        super(taskPanelDto, taskCenterPanelFactory);
+    public LeafTaskPanel(TaskComponentFactory taskComponentFactory, TaskPanelDto taskPanelDto) {
+        super(taskComponentFactory, taskPanelDto);
     }
 
     private void initRemoveLabel() {

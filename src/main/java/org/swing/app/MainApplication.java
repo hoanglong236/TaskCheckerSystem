@@ -4,7 +4,6 @@ import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.home.HomeFrame;
 
-import javax.swing.JFrame;
 import java.awt.Dimension;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -12,9 +11,9 @@ import java.util.Set;
 public class MainApplication {
 
     public static void main(String[] args) {
-        Set<TaskPanelDto> repeatTaskPanelDtos = new LinkedHashSet<>();
+        TaskPanelDto dailyTaskPanelDto = new TaskPanelDto();
         Set<TaskPanelDto> nonRepeatTaskPanelDtos = new LinkedHashSet<>();
-        HomeFrame homeFrame = new HomeFrame(repeatTaskPanelDtos, nonRepeatTaskPanelDtos);
+        HomeFrame homeFrame = new HomeFrame(dailyTaskPanelDto, nonRepeatTaskPanelDtos);
 
         homeFrame.resize(ViewConstant.HOME_FRAME_PREFER_SIZE);
 

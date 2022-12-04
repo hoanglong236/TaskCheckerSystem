@@ -22,7 +22,7 @@ public class TaskDto {
         this.startDatetime = null;
         this.finishDatetime = null;
         this.submitDatetime = null;
-        this.completed = true;
+        this.completed = false;
         this.note = null;
     }
 

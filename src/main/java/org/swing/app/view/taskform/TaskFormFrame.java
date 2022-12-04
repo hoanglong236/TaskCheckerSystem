@@ -9,7 +9,6 @@ import org.swing.app.view.components.ui.Button;
 import org.swing.app.view.components.ui.UIComponentFactory;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -173,9 +172,5 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
             clear();
             return;
         }
-    }
-
-    public void showMessageDialog(String message) {
-        JOptionPane.showMessageDialog(getComponent(), message);
     }
 }

@@ -1,5 +1,6 @@
 package org.swing.app.dao;
 
+import org.swing.app.dao.connection.MySQLConnection;
 import org.swing.app.dto.TaskPanelDto;
 
 import java.sql.Connection;
@@ -14,11 +15,9 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
 
     private static final Connection CONNECTION = MySQLConnection.getConnection();
 
-    public HomeFrameDaoImpl() {
-    }
-
     private String getIncompleteRootTaskPanelDtosQuery() {
         final StringBuilder query = new StringBuilder();
+
         query.append("SELECT id, title, start_datetime, finish_datetime\n");
         query.append("    , (\n");
         query.append("        SELECT count(*)\n");
@@ -36,40 +35,43 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
         return query.toString();
     }
 
-    private TaskPanelDto getIncompleteRootTaskPanelDtoFromResultSet(ResultSet resultSet) throws SQLException {
-        final TaskPanelDto taskPanelDto = new TaskPanelDto();
+    private Set<TaskPanelDto> getIncompleteRootTaskPanelDtosFromResultSet(ResultSet resultSet) throws SQLException {
+        final Set<TaskPanelDto> taskPanelDtos = new LinkedHashSet<>();
 
-        taskPanelDto.setId(resultSet.getString("id"));
-        taskPanelDto.setTitle(resultSet.getString("title"));
+        while(resultSet.next()){
+            final TaskPanelDto taskPanelDto = new TaskPanelDto();
 
-        final Timestamp startTimestamp = resultSet.getTimestamp("start_datetime");
-        taskPanelDto.setStartDatetime(startTimestamp == null ? null : startTimestamp.toLocalDateTime());
-        final Timestamp finishTimestamp = resultSet.getTimestamp("finish_datetime");
-        taskPanelDto.setFinishDatetime(finishTimestamp == null ? null : finishTimestamp.toLocalDateTime());
+            taskPanelDto.setId(resultSet.getString("id"));
+            taskPanelDto.setTitle(resultSet.getString("title"));
 
-        taskPanelDto.setChildTaskCompletedCount(resultSet.getInt("child_task_completed_count"));
-        taskPanelDto.setChildTaskCount(resultSet.getInt("child_task_count"));
+            final Timestamp startTimestamp = resultSet.getTimestamp("start_datetime");
+            taskPanelDto.setStartDatetime(startTimestamp == null ? null : startTimestamp.toLocalDateTime());
+            final Timestamp finishTimestamp = resultSet.getTimestamp("finish_datetime");
+            taskPanelDto.setFinishDatetime(finishTimestamp == null ? null : finishTimestamp.toLocalDateTime());
 
-        return taskPanelDto;
+            taskPanelDto.setChildTaskCompletedCount(resultSet.getInt("child_task_completed_count"));
+            taskPanelDto.setChildTaskCount(resultSet.getInt("child_task_count"));
+
+            taskPanelDtos.add(taskPanelDto);
+        }
+
+        return taskPanelDtos;
     }
 
     @Override
     public Set<TaskPanelDto> getIncompleteRootTaskPanelDtos() {
-        final Set<TaskPanelDto> rootTaskPanelDtos = new LinkedHashSet<>();
         final String query = getIncompleteRootTaskPanelDtosQuery();
 
         try {
             final PreparedStatement preStmt = CONNECTION.prepareStatement(query);
             final ResultSet resultSet = preStmt.executeQuery();
 
-            while(resultSet.next()){
-                rootTaskPanelDtos.add(getIncompleteRootTaskPanelDtoFromResultSet(resultSet));
-            }
+            return getIncompleteRootTaskPanelDtosFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return rootTaskPanelDtos;
+        return new LinkedHashSet<>();
     }
 
     private String getNodeTaskPanelDtosByParentIdQuery() {
@@ -94,31 +96,36 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
         return query.toString();
     }
 
-    private TaskPanelDto getNodeTaskPanelDtoFromResultSet(ResultSet resultSet) throws SQLException {
-        final TaskPanelDto taskPanelDto = new TaskPanelDto();
+    private Set<TaskPanelDto> getNodeTaskPanelDtosFromResultSet(ResultSet resultSet) throws SQLException {
+        final Set<TaskPanelDto> taskPanelDtos = new LinkedHashSet<>();
 
-        taskPanelDto.setId(resultSet.getString("id"));
-        taskPanelDto.setParentId(resultSet.getString("parent_id"));
-        taskPanelDto.setTitle(resultSet.getString("title"));
+        while(resultSet.next()){
+            final TaskPanelDto taskPanelDto = new TaskPanelDto();
+            final Timestamp startTimestamp = resultSet.getTimestamp("start_datetime");
+            final Timestamp finishTimestamp = resultSet.getTimestamp("finish_datetime");
+            final Timestamp submitTimestamp = resultSet.getTimestamp("submit_datetime");
 
-        final Timestamp startTimestamp = resultSet.getTimestamp("start_datetime");
-        taskPanelDto.setStartDatetime(startTimestamp == null ? null : startTimestamp.toLocalDateTime());
-        final Timestamp finishTimestamp = resultSet.getTimestamp("finish_datetime");
-        taskPanelDto.setFinishDatetime(finishTimestamp == null ? null : finishTimestamp.toLocalDateTime());
-        final Timestamp submitTimestamp = resultSet.getTimestamp("finish_datetime");
-        taskPanelDto.setSubmitDatetime(submitTimestamp == null ? null : submitTimestamp.toLocalDateTime());
+            taskPanelDto.setId(resultSet.getString("id"));
+            taskPanelDto.setParentId(resultSet.getString("parent_id"));
+            taskPanelDto.setTitle(resultSet.getString("title"));
 
-        taskPanelDto.setCompleted(resultSet.getBoolean("is_completed"));
-        taskPanelDto.setNote(resultSet.getString("note"));
-        taskPanelDto.setChildTaskCompletedCount(resultSet.getInt("child_task_completed_count"));
-        taskPanelDto.setChildTaskCount(resultSet.getInt("child_task_count"));
+            taskPanelDto.setStartDatetime(startTimestamp == null ? null : startTimestamp.toLocalDateTime());
+            taskPanelDto.setFinishDatetime(finishTimestamp == null ? null : finishTimestamp.toLocalDateTime());
+            taskPanelDto.setSubmitDatetime(submitTimestamp == null ? null : submitTimestamp.toLocalDateTime());
 
-        return taskPanelDto;
+            taskPanelDto.setCompleted(resultSet.getBoolean("is_completed"));
+            taskPanelDto.setNote(resultSet.getString("note"));
+            taskPanelDto.setChildTaskCompletedCount(resultSet.getInt("child_task_completed_count"));
+            taskPanelDto.setChildTaskCount(resultSet.getInt("child_task_count"));
+
+            taskPanelDtos.add(taskPanelDto);
+        }
+
+        return taskPanelDtos;
     }
 
     @Override
     public Set<TaskPanelDto> getNodeTaskPanelDtosByParentId(String parentId) {
-        final Set<TaskPanelDto> taskPanelDtos = new LinkedHashSet<>();
         final String query = getNodeTaskPanelDtosByParentIdQuery();
 
         try {
@@ -126,14 +133,12 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
             preStmt.setString(1, parentId);
             final ResultSet resultSet = preStmt.executeQuery();
 
-            while(resultSet.next()){
-                taskPanelDtos.add(getNodeTaskPanelDtoFromResultSet(resultSet));
-            }
+            return getNodeTaskPanelDtosFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return taskPanelDtos;
+        return new LinkedHashSet<>();
     }
 
     private String getLeafTaskPanelDtosByParentIdQuery() {
@@ -147,20 +152,25 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
         return query.toString();
     }
 
-    private TaskPanelDto getLeafTaskPanelDtoFromResultSet(ResultSet resultSet) throws SQLException {
-        final TaskPanelDto taskPanelDto = new TaskPanelDto();
+    private Set<TaskPanelDto> getLeafTaskPanelDtosFromResultSet(ResultSet resultSet) throws SQLException {
+        final Set<TaskPanelDto> taskPanelDtos = new LinkedHashSet<>();
 
-        taskPanelDto.setId(resultSet.getString("id"));
-        taskPanelDto.setParentId(resultSet.getString("parent_id"));
-        taskPanelDto.setTitle(resultSet.getString("title"));
-        taskPanelDto.setCompleted(resultSet.getBoolean("is_completed"));
+        while(resultSet.next()){
+            final TaskPanelDto taskPanelDto = new TaskPanelDto();
 
-        return taskPanelDto;
+            taskPanelDto.setId(resultSet.getString("id"));
+            taskPanelDto.setParentId(resultSet.getString("parent_id"));
+            taskPanelDto.setTitle(resultSet.getString("title"));
+            taskPanelDto.setCompleted(resultSet.getBoolean("is_completed"));
+
+            taskPanelDtos.add(taskPanelDto);
+        }
+
+        return taskPanelDtos;
     }
 
     @Override
     public Set<TaskPanelDto> getLeafTaskPanelDtosByParentId(String parentId) {
-        final Set<TaskPanelDto> taskPanelDtos = new LinkedHashSet<>();
         final String query = getLeafTaskPanelDtosByParentIdQuery();
 
         try {
@@ -168,13 +178,22 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
             preStmt.setString(1, parentId);
             final ResultSet resultSet = preStmt.executeQuery();
 
-            while(resultSet.next()){
-                taskPanelDtos.add(getLeafTaskPanelDtoFromResultSet(resultSet));
-            }
+            return getLeafTaskPanelDtosFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return taskPanelDtos;
+        return new LinkedHashSet<>();
+    }
+
+    private String getDeleteTaskByIdQuery() {
+        final StringBuilder query = new StringBuilder();
+        query.append("DELETE FROM task WHERE id = ?\n");
+        return query.toString();
+    }
+
+    @Override
+    public boolean deleteTaskById(String taskId) {
+        return false;
     }
 }

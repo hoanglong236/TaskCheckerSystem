@@ -9,4 +9,6 @@ public interface HomeFrameDao {
     Set<TaskPanelDto> getIncompleteRootTaskPanelDtos();
     Set<TaskPanelDto> getNodeTaskPanelDtosByParentId(String parentId);
     Set<TaskPanelDto> getLeafTaskPanelDtosByParentId(String parentId);
+
+    boolean deleteTaskById(String taskId);
 }

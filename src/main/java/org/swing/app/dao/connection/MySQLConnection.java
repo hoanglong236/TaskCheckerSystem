@@ -1,4 +1,4 @@
-package org.swing.app.dao;
+package org.swing.app.dao.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

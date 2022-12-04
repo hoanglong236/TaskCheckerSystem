@@ -20,18 +20,18 @@ public class HomeFrame extends FrameWrapperComponent {
     private HomeSideBar sideBar;
     private HomeBodyPanel bodyPanel;
 
-    public HomeFrame(Set<TaskPanelDto> repeatTaskPanelDtos, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
+    public HomeFrame(TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
         super();
         setLayout(MAIN_LAYOUT);
         setBackgroundColor(ViewConstant.PRIMARY_BACKGROUND_COLOR);
-        init(repeatTaskPanelDtos, nonRepeatTaskPanelDtos);
+        init(dailyTaskPanelDto, nonRepeatTaskPanelDtos);
 
         final MessageLoader messageLoader = MessageLoader.getInstance();
         setFrameTitle(messageLoader.getMessage("home.frame.title"));
     }
 
-    private void initSideBar(Set<TaskPanelDto> repeatTaskPanelDtos, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
-        this.sideBar = new HomeSideBar(repeatTaskPanelDtos, nonRepeatTaskPanelDtos);
+    private void initSideBar(TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> taskPanelDtos) {
+        this.sideBar = new HomeSideBar(dailyTaskPanelDto, taskPanelDtos);
         this.sideBar.setBackgroundColor(Color.cyan);
         this.sideBar.setOpaque(true);
     }
@@ -40,8 +40,8 @@ public class HomeFrame extends FrameWrapperComponent {
         this.bodyPanel = new HomeBodyPanel();
     }
 
-    private void init(Set<TaskPanelDto> repeatTaskPanelDtos, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
-        initSideBar(repeatTaskPanelDtos, nonRepeatTaskPanelDtos);
+    private void init(TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
+        initSideBar(dailyTaskPanelDto, nonRepeatTaskPanelDtos);
         addChildComponent(this.sideBar);
 
 //        initBodyPanel();

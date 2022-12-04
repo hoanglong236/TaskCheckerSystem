@@ -24,7 +24,7 @@ public class TaskPanelDto {
         this.startDatetime = null;
         this.finishDatetime = null;
         this.submitDatetime = null;
-        this.completed = true;
+        this.completed = false;
         this.note = null;
         this.childTaskCompletedCount = 0;
         this.childTaskCount = 0;

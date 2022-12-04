@@ -7,7 +7,7 @@ import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ui.Button;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.UIComponentFactory;
-import org.swing.app.view.home.components.factory.TaskPanelContainerFactory;
+import org.swing.app.view.home.components.factory.TaskComponentFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -22,12 +22,12 @@ public class TaskContentPanel extends PanelWrapperComponent {
     private TaskPanelContainer taskPanelContainer = null;
     private Button addTaskBtn = null;
 
-    private TaskPanelContainerFactory taskPanelContainerFactory;
+    private TaskComponentFactory taskComponentFactory;
 
-    public TaskContentPanel(TaskPanelContainerFactory taskPanelContainerFactory,
+    public TaskContentPanel(TaskComponentFactory taskComponentFactory,
             String title, Set<TaskPanelDto> taskPanelDtos) {
         super();
-        this.taskPanelContainerFactory = taskPanelContainerFactory;
+        this.taskComponentFactory = taskComponentFactory;
     }
 
     private void initTitleLabel(String title) {
@@ -37,9 +37,9 @@ public class TaskContentPanel extends PanelWrapperComponent {
     private void initTaskPanelContainer(Set<TaskPanelDto> taskPanelDtos) {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final String taskPanelContainerTitle = messageLoader.getMessage("...");
-        this.taskPanelContainer = this.taskPanelContainerFactory.createTaskPanelContainer(taskPanelContainerTitle,
-                taskPanelDtos);
-        this.taskPanelContainer.setResizable(true);
+
+        this.taskPanelContainer = this.taskComponentFactory.createTaskPanelContainer(
+                taskPanelContainerTitle, taskPanelDtos);
     }
 
     private void initAddTaskBtn() {
@@ -69,6 +69,7 @@ public class TaskContentPanel extends PanelWrapperComponent {
     @Override
     protected void setNotResizableChildComponents() {
         this.titleLabel.setResizable(true);
+        this.taskPanelContainer.setResizable(true);
         this.addTaskBtn.setResizable(false);
     }
 }

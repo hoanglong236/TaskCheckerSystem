@@ -1,19 +1,10 @@
-package org.swing.app.view.home.components.nodetask.factory;
+package org.swing.app.view.home.components.nodetask;
 
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.home.components.TaskCenterPanel;
-import org.swing.app.view.home.components.factory.TaskCenterPanelFactory;
 
 import java.awt.Dimension;
-
-class NoteTaskCenterPanelFactory implements TaskCenterPanelFactory {
-
-    @Override
-    public TaskCenterPanel createTaskCenterPanel(TaskPanelDto taskPanelDto) {
-        return new NodeTaskCenterPanel(taskPanelDto);
-    }
-}
 
 class NodeTaskCenterPanel extends TaskCenterPanel {
 
@@ -37,6 +28,7 @@ class NodeTaskCenterPanel extends TaskCenterPanel {
         }
     }
 
+    // TODO: common this
     @Override
     public void update(TaskPanelDto taskPanelDto) {
         super.update(taskPanelDto);

@@ -1,19 +1,10 @@
-package org.swing.app.view.home.components.roottask.factory;
+package org.swing.app.view.home.components.roottask;
 
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.home.components.TaskCenterPanel;
-import org.swing.app.view.home.components.factory.TaskCenterPanelFactory;
 
 import java.awt.Dimension;
-
-class RootTaskCenterPanelFactory implements TaskCenterPanelFactory {
-
-    @Override
-    public TaskCenterPanel createTaskCenterPanel(TaskPanelDto taskPanelDto) {
-        return new RootTaskCenterPanel(taskPanelDto);
-    }
-}
 
 class RootTaskCenterPanel extends TaskCenterPanel {
 
