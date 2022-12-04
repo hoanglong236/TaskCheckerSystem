@@ -15,7 +15,7 @@ public class VerticalViewportView extends PanelWrapperComponent {
 
     protected VerticalViewportView() {
         super();
-        this.component.setLayout(MAIN_LAYOUT);
+        setLayout(MAIN_LAYOUT);
     }
 
     public int getPreferChildComponentWidth() {

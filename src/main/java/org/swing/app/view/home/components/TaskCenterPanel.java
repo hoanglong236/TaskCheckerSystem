@@ -24,7 +24,7 @@ public abstract class TaskCenterPanel extends PanelWrapperComponent {
 
     public TaskCenterPanel(TaskPanelDto taskPanelDto) {
         super();
-        this.component.setLayout(MAIN_LAYOUT);
+        setLayout(MAIN_LAYOUT);
         init(taskPanelDto);
     }
 

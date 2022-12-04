@@ -15,19 +15,22 @@ import java.util.Set;
 
 public class TaskContentPanel extends PanelWrapperComponent {
 
-    protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
+    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
 
     private Label titleLabel = null;
     private TaskPanelContainer taskPanelContainer = null;
     private Button addTaskBtn = null;
 
-    private TaskComponentFactory taskComponentFactory;
+    private final TaskComponentFactory taskComponentFactory;
 
     public TaskContentPanel(TaskComponentFactory taskComponentFactory,
             String title, Set<TaskPanelDto> taskPanelDtos) {
+
         super();
         this.taskComponentFactory = taskComponentFactory;
+        setLayout(MAIN_LAYOUT);
+        init(title, taskPanelDtos);
     }
 
     private void initTitleLabel(String title) {
@@ -45,6 +48,17 @@ public class TaskContentPanel extends PanelWrapperComponent {
     private void initAddTaskBtn() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         this.addTaskBtn = UIComponentFactory.createButton((messageLoader.getMessage("button.add.task")));
+    }
+
+    private void init(String title, Set<TaskPanelDto> taskPanelDtos) {
+        initTitleLabel(title);
+        addChildComponent(this.titleLabel);
+
+        initTaskPanelContainer(taskPanelDtos);
+        addChildComponent(this.taskPanelContainer);
+
+        initAddTaskBtn();
+        addChildComponent(this.addTaskBtn);
     }
 
     @Override

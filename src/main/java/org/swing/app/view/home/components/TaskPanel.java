@@ -10,7 +10,6 @@ import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.Popup;
 import org.swing.app.view.components.ui.PopupItem;
 import org.swing.app.view.components.ui.UIComponentFactory;
-import org.swing.app.view.home.components.factory.TaskComponentFactory;
 
 import javax.swing.JMenuItem;
 import java.awt.FlowLayout;
@@ -26,27 +25,23 @@ public abstract class TaskPanel extends PanelWrapperComponent implements ActionL
     protected Checker statusChecker;
     protected Label importantLabel;
     protected TaskCenterPanel taskCenterPanel;
+    protected Label removeLabel;
     protected Popup popup;
     private PopupItem editPopupItem;
     private PopupItem removePopupItem;
 
-    private TaskComponentFactory taskComponentFactory;
-
-    public TaskPanel(TaskComponentFactory taskComponentFactory, TaskPanelDto taskPanelDto) {
+    public TaskPanel(TaskPanelDto taskPanelDto) {
         super();
-        this.component.setLayout(MAIN_LAYOUT);
-        this.taskComponentFactory = taskComponentFactory;
+        setLayout(MAIN_LAYOUT);
         init(taskPanelDto);
     }
 
     protected void initActivationLabel() {
         this.activationLabel = UIComponentFactory.createActivationLabel();
-        this.activationLabel.setResizable(false);
     }
 
     protected void initStatusChecker(boolean checked) {
         this.statusChecker = UIComponentFactory.createChecker(checked);
-        this.statusChecker.setResizable(false);
     }
 
     protected void initImportantLabel(boolean important) {
@@ -55,11 +50,12 @@ public abstract class TaskPanel extends PanelWrapperComponent implements ActionL
         } else {
             this.importantLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_UNIMPORTANT);
         }
-        this.importantLabel.setResizable(false);
     }
 
-    protected void initTaskCenterPanel(TaskPanelDto taskPanelDto) {
-        this.taskCenterPanel = this.taskComponentFactory.createTaskCenterPanel(taskPanelDto);
+    protected abstract void initTaskCenterPanel(TaskPanelDto taskPanelDto);
+
+    protected void initRemoveLabel() {
+        this.removeLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_REMOVE);
     }
 
     private void initEditPopupItem() {

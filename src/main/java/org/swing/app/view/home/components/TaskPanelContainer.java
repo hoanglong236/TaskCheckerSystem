@@ -21,12 +21,14 @@ public class TaskPanelContainer extends PanelWrapperComponent {
     private Label titleLabel;
     private Button filterButton;
     private VerticalScrollPane verticalScrollPane;
-    private TaskComponentFactory taskComponentFactory;
+    private final TaskComponentFactory taskComponentFactory;
 
     public TaskPanelContainer(TaskComponentFactory taskComponentFactory,
             String title, Set<TaskPanelDto> taskPanelDtos) {
+
         super();
         this.taskComponentFactory = taskComponentFactory;
+        setLayout(MAIN_LAYOUT);
         init(title, taskPanelDtos);
     }
 

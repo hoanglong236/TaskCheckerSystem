@@ -3,14 +3,18 @@ package org.swing.app.view.home.components.roottask;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.home.components.TaskPanel;
-import org.swing.app.view.home.components.factory.TaskComponentFactory;
 
 import java.awt.Dimension;
 
-public class RootTaskPanel extends TaskPanel {
+class RootTaskPanel extends TaskPanel {
 
-    public RootTaskPanel(TaskComponentFactory taskComponentFactory, TaskPanelDto taskPanelDto) {
-        super(taskComponentFactory, taskPanelDto);
+    public RootTaskPanel(TaskPanelDto taskPanelDto) {
+        super(taskPanelDto);
+    }
+
+    @Override
+    protected void initTaskCenterPanel(TaskPanelDto taskPanelDto) {
+        this.taskCenterPanel = new RootTaskCenterPanel(taskPanelDto);
     }
 
     @Override

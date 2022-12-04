@@ -3,14 +3,18 @@ package org.swing.app.view.home.components.nodetask;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.home.components.TaskPanel;
-import org.swing.app.view.home.components.factory.TaskComponentFactory;
 
 import java.awt.Dimension;
 
-public class NodeTaskPanel extends TaskPanel {
+class NodeTaskPanel extends TaskPanel {
 
-    public NodeTaskPanel(TaskComponentFactory taskComponentFactory, TaskPanelDto taskPanelDto) {
-        super(taskComponentFactory, taskPanelDto);
+    public NodeTaskPanel(TaskPanelDto taskPanelDto) {
+        super(taskPanelDto);
+    }
+
+    @Override
+    protected void initTaskCenterPanel(TaskPanelDto taskPanelDto) {
+        this.taskCenterPanel = new NodeTaskCenterPanel(taskPanelDto);
     }
 
     @Override
@@ -40,6 +44,7 @@ public class NodeTaskPanel extends TaskPanel {
 
     @Override
     protected void setNotResizableChildComponents() {
+        this.activationLabel.setResizable(false);
         this.statusChecker.setResizable(false);
         this.importantLabel.setResizable(false);
     }

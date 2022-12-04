@@ -13,13 +13,8 @@ import java.util.Set;
 public class NodeTaskComponentFactory implements TaskComponentFactory {
 
     @Override
-    public TaskCenterPanel createTaskCenterPanel(TaskPanelDto taskPanelDto) {
-        return new NodeTaskCenterPanel(taskPanelDto);
-    }
-
-    @Override
     public TaskPanel createTaskPanel(TaskPanelDto taskPanelDto) {
-        return new NodeTaskPanel(this, taskPanelDto);
+        return new NodeTaskPanel(taskPanelDto);
     }
 
     @Override

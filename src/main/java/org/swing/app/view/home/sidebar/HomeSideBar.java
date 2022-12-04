@@ -29,7 +29,7 @@ public class HomeSideBar extends PanelWrapperComponent {
 
     public HomeSideBar(TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> taskPanelDtos) {
         super();
-        this.component.setLayout(MAIN_LAYOUT);
+        setLayout(MAIN_LAYOUT);
         this.taskComponentFactory = new RootTaskComponentFactory();
         init(dailyTaskPanelDto, taskPanelDtos);
     }

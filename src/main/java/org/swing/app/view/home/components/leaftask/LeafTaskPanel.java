@@ -2,24 +2,19 @@ package org.swing.app.view.home.components.leaftask;
 
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.ui.Label;
-import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.TaskPanel;
-import org.swing.app.view.home.components.factory.TaskComponentFactory;
 
 import java.awt.Dimension;
 
-public class LeafTaskPanel extends TaskPanel {
+class LeafTaskPanel extends TaskPanel {
 
-    private Label removeLabel;
-
-    public LeafTaskPanel(TaskComponentFactory taskComponentFactory, TaskPanelDto taskPanelDto) {
-        super(taskComponentFactory, taskPanelDto);
+    public LeafTaskPanel(TaskPanelDto taskPanelDto) {
+        super(taskPanelDto);
     }
 
-    private void initRemoveLabel() {
-        this.removeLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_REMOVE);
-        this.removeLabel.setResizable(false);
+    @Override
+    protected void initTaskCenterPanel(TaskPanelDto taskPanelDto) {
+        this.taskCenterPanel = new LeafTaskCenterPanel(taskPanelDto);
     }
 
     @Override
@@ -43,6 +38,7 @@ public class LeafTaskPanel extends TaskPanel {
     @Override
     protected void setNotResizableChildComponents() {
         this.statusChecker.setResizable(false);
+        this.taskCenterPanel.setResizable(true);
         this.removeLabel.setResizable(false);
     }
 
