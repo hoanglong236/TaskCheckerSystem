@@ -6,8 +6,9 @@ import org.swing.app.view.components.factory.JComponentFactory;
 
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.event.KeyListener;
 
-class TextField extends SimpleComponent implements InputComponent {
+class TextField extends SimpleComponent implements InputComponent, AllowTypingComponent {
 
     private static final Font TEXT_FIELD_FONT = new Font(ViewConstant.PRIMARY_FONT_NAME,
             Font.PLAIN, ViewConstant.INPUT_TEXT_FONT_SIZE);
@@ -40,5 +41,15 @@ class TextField extends SimpleComponent implements InputComponent {
     @Override
     public void clear() {
         ((JTextField) this.component).setText("");
+    }
+
+    @Override
+    public void addKeyListener(KeyListener keyListener) {
+        this.component.addKeyListener(keyListener);
+    }
+
+    @Override
+    public void removeKeyListener(KeyListener keyListener) {
+        this.component.removeKeyListener(keyListener);
     }
 }

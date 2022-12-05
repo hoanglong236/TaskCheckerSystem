@@ -25,4 +25,9 @@ public class HomeFrameBusiness {
     public boolean deleteTaskById(String taskId) {
         return HOME_FRAME_DAO.deleteTaskById(taskId);
     }
+
+    // TODO: handle this
+    public TaskPanelDto getDailyTaskPanelDto() {
+        return null;
+    }
 }

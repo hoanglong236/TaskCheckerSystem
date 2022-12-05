@@ -92,4 +92,9 @@ public abstract class ViewComponentBase implements ViewComponent {
         removeComponentListeners(getComponentListeners());
         removeMouseListeners(getMouseListeners());
     }
+
+    @Override
+    public boolean requestFocusInWindow() {
+        return this.component.requestFocusInWindow();
+    }
 }

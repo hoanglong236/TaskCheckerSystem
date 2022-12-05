@@ -26,4 +26,6 @@ public interface ViewComponent {
 
     void dispose();
     void setBackgroundColor(Color color);
+
+    boolean requestFocusInWindow();
 }

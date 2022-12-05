@@ -5,6 +5,7 @@ import org.swing.app.business.HomeFrameBusiness;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
+import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.home.HomeFrame;
 
 import java.util.Set;
@@ -28,9 +29,12 @@ public class HomeFrameController {
     }
 
     public void startHomeFrame() {
+        final TaskPanelDto dailyTaskPanelDto = getDailyTaskPanelDto();
         final Set<TaskPanelDto> rootTaskPanelDtos = getIncompleteRootTaskPanelDtos();
 
-//        this.homeFrame = new HomeFrame(rootTaskPanelDtos);
+        this.homeFrame = new HomeFrame(dailyTaskPanelDto, rootTaskPanelDtos);
+        this.homeFrame.resize(ViewConstant.HOME_FRAME_PREFER_SIZE);
+        this.homeFrame.setVisible(true);
     }
 
     public Set<TaskPanelDto> getIncompleteRootTaskPanelDtos() {
@@ -47,5 +51,9 @@ public class HomeFrameController {
 
     public boolean deleteTaskById(String taskId) {
         return this.homeFrameBusiness.deleteTaskById(taskId);
+    }
+
+    public TaskPanelDto getDailyTaskPanelDto() {
+        return this.homeFrameBusiness.getDailyTaskPanelDto();
     }
 }
