@@ -2,7 +2,7 @@ package org.swing.app.view.components.ui;
 
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.SimpleComponent;
-import org.swing.app.view.components.ViewComponentBase;
+import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.factory.JComponentFactory;
 
 import javax.swing.JScrollBar;
@@ -59,19 +59,19 @@ public class VerticalScrollPane extends SimpleComponent {
         this.component.repaint();
     }
 
-    public void addChildComponent(ViewComponentBase childComponent) {
+    public void addChildComponent(ViewComponent childComponent) {
         this.viewportView.addChildComponent(childComponent);
     }
 
-    public void addChildComponent(ViewComponentBase childComponent, int position) {
+    public void addChildComponent(ViewComponent childComponent, int position) {
         this.viewportView.addChildComponent(childComponent, position);
     }
 
-    public void addChildComponentToTheFirstPosition(ViewComponentBase childComponent) {
+    public void addChildComponentToTheFirstPosition(ViewComponent childComponent) {
         this.viewportView.addChildComponentToTheFirstPosition(childComponent);
     }
 
-    public void removeChildComponent(ViewComponentBase childComponent) {
+    public void removeChildComponent(ViewComponent childComponent) {
         this.viewportView.removeChildComponent(childComponent);
     }
 }

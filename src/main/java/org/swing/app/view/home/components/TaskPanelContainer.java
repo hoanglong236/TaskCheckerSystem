@@ -7,27 +7,26 @@ import org.swing.app.view.components.ui.Button;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.components.ui.VerticalScrollPane;
-import org.swing.app.view.home.components.factory.TaskComponentFactory;
+import org.swing.app.view.home.components.factory.TaskPanelFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Set;
 
-public class TaskPanelContainer extends PanelWrapperComponent {
+public abstract class TaskPanelContainer extends PanelWrapperComponent {
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
 
     private Label titleLabel;
     private Button filterButton;
-    private VerticalScrollPane verticalScrollPane;
-    private final TaskComponentFactory taskComponentFactory;
+    protected VerticalScrollPane verticalScrollPane;
 
-    public TaskPanelContainer(TaskComponentFactory taskComponentFactory,
-            String title, Set<TaskPanelDto> taskPanelDtos) {
+    private final TaskPanelFactory taskPanelFactory;
 
+    public TaskPanelContainer(TaskPanelFactory taskPanelFactory, String title, Set<TaskPanelDto> taskPanelDtos) {
         super();
-        this.taskComponentFactory = taskComponentFactory;
+        this.taskPanelFactory = taskPanelFactory;
         setLayout(MAIN_LAYOUT);
         init(title, taskPanelDtos);
     }
@@ -40,13 +39,13 @@ public class TaskPanelContainer extends PanelWrapperComponent {
         this.filterButton = UIComponentFactory.createButton(ViewConstant.ICON_LOCATION_FILTER);
     }
 
-    private void initVerticalScrollPane(Set<TaskPanelDto> taskPanelDtos) {
-        this.verticalScrollPane = this.taskComponentFactory.createScrollPaneToContainTaskPanels();
-
+    protected void initTaskPanelsForVerticalScrollPane(Set<TaskPanelDto> taskPanelDtos) {
         for (final TaskPanelDto taskPanelDto : taskPanelDtos) {
-            addTaskPanel(this.taskComponentFactory.createTaskPanel(taskPanelDto));
+            addTaskPanel(this.taskPanelFactory.createTaskPanel(taskPanelDto));
         }
     }
+
+    protected abstract void initVerticalScrollPane(Set<TaskPanelDto> taskPanelDtos);
 
     private void init(String title, Set<TaskPanelDto> taskPanelDtos) {
         initTitleLabel(title);
@@ -60,7 +59,7 @@ public class TaskPanelContainer extends PanelWrapperComponent {
     }
 
     public void addTaskPanelByDto(TaskPanelDto taskPanelDto) {
-        final TaskPanel taskPanel = this.taskComponentFactory.createTaskPanel(taskPanelDto);
+        final TaskPanel taskPanel = this.taskPanelFactory.createTaskPanel(taskPanelDto);
         addTaskPanel(taskPanel);
     }
 

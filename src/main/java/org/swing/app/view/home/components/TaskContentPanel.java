@@ -4,31 +4,31 @@ import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.PanelWrapperComponent;
-import org.swing.app.view.components.ui.Button;
+import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.UIComponentFactory;
-import org.swing.app.view.home.components.factory.TaskComponentFactory;
+import org.swing.app.view.home.components.factory.TaskPanelContainerFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Set;
 
-public class TaskContentPanel extends PanelWrapperComponent {
+public abstract class TaskContentPanel extends PanelWrapperComponent {
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
 
-    private Label titleLabel = null;
-    private TaskPanelContainer taskPanelContainer = null;
-    private Button addTaskBtn = null;
+    private Label titleLabel;
+    private TaskPanelContainer taskPanelContainer;
+    protected SimpleComponent addNewTaskComponent;
 
-    private final TaskComponentFactory taskComponentFactory;
+    private final TaskPanelContainerFactory taskPanelContainerFactory;
 
-    public TaskContentPanel(TaskComponentFactory taskComponentFactory,
+    public TaskContentPanel(TaskPanelContainerFactory taskPanelContainerFactory,
             String title, Set<TaskPanelDto> taskPanelDtos) {
 
         super();
-        this.taskComponentFactory = taskComponentFactory;
+        this.taskPanelContainerFactory = taskPanelContainerFactory;
         setLayout(MAIN_LAYOUT);
         init(title, taskPanelDtos);
     }
@@ -41,14 +41,11 @@ public class TaskContentPanel extends PanelWrapperComponent {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final String taskPanelContainerTitle = messageLoader.getMessage("...");
 
-        this.taskPanelContainer = this.taskComponentFactory.createTaskPanelContainer(
+        this.taskPanelContainer = this.taskPanelContainerFactory.createTaskPanelContainer(
                 taskPanelContainerTitle, taskPanelDtos);
     }
 
-    private void initAddTaskBtn() {
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-        this.addTaskBtn = UIComponentFactory.createButton((messageLoader.getMessage("button.add.task")));
-    }
+    protected abstract void initAddNewTaskComponent();
 
     private void init(String title, Set<TaskPanelDto> taskPanelDtos) {
         initTitleLabel(title);
@@ -57,8 +54,8 @@ public class TaskContentPanel extends PanelWrapperComponent {
         initTaskPanelContainer(taskPanelDtos);
         addChildComponent(this.taskPanelContainer);
 
-        initAddTaskBtn();
-        addChildComponent(this.addTaskBtn);
+        initAddNewTaskComponent();
+        addChildComponent(this.addNewTaskComponent);
     }
 
     @Override
@@ -77,13 +74,13 @@ public class TaskContentPanel extends PanelWrapperComponent {
 
         final int addTaskBtnWidth = 100;
         final int addTaskBtnHeight = 50;
-        this.childComponentSizeMap.put(this.addTaskBtn, new Dimension(addTaskBtnWidth, addTaskBtnHeight));
+        this.childComponentSizeMap.put(this.addNewTaskComponent, new Dimension(addTaskBtnWidth, addTaskBtnHeight));
     }
 
     @Override
     protected void setNotResizableChildComponents() {
         this.titleLabel.setResizable(true);
         this.taskPanelContainer.setResizable(true);
-        this.addTaskBtn.setResizable(false);
+        this.addNewTaskComponent.setResizable(false);
     }
 }
