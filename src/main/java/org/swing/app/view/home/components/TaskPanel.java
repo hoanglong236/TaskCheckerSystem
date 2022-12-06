@@ -30,10 +30,17 @@ public abstract class TaskPanel extends PanelWrapperComponent implements ActionL
     private PopupItem editPopupItem;
     private PopupItem removePopupItem;
 
-    public TaskPanel(TaskPanelDto taskPanelDto) {
+    private final int preferHeight;
+
+    public TaskPanel(int preferHeight, TaskPanelDto taskPanelDto) {
         super();
+        this.preferHeight = preferHeight;
         setLayout(MAIN_LAYOUT);
         init(taskPanelDto);
+    }
+
+    public int getPreferHeight() {
+        return preferHeight;
     }
 
     protected void initActivationLabel() {

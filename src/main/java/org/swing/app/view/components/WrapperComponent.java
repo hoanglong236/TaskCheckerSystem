@@ -49,7 +49,7 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
 
     protected abstract void loadChildComponentsSize();
 
-    private void resizeChildComponents() {
+    protected void resizeChildComponents() {
         final Iterator<ViewComponent> childComponentIterator = getChildComponentIterator();
 
         while (childComponentIterator.hasNext()) {

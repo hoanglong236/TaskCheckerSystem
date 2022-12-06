@@ -2,20 +2,21 @@ package org.swing.app.view.components.ui;
 
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.PanelWrapperComponent;
-import org.swing.app.view.components.ViewComponent;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.Iterator;
 
-public class VerticalViewportView extends PanelWrapperComponent {
+public abstract class VerticalViewportView extends PanelWrapperComponent {
 
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
+    protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
 
-    protected VerticalViewportView() {
+    protected int preferHeight;
+
+    public VerticalViewportView() {
         super();
         setLayout(MAIN_LAYOUT);
+        this.preferHeight = ViewConstant.SMALL_RESERVE_HEIGHT;
     }
 
     public int getPreferChildComponentWidth() {
@@ -24,24 +25,12 @@ public class VerticalViewportView extends PanelWrapperComponent {
     }
 
     @Override
-    protected void loadChildComponentsSize() {
-        final int preferChildComponentWidth = getPreferChildComponentWidth();
-        final Iterator<ViewComponent> childComponentIterator = getChildComponentIterator();
-
-        while (childComponentIterator.hasNext()) {
-            final ViewComponent component = childComponentIterator.next();
-            int componentWidth = component.getSize().width;
-            final int componentHeight = component.getSize().height;
-
-            if (componentWidth > preferChildComponentWidth) {
-                componentWidth = preferChildComponentWidth;
-            }
-
-            this.childComponentSizeMap.replace(component, new Dimension(componentWidth, componentHeight));
-        }
-    }
+    protected abstract void loadChildComponentsSize();
 
     @Override
-    protected void setNotResizableChildComponents() {
+    public void resize(Dimension dimension) {
+        throw new UnsupportedOperationException();
     }
+
+    public abstract void resizeWidth(int width);
 }

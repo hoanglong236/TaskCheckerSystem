@@ -14,13 +14,11 @@ public class VerticalScrollPane extends SimpleComponent {
 
     private VerticalViewportView viewportView;
 
-    protected VerticalScrollPane() {
-        this.component = JComponentFactory.createJScrollPane();
-        init();
-    }
-
     public VerticalScrollPane(VerticalViewportView viewportViewPanel) {
         this.component = JComponentFactory.createJScrollPane();
+        if (viewportViewPanel == null) {
+            throw new IllegalArgumentException();
+        }
         this.viewportView = viewportViewPanel;
         init();
     }
@@ -31,15 +29,7 @@ public class VerticalScrollPane extends SimpleComponent {
         verticalScrollBar.setPreferredSize(new Dimension(ViewConstant.VERTICAL_SCROLLBAR_WIDTH, scrollBarHeight));
     }
 
-    private void initViewportViewPanel() {
-        if (this.viewportView == null) {
-            this.viewportView = UIComponentFactory.createVerticalViewportView();
-        }
-        this.viewportView.resize(new Dimension(0, ViewConstant.SMALL_RESERVE_HEIGHT));
-    }
-
     private void init() {
-        initViewportViewPanel();
         ((JScrollPane) this.component).setViewportView(this.viewportView.getComponent());
         ((JScrollPane) this.component).setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         ((JScrollPane) this.component).setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -52,8 +42,7 @@ public class VerticalScrollPane extends SimpleComponent {
         this.component.setPreferredSize(dimension);
 
         final int viewportViewPanelWidth = dimension.width - ViewConstant.SCROLL_RESERVE_WIDTH;
-        final int viewportViewPanelHeight = this.viewportView.getSize().height;
-        this.viewportView.resize(new Dimension(viewportViewPanelWidth, viewportViewPanelHeight));
+        this.viewportView.resizeWidth(viewportViewPanelWidth);
 
         this.component.revalidate();
         this.component.repaint();

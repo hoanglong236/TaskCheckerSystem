@@ -74,7 +74,7 @@ public class HomeSideBar extends PanelWrapperComponent {
         final int vGap = MAIN_LAYOUT.getVgap();
         final int maxChildComponentWidth = availableWidth - MAIN_LAYOUT.getHgap();
 
-        final int dailyTaskPanelHeight = ViewConstant.ROOT_PANEL_HEIGHT;
+        final int dailyTaskPanelHeight = ViewConstant.ROOT_TASK_PANEL_HEIGHT;
         this.childComponentSizeMap.put(this.dailyTaskPanel,
                 new Dimension(maxChildComponentWidth, dailyTaskPanelHeight));
 

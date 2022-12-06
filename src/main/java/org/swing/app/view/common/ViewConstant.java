@@ -50,9 +50,9 @@ public class ViewConstant {
     public static final Dimension NODE_TASK_FRAME_PREFER_SIZE = new Dimension(600, 400);
     public static final int SIDEBAR_WIDTH = 330;
     public static final Color ACTIVATION_COLOR = new Color(230, 230, 230);
-    public static final byte ROOT_PANEL_HEIGHT = 60;
-    public static final byte NODE_PANEL_HEIGHT = 40;
-    public static final byte LEAF_PANEL_HEIGHT = 40;
+    public static final byte ROOT_TASK_PANEL_HEIGHT = 60;
+    public static final byte NODE_TASK_PANEL_HEIGHT = 40;
+    public static final byte LEAF_TASK_PANEL_HEIGHT = 40;
 
     public static final Dimension EDIT_LIST_FRAME_PREFER_SIZE = new Dimension(650, 650);
     public static final byte INPUT_TEXT_FONT_SIZE = 15;

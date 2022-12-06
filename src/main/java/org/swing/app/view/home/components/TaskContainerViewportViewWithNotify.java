@@ -1,15 +1,18 @@
-package org.swing.app.view.components.ui;
+package org.swing.app.view.home.components;
 
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.components.ViewComponent;
+import org.swing.app.view.components.ui.Label;
+import org.swing.app.view.components.ui.UIComponentFactory;
 
 import java.awt.Component;
+import java.awt.Dimension;
 
-public class VerticalViewportViewWithNotify extends VerticalViewportView {
+public class TaskContainerViewportViewWithNotify extends TaskContainerViewportView {
 
-    private Label notifyLabel = null;
+    private Label notifyLabel;
 
-    protected VerticalViewportViewWithNotify() {
+    public TaskContainerViewportViewWithNotify() {
         super();
         init();
     }
@@ -22,6 +25,18 @@ public class VerticalViewportViewWithNotify extends VerticalViewportView {
     private void init() {
         initNotifyLabel();
         addChildComponent(this.notifyLabel);
+        this.notifyLabel.setVisible(false);
+    }
+
+    @Override
+    protected void loadChildComponentsSize() {
+        super.loadChildComponentsSize();
+
+        final int notifyLabelWidth = getPreferChildComponentWidth();
+        final int notifyLabelHeight = 40;
+        this.childComponentSizeMap.put(this.notifyLabel, new Dimension(notifyLabelWidth, notifyLabelHeight));
+
+        this.preferHeight += notifyLabelHeight;
     }
 
     @Override
@@ -52,6 +67,7 @@ public class VerticalViewportViewWithNotify extends VerticalViewportView {
         final Component[] components = this.component.getComponents();
         final int componentCount = components.length;
         final Component component = childComponent.getComponent();
+
         return (components[componentCount - 1] == component);
     }
 }

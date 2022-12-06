@@ -8,8 +8,8 @@ import java.awt.Dimension;
 
 class RootTaskPanel extends TaskPanel {
 
-    public RootTaskPanel(TaskPanelDto taskPanelDto) {
-        super(taskPanelDto);
+    public RootTaskPanel(int preferHeight, TaskPanelDto taskPanelDto) {
+        super(preferHeight, taskPanelDto);
     }
 
     @Override

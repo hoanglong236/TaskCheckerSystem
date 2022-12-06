@@ -44,19 +44,7 @@ public class UIComponentFactory {
         return new PopupItem(itemName);
     }
 
-    public static VerticalScrollPane createVerticalScrollPane() {
-        return new VerticalScrollPane();
-    }
-
-    public static VerticalScrollPane createVerticalScrollPaneWithViewportNotify() {
-        return new VerticalScrollPane(UIComponentFactory.createVerticalViewportViewWithNotify());
-    }
-
-    public static VerticalViewportView createVerticalViewportView() {
-        return new VerticalViewportView();
-    }
-
-    public static VerticalViewportViewWithNotify createVerticalViewportViewWithNotify() {
-        return new VerticalViewportViewWithNotify();
+    public static VerticalScrollPane createVerticalScrollPane(VerticalViewportView viewportView) {
+        return new VerticalScrollPane(viewportView);
     }
 }
