@@ -20,7 +20,6 @@ public class TaskContainerViewportView extends VerticalViewportView {
     @Override
     protected void loadChildComponentsSize() {
         this.childComponentSizeMap.clear();
-        this.preferHeight = ViewConstant.SMALL_RESERVE_HEIGHT;
 
         final int preferChildComponentWidth = getPreferChildComponentWidth();
         final Iterator<TaskPanel> taskPanelIterator = this.taskPanels.iterator();
@@ -36,8 +35,13 @@ public class TaskContainerViewportView extends VerticalViewportView {
 
     @Override
     public void resizeWidth(int width) {
+        this.preferWidth = width;
+        this.preferHeight = ViewConstant.SMALL_RESERVE_HEIGHT;
+
+        // preferHeight will be change in this method
         loadChildComponentsSize();
-        this.component.setPreferredSize(new Dimension(width, this.preferHeight));
+        this.component.setPreferredSize(new Dimension(this.preferWidth, this.preferHeight));
+
         resizeChildComponents();
         setNotResizableChildComponents();
         refreshUI();

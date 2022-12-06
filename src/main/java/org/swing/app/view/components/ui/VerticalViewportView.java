@@ -11,16 +11,18 @@ public abstract class VerticalViewportView extends PanelWrapperComponent {
     protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
 
+    protected int preferWidth;
     protected int preferHeight;
 
     public VerticalViewportView() {
         super();
         setLayout(MAIN_LAYOUT);
+        this.preferWidth = 0;
         this.preferHeight = ViewConstant.SMALL_RESERVE_HEIGHT;
     }
 
     public int getPreferChildComponentWidth() {
-        final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
+        final int availableWidth = this.preferWidth - ViewConstant.SMALL_RESERVE_WIDTH;
         return availableWidth - MAIN_LAYOUT.getHgap();
     }
 
