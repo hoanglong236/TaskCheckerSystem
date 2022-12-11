@@ -7,8 +7,9 @@ import java.util.Set;
 public interface HomeFrameDao {
 
     Set<TaskPanelDto> getIncompleteRootTaskPanelDtos();
-    Set<TaskPanelDto> getNodeTaskPanelDtosByParentId(String parentId);
-    Set<TaskPanelDto> getLeafTaskPanelDtosByParentId(String parentId);
+    Set<TaskPanelDto> getTaskPanelDtosByParentId(String parentId);
+
+    TaskPanelDto getTaskPanelDtoById(String taskId);
 
     boolean deleteTaskById(String taskId);
 }

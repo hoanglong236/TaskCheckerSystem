@@ -1,18 +1,19 @@
-package org.swing.app.view.home.components;
+package org.swing.app.view.home.components.taskbase;
 
+import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ui.CompletionRateLabel;
 import org.swing.app.view.components.ui.DeadlineLabel;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.UIComponentFactory;
+import org.swing.app.view.home.HomeWrapperComponent;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.time.LocalDateTime;
 
-public abstract class TaskCenterPanel extends PanelWrapperComponent {
+public abstract class TaskCenterPanel extends HomeWrapperComponent {
 
     protected static FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
@@ -22,8 +23,8 @@ public abstract class TaskCenterPanel extends PanelWrapperComponent {
     protected CompletionRateLabel completionRateLabel;
     protected Label noteNotifyLabel;
 
-    public TaskCenterPanel(TaskPanelDto taskPanelDto) {
-        super();
+    public TaskCenterPanel(HomeFrameController homeFrameController, TaskPanelDto taskPanelDto) {
+        super(homeFrameController);
         setLayout(MAIN_LAYOUT);
         init(taskPanelDto);
     }

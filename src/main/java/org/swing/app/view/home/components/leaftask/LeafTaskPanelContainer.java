@@ -1,16 +1,20 @@
 package org.swing.app.view.home.components.leaftask;
 
+import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.TaskContainerViewportViewWithNotify;
-import org.swing.app.view.home.components.TaskPanelContainer;
+import org.swing.app.view.home.components.leaftask.factory.LeafTaskPanelFactory;
+import org.swing.app.view.home.components.taskbase.TaskPanelContainer;
 
 import java.util.Set;
 
-class LeafTaskPanelContainer extends TaskPanelContainer {
+public class LeafTaskPanelContainer extends TaskPanelContainer {
 
-    public LeafTaskPanelContainer(String title, Set<TaskPanelDto> taskPanelDtos) {
-        super(new LeafTaskPanelFactory(), title, taskPanelDtos);
+    public LeafTaskPanelContainer(HomeFrameController homeFrameController,
+            String title, Set<TaskPanelDto> taskPanelDtos) {
+
+        super(homeFrameController, new LeafTaskPanelFactory(), title, taskPanelDtos);
     }
 
     @Override

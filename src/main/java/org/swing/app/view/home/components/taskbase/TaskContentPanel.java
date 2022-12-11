@@ -1,21 +1,22 @@
-package org.swing.app.view.home.components;
+package org.swing.app.view.home.components.taskbase;
 
+import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.UIComponentFactory;
+import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.home.components.factory.TaskPanelContainerFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Set;
 
-public abstract class TaskContentPanel extends PanelWrapperComponent {
+public abstract class TaskContentPanel extends HomeWrapperComponent {
 
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
+    protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
 
     private Label titleLabel;
@@ -24,10 +25,10 @@ public abstract class TaskContentPanel extends PanelWrapperComponent {
 
     private final TaskPanelContainerFactory taskPanelContainerFactory;
 
-    public TaskContentPanel(TaskPanelContainerFactory taskPanelContainerFactory,
-            String title, Set<TaskPanelDto> taskPanelDtos) {
+    public TaskContentPanel(HomeFrameController homeFrameController,
+            TaskPanelContainerFactory taskPanelContainerFactory, String title, Set<TaskPanelDto> taskPanelDtos) {
 
-        super();
+        super(homeFrameController);
         this.taskPanelContainerFactory = taskPanelContainerFactory;
         setLayout(MAIN_LAYOUT);
         init(title, taskPanelDtos);
@@ -42,7 +43,7 @@ public abstract class TaskContentPanel extends PanelWrapperComponent {
         final String taskPanelContainerTitle = messageLoader.getMessage("...");
 
         this.taskPanelContainer = this.taskPanelContainerFactory.createTaskPanelContainer(
-                taskPanelContainerTitle, taskPanelDtos);
+                this.homeFrameController, taskPanelContainerTitle, taskPanelDtos);
     }
 
     protected abstract void initAddNewTaskComponent();

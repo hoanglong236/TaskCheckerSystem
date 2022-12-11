@@ -1,20 +1,22 @@
 package org.swing.app.view.home.components.nodetask;
 
+import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.home.components.TaskPanel;
+import org.swing.app.view.home.components.taskbase.TaskPanel;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 
-class NodeTaskPanel extends TaskPanel {
+public class NodeTaskPanel extends TaskPanel {
 
-    public NodeTaskPanel(int preferHeight, TaskPanelDto taskPanelDto) {
-        super(preferHeight, taskPanelDto);
+    public NodeTaskPanel(HomeFrameController homeFrameController, int preferHeight, TaskPanelDto taskPanelDto) {
+        super(homeFrameController, preferHeight, taskPanelDto);
     }
 
     @Override
     protected void initTaskCenterPanel(TaskPanelDto taskPanelDto) {
-        this.taskCenterPanel = new NodeTaskCenterPanel(taskPanelDto);
+        this.taskCenterPanel = new NodeTaskCenterPanel(this.homeFrameController, taskPanelDto);
     }
 
     @Override
@@ -74,5 +76,10 @@ class NodeTaskPanel extends TaskPanel {
                 - hGap - statusCheckerWidth - hGap - importantLabelWidth - hGap;
         this.childComponentSizeMap.put(this.taskCenterPanel,
                 new Dimension(taskCenterPanelWidth, maxChildComponentHeight));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 }

@@ -1,15 +1,16 @@
 package org.swing.app.view.home.components.roottask;
 
+import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.home.components.TaskCenterPanel;
+import org.swing.app.view.home.components.taskbase.TaskCenterPanel;
 
 import java.awt.Dimension;
 
 class RootTaskCenterPanel extends TaskCenterPanel {
 
-    public RootTaskCenterPanel(TaskPanelDto taskPanelDto) {
-        super(taskPanelDto);
+    public RootTaskCenterPanel(HomeFrameController homeFrameController, TaskPanelDto taskPanelDto) {
+        super(homeFrameController, taskPanelDto);
     }
 
     @Override

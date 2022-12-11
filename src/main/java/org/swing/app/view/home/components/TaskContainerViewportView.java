@@ -3,6 +3,7 @@ package org.swing.app.view.home.components;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.ui.VerticalViewportView;
+import org.swing.app.view.home.components.taskbase.TaskPanel;
 
 import java.awt.Dimension;
 import java.util.Iterator;

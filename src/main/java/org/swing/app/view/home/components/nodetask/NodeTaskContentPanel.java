@@ -1,13 +1,14 @@
 package org.swing.app.view.home.components.nodetask;
 
+import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.components.form.components.input.AllowTypingComponent;
 import org.swing.app.view.components.form.components.input.InputComponent;
 import org.swing.app.view.components.form.components.input.InputComponentFactory;
 import org.swing.app.view.components.ui.UIComponentFactory;
-import org.swing.app.view.home.components.TaskContentPanel;
-import org.swing.app.view.home.components.leaftask.LeafTaskPanelContainerFactory;
+import org.swing.app.view.home.components.taskbase.TaskContentPanel;
+import org.swing.app.view.home.components.leaftask.factory.LeafTaskPanelContainerFactory;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -19,8 +20,10 @@ public class NodeTaskContentPanel extends TaskContentPanel implements MouseListe
 
     private InputComponent textField;
 
-    public NodeTaskContentPanel(String title, Set<TaskPanelDto> taskPanelDtos) {
-        super(new LeafTaskPanelContainerFactory(), title, taskPanelDtos);
+    public NodeTaskContentPanel(HomeFrameController homeFrameController,
+            String title, Set<TaskPanelDto> taskPanelDtos) {
+
+        super(homeFrameController, new LeafTaskPanelContainerFactory(), title, taskPanelDtos);
         setupTextField();
     }
 

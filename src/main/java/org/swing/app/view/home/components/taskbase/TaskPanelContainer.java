@@ -1,19 +1,20 @@
-package org.swing.app.view.home.components;
+package org.swing.app.view.home.components.taskbase;
 
+import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ui.Button;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.components.ui.VerticalScrollPane;
+import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.home.components.factory.TaskPanelFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Set;
 
-public abstract class TaskPanelContainer extends PanelWrapperComponent {
+public abstract class TaskPanelContainer extends HomeWrapperComponent {
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
@@ -24,8 +25,10 @@ public abstract class TaskPanelContainer extends PanelWrapperComponent {
 
     private final TaskPanelFactory taskPanelFactory;
 
-    public TaskPanelContainer(TaskPanelFactory taskPanelFactory, String title, Set<TaskPanelDto> taskPanelDtos) {
-        super();
+    public TaskPanelContainer(HomeFrameController homeFrameController, TaskPanelFactory taskPanelFactory,
+            String title, Set<TaskPanelDto> taskPanelDtos) {
+
+        super(homeFrameController);
         this.taskPanelFactory = taskPanelFactory;
         setLayout(MAIN_LAYOUT);
         init(title, taskPanelDtos);
@@ -41,7 +44,7 @@ public abstract class TaskPanelContainer extends PanelWrapperComponent {
 
     protected void initTaskPanelsForVerticalScrollPane(Set<TaskPanelDto> taskPanelDtos) {
         for (final TaskPanelDto taskPanelDto : taskPanelDtos) {
-            addTaskPanel(this.taskPanelFactory.createTaskPanel(taskPanelDto));
+            addTaskPanel(this.taskPanelFactory.createTaskPanel(this.homeFrameController, taskPanelDto));
         }
     }
 
@@ -59,7 +62,7 @@ public abstract class TaskPanelContainer extends PanelWrapperComponent {
     }
 
     public void addTaskPanelByDto(TaskPanelDto taskPanelDto) {
-        final TaskPanel taskPanel = this.taskPanelFactory.createTaskPanel(taskPanelDto);
+        final TaskPanel taskPanel = this.taskPanelFactory.createTaskPanel(this.homeFrameController, taskPanelDto);
         addTaskPanel(taskPanel);
     }
 

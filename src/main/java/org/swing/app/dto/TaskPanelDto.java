@@ -30,6 +30,20 @@ public class TaskPanelDto {
         this.childTaskCount = 0;
     }
 
+    public TaskPanelDto(TaskDto taskDto) {
+        this.id = taskDto.getId();
+        this.parentId = taskDto.getParentId();
+        this.title = taskDto.getTitle();
+        this.important = taskDto.isImportant();
+        this.startDatetime = taskDto.getStartDatetime();
+        this.finishDatetime = taskDto.getFinishDatetime();
+        this.submitDatetime = taskDto.getSubmitDatetime();
+        this.completed = taskDto.isCompleted();
+        this.note = taskDto.getNote();
+        this.childTaskCompletedCount = 0;
+        this.childTaskCount = 0;
+    }
+
     public String getId() {
         return id;
     }

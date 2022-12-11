@@ -1,23 +1,26 @@
 package org.swing.app.view.home.sidebar;
 
+import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ui.Button;
 import org.swing.app.view.components.ui.UIComponentFactory;
-import org.swing.app.view.home.components.TaskPanel;
-import org.swing.app.view.home.components.TaskPanelContainer;
+import org.swing.app.view.home.HomeWrapperComponent;
+import org.swing.app.view.home.components.taskbase.TaskPanel;
+import org.swing.app.view.home.components.taskbase.TaskPanelContainer;
 import org.swing.app.view.home.components.factory.TaskPanelContainerFactory;
 import org.swing.app.view.home.components.factory.TaskPanelFactory;
-import org.swing.app.view.home.components.roottask.RootTaskPanelContainerFactory;
-import org.swing.app.view.home.components.roottask.RootTaskPanelFactory;
+import org.swing.app.view.home.components.roottask.factory.RootTaskPanelContainerFactory;
+import org.swing.app.view.home.components.roottask.factory.RootTaskPanelFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Set;
 
-public class HomeSideBar extends PanelWrapperComponent {
+public class HomeSideBar extends HomeWrapperComponent implements ActionListener {
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER,
             ViewConstant.MEDIUM_H_GAP, ViewConstant.MEDIUM_V_GAP);
@@ -29,25 +32,27 @@ public class HomeSideBar extends PanelWrapperComponent {
     private final TaskPanelFactory taskPanelFactory;
     private final TaskPanelContainerFactory taskPanelContainerFactory;
 
-    public HomeSideBar(TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> taskPanelDtos) {
-        super();
-        setLayout(MAIN_LAYOUT);
+    public HomeSideBar(HomeFrameController homeFrameController,
+            TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> taskPanelDtos) {
+
+        super(homeFrameController);
         this.taskPanelFactory = new RootTaskPanelFactory();
         this.taskPanelContainerFactory = new RootTaskPanelContainerFactory();
+        setLayout(MAIN_LAYOUT);
         init(dailyTaskPanelDto, taskPanelDtos);
     }
 
     private void initDailyTaskPanel(TaskPanelDto dailyTaskPanelDto) {
-        this.dailyTaskPanel = this.taskPanelFactory.createTaskPanel(dailyTaskPanelDto);
+        this.dailyTaskPanel = this.taskPanelFactory.createTaskPanel(this.homeFrameController, dailyTaskPanelDto);
     }
 
     private void initTaskPanelContainer(Set<TaskPanelDto> taskPanelDtos) {
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        final String nonRepeatTaskPanelContainerTitle =
+        final String taskPanelContainerTitle =
                 messageLoader.getMessage("task.panel.container.title");
 
         this.taskPanelContainer = this.taskPanelContainerFactory.createTaskPanelContainer(
-                nonRepeatTaskPanelContainerTitle, taskPanelDtos);
+                this.homeFrameController, taskPanelContainerTitle, taskPanelDtos);
     }
 
     private void initAddTaskBtn() {
@@ -92,5 +97,17 @@ public class HomeSideBar extends PanelWrapperComponent {
         this.dailyTaskPanel.setResizable(false);
         this.taskPanelContainer.setResizable(false);
         this.addTaskBtn.setResizable(false);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        final Object eventSource = e.getSource();
+
+        if (eventSource == this.addTaskBtn) {
+            // TODO: controller handle
+            final TaskPanelDto taskPanelDto = null;
+
+            this.taskPanelContainer.addTaskPanelByDto(taskPanelDto);
+        }
     }
 }

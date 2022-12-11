@@ -9,11 +9,14 @@ import org.swing.app.view.taskform.TaskFormFrameFactory;
 
 public class TaskFormFrameController {
 
+    private HomeFrameController homeFrameController;
+
     private TaskFormFrame taskFormFrame;
     private TaskFormFrameBusiness taskFormFrameBusiness;
     private CommonBusiness commonBusiness;
 
-    public TaskFormFrameController() {
+    public TaskFormFrameController(HomeFrameController homeFrameController) {
+        this.homeFrameController = homeFrameController;
         this.taskFormFrame = null;
         this.taskFormFrameBusiness = new TaskFormFrameBusiness();
         this.commonBusiness = new CommonBusiness();
@@ -36,6 +39,7 @@ public class TaskFormFrameController {
 
         if (isSuccess) {
             this.taskFormFrame.showMessageDialog(messageLoader.getMessage("update.success"));
+            this.homeFrameController.updateTaskSuccess(taskDto.getId());
         } else {
             this.taskFormFrame.showMessageDialog(messageLoader.getMessage("update.failure"));
         }

@@ -1,16 +1,20 @@
 package org.swing.app.view.home.components.nodetask;
 
+import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.components.ui.UIComponentFactory;
 import org.swing.app.view.home.components.TaskContainerViewportViewWithNotify;
-import org.swing.app.view.home.components.TaskPanelContainer;
+import org.swing.app.view.home.components.nodetask.factory.NodeTaskPanelFactory;
+import org.swing.app.view.home.components.taskbase.TaskPanelContainer;
 
 import java.util.Set;
 
-class NodeTaskPanelContainer extends TaskPanelContainer {
+public class NodeTaskPanelContainer extends TaskPanelContainer {
 
-    public NodeTaskPanelContainer(String title, Set<TaskPanelDto> taskPanelDtos) {
-        super(new NodeTaskPanelFactory(), title, taskPanelDtos);
+    public NodeTaskPanelContainer(HomeFrameController homeFrameController,
+            String title, Set<TaskPanelDto> taskPanelDtos) {
+
+        super(homeFrameController, new NodeTaskPanelFactory(), title, taskPanelDtos);
     }
 
     @Override

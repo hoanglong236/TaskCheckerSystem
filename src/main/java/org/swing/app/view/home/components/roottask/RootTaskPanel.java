@@ -1,20 +1,22 @@
 package org.swing.app.view.home.components.roottask;
 
+import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.home.components.TaskPanel;
+import org.swing.app.view.home.components.taskbase.TaskPanel;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 
-class RootTaskPanel extends TaskPanel {
+public class RootTaskPanel extends TaskPanel {
 
-    public RootTaskPanel(int preferHeight, TaskPanelDto taskPanelDto) {
-        super(preferHeight, taskPanelDto);
+    public RootTaskPanel(HomeFrameController homeFrameController, int preferHeight, TaskPanelDto taskPanelDto) {
+        super(homeFrameController, preferHeight, taskPanelDto);
     }
 
     @Override
     protected void initTaskCenterPanel(TaskPanelDto taskPanelDto) {
-        this.taskCenterPanel = new RootTaskCenterPanel(taskPanelDto);
+        this.taskCenterPanel = new RootTaskCenterPanel(this.homeFrameController, taskPanelDto);
     }
 
     @Override
@@ -68,5 +70,16 @@ class RootTaskPanel extends TaskPanel {
 
     // TODO: handle dispose popup
     public void disposePopup() {
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        final Object eventSource = e.getSource();
+
+        if (eventSource == this.editPopupItem) {
+            this.homeFrameController.updateRootTaskPanel(this);
+        } else if (eventSource == this.removePopupItem) {
+            this.homeFrameController.removeTaskPanel(this);
+        }
     }
 }

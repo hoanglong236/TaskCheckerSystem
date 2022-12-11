@@ -88,20 +88,16 @@ public class TaskFormFrameDaoImpl implements TaskFormFrameDao {
     }
 
     private TaskDto getTaskDtoFromResultSet(ResultSet resultSet) throws SQLException {
-        if (resultSet.next()){
-            final TaskDto taskDto = new TaskDto();
+        final TaskDto taskDto = new TaskDto();
 
-            taskDto.setId(resultSet.getString("id"));
-            taskDto.setTitle(resultSet.getString("title"));
-            taskDto.setImportant(resultSet.getBoolean("important"));
-            taskDto.setStartDatetime(resultSet.getTimestamp("start_datetime").toLocalDateTime());
-            taskDto.setFinishDatetime(resultSet.getTimestamp("finish_datetime").toLocalDateTime());
-            taskDto.setNote(resultSet.getString("note"));
+        taskDto.setId(resultSet.getString("id"));
+        taskDto.setTitle(resultSet.getString("title"));
+        taskDto.setImportant(resultSet.getBoolean("important"));
+        taskDto.setStartDatetime(resultSet.getTimestamp("start_datetime").toLocalDateTime());
+        taskDto.setFinishDatetime(resultSet.getTimestamp("finish_datetime").toLocalDateTime());
+        taskDto.setNote(resultSet.getString("note"));
 
-            return taskDto;
-        }
-
-        return null;
+        return taskDto;
     }
 
     @Override
@@ -113,7 +109,9 @@ public class TaskFormFrameDaoImpl implements TaskFormFrameDao {
             preStmt.setString(1, taskId);
             final ResultSet resultSet = preStmt.executeQuery();
 
-            return getTaskDtoFromResultSet(resultSet);
+            if (resultSet.next()) {
+                return getTaskDtoFromResultSet(resultSet);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

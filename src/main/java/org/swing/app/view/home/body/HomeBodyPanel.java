@@ -1,9 +1,10 @@
 package org.swing.app.view.home.body;
 
+import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.PanelWrapperComponent;
-import org.swing.app.view.home.components.TaskContentPanel;
+import org.swing.app.view.home.HomeWrapperComponent;
+import org.swing.app.view.home.components.taskbase.TaskContentPanel;
 import org.swing.app.view.home.components.nodetask.NodeTaskContentPanel;
 import org.swing.app.view.home.components.roottask.RootTaskContentPanel;
 
@@ -11,7 +12,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Set;
 
-public class HomeBodyPanel extends PanelWrapperComponent {
+public class HomeBodyPanel extends HomeWrapperComponent {
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.MEDIUM_H_GAP, ViewConstant.MEDIUM_V_GAP);
@@ -19,17 +20,17 @@ public class HomeBodyPanel extends PanelWrapperComponent {
     private TaskContentPanel rootTaskContentPanel;
     private TaskContentPanel nodeTaskContentPanel;
 
-    public HomeBodyPanel() {
-        super();
+    public HomeBodyPanel(HomeFrameController homeFrameController) {
+        super(homeFrameController);
         setLayout(MAIN_LAYOUT);
     }
 
     public void loadRootTaskContentPanel(String taskTitle, Set<TaskPanelDto> childTaskPanelDtos) {
-        this.rootTaskContentPanel = new RootTaskContentPanel(taskTitle, childTaskPanelDtos);
+        this.rootTaskContentPanel = new RootTaskContentPanel(this.homeFrameController, taskTitle, childTaskPanelDtos);
     }
 
     public void loadNodeTaskContentPanel(String taskTitle, Set<TaskPanelDto> childTaskPanelDtos) {
-        this.nodeTaskContentPanel = new NodeTaskContentPanel(taskTitle, childTaskPanelDtos);
+        this.nodeTaskContentPanel = new NodeTaskContentPanel(this.homeFrameController, taskTitle, childTaskPanelDtos);
         resize(getSize());
     }
 

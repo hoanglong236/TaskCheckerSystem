@@ -1,15 +1,16 @@
 package org.swing.app.view.home.components.nodetask;
 
+import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.home.components.TaskCenterPanel;
+import org.swing.app.view.home.components.taskbase.TaskCenterPanel;
 
 import java.awt.Dimension;
 
 class NodeTaskCenterPanel extends TaskCenterPanel {
 
-    public NodeTaskCenterPanel(TaskPanelDto taskPanelDto) {
-        super(taskPanelDto);
+    public NodeTaskCenterPanel(HomeFrameController homeFrameController, TaskPanelDto taskPanelDto) {
+        super(homeFrameController, taskPanelDto);
     }
 
     @Override

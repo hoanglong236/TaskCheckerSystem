@@ -14,12 +14,8 @@ public class HomeFrameBusiness {
         return HOME_FRAME_DAO.getIncompleteRootTaskPanelDtos();
     }
 
-    public Set<TaskPanelDto> getNodeTaskPanelDtosByParentId(String parentId) {
-        return HOME_FRAME_DAO.getNodeTaskPanelDtosByParentId(parentId);
-    }
-
-    public Set<TaskPanelDto> getLeafTaskPanelDtosByParentId(String parentId) {
-        return HOME_FRAME_DAO.getLeafTaskPanelDtosByParentId(parentId);
+    public Set<TaskPanelDto> getTaskPanelDtosByParentId(String parentId) {
+        return HOME_FRAME_DAO.getTaskPanelDtosByParentId(parentId);
     }
 
     public boolean deleteTaskById(String taskId) {
@@ -29,5 +25,9 @@ public class HomeFrameBusiness {
     // TODO: handle this
     public TaskPanelDto getDailyTaskPanelDto() {
         return null;
+    }
+
+    public TaskPanelDto getTaskPanelDtoById(String taskId) {
+        return HOME_FRAME_DAO.getTaskPanelDtoById(taskId);
     }
 }

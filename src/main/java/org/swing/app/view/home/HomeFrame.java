@@ -1,5 +1,6 @@
 package org.swing.app.view.home;
 
+import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
@@ -20,8 +21,13 @@ public class HomeFrame extends FrameWrapperComponent {
     private HomeSideBar sideBar;
     private HomeBodyPanel bodyPanel;
 
-    public HomeFrame(TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
+    private final HomeFrameController homeFrameController;
+
+    public HomeFrame(HomeFrameController homeFrameController,
+            TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
+
         super();
+        this.homeFrameController = homeFrameController;
         setLayout(MAIN_LAYOUT);
         setBackgroundColor(ViewConstant.PRIMARY_BACKGROUND_COLOR);
         init(dailyTaskPanelDto, nonRepeatTaskPanelDtos);
@@ -31,13 +37,13 @@ public class HomeFrame extends FrameWrapperComponent {
     }
 
     private void initSideBar(TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> taskPanelDtos) {
-        this.sideBar = new HomeSideBar(dailyTaskPanelDto, taskPanelDtos);
+        this.sideBar = new HomeSideBar(this.homeFrameController, dailyTaskPanelDto, taskPanelDtos);
         this.sideBar.setBackgroundColor(Color.cyan);
         this.sideBar.setOpaque(true);
     }
 
     private void initBodyPanel() {
-        this.bodyPanel = new HomeBodyPanel();
+        this.bodyPanel = new HomeBodyPanel(this.homeFrameController);
     }
 
     private void init(TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {

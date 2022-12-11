@@ -1,22 +1,21 @@
-package org.swing.app.view.home.components;
+package org.swing.app.view.home.components.taskbase;
 
+import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ui.ActivationLabel;
 import org.swing.app.view.components.ui.Checker;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.Popup;
 import org.swing.app.view.components.ui.PopupItem;
 import org.swing.app.view.components.ui.UIComponentFactory;
+import org.swing.app.view.home.HomeWrapperComponent;
 
-import javax.swing.JMenuItem;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public abstract class TaskPanel extends PanelWrapperComponent implements ActionListener {
+public abstract class TaskPanel extends HomeWrapperComponent implements ActionListener {
 
     protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
@@ -27,16 +26,23 @@ public abstract class TaskPanel extends PanelWrapperComponent implements ActionL
     protected TaskCenterPanel taskCenterPanel;
     protected Label removeLabel;
     protected Popup popup;
-    private PopupItem editPopupItem;
-    private PopupItem removePopupItem;
+    protected PopupItem editPopupItem;
+    protected PopupItem removePopupItem;
 
     private final int preferHeight;
 
-    public TaskPanel(int preferHeight, TaskPanelDto taskPanelDto) {
-        super();
+    protected final String taskId;
+
+    public TaskPanel(HomeFrameController homeFrameController, int preferHeight, TaskPanelDto taskPanelDto) {
+        super(homeFrameController);
         this.preferHeight = preferHeight;
+        this.taskId = taskPanelDto.getId();
         setLayout(MAIN_LAYOUT);
         init(taskPanelDto);
+    }
+
+    public String getTaskId() {
+        return taskId;
     }
 
     public int getPreferHeight() {
@@ -108,16 +114,4 @@ public abstract class TaskPanel extends PanelWrapperComponent implements ActionL
     }
 
     public abstract void update(TaskPanelDto taskPanelDto);
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        JMenuItem eventSource = (JMenuItem) e.getSource();
-
-        if (eventSource == this.editPopupItem.getMenuItem()) {
-            return;
-        }
-        if (eventSource == this.removePopupItem.getMenuItem()) {
-            return;
-        }
-    }
 }
