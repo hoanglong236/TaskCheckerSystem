@@ -6,7 +6,7 @@ import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.FrameWrapperComponent;
 import org.swing.app.view.components.ui.Button;
-import org.swing.app.view.components.ui.UIComponentFactory;
+import org.swing.app.view.components.factory.UIComponentFactory;
 
 import javax.swing.JButton;
 import java.awt.Dimension;

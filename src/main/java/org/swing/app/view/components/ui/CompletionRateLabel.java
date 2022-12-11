@@ -4,7 +4,7 @@ import org.swing.app.view.common.ViewConstant;
 
 public class CompletionRateLabel extends Label {
 
-    protected CompletionRateLabel(int completedCount, int totalCount) {
+    public CompletionRateLabel(int completedCount, int totalCount) {
         super(ViewConstant.ICON_LOCATION_PLANNING, CompletionRateLabel.getCompletionRate(completedCount, totalCount));
     }
 

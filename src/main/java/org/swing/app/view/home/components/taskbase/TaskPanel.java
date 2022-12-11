@@ -9,7 +9,7 @@ import org.swing.app.view.components.ui.Checker;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.Popup;
 import org.swing.app.view.components.ui.PopupItem;
-import org.swing.app.view.components.ui.UIComponentFactory;
+import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
 
 import java.awt.FlowLayout;

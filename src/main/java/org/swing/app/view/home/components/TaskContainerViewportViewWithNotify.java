@@ -3,7 +3,7 @@ package org.swing.app.view.home.components;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.ui.Label;
-import org.swing.app.view.components.ui.UIComponentFactory;
+import org.swing.app.view.components.factory.UIComponentFactory;
 
 import java.awt.Component;
 import java.awt.Dimension;

@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 public class PopupItem extends SimpleComponent {
 
-    protected PopupItem(String itemName) {
+    public PopupItem(String itemName) {
         this.component = JComponentFactory.createJMenuItem();
         ((JMenuItem) this.component).setText(itemName);
     }

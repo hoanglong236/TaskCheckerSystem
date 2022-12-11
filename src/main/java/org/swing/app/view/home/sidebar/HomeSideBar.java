@@ -5,7 +5,7 @@ import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.ui.Button;
-import org.swing.app.view.components.ui.UIComponentFactory;
+import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.home.components.taskbase.TaskPanel;
 import org.swing.app.view.home.components.taskbase.TaskPanelContainer;

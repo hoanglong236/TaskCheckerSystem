@@ -2,6 +2,7 @@ package org.swing.app.view.components.ui;
 
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.factory.JComponentFactory;
+import org.swing.app.view.components.factory.UIComponentFactory;
 
 import javax.swing.JPopupMenu;
 import java.util.Iterator;
@@ -12,7 +13,7 @@ public class Popup extends SimpleComponent {
 
     protected final Set<PopupItem> popupItems = new LinkedHashSet<>();
 
-    protected Popup() {
+    public Popup() {
         this.component = JComponentFactory.createJPopupMenu();
     }
 

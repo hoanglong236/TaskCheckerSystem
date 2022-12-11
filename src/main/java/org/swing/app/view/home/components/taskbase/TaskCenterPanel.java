@@ -6,7 +6,7 @@ import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.ui.CompletionRateLabel;
 import org.swing.app.view.components.ui.DeadlineLabel;
 import org.swing.app.view.components.ui.Label;
-import org.swing.app.view.components.ui.UIComponentFactory;
+import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
 
 import java.awt.Dimension;

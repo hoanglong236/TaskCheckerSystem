@@ -1,4 +1,6 @@
-package org.swing.app.view.components.ui;
+package org.swing.app.view.components.factory;
+
+import org.swing.app.view.components.ui.*;
 
 import java.time.LocalDateTime;
 
