@@ -2,8 +2,9 @@ package org.swing.app.view.components.form.components.input;
 
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.PanelWrapperComponent;
-import org.swing.app.view.components.form.components.wrapper.LabelAndInputWrapper;
-import org.swing.app.view.components.form.components.wrapper.LabelAndInputWrapperFactory;
+import org.swing.app.view.components.form.components.InputComponent;
+import org.swing.app.view.components.form.components.LabelAndInputWrapper;
+import org.swing.app.view.components.form.components.factory.LabelAndInputWrapperFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -13,7 +14,7 @@ import java.time.LocalTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-class DateTimeChooser extends PanelWrapperComponent implements InputComponent {
+public class DateTimeChooser extends PanelWrapperComponent implements InputComponent {
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.MEDIUM_H_GAP, ViewConstant.SMALL_V_GAP);

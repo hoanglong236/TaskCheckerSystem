@@ -4,8 +4,8 @@ import org.swing.app.dto.TaskDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ViewComponent;
-import org.swing.app.view.components.form.components.wrapper.LabelAndInputWrapper;
-import org.swing.app.view.components.form.components.wrapper.LabelAndInputWrapperFactory;
+import org.swing.app.view.components.form.components.LabelAndInputWrapper;
+import org.swing.app.view.components.form.components.factory.LabelAndInputWrapperFactory;
 
 import java.awt.FlowLayout;
 import java.time.LocalDateTime;

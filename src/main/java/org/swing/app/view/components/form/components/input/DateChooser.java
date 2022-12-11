@@ -4,11 +4,12 @@ import com.toedter.calendar.JDateChooser;
 import org.swing.app.util.DateConverter;
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.factory.JComponentFactory;
+import org.swing.app.view.components.form.components.InputComponent;
 
 import java.time.LocalDate;
 import java.util.Date;
 
-class DateChooser extends SimpleComponent implements InputComponent {
+public class DateChooser extends SimpleComponent implements InputComponent {
 
     public DateChooser(LocalDate initValue) {
         super();

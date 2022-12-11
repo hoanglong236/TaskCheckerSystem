@@ -3,11 +3,12 @@ package org.swing.app.view.components.form.components.input;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.factory.JComponentFactory;
+import org.swing.app.view.components.form.components.InputComponent;
 
 import javax.swing.JComboBox;
 import java.util.Set;
 
-class ComboBox extends SimpleComponent implements InputComponent {
+public class ComboBox extends SimpleComponent implements InputComponent {
 
     private Set<String> valueRange;
 

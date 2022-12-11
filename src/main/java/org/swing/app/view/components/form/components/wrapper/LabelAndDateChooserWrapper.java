@@ -1,6 +1,7 @@
 package org.swing.app.view.components.form.components.wrapper;
 
-import org.swing.app.view.components.form.components.input.InputComponentFactory;
+import org.swing.app.view.components.form.components.factory.InputComponentFactory;
+import org.swing.app.view.components.form.components.LabelAndInputWrapper;
 
 import java.time.LocalDate;
 

@@ -3,12 +3,13 @@ package org.swing.app.view.components.form.components.input;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.factory.JComponentFactory;
+import org.swing.app.view.components.form.components.InputComponent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 import java.awt.Font;
 
-class LabelArea extends SimpleComponent implements InputComponent {
+public class LabelArea extends SimpleComponent implements InputComponent {
 
     private static final Font TEXT_FIELD_FONT = new Font(ViewConstant.PRIMARY_FONT_NAME,
             Font.PLAIN, ViewConstant.INPUT_TEXT_FONT_SIZE);

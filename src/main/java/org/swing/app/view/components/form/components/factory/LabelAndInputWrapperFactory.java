@@ -1,4 +1,11 @@
-package org.swing.app.view.components.form.components.wrapper;
+package org.swing.app.view.components.form.components.factory;
+
+import org.swing.app.view.components.form.components.wrapper.LabelAndComboBoxWrapper;
+import org.swing.app.view.components.form.components.wrapper.LabelAndDateChooserWrapper;
+import org.swing.app.view.components.form.components.wrapper.LabelAndDateTimeChooserWrapper;
+import org.swing.app.view.components.form.components.LabelAndInputWrapper;
+import org.swing.app.view.components.form.components.wrapper.LabelAndTextAreaWrapper;
+import org.swing.app.view.components.form.components.wrapper.LabelAndTextFieldWrapper;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

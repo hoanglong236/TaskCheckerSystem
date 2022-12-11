@@ -3,10 +3,10 @@ package org.swing.app.view.home.components.nodetask;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.components.form.components.input.AllowTypingComponent;
-import org.swing.app.view.components.form.components.input.InputComponent;
-import org.swing.app.view.components.form.components.input.InputComponentFactory;
+import org.swing.app.view.components.form.components.InputComponent;
+import org.swing.app.view.components.form.components.factory.InputComponentFactory;
 import org.swing.app.view.components.factory.UIComponentFactory;
+import org.swing.app.view.components.form.components.input.AllowTypingInputComponent;
 import org.swing.app.view.home.components.taskbase.TaskContentPanel;
 import org.swing.app.view.home.components.leaftask.factory.LeafTaskPanelContainerFactory;
 
@@ -30,7 +30,7 @@ public class NodeTaskContentPanel extends TaskContentPanel implements MouseListe
     // TODO: handle this
     private void setupTextField() {
         this.textField = InputComponentFactory.createTextField();
-        ((AllowTypingComponent) this.textField).addKeyListener(this);
+        ((AllowTypingInputComponent) this.textField).addKeyListener(this);
     }
 
     private void onKeyPressedTextField() {

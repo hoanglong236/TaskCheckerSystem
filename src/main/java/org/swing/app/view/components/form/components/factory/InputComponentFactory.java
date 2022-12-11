@@ -1,4 +1,13 @@
-package org.swing.app.view.components.form.components.input;
+package org.swing.app.view.components.form.components.factory;
+
+import org.swing.app.view.components.form.components.input.ComboBox;
+import org.swing.app.view.components.form.components.input.DateChooser;
+import org.swing.app.view.components.form.components.input.DateTimeChooser;
+import org.swing.app.view.components.form.components.InputComponent;
+import org.swing.app.view.components.form.components.input.LabelArea;
+import org.swing.app.view.components.form.components.input.LabelField;
+import org.swing.app.view.components.form.components.input.TextArea;
+import org.swing.app.view.components.form.components.input.TextField;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -1,8 +1,9 @@
 package org.swing.app.view.components.form.components.wrapper;
 
-import org.swing.app.view.components.form.components.input.InputComponentFactory;
+import org.swing.app.view.components.form.components.factory.InputComponentFactory;
+import org.swing.app.view.components.form.components.LabelAndInputWrapper;
 
-class LabelAndTextAreaWrapper extends LabelAndInputWrapper {
+public class LabelAndTextAreaWrapper extends LabelAndInputWrapper {
 
     public LabelAndTextAreaWrapper(String labelText, String initValue) {
         super();

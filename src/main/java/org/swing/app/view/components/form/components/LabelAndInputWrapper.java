@@ -1,9 +1,8 @@
-package org.swing.app.view.components.form.components.wrapper;
+package org.swing.app.view.components.form.components;
 
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.PanelWrapperComponent;
-import org.swing.app.view.components.form.components.input.InputComponent;
-import org.swing.app.view.components.form.components.input.InputComponentFactory;
+import org.swing.app.view.components.form.components.factory.InputComponentFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
