@@ -3,14 +3,22 @@ package org.swing.app.view.home.components.nodetask;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.components.factory.UIComponentFactory;
+import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.home.components.taskbase.TaskCenterPanel;
 
 import java.awt.Dimension;
 
 class NodeTaskCenterPanel extends TaskCenterPanel {
 
+    private Label noteNotifyLabel;
+
     public NodeTaskCenterPanel(HomeFrameController homeFrameController, TaskPanelDto taskPanelDto) {
         super(homeFrameController, taskPanelDto);
+    }
+
+    private void initNoteNotifyLabel() {
+        this.noteNotifyLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_NOTE);
     }
 
     @Override

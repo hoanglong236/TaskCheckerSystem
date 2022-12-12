@@ -21,7 +21,6 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
     protected Label titleLabel;
     protected DeadlineLabel deadlineLabel;
     protected CompletionRateLabel completionRateLabel;
-    protected Label noteNotifyLabel;
 
     public TaskCenterPanel(HomeFrameController homeFrameController, TaskPanelDto taskPanelDto) {
         super(homeFrameController);
@@ -41,17 +40,25 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
         this.completionRateLabel = UIComponentFactory.createCompletionRateLabel(completedCount, totalCount);
     }
 
-    protected void initNoteNotifyLabel() {
-        this.noteNotifyLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_NOTE);
-    }
-
     protected void init(TaskPanelDto taskPanelDto) {
         initTitleLabel(taskPanelDto.getTitle());
         addChildComponent(this.titleLabel);
     }
 
+    protected void updateTitleLabel(String title) {
+        this.titleLabel.setText(title);
+    }
+
+    protected void updateDeadlineLabel(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
+        this.deadlineLabel.update(startDateTime, finishDateTime);
+    }
+
+    protected void updateCompletionRateLabel(int completedCount, int totalCount) {
+        this.completionRateLabel.update(completedCount, totalCount);
+    }
+
     public void update(TaskPanelDto taskPanelDto) {
-        this.titleLabel.setText(taskPanelDto.getTitle());
+        updateTitleLabel(taskPanelDto.getTitle());
     }
 
     private boolean hasOtherChildComponents() {

@@ -3,6 +3,8 @@ package org.swing.app.view.home.components.nodetask;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.components.factory.UIComponentFactory;
+import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.home.components.taskbase.TaskPanel;
 
 import java.awt.Dimension;
@@ -10,8 +12,18 @@ import java.awt.event.ActionEvent;
 
 public class NodeTaskPanel extends TaskPanel {
 
+    private Label importantLabel;
+
     public NodeTaskPanel(HomeFrameController homeFrameController, int preferHeight, TaskPanelDto taskPanelDto) {
         super(homeFrameController, preferHeight, taskPanelDto);
+    }
+
+    private void initImportantLabel(boolean important) {
+        if (important) {
+            this.importantLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_IMPORTANT);
+        } else {
+            this.importantLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_UNIMPORTANT);
+        }
     }
 
     @Override
@@ -35,6 +47,14 @@ public class NodeTaskPanel extends TaskPanel {
 
         initPopup();
         setPopup(this.popup);
+    }
+
+    private void updateImportantLabel(boolean important) {
+        if (important) {
+            this.importantLabel.setIcon(ViewConstant.ICON_LOCATION_IMPORTANT);
+        } else {
+            this.importantLabel.setIcon(ViewConstant.ICON_LOCATION_UNIMPORTANT);
+        }
     }
 
     @Override
@@ -80,6 +100,5 @@ public class NodeTaskPanel extends TaskPanel {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
     }
 }

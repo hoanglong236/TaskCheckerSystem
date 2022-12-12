@@ -22,7 +22,6 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
 
     protected ActivationLabel activationLabel;
     protected Checker statusChecker;
-    protected Label importantLabel;
     protected TaskCenterPanel taskCenterPanel;
     protected Label removeLabel;
     protected Popup popup;
@@ -55,14 +54,6 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
 
     protected void initStatusChecker(boolean checked) {
         this.statusChecker = UIComponentFactory.createChecker(checked);
-    }
-
-    protected void initImportantLabel(boolean important) {
-        if (important) {
-            this.importantLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_IMPORTANT);
-        } else {
-            this.importantLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_UNIMPORTANT);
-        }
     }
 
     protected abstract void initTaskCenterPanel(TaskPanelDto taskPanelDto);
@@ -99,14 +90,6 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
 
     protected void updateStatusChecker(boolean checked) {
         this.statusChecker.setChecked(checked);
-    }
-
-    protected void updateImportantLabel(boolean important) {
-        if (important) {
-            this.importantLabel.setIcon(ViewConstant.ICON_LOCATION_IMPORTANT);
-        } else {
-            this.importantLabel.setIcon(ViewConstant.ICON_LOCATION_UNIMPORTANT);
-        }
     }
 
     protected void updateTaskCenterPanel(TaskPanelDto taskPanelDto) {
