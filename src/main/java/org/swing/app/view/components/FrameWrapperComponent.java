@@ -1,7 +1,6 @@
 package org.swing.app.view.components;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import java.awt.Color;
 
 public abstract class FrameWrapperComponent extends WrapperComponent {
@@ -27,9 +26,5 @@ public abstract class FrameWrapperComponent extends WrapperComponent {
     @Override
     public void setBackgroundColor(Color color) {
         ((JFrame) this.component).getContentPane().setBackground(color);
-    }
-
-    public void showMessageDialog(String message) {
-        JOptionPane.showMessageDialog(getComponent(), message);
     }
 }

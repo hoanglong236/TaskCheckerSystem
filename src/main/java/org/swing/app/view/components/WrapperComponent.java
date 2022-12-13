@@ -39,12 +39,14 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
     public void addChildComponent(ViewComponent childComponent, int position) {
         this.childComponents.add(childComponent);
         this.component.add(childComponent.getComponent(), position);
+        childComponent.setParent(this);
     }
 
     @Override
     public void removeChildComponent(ViewComponent childComponent) {
         this.childComponents.remove(childComponent);
         this.component.remove(childComponent.getComponent());
+        childComponent.setParent(null);
     }
 
     protected abstract void loadChildComponentsSize();

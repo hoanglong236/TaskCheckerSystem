@@ -6,7 +6,6 @@ import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.home.components.taskbase.TaskPanel;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 
 public class LeafTaskPanel extends TaskPanel {
 
@@ -27,8 +26,8 @@ public class LeafTaskPanel extends TaskPanel {
         initTaskCenterPanel(taskPanelDto);
         addChildComponent(this.taskCenterPanel);
 
-        initRemoveLabel();
-        addChildComponent(this.removeLabel);
+        initPopup();
+        addChildComponent(this.popup);
     }
 
     @Override
@@ -41,7 +40,6 @@ public class LeafTaskPanel extends TaskPanel {
     protected void setNotResizableChildComponents() {
         this.statusChecker.setResizable(false);
         this.taskCenterPanel.setResizable(true);
-        this.removeLabel.setResizable(false);
     }
 
     @Override
@@ -57,17 +55,8 @@ public class LeafTaskPanel extends TaskPanel {
         final int statusCheckerWidth = 30;
         this.childComponentSizeMap.put(this.statusChecker, new Dimension(statusCheckerWidth, maxChildComponentHeight));
 
-        final int removeLabelWidth = 30;
-        this.childComponentSizeMap.put(this.removeLabel, new Dimension(removeLabelWidth, maxChildComponentHeight));
-
-        final int taskCenterPanelWidth = availableWidth - hGap - statusCheckerWidth
-                - hGap - removeLabelWidth - hGap;
+        final int taskCenterPanelWidth = availableWidth - hGap - statusCheckerWidth - hGap;
         this.childComponentSizeMap.put(this.taskCenterPanel,
                 new Dimension(taskCenterPanelWidth, maxChildComponentHeight));
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
     }
 }

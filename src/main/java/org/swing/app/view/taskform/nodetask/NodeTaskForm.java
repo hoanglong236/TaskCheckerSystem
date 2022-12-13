@@ -2,12 +2,22 @@ package org.swing.app.view.taskform.nodetask;
 
 import org.swing.app.dto.TaskDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.taskform.TaskFormBase;
+import org.swing.app.view.components.form.components.LabelAndInputWrapper;
+import org.swing.app.view.components.form.components.factory.LabelAndInputWrapperFactory;
+import org.swing.app.view.taskform.TaskForm;
 
 import java.awt.Dimension;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-class NodeTaskForm extends TaskFormBase {
+public class NodeTaskForm extends TaskForm {
+
+    private static final String IMPORTANT_LABEL_TEXT = "Important: ";
+    private static final String NOTE_LABEL_TEXT = "Note: ";
+
+    private LabelAndInputWrapper importantInputWrapper;
+    private LabelAndInputWrapper noteInputWrapper;
 
     public NodeTaskForm() {
         super();
@@ -15,6 +25,32 @@ class NodeTaskForm extends TaskFormBase {
 
     public NodeTaskForm(TaskDto taskDto) {
         super(taskDto);
+    }
+
+    private void initImportantInputWrapper() {
+        final Set<String> importantValueRange = new LinkedHashSet<>();
+        importantValueRange.add("Yes");
+        importantValueRange.add("No");
+        this.importantInputWrapper = LabelAndInputWrapperFactory
+                .createLabelAndComboBoxWrapper(IMPORTANT_LABEL_TEXT, importantValueRange);
+    }
+
+    private void initImportantInputWrapper(boolean important) {
+        final Set<String> importantValueRange = new LinkedHashSet<>();
+        importantValueRange.add("Yes");
+        importantValueRange.add("No");
+        final String initValue = important ? "Yes" : "No";
+
+        this.importantInputWrapper = LabelAndInputWrapperFactory
+                .createLabelAndComboBoxWrapper(IMPORTANT_LABEL_TEXT, importantValueRange, initValue);
+    }
+
+    private void initNoteInputWrapper() {
+        this.noteInputWrapper = LabelAndInputWrapperFactory.createLabelAndTextAreaWrapper(NOTE_LABEL_TEXT);
+    }
+
+    private void initNoteInputWrapper(String note) {
+        this.noteInputWrapper = LabelAndInputWrapperFactory.createLabelAndTextAreaWrapper(NOTE_LABEL_TEXT, note);
     }
 
     @Override
@@ -85,7 +121,7 @@ class NodeTaskForm extends TaskFormBase {
     @Override
     public TaskDto getFormData() {
         final String title = (String) this.titleInputWrapper.getValue();
-        final boolean important = this.importantInputWrapper.getValue().equals("Yes") ? true : false;
+        final boolean important = this.importantInputWrapper.getValue().equals("Yes");
         final LocalDateTime startDatetime = (LocalDateTime) this.startDatetimeInputWrapper.getValue();
         final LocalDateTime finishDatetime = (LocalDateTime) this.finishDatetimeInputWrapper.getValue();
         final String note = (String) this.noteInputWrapper.getValue();

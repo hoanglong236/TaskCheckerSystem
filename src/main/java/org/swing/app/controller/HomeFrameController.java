@@ -7,6 +7,9 @@ import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.home.HomeFrame;
+import org.swing.app.view.home.components.leaftask.LeafTaskPanel;
+import org.swing.app.view.home.components.nodetask.NodeTaskPanel;
+import org.swing.app.view.home.components.roottask.RootTaskPanel;
 import org.swing.app.view.home.components.taskbase.TaskPanel;
 
 import java.util.Map;
@@ -27,15 +30,10 @@ public class HomeFrameController {
         this.commonBusiness = new CommonBusiness();
     }
 
+    // TODO: handle this
     public void insertTaskByDto(TaskDto taskDto) {
         final boolean isSuccess = this.commonBusiness.insertTaskByDto(taskDto);
         final MessageLoader messageLoader = MessageLoader.getInstance();
-
-        if (isSuccess) {
-            this.homeFrame.showMessageDialog(messageLoader.getMessage("insert.success"));
-        } else {
-            this.homeFrame.showMessageDialog(messageLoader.getMessage("insert.failure"));
-        }
     }
 
     public void startHomeFrame() {
@@ -63,22 +61,31 @@ public class HomeFrameController {
         return this.homeFrameBusiness.getDailyTaskPanelDto();
     }
 
-    public void updateRootTaskPanel(TaskPanel taskPanel) {
+    public void updateTaskPanel(TaskPanel taskPanel) {
         final String taskId = taskPanel.getTaskId();
 
         this.taskPanelToUpdateMap.put(taskId, taskPanel);
-        this.taskFormFrameController.startUpdatingRootTaskFormFrame(taskId);
-
-    }
-
-    public void removeTaskPanel(TaskPanel taskPanel) {
-
+        if (taskPanel instanceof RootTaskPanel) {
+            this.taskFormFrameController.startUpdatingRootTaskFormFrame(
+                    TaskFormFrameController.ROOT_TASK_TYPE, taskId);
+            return;
+        }
+        if (taskPanel instanceof NodeTaskPanel) {
+            this.taskFormFrameController.startUpdatingRootTaskFormFrame(
+                    TaskFormFrameController.NODE_TASK_TYPE, taskId);
+            return;
+        }
+        if (taskPanel instanceof LeafTaskPanel) {
+            this.taskFormFrameController.startUpdatingRootTaskFormFrame(
+                    TaskFormFrameController.LEAF_TASK_TYPE, taskId);
+            return;
+        }
     }
 
     public void updateTaskSuccess(String taskId) {
         final TaskPanel taskPanel = this.taskPanelToUpdateMap.get(taskId);
         final TaskPanelDto taskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
 
-        taskPanel.update(taskPanelDto);
+        taskPanel.updateSuccessHandler(taskPanelDto);
     }
 }

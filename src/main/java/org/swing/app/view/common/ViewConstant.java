@@ -46,8 +46,9 @@ public class ViewConstant {
     public static final byte PRIMARY_FONT_SIZE = 15;
 
     public static final Dimension HOME_FRAME_PREFER_SIZE = new Dimension(1140, 650);
-    public static final Dimension ROOT_TASK_FRAME_PREFER_SIZE = new Dimension(600, 320);
-    public static final Dimension NODE_TASK_FRAME_PREFER_SIZE = new Dimension(600, 400);
+    public static final Dimension ROOT_TASK_FORM_FRAME_PREFER_SIZE = new Dimension(600, 320);
+    public static final Dimension NODE_TASK_FORM_FRAME_PREFER_SIZE = new Dimension(600, 400);
+    public static final Dimension LEAF_TASK_FORM_FRAME_PREFER_SIZE = new Dimension(600, 200);
     public static final int SIDEBAR_WIDTH = 330;
     public static final Color ACTIVATION_COLOR = new Color(230, 230, 230);
     public static final byte ROOT_TASK_PANEL_HEIGHT = 60;

@@ -5,10 +5,11 @@ import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.FrameWrapperComponent;
+import org.swing.app.view.components.OptionPane;
 import org.swing.app.view.components.ui.Button;
 import org.swing.app.view.components.factory.UIComponentFactory;
+import org.swing.app.view.taskform.factory.TaskFormFactory;
 
-import javax.swing.JButton;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -158,10 +159,16 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        final JButton eventSource = (JButton) e.getSource();
+        final Object eventSource = e.getSource();
 
         if (eventSource == this.submitButton.getComponent()) {
-            submit();
+            final MessageLoader messageLoader = MessageLoader.getInstance();
+            final int result = OptionPane.showConfirmDialog(messageLoader.getMessage("confirm.dialog.question"),
+                    messageLoader.getMessage("confirm.dialog.add.task.title"));
+
+            if (result == OptionPane.YES_DIALOG_OPTION) {
+                submit();
+            }
             return;
         }
         if (eventSource == this.resetButton.getComponent()) {

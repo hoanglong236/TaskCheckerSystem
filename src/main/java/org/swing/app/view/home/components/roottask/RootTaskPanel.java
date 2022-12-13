@@ -6,7 +6,6 @@ import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.home.components.taskbase.TaskPanel;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 
 public class RootTaskPanel extends TaskPanel {
 
@@ -70,16 +69,5 @@ public class RootTaskPanel extends TaskPanel {
 
     // TODO: handle dispose popup
     public void disposePopup() {
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        final Object eventSource = e.getSource();
-
-        if (eventSource == this.editPopupItem) {
-            this.homeFrameController.updateRootTaskPanel(this);
-        } else if (eventSource == this.removePopupItem) {
-            this.homeFrameController.removeTaskPanel(this);
-        }
     }
 }

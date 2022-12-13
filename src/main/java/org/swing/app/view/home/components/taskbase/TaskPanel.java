@@ -1,18 +1,21 @@
 package org.swing.app.view.home.components.taskbase;
 
+import com.google.protobuf.DescriptorProtos;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.components.FrameWrapperComponent;
+import org.swing.app.view.components.OptionPane;
 import org.swing.app.view.components.ui.ActivationLabel;
 import org.swing.app.view.components.ui.Checker;
-import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.Popup;
 import org.swing.app.view.components.ui.PopupItem;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
 
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public abstract class TaskPanel extends HomeWrapperComponent implements ActionListener {
@@ -23,10 +26,9 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
     protected ActivationLabel activationLabel;
     protected Checker statusChecker;
     protected TaskCenterPanel taskCenterPanel;
-    protected Label removeLabel;
     protected Popup popup;
     protected PopupItem editPopupItem;
-    protected PopupItem removePopupItem;
+    protected PopupItem deletePopupItem;
 
     private final int preferHeight;
 
@@ -58,10 +60,6 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
 
     protected abstract void initTaskCenterPanel(TaskPanelDto taskPanelDto);
 
-    protected void initRemoveLabel() {
-        this.removeLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_REMOVE);
-    }
-
     private void initEditPopupItem() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         this.editPopupItem = UIComponentFactory.createPopupItem(
@@ -69,11 +67,11 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
         this.editPopupItem.addActionListener(this);
     }
 
-    private void initRemovePopupItem() {
+    private void initDeletePopupItem() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        this.removePopupItem = UIComponentFactory.createPopupItem(
+        this.deletePopupItem = UIComponentFactory.createPopupItem(
                 messageLoader.getMessage("remove.popup.item.title"));
-        this.removePopupItem.addActionListener(this);
+        this.deletePopupItem.addActionListener(this);
     }
 
     protected void initPopup() {
@@ -82,8 +80,8 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
         initEditPopupItem();
         this.popup.addPopupItem(this.editPopupItem);
 
-        initRemovePopupItem();
-        this.popup.addPopupItem(this.removePopupItem);
+        initDeletePopupItem();
+        this.popup.addPopupItem(this.deletePopupItem);
     }
 
     protected abstract void init(TaskPanelDto taskPanelDto);
@@ -97,4 +95,42 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
     }
 
     public abstract void update(TaskPanelDto taskPanelDto);
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        final Object eventSource = e.getSource();
+
+        if (eventSource == this.editPopupItem) {
+            this.homeFrameController.updateTaskPanel(this);
+            return;
+        }
+        if (eventSource == this.deletePopupItem) {
+            final MessageLoader messageLoader = MessageLoader.getInstance();
+            final byte result = OptionPane.showConfirmDialog(messageLoader.getMessage("confirm.dialog.question"),
+                    messageLoader.getMessage("confirm.dialog.add.task.title"));
+
+            if (result == OptionPane.YES_DIALOG_OPTION) {
+                final boolean isDeleteSuccess = this.homeFrameController.deleteTaskById(this.taskId);
+                if (isDeleteSuccess) {
+                    deleteSuccessHandler();
+                }
+            }
+            return;
+        }
+    }
+
+    public void updateSuccessHandler(TaskPanelDto taskPanelDto) {
+        update(taskPanelDto);
+
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        OptionPane.showMessageDialog(messageLoader.getMessage("update.success.dialog"));
+    }
+
+    private void deleteSuccessHandler() {
+        dispose();
+        this.parent.removeChildComponent(this);
+
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        OptionPane.showMessageDialog(messageLoader.getMessage("delete.success.dialog"));
+    }
 }

@@ -8,6 +8,9 @@ import java.awt.event.MouseListener;
 
 public interface ViewComponent {
 
+    WrapperComponent getParent();
+    void setParent(WrapperComponent parent);
+
     Component getComponent();
 
     void setVisible(boolean visible);

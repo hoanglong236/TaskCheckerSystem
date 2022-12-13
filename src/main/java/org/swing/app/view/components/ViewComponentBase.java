@@ -12,8 +12,19 @@ import java.util.Iterator;
 
 public abstract class ViewComponentBase implements ViewComponent {
 
+    protected WrapperComponent parent;
     protected Container component = null;
     private boolean resizable = true;
+
+    @Override
+    public WrapperComponent getParent() {
+        return parent;
+    }
+
+    @Override
+    public void setParent(WrapperComponent parent) {
+        this.parent = parent;
+    }
 
     @Override
     public Component getComponent() {

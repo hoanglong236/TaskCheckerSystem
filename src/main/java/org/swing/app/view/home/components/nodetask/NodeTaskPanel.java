@@ -8,7 +8,6 @@ import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.home.components.taskbase.TaskPanel;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 
 public class NodeTaskPanel extends TaskPanel {
 
@@ -96,9 +95,5 @@ public class NodeTaskPanel extends TaskPanel {
                 - hGap - statusCheckerWidth - hGap - importantLabelWidth - hGap;
         this.childComponentSizeMap.put(this.taskCenterPanel,
                 new Dimension(taskCenterPanelWidth, maxChildComponentHeight));
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
     }
 }

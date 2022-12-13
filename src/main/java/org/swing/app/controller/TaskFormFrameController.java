@@ -5,15 +5,23 @@ import org.swing.app.business.TaskFormFrameBusiness;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.taskform.TaskFormFrame;
-import org.swing.app.view.taskform.TaskFormFrameFactory;
+import org.swing.app.view.taskform.factory.TaskFormFrameFactory;
+import org.swing.app.view.taskform.leaftask.factory.LeafTaskFormFrameFactory;
+import org.swing.app.view.taskform.nodetask.factory.NodeTaskFormFrameFactory;
+import org.swing.app.view.taskform.roottask.factory.RootTaskFormFrameFactory;
 
 public class TaskFormFrameController {
 
+    public static final byte ROOT_TASK_TYPE = 0;
+    public static final byte NODE_TASK_TYPE = 1;
+    public static final byte LEAF_TASK_TYPE = 2;
+
     private HomeFrameController homeFrameController;
 
-    private TaskFormFrame taskFormFrame;
     private TaskFormFrameBusiness taskFormFrameBusiness;
     private CommonBusiness commonBusiness;
+
+    private TaskFormFrame taskFormFrame;
 
     public TaskFormFrameController(HomeFrameController homeFrameController) {
         this.homeFrameController = homeFrameController;
@@ -22,15 +30,10 @@ public class TaskFormFrameController {
         this.commonBusiness = new CommonBusiness();
     }
 
+    // TODO: handle this
     public void insertTaskByDto(TaskDto taskDto) {
         final boolean isSuccess = this.commonBusiness.insertTaskByDto(taskDto);
         final MessageLoader messageLoader = MessageLoader.getInstance();
-
-        if (isSuccess) {
-            this.taskFormFrame.showMessageDialog(messageLoader.getMessage("insert.success"));
-        } else {
-            this.taskFormFrame.showMessageDialog(messageLoader.getMessage("insert.failure"));
-        }
     }
 
     public void updateTaskByDto(TaskDto taskDto) {
@@ -38,36 +41,38 @@ public class TaskFormFrameController {
         final MessageLoader messageLoader = MessageLoader.getInstance();
 
         if (isSuccess) {
-            this.taskFormFrame.showMessageDialog(messageLoader.getMessage("update.success"));
             this.homeFrameController.updateTaskSuccess(taskDto.getId());
-        } else {
-            this.taskFormFrame.showMessageDialog(messageLoader.getMessage("update.failure"));
         }
     }
 
-    public void startAddingRootTaskFormFrame() {
-        this.taskFormFrame = TaskFormFrameFactory.createAddingRootTaskFormFrame(this);
+    public void startAddingTaskFormFrame(byte taskType) {
+        final TaskFormFrameFactory taskFormFrameFactory = getTaskFormFrameFactoryByTaskType(taskType);
+        this.taskFormFrame = taskFormFrameFactory.createAddingTaskFormFrame(this);
+        this.taskFormFrame.setVisible(true);
     }
 
-    public void startUpdatingRootTaskFormFrame(String taskId) {
+    public void startUpdatingRootTaskFormFrame(byte taskType, String taskId) {
         final TaskDto taskDto = taskFormFrameBusiness.getTaskDtoById(taskId);
         if (taskDto == null) {
-            startAddingRootTaskFormFrame();
+            startAddingTaskFormFrame(taskType);
             return;
         }
-        this.taskFormFrame = TaskFormFrameFactory.createUpdatingRootTaskFormFrame(this, taskDto);
+
+        final TaskFormFrameFactory taskFormFrameFactory = getTaskFormFrameFactoryByTaskType(taskType);
+        this.taskFormFrame = taskFormFrameFactory.createUpdatingTaskFormFrame(this, taskDto);
+        this.taskFormFrame.setVisible(true);
     }
 
-    public void startAddingNodeTaskFormFrame() {
-        this.taskFormFrame = TaskFormFrameFactory.createAddingNodeTaskFormFrame(this);
-    }
-
-    public void startUpdatingNodeTaskFormFrame(String taskId) {
-        final TaskDto taskDto = taskFormFrameBusiness.getTaskDtoById(taskId);
-        if (taskDto == null) {
-            startAddingNodeTaskFormFrame();
-            return;
+    private TaskFormFrameFactory getTaskFormFrameFactoryByTaskType(byte taskType) {
+        switch (taskType) {
+            case ROOT_TASK_TYPE:
+                return new RootTaskFormFrameFactory();
+            case NODE_TASK_TYPE:
+                return new NodeTaskFormFrameFactory();
+            case LEAF_TASK_TYPE:
+                return new LeafTaskFormFrameFactory();
+            default:
+                throw new IllegalArgumentException();
         }
-        this.taskFormFrame = TaskFormFrameFactory.createUpdatingNodeTaskFormFrame(this, taskDto);
     }
 }
