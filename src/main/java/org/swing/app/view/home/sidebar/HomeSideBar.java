@@ -1,5 +1,6 @@
 package org.swing.app.view.home.sidebar;
 
+import org.swing.app.controller.ControllerBase;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
@@ -58,6 +59,7 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener 
     private void initAddTaskBtn() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         this.addTaskBtn = UIComponentFactory.createButton(messageLoader.getMessage("add.task.component.text"));
+        this.addTaskBtn.addActionListener(this);
     }
 
     private void init(TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> taskPanelDtos) {
@@ -99,15 +101,22 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener 
         this.addTaskBtn.setResizable(false);
     }
 
+    // TODO: handle this
+    private void onActionPerformedForAddTaskBtn() {
+        final boolean requestSuccess = this.homeFrameController.requestAddNewTaskPanel(
+                ControllerBase.ROOT_TASK_TYPE, this);
+
+        if (!requestSuccess) {
+            requestFailureHandler();
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         final Object eventSource = e.getSource();
 
         if (eventSource == this.addTaskBtn) {
-            // TODO: controller handle
-            final TaskPanelDto taskPanelDto = null;
-
-            this.taskPanelContainer.addTaskPanelByDto(taskPanelDto);
+            onActionPerformedForAddTaskBtn();
         }
     }
 }

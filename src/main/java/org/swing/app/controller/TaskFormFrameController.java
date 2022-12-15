@@ -10,11 +10,7 @@ import org.swing.app.view.taskform.leaftask.factory.LeafTaskFormFrameFactory;
 import org.swing.app.view.taskform.nodetask.factory.NodeTaskFormFrameFactory;
 import org.swing.app.view.taskform.roottask.factory.RootTaskFormFrameFactory;
 
-public class TaskFormFrameController {
-
-    public static final byte ROOT_TASK_TYPE = 0;
-    public static final byte NODE_TASK_TYPE = 1;
-    public static final byte LEAF_TASK_TYPE = 2;
+public class TaskFormFrameController extends ControllerBase {
 
     private HomeFrameController homeFrameController;
 
@@ -38,11 +34,7 @@ public class TaskFormFrameController {
 
     public void updateTaskByDto(TaskDto taskDto) {
         final boolean isSuccess = this.taskFormFrameBusiness.updateTaskByDto(taskDto);
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-
-        if (isSuccess) {
-            this.homeFrameController.updateTaskSuccess(taskDto.getId());
-        }
+        this.homeFrameController.handlerForActionUpdateTask(isSuccess, taskDto.getId());
     }
 
     public void startAddingTaskFormFrame(byte taskType) {

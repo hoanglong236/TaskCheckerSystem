@@ -1,24 +1,26 @@
 package org.swing.app.view.home.components.taskbase;
 
-import com.google.protobuf.DescriptorProtos;
+import org.swing.app.controller.ControllerBase;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.FrameWrapperComponent;
 import org.swing.app.view.components.OptionPane;
 import org.swing.app.view.components.ui.ActivationLabel;
 import org.swing.app.view.components.ui.Checker;
 import org.swing.app.view.components.ui.Popup;
 import org.swing.app.view.components.ui.PopupItem;
 import org.swing.app.view.components.factory.UIComponentFactory;
+import org.swing.app.view.home.DeletableTaskComponent;
 import org.swing.app.view.home.HomeWrapperComponent;
+import org.swing.app.view.home.UpdatableTaskComponent;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public abstract class TaskPanel extends HomeWrapperComponent implements ActionListener {
+public abstract class TaskPanel extends HomeWrapperComponent
+        implements ActionListener, UpdatableTaskComponent, DeletableTaskComponent {
 
     protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
@@ -42,6 +44,7 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
         init(taskPanelDto);
     }
 
+    @Override
     public String getTaskId() {
         return taskId;
     }
@@ -96,41 +99,83 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
 
     public abstract void update(TaskPanelDto taskPanelDto);
 
+    private void onActionPerformedForEditPopupItem() {
+        boolean requestSuccess = false;
+
+        if (getClass().getName().equals("RootTaskPanel")) {
+            requestSuccess = this.homeFrameController.requestUpdateTaskPanel(
+                    ControllerBase.ROOT_TASK_TYPE, this);
+        }
+        else if (getClass().getName().equals("NodeTaskPanel")) {
+            requestSuccess = this.homeFrameController.requestUpdateTaskPanel(
+                    ControllerBase.NODE_TASK_TYPE, this);
+        }
+        else if (getClass().getName().equals("LeafTaskPanel")) {
+            requestSuccess = this.homeFrameController.requestUpdateTaskPanel(
+                    ControllerBase.LEAF_TASK_TYPE, this);
+        }
+
+        if (!requestSuccess) {
+            requestFailureHandler();
+        }
+    }
+
+    private void onActionPerformedForDeletePopupItem() {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        final boolean hasRequestingComponent = this.homeFrameController.hasRequestingComponent();
+
+        if (!hasRequestingComponent) {
+            requestFailureHandler();
+            return;
+        }
+
+        final byte result = OptionPane.showConfirmDialog(messageLoader.getMessage("confirm.dialog.question"),
+                messageLoader.getMessage("confirm.dialog.add.task.title"));
+        if (result == OptionPane.YES_DIALOG_OPTION) {
+            final boolean requestSuccess = this.homeFrameController.requestDeleteTaskPanel(this);
+            if (!requestSuccess) {
+                requestFailureHandler();
+            }
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         final Object eventSource = e.getSource();
 
         if (eventSource == this.editPopupItem) {
-            this.homeFrameController.updateTaskPanel(this);
+            onActionPerformedForEditPopupItem();
             return;
         }
         if (eventSource == this.deletePopupItem) {
-            final MessageLoader messageLoader = MessageLoader.getInstance();
-            final byte result = OptionPane.showConfirmDialog(messageLoader.getMessage("confirm.dialog.question"),
-                    messageLoader.getMessage("confirm.dialog.add.task.title"));
-
-            if (result == OptionPane.YES_DIALOG_OPTION) {
-                final boolean isDeleteSuccess = this.homeFrameController.deleteTaskById(this.taskId);
-                if (isDeleteSuccess) {
-                    deleteSuccessHandler();
-                }
-            }
+            onActionPerformedForDeletePopupItem();
             return;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    @Override
+    public void handlerForResultOfUpdateTaskAction(boolean isSuccess, TaskPanelDto taskPanelDto) {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+
+        if (isSuccess) {
+            update(taskPanelDto);
+            OptionPane.showMessageDialog(messageLoader.getMessage("update.success.dialog"));
+        } else {
+            OptionPane.showMessageDialog(messageLoader.getMessage("update.failure.dialog"));
         }
     }
 
-    public void updateSuccessHandler(TaskPanelDto taskPanelDto) {
-        update(taskPanelDto);
-
+    @Override
+    public void handlerForResultOfDeleteTaskAction(boolean isSuccess) {
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        OptionPane.showMessageDialog(messageLoader.getMessage("update.success.dialog"));
-    }
 
-    private void deleteSuccessHandler() {
-        dispose();
-        this.parent.removeChildComponent(this);
-
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-        OptionPane.showMessageDialog(messageLoader.getMessage("delete.success.dialog"));
+        if (isSuccess) {
+            dispose();
+            this.parent.removeChildComponent(this);
+            OptionPane.showMessageDialog(messageLoader.getMessage("delete.success.dialog"));
+        } else {
+            OptionPane.showMessageDialog(messageLoader.getMessage("delete.failure.dialog"));
+        }
     }
 }

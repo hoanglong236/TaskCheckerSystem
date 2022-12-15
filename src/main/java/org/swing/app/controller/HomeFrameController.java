@@ -6,19 +6,18 @@ import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.home.DeletableTaskComponent;
 import org.swing.app.view.home.HomeFrame;
-import org.swing.app.view.home.components.leaftask.LeafTaskPanel;
-import org.swing.app.view.home.components.nodetask.NodeTaskPanel;
-import org.swing.app.view.home.components.roottask.RootTaskPanel;
+import org.swing.app.view.home.HomeWrapperComponent;
+import org.swing.app.view.home.UpdatableTaskComponent;
 import org.swing.app.view.home.components.taskbase.TaskPanel;
 
-import java.util.Map;
 import java.util.Set;
 
-public class HomeFrameController {
+public class HomeFrameController extends ControllerBase {
 
     private HomeFrame homeFrame;
-    private Map<String, TaskPanel> taskPanelToUpdateMap;
+    private HomeWrapperComponent requestingComponent;
     private final TaskFormFrameController taskFormFrameController;
 
     private final HomeFrameBusiness homeFrameBusiness;
@@ -61,31 +60,68 @@ public class HomeFrameController {
         return this.homeFrameBusiness.getDailyTaskPanelDto();
     }
 
-    public void updateTaskPanel(TaskPanel taskPanel) {
-        final String taskId = taskPanel.getTaskId();
-
-        this.taskPanelToUpdateMap.put(taskId, taskPanel);
-        if (taskPanel instanceof RootTaskPanel) {
-            this.taskFormFrameController.startUpdatingRootTaskFormFrame(
-                    TaskFormFrameController.ROOT_TASK_TYPE, taskId);
-            return;
-        }
-        if (taskPanel instanceof NodeTaskPanel) {
-            this.taskFormFrameController.startUpdatingRootTaskFormFrame(
-                    TaskFormFrameController.NODE_TASK_TYPE, taskId);
-            return;
-        }
-        if (taskPanel instanceof LeafTaskPanel) {
-            this.taskFormFrameController.startUpdatingRootTaskFormFrame(
-                    TaskFormFrameController.LEAF_TASK_TYPE, taskId);
-            return;
-        }
+    public boolean hasRequestingComponent() {
+        return this.requestingComponent != null;
     }
 
-    public void updateTaskSuccess(String taskId) {
-        final TaskPanel taskPanel = this.taskPanelToUpdateMap.get(taskId);
-        final TaskPanelDto taskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
+    private boolean checkInstanceOfRequestingComponent(Object component) {
+        return (component instanceof HomeWrapperComponent);
+    }
 
-        taskPanel.updateSuccessHandler(taskPanelDto);
+    public boolean requestAddNewTaskPanel(byte taskType, HomeWrapperComponent requestingComponent) {
+        if (hasRequestingComponent()) {
+            return false;
+        }
+        this.requestingComponent = requestingComponent;
+
+        this.taskFormFrameController.startAddingTaskFormFrame(taskType);
+        return true;
+    }
+
+    public boolean requestUpdateTaskPanel(byte taskType, UpdatableTaskComponent updatableTaskComponent) {
+        if (hasRequestingComponent()) {
+            return false;
+        }
+        if (checkInstanceOfRequestingComponent(updatableTaskComponent)) {
+            this.requestingComponent = (HomeWrapperComponent) updatableTaskComponent;
+        }
+
+        final String taskId = updatableTaskComponent.getTaskId();
+        this.taskFormFrameController.startUpdatingRootTaskFormFrame(taskType, taskId);
+        return true;
+    }
+
+    public boolean requestDeleteTaskPanel(DeletableTaskComponent deletableTaskComponent) {
+        if (hasRequestingComponent()) {
+            return false;
+        }
+        if (checkInstanceOfRequestingComponent(deletableTaskComponent)) {
+            this.requestingComponent = (HomeWrapperComponent) deletableTaskComponent;
+        }
+
+        final String taskId = deletableTaskComponent.getTaskId();
+        final boolean isSuccess = this.homeFrameBusiness.deleteTaskById(taskId);
+        handlerForActionDeleteTask(isSuccess);
+        return true;
+    }
+
+    public void handlerForActionUpdateTask(boolean isSuccess, String taskId) {
+        if (this.requestingComponent instanceof TaskPanel) {
+            final TaskPanelDto taskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
+            ((UpdatableTaskComponent) this.requestingComponent)
+                    .handlerForResultOfUpdateTaskAction(isSuccess, taskPanelDto);
+            this.requestingComponent = null;
+            return;
+        }
+        throw new IllegalCallerException();
+    }
+
+    private void handlerForActionDeleteTask(boolean isSuccess) {
+        if (this.requestingComponent instanceof DeletableTaskComponent) {
+            ((DeletableTaskComponent) this.requestingComponent).handlerForResultOfDeleteTaskAction(isSuccess);
+            this.requestingComponent = null;
+            return;
+        }
+        throw new IllegalCallerException();
     }
 }

@@ -33,7 +33,7 @@ public class NodeTaskContentPanel extends TaskContentPanel implements MouseListe
         ((AllowTypingInputComponent) this.textField).addKeyListener(this);
     }
 
-    private void onKeyPressedTextField() {
+    private void onKeyPressedForTextField() {
         // TODO: controler handle
 
         removeChildComponent(this.textField);
@@ -92,7 +92,7 @@ public class NodeTaskContentPanel extends TaskContentPanel implements MouseListe
         final int keyCode = e.getKeyCode();
 
         if (keyCode == KeyEvent.VK_ENTER) {
-            onKeyPressedTextField();
+            onKeyPressedForTextField();
         }
     }
 
