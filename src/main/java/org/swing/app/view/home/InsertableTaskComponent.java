@@ -1,6 +1,8 @@
 package org.swing.app.view.home;
 
-public interface InsertableTaskComponent {
+import org.swing.app.dto.TaskPanelDto;
 
-    void handlerForResultOfInsertTaskAction(boolean isSuccess);
+public interface InsertableTaskComponent extends AbleToRequestComponent {
+
+    void handlerForResultOfInsertTaskAction(boolean isSuccess, TaskPanelDto taskPanelDto);
 }

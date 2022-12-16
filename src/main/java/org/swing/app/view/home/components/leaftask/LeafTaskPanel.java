@@ -20,6 +20,9 @@ public class LeafTaskPanel extends TaskPanel {
 
     @Override
     protected void init(TaskPanelDto taskPanelDto) {
+        initActivationLabel();
+        addChildComponent(this.activationLabel);
+
         initStatusChecker(taskPanelDto.isCompleted());
         addChildComponent(this.statusChecker);
 

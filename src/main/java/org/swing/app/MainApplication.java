@@ -1,5 +1,7 @@
 package org.swing.app;
 
+import org.swing.app.controller.HomeFrameController;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,18 +16,8 @@ import java.awt.event.ActionListener;
 public class MainApplication {
 
     public static void main(String[] args) {
-//
-//        JFrame frame = new JFrame();
-//        frame.setPreferredSize(new Dimension(1140, 650));
-//
-//        frame.pack();
-//        frame.setLocationRelativeTo(null);
-
-//        must be set finally, Neu khong thi frame se hien thi nhung diem anh ko mong muon
-//        frame.setVisible(true);
-
-
-        createWindow();
+        final HomeFrameController homeFrameController = new HomeFrameController();
+        homeFrameController.startHomeFrame();
     }
 
     private static void createWindow() {

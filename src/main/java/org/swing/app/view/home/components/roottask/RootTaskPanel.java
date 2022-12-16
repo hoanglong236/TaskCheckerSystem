@@ -59,15 +59,11 @@ public class RootTaskPanel extends TaskPanel {
                 new Dimension(taskCenterPanelWidth, maxChildComponentHeight));
     }
 
-    public void activate() {
-        this.activationLabel.activate();
-    }
 
-    public void deactivate() {
-        this.activationLabel.deactivate();
-    }
 
     // TODO: handle dispose popup
     public void disposePopup() {
     }
+
+
 }

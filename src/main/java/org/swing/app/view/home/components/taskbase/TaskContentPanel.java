@@ -4,17 +4,19 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.components.OptionPane;
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
+import org.swing.app.view.home.InsertableTaskComponent;
 import org.swing.app.view.home.components.factory.TaskPanelContainerFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Set;
 
-public abstract class TaskContentPanel extends HomeWrapperComponent {
+public abstract class TaskContentPanel extends HomeWrapperComponent implements InsertableTaskComponent {
 
     protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
@@ -83,5 +85,17 @@ public abstract class TaskContentPanel extends HomeWrapperComponent {
         this.titleLabel.setResizable(true);
         this.taskPanelContainer.setResizable(true);
         this.addNewTaskComponent.setResizable(false);
+    }
+
+    @Override
+    public void handlerForResultOfInsertTaskAction(boolean isSuccess, TaskPanelDto taskPanelDto) {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+
+        if (isSuccess) {
+            this.taskPanelContainer.addTaskPanelByDto(taskPanelDto);
+            OptionPane.showMessageDialog(messageLoader.getMessage("insert.success.dialog"));
+        } else {
+            OptionPane.showMessageDialog(messageLoader.getMessage("insert.failure.dialog"));
+        }
     }
 }

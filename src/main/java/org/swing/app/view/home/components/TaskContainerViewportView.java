@@ -6,13 +6,14 @@ import org.swing.app.view.components.ui.VerticalViewportView;
 import org.swing.app.view.home.components.taskbase.TaskPanel;
 
 import java.awt.Dimension;
-import java.util.Iterator;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class TaskContainerViewportView extends VerticalViewportView {
+public class TaskContainerViewportView extends VerticalViewportView implements MouseListener {
 
-    private Set<TaskPanel> taskPanels = new LinkedHashSet<>();
+    private final Set<TaskPanel> taskPanels = new LinkedHashSet<>();
 
     public TaskContainerViewportView() {
         super();
@@ -23,10 +24,8 @@ public class TaskContainerViewportView extends VerticalViewportView {
         this.childComponentSizeMap.clear();
 
         final int preferChildComponentWidth = getPreferChildComponentWidth();
-        final Iterator<TaskPanel> taskPanelIterator = this.taskPanels.iterator();
 
-        while (taskPanelIterator.hasNext()) {
-            final TaskPanel taskPanel = taskPanelIterator.next();
+        for (final TaskPanel taskPanel : this.taskPanels) {
             final int taskPanelPreferHeight = taskPanel.getPreferHeight();
             this.childComponentSizeMap.put(taskPanel, new Dimension(preferChildComponentWidth, taskPanelPreferHeight));
 
@@ -59,5 +58,45 @@ public class TaskContainerViewportView extends VerticalViewportView {
         }
         super.addChildComponent(childComponent, position);
         this.taskPanels.add((TaskPanel) childComponent);
+    }
+
+    private void deactivateAllTaskPanels() {
+        for (final TaskPanel taskPanel : this.taskPanels) {
+            taskPanel.deactivate();
+        }
+    }
+
+    private void onMousePressedForTaskPanel(TaskPanel taskPanel) {
+        deactivateAllTaskPanels();
+        taskPanel.activate();
+
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        final Object eventSource = e.getSource();
+
+        if (eventSource instanceof TaskPanel) {
+            onMousePressedForTaskPanel((TaskPanel) eventSource);
+            return;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }

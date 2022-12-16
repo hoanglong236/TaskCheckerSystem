@@ -1,5 +1,6 @@
 package org.swing.app.view.home.components.nodetask;
 
+import org.swing.app.controller.ControllerBase;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
@@ -34,12 +35,12 @@ public class NodeTaskContentPanel extends TaskContentPanel implements MouseListe
     }
 
     private void onKeyPressedForTextField() {
-        // TODO: controler handle
+        final boolean requestSuccess = this.homeFrameController.requestAddNewTaskPanel(
+                ControllerBase.ROOT_TASK_TYPE, this);
 
-        removeChildComponent(this.textField);
-
-        addChildComponent(this.addNewTaskComponent);
-        this.addNewTaskComponent.requestFocusInWindow();
+        if (!requestSuccess) {
+            requestFailureHandler();
+        }
     }
 
     @Override
@@ -98,5 +99,14 @@ public class NodeTaskContentPanel extends TaskContentPanel implements MouseListe
 
     @Override
     public void keyReleased(KeyEvent e) {
+    }
+
+    @Override
+    public void handlerForResultOfInsertTaskAction(boolean isSuccess, TaskPanelDto taskPanelDto) {
+        super.handlerForResultOfInsertTaskAction(isSuccess, taskPanelDto);
+
+        removeChildComponent(this.textField);
+        addChildComponent(this.addNewTaskComponent);
+        this.addNewTaskComponent.requestFocusInWindow();
     }
 }

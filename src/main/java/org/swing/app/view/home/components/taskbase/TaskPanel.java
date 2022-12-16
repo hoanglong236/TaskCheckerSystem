@@ -178,4 +178,12 @@ public abstract class TaskPanel extends HomeWrapperComponent
             OptionPane.showMessageDialog(messageLoader.getMessage("delete.failure.dialog"));
         }
     }
+
+    public void activate() {
+        this.activationLabel.activate();
+    }
+
+    public void deactivate() {
+        this.activationLabel.deactivate();
+    }
 }

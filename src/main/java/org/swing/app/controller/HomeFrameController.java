@@ -2,22 +2,20 @@ package org.swing.app.controller;
 
 import org.swing.app.business.CommonBusiness;
 import org.swing.app.business.HomeFrameBusiness;
-import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
-import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.home.AbleToRequestComponent;
 import org.swing.app.view.home.DeletableTaskComponent;
 import org.swing.app.view.home.HomeFrame;
-import org.swing.app.view.home.HomeWrapperComponent;
+import org.swing.app.view.home.InsertableTaskComponent;
 import org.swing.app.view.home.UpdatableTaskComponent;
-import org.swing.app.view.home.components.taskbase.TaskPanel;
 
 import java.util.Set;
 
 public class HomeFrameController extends ControllerBase {
 
     private HomeFrame homeFrame;
-    private HomeWrapperComponent requestingComponent;
+    private AbleToRequestComponent requestingComponent;
     private final TaskFormFrameController taskFormFrameController;
 
     private final HomeFrameBusiness homeFrameBusiness;
@@ -27,12 +25,6 @@ public class HomeFrameController extends ControllerBase {
         this.taskFormFrameController = new TaskFormFrameController(this);
         this.homeFrameBusiness = new HomeFrameBusiness();
         this.commonBusiness = new CommonBusiness();
-    }
-
-    // TODO: handle this
-    public void insertTaskByDto(TaskDto taskDto) {
-        final boolean isSuccess = this.commonBusiness.insertTaskByDto(taskDto);
-        final MessageLoader messageLoader = MessageLoader.getInstance();
     }
 
     public void startHomeFrame() {
@@ -52,10 +44,6 @@ public class HomeFrameController extends ControllerBase {
         return this.homeFrameBusiness.getTaskPanelDtosByParentId(parentId);
     }
 
-    public boolean deleteTaskById(String taskId) {
-        return this.homeFrameBusiness.deleteTaskById(taskId);
-    }
-
     public TaskPanelDto getDailyTaskPanelDto() {
         return this.homeFrameBusiness.getDailyTaskPanelDto();
     }
@@ -64,16 +52,12 @@ public class HomeFrameController extends ControllerBase {
         return this.requestingComponent != null;
     }
 
-    private boolean checkInstanceOfRequestingComponent(Object component) {
-        return (component instanceof HomeWrapperComponent);
-    }
-
-    public boolean requestAddNewTaskPanel(byte taskType, HomeWrapperComponent requestingComponent) {
+    public boolean requestAddNewTaskPanel(byte taskType, InsertableTaskComponent insertableTaskComponent) {
         if (hasRequestingComponent()) {
             return false;
         }
-        this.requestingComponent = requestingComponent;
 
+        this.requestingComponent = insertableTaskComponent;
         this.taskFormFrameController.startAddingTaskFormFrame(taskType);
         return true;
     }
@@ -82,10 +66,8 @@ public class HomeFrameController extends ControllerBase {
         if (hasRequestingComponent()) {
             return false;
         }
-        if (checkInstanceOfRequestingComponent(updatableTaskComponent)) {
-            this.requestingComponent = (HomeWrapperComponent) updatableTaskComponent;
-        }
 
+        this.requestingComponent = updatableTaskComponent;
         final String taskId = updatableTaskComponent.getTaskId();
         this.taskFormFrameController.startUpdatingRootTaskFormFrame(taskType, taskId);
         return true;
@@ -95,18 +77,27 @@ public class HomeFrameController extends ControllerBase {
         if (hasRequestingComponent()) {
             return false;
         }
-        if (checkInstanceOfRequestingComponent(deletableTaskComponent)) {
-            this.requestingComponent = (HomeWrapperComponent) deletableTaskComponent;
-        }
 
+        this.requestingComponent = deletableTaskComponent;
         final String taskId = deletableTaskComponent.getTaskId();
         final boolean isSuccess = this.homeFrameBusiness.deleteTaskById(taskId);
         handlerForActionDeleteTask(isSuccess);
         return true;
     }
 
+    public void handlerForActionInsertTask(boolean isSuccess, String taskId) {
+        if (this.requestingComponent instanceof InsertableTaskComponent) {
+            final TaskPanelDto taskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
+            ((InsertableTaskComponent) this.requestingComponent)
+                    .handlerForResultOfInsertTaskAction(isSuccess, taskPanelDto);
+            this.requestingComponent = null;
+            return;
+        }
+        throw new IllegalCallerException();
+    }
+
     public void handlerForActionUpdateTask(boolean isSuccess, String taskId) {
-        if (this.requestingComponent instanceof TaskPanel) {
+        if (this.requestingComponent instanceof UpdatableTaskComponent) {
             final TaskPanelDto taskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
             ((UpdatableTaskComponent) this.requestingComponent)
                     .handlerForResultOfUpdateTaskAction(isSuccess, taskPanelDto);
