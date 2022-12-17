@@ -2,23 +2,18 @@ package org.swing.app.view.components;
 
 import java.awt.Dimension;
 import java.awt.LayoutManager;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public abstract class WrapperComponent extends ViewComponentBase implements Wrapper {
 
-    protected Map<ViewComponent, Dimension> childComponentSizeMap = new HashMap<>();
-    protected Set<ViewComponent> childComponents = new LinkedHashSet<>();
+    protected final Map<ViewComponent, Dimension> childComponentSizeMap = new HashMap<>();
+    protected final List<ViewComponent> childComponents = new ArrayList<>();
 
     public WrapperComponent() {
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return this.childComponents.size() == 0;
     }
 
     protected void setLayout(LayoutManager layoutManager) {
@@ -37,8 +32,15 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
 
     @Override
     public void addChildComponent(ViewComponent childComponent, int position) {
-        this.childComponents.add(childComponent);
+        if (position > this.childComponents.size() || position < -1) {
+            throw new IndexOutOfBoundsException();
+        }
+
         this.component.add(childComponent.getComponent(), position);
+        if (position == -1) {
+            position = this.childComponents.size();
+        }
+        this.childComponents.add(position, childComponent);
         childComponent.setParent(this);
     }
 
