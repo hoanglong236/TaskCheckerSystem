@@ -62,7 +62,7 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
     }
 
     private boolean hasOtherChildComponents() {
-        return this.childComponents.size() > 1;
+        return getChildComponentCount() > 1;
     }
 
     protected abstract void loadOtherChildComponentsSize();

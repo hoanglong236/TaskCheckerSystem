@@ -3,7 +3,7 @@ package org.swing.app.view.home.components.nodetask;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.components.factory.UIComponentFactory;
-import org.swing.app.view.home.components.TaskContainerViewportViewWithNotify;
+import org.swing.app.view.home.components.taskviewport.TaskContainerViewportViewWithNotify;
 import org.swing.app.view.home.components.nodetask.factory.NodeTaskPanelFactory;
 import org.swing.app.view.home.components.taskbase.TaskPanelContainer;
 

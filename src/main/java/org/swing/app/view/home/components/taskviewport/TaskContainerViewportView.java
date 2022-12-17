@@ -1,4 +1,4 @@
-package org.swing.app.view.home.components;
+package org.swing.app.view.home.components.taskviewport;
 
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.util.MessageLoader;
@@ -94,7 +94,7 @@ public abstract class TaskContainerViewportView extends HomeWrapperComponent
         this.preferHeightOfViewportView += taskPanel.getPreferHeight() + MAIN_LAYOUT.getVgap();
 
         if (hasNotifyLabel() && !(this.notifyLabel.isVisible())) {
-            final int positionOfNotifyLabelIfVisible = this.childComponents.indexOf(this.notifyLabel);
+            final int positionOfNotifyLabelIfVisible = getChildComponentPosition(this.notifyLabel);
             if (position == -1 || position > positionOfNotifyLabelIfVisible) {
                 this.notifyLabel.setVisible(true);
                 this.preferHeightOfViewportView += NOTIFY_LABEL_HEIGHT + MAIN_LAYOUT.getVgap();
@@ -116,8 +116,8 @@ public abstract class TaskContainerViewportView extends HomeWrapperComponent
         this.preferHeightOfViewportView -= taskPanelToRemove.getPreferHeight() + MAIN_LAYOUT.getVgap();
 
         if (hasNotifyLabel() && this.notifyLabel.isVisible()) {
-            final int positionOfNotifyLabelIfVisible = this.childComponents.indexOf(this.notifyLabel);
-            if (positionOfNotifyLabelIfVisible == this.childComponents.size() - 1) {
+            final int positionOfNotifyLabelIfVisible = getChildComponentPosition(this.notifyLabel);
+            if (positionOfNotifyLabelIfVisible == getChildComponentCount() - 1) {
                 this.notifyLabel.setVisible(false);
                 this.preferHeightOfViewportView -= NOTIFY_LABEL_HEIGHT + MAIN_LAYOUT.getVgap();
             }

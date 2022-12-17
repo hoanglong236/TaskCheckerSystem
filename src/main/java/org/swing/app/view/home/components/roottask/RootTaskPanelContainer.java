@@ -3,7 +3,7 @@ package org.swing.app.view.home.components.roottask;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.components.factory.UIComponentFactory;
-import org.swing.app.view.home.components.TaskContainerViewportViewWithoutNotify;
+import org.swing.app.view.home.components.taskviewport.TaskContainerViewportViewWithoutNotify;
 import org.swing.app.view.home.components.roottask.factory.RootTaskPanelFactory;
 import org.swing.app.view.home.components.taskbase.TaskPanelContainer;
 

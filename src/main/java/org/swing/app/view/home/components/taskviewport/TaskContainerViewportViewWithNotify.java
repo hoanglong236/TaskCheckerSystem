@@ -1,4 +1,4 @@
-package org.swing.app.view.home.components;
+package org.swing.app.view.home.components.taskviewport;
 
 import org.swing.app.controller.HomeFrameController;
 
