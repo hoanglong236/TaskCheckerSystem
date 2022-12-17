@@ -20,6 +20,6 @@ public class NodeTaskPanelContainer extends TaskPanelContainer {
     @Override
     protected void initVerticalScrollPane(Set<TaskPanelDto> taskPanelDtos) {
         this.verticalScrollPane = UIComponentFactory.createVerticalScrollPane(
-                new TaskContainerViewportViewWithNotify());
+                new TaskContainerViewportViewWithNotify(this.homeFrameController));
     }
 }

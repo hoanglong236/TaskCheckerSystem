@@ -2,14 +2,14 @@ package org.swing.app.view.home.components;
 
 import org.swing.app.controller.HomeFrameController;
 
-public class TaskContainerViewportViewWithNotify extends TaskContainerViewportView {
+public class TaskContainerViewportViewWithoutNotify extends TaskContainerViewportView {
 
-    public TaskContainerViewportViewWithNotify(HomeFrameController homeFrameController) {
+    public TaskContainerViewportViewWithoutNotify(HomeFrameController homeFrameController) {
         super(homeFrameController);
     }
 
     @Override
     protected boolean hasNotifyLabel() {
-        return true;
+        return false;
     }
 }

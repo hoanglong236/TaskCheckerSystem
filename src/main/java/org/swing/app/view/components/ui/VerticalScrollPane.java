@@ -1,6 +1,7 @@
 package org.swing.app.view.components.ui;
 
 import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.factory.JComponentFactory;
@@ -12,14 +13,11 @@ import java.awt.Dimension;
 
 public class VerticalScrollPane extends SimpleComponent {
 
-    private VerticalViewportView viewportView;
+    private final PanelWrapperComponent viewportViewPanel;
 
-    public VerticalScrollPane(VerticalViewportView viewportViewPanel) {
+    public VerticalScrollPane(PanelWrapperComponent viewportViewPanel) {
         this.component = JComponentFactory.createJScrollPane();
-        if (viewportViewPanel == null) {
-            throw new IllegalArgumentException();
-        }
-        this.viewportView = viewportViewPanel;
+        this.viewportViewPanel = viewportViewPanel;
         init();
     }
 
@@ -30,7 +28,7 @@ public class VerticalScrollPane extends SimpleComponent {
     }
 
     private void init() {
-        ((JScrollPane) this.component).setViewportView(this.viewportView.getComponent());
+        ((JScrollPane) this.component).setViewportView(this.viewportViewPanel.getComponent());
         ((JScrollPane) this.component).setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         ((JScrollPane) this.component).setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -42,25 +40,21 @@ public class VerticalScrollPane extends SimpleComponent {
         this.component.setPreferredSize(dimension);
 
         final int viewportViewPanelWidth = dimension.width - ViewConstant.SCROLL_RESERVE_WIDTH;
-        this.viewportView.resizeWidth(viewportViewPanelWidth);
+        ((VerticalViewportView) this.viewportViewPanel).resizeWidth(viewportViewPanelWidth);
 
         this.component.revalidate();
         this.component.repaint();
     }
 
     public void addChildComponent(ViewComponent childComponent) {
-        this.viewportView.addChildComponent(childComponent);
-    }
-
-    public void addChildComponent(ViewComponent childComponent, int position) {
-        this.viewportView.addChildComponent(childComponent, position);
+        this.viewportViewPanel.addChildComponent(childComponent);
     }
 
     public void addChildComponentToTheFirstPosition(ViewComponent childComponent) {
-        this.viewportView.addChildComponentToTheFirstPosition(childComponent);
+        this.viewportViewPanel.addChildComponentToTheFirstPosition(childComponent);
     }
 
     public void removeChildComponent(ViewComponent childComponent) {
-        this.viewportView.removeChildComponent(childComponent);
+        this.viewportViewPanel.removeChildComponent(childComponent);
     }
 }
