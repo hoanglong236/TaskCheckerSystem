@@ -18,7 +18,7 @@ public class LabelAndInputWrapperFactory {
     }
 
     public static LabelAndInputWrapper createLabelAndTextFieldWrapper(String labelText) {
-        return new LabelAndTextFieldWrapper(labelText, null);
+        return createLabelAndTextFieldWrapper(labelText, null);
     }
 
     public static LabelAndInputWrapper createLabelAndTextAreaWrapper(String labelText, String initValue) {
@@ -26,7 +26,7 @@ public class LabelAndInputWrapperFactory {
     }
 
     public static LabelAndInputWrapper createLabelAndTextAreaWrapper(String labelText) {
-        return new LabelAndTextAreaWrapper(labelText, null);
+        return createLabelAndTextAreaWrapper(labelText, null);
     }
 
     public static LabelAndInputWrapper createLabelAndComboBoxWrapper(
@@ -36,7 +36,7 @@ public class LabelAndInputWrapperFactory {
     }
 
     public static LabelAndInputWrapper createLabelAndComboBoxWrapper(String labelText, Set<String> valueRange) {
-        return new LabelAndComboBoxWrapper(labelText, valueRange, null);
+        return createLabelAndComboBoxWrapper(labelText, valueRange, null);
     }
 
     public static LabelAndInputWrapper createLabelAndDateChooserWrapper(String labelText, LocalDate initValue) {
@@ -44,7 +44,7 @@ public class LabelAndInputWrapperFactory {
     }
 
     public static LabelAndInputWrapper createLabelAndDateChooserWrapper(String labelText) {
-        return new LabelAndDateChooserWrapper(labelText, null);
+        return createLabelAndDateChooserWrapper(labelText, null);
     }
 
     public static LabelAndInputWrapper createLabelAndDateTimeChooserWrapper(
@@ -54,6 +54,6 @@ public class LabelAndInputWrapperFactory {
     }
 
     public static LabelAndInputWrapper createLabelAndDateTimeChooserWrapper(String labelText) {
-        return new LabelAndDateTimeChooserWrapper(labelText, null);
+        return createLabelAndDateTimeChooserWrapper(labelText, null);
     }
 }

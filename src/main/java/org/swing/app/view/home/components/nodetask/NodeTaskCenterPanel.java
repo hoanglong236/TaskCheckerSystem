@@ -43,7 +43,7 @@ class NodeTaskCenterPanel extends TaskCenterPanel {
         super.update(taskPanelDto);
         if (taskPanelDto.getFinishDatetime() == null) {
             if (this.deadlineLabel != null) {
-                this.childComponents.remove(this.deadlineLabel);
+                removeChildComponent(this.deadlineLabel);
                 this.deadlineLabel.dispose();
                 this.deadlineLabel = null;
             }
@@ -57,7 +57,7 @@ class NodeTaskCenterPanel extends TaskCenterPanel {
         }
         if (taskPanelDto.getChildTaskCount() == 0) {
             if (this.completionRateLabel != null) {
-                this.childComponents.remove(this.completionRateLabel);
+                removeChildComponent(this.completionRateLabel);
                 this.completionRateLabel.dispose();
                 this.completionRateLabel = null;
             }
@@ -72,7 +72,7 @@ class NodeTaskCenterPanel extends TaskCenterPanel {
         }
         if (taskPanelDto.getNote() == null) {
             if (this.noteNotifyLabel != null) {
-                this.childComponents.remove(this.noteNotifyLabel);
+                removeChildComponent(this.noteNotifyLabel);
                 this.noteNotifyLabel.dispose();
                 this.noteNotifyLabel = null;
             }

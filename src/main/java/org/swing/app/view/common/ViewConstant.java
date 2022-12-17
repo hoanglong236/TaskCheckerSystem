@@ -55,6 +55,9 @@ public class ViewConstant {
     public static final byte NODE_TASK_PANEL_HEIGHT = 40;
     public static final byte LEAF_TASK_PANEL_HEIGHT = 40;
 
+    public static final byte NOTIFY_LABEL_WIDTH = 60;
+    public static final byte NOTIFY_LABEL_HEIGHT = 40;
+
     public static final Dimension EDIT_LIST_FRAME_PREFER_SIZE = new Dimension(650, 650);
     public static final byte INPUT_TEXT_FONT_SIZE = 15;
     public static final byte F_TEXT_AREA_FONT_SIZE = 13;

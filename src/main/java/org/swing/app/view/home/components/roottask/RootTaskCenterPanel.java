@@ -54,7 +54,7 @@ class RootTaskCenterPanel extends TaskCenterPanel {
         }
         if (taskPanelDto.getChildTaskCount() == 0) {
             if (this.completionRateLabel != null) {
-                this.childComponents.remove(this.completionRateLabel);
+                removeChildComponent(this.completionRateLabel);
                 this.completionRateLabel.dispose();
                 this.completionRateLabel = null;
             }

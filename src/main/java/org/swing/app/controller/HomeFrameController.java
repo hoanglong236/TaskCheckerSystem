@@ -29,15 +29,11 @@ public class HomeFrameController extends ControllerBase {
 
     public void startHomeFrame() {
         final TaskPanelDto dailyTaskPanelDto = getDailyTaskPanelDto();
-        final Set<TaskPanelDto> rootTaskPanelDtos = getIncompleteRootTaskPanelDtos();
+        final Set<TaskPanelDto> taskPanelDtos = this.homeFrameBusiness.getIncompleteRootTaskPanelDtos();
 
-        this.homeFrame = new HomeFrame(this, dailyTaskPanelDto, rootTaskPanelDtos);
+        this.homeFrame = new HomeFrame(this, dailyTaskPanelDto, taskPanelDtos);
         this.homeFrame.resize(ViewConstant.HOME_FRAME_PREFER_SIZE);
         this.homeFrame.setVisible(true);
-    }
-
-    public Set<TaskPanelDto> getIncompleteRootTaskPanelDtos() {
-        return this.homeFrameBusiness.getIncompleteRootTaskPanelDtos();
     }
 
     public Set<TaskPanelDto> getTaskPanelDtosByParentId(String parentId) {
@@ -85,7 +81,24 @@ public class HomeFrameController extends ControllerBase {
         return true;
     }
 
-    public void handlerForActionInsertTask(boolean isSuccess, String taskId) {
+    public boolean requestLoadTaskContent(byte taskType, String taskId) {
+        if (hasRequestingComponent()) {
+            return false;
+        }
+        if (taskId == null) {
+            throw new IllegalArgumentException();
+        }
+        if (taskType == ROOT_TASK_TYPE || taskType == NODE_TASK_TYPE) {
+            handlerForActionLoadContentTask(taskType, taskId);
+            return true;
+        }
+        if (taskType == LEAF_TASK_TYPE) {
+            return true;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public void handlerForActionAddNewTask(boolean isSuccess, String taskId) {
         if (this.requestingComponent instanceof InsertableTaskComponent) {
             final TaskPanelDto taskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
             ((InsertableTaskComponent) this.requestingComponent)
@@ -93,7 +106,7 @@ public class HomeFrameController extends ControllerBase {
             this.requestingComponent = null;
             return;
         }
-        throw new IllegalCallerException();
+        throw new UnsupportedOperationException();
     }
 
     public void handlerForActionUpdateTask(boolean isSuccess, String taskId) {
@@ -104,7 +117,7 @@ public class HomeFrameController extends ControllerBase {
             this.requestingComponent = null;
             return;
         }
-        throw new IllegalCallerException();
+        throw new UnsupportedOperationException();
     }
 
     private void handlerForActionDeleteTask(boolean isSuccess) {
@@ -113,6 +126,17 @@ public class HomeFrameController extends ControllerBase {
             this.requestingComponent = null;
             return;
         }
-        throw new IllegalCallerException();
+        throw new UnsupportedOperationException();
+    }
+
+    private void handlerForActionLoadContentTask(byte taskType, String taskId) {
+        final TaskPanelDto taskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
+        final Set<TaskPanelDto> childTaskPanelDtos = this.homeFrameBusiness.getTaskPanelDtosByParentId(taskId);
+
+        if (taskType == ROOT_TASK_TYPE) {
+            this.homeFrame.loadRootTaskContentPanel(taskPanelDto.getTitle(), childTaskPanelDtos);
+        } else if (taskType == NODE_TASK_TYPE) {
+            this.homeFrame.loadNodeTaskContentPanel(taskPanelDto.getTitle(), childTaskPanelDtos);
+        }
     }
 }

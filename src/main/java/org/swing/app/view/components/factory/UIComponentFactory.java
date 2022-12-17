@@ -1,5 +1,6 @@
 package org.swing.app.view.components.factory;
 
+import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ui.*;
 
 import java.time.LocalDateTime;
@@ -19,6 +20,9 @@ public class UIComponentFactory {
     }
 
     public static DeadlineLabel createDeadlineLabel(LocalDateTime startDatetime, LocalDateTime finishDatetime) {
+        if (startDatetime == null || finishDatetime == null) {
+            throw new IllegalArgumentException();
+        }
         return new DeadlineLabel(startDatetime, finishDatetime);
     }
 
@@ -46,7 +50,10 @@ public class UIComponentFactory {
         return new PopupItem(itemName);
     }
 
-    public static VerticalScrollPane createVerticalScrollPane(VerticalViewportView viewportView) {
+    public static VerticalScrollPane createVerticalScrollPane(PanelWrapperComponent viewportView) {
+        if (viewportView == null || !(viewportView instanceof VerticalViewportView)) {
+            throw new IllegalArgumentException();
+        }
         return new VerticalScrollPane(viewportView);
     }
 }

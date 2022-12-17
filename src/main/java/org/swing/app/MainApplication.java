@@ -16,8 +16,9 @@ import java.awt.event.ActionListener;
 public class MainApplication {
 
     public static void main(String[] args) {
-        final HomeFrameController homeFrameController = new HomeFrameController();
-        homeFrameController.startHomeFrame();
+//        final HomeFrameController homeFrameController = new HomeFrameController();
+//        homeFrameController.startHomeFrame();
+        createWindow();
     }
 
     private static void createWindow() {
@@ -31,6 +32,7 @@ public class MainApplication {
 
     private static void createUI(final JFrame frame){
         JPanel panel = new JPanel();
+        System.out.println(panel.getPreferredSize());
         LayoutManager layout = new FlowLayout();
         panel.setLayout(layout);
 

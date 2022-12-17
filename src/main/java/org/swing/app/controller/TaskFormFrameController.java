@@ -3,7 +3,6 @@ package org.swing.app.controller;
 import org.swing.app.business.CommonBusiness;
 import org.swing.app.business.TaskFormFrameBusiness;
 import org.swing.app.dto.TaskDto;
-import org.swing.app.util.MessageLoader;
 import org.swing.app.view.taskform.TaskFormFrame;
 import org.swing.app.view.taskform.factory.TaskFormFrameFactory;
 import org.swing.app.view.taskform.leaftask.factory.LeafTaskFormFrameFactory;
@@ -24,17 +23,6 @@ public class TaskFormFrameController extends ControllerBase {
         this.taskFormFrame = null;
         this.taskFormFrameBusiness = new TaskFormFrameBusiness();
         this.commonBusiness = new CommonBusiness();
-    }
-
-    // TODO: handle this
-    public void insertTaskByDto(TaskDto taskDto) {
-        final boolean isSuccess = this.commonBusiness.insertTaskByDto(taskDto);
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-    }
-
-    public void updateTaskByDto(TaskDto taskDto) {
-        final boolean isSuccess = this.taskFormFrameBusiness.updateTaskByDto(taskDto);
-        this.homeFrameController.handlerForActionUpdateTask(isSuccess, taskDto.getId());
     }
 
     public void startAddingTaskFormFrame(byte taskType) {
@@ -66,5 +54,15 @@ public class TaskFormFrameController extends ControllerBase {
             default:
                 throw new IllegalArgumentException();
         }
+    }
+
+    public void addNewTaskByDto(TaskDto taskDto) {
+        final boolean isSuccess = this.commonBusiness.insertTaskByDto(taskDto);
+        this.homeFrameController.handlerForActionAddNewTask(isSuccess, taskDto.getId());
+    }
+
+    public void updateTaskByDto(TaskDto taskDto) {
+        final boolean isSuccess = this.taskFormFrameBusiness.updateTaskByDto(taskDto);
+        this.homeFrameController.handlerForActionUpdateTask(isSuccess, taskDto.getId());
     }
 }

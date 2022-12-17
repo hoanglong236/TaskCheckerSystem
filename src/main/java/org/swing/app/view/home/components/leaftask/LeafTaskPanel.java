@@ -1,5 +1,6 @@
 package org.swing.app.view.home.components.leaftask;
 
+import org.swing.app.controller.ControllerBase;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
@@ -37,6 +38,17 @@ public class LeafTaskPanel extends TaskPanel {
     public void update(TaskPanelDto taskPanelDto) {
         updateStatusChecker(taskPanelDto.isCompleted());
         updateTaskCenterPanel(taskPanelDto);
+    }
+
+    @Override
+    public boolean requestLoadContent() {
+        return this.homeFrameController.requestLoadTaskContent(ControllerBase.LEAF_TASK_TYPE, this.taskId);
+    }
+
+    @Override
+    protected boolean requestUpdate() {
+        return this.homeFrameController.requestUpdateTaskPanel(
+                ControllerBase.LEAF_TASK_TYPE, this);
     }
 
     @Override

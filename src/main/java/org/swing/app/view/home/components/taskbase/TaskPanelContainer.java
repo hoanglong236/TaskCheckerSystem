@@ -42,12 +42,7 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent {
         this.filterButton = UIComponentFactory.createButton(ViewConstant.ICON_LOCATION_FILTER);
     }
 
-    protected void initTaskPanelsForVerticalScrollPane(Set<TaskPanelDto> taskPanelDtos) {
-        for (final TaskPanelDto taskPanelDto : taskPanelDtos) {
-            addTaskPanel(this.taskPanelFactory.createTaskPanel(this.homeFrameController, taskPanelDto));
-        }
-    }
-
+    // TODO: handle taskPanelDtos
     protected abstract void initVerticalScrollPane(Set<TaskPanelDto> taskPanelDtos);
 
     private void init(String title, Set<TaskPanelDto> taskPanelDtos) {
@@ -82,16 +77,16 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent {
         final int hGap = MAIN_LAYOUT.getHgap();
         final int vGap = MAIN_LAYOUT.getVgap();
 
+        final int commonComponentHeight = 40;
+
         final int filterBtnWidth = 40;
-        final int filterBtnHeight = 40;
-        this.childComponentSizeMap.put(this.filterButton, new Dimension(filterBtnWidth, filterBtnHeight));
+        this.childComponentSizeMap.put(this.filterButton, new Dimension(filterBtnWidth, commonComponentHeight));
 
         final int titleLabelWidth = availableWidth - hGap - filterBtnWidth - hGap;
-        final int titleLabelHeight = filterBtnHeight;
-        this.childComponentSizeMap.put(this.titleLabel, new Dimension(titleLabelWidth, titleLabelHeight));
+        this.childComponentSizeMap.put(this.titleLabel, new Dimension(titleLabelWidth, commonComponentHeight));
 
         final int verticalScrollPaneWidth = availableWidth - hGap;
-        final int verticalScrollPaneHeight = availableHeight - vGap - filterBtnHeight - vGap;
+        final int verticalScrollPaneHeight = availableHeight - vGap - commonComponentHeight - vGap;
         this.childComponentSizeMap.put(this.verticalScrollPane,
                 new Dimension(verticalScrollPaneWidth, verticalScrollPaneHeight));
     }

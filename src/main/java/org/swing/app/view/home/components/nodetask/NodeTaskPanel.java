@@ -1,5 +1,6 @@
 package org.swing.app.view.home.components.nodetask;
 
+import org.swing.app.controller.ControllerBase;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
@@ -61,6 +62,17 @@ public class NodeTaskPanel extends TaskPanel {
         updateStatusChecker(taskPanelDto.isCompleted());
         updateTaskCenterPanel(taskPanelDto);
         updateImportantLabel(taskPanelDto.isImportant());
+    }
+
+    @Override
+    public boolean requestLoadContent() {
+        return this.homeFrameController.requestLoadTaskContent(ControllerBase.NODE_TASK_TYPE, this.taskId);
+    }
+
+    @Override
+    protected boolean requestUpdate() {
+        return this.homeFrameController.requestUpdateTaskPanel(
+                ControllerBase.NODE_TASK_TYPE, this);
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.form.components.InputComponent;
 import org.swing.app.view.components.form.components.LabelAndInputWrapper;
+import org.swing.app.view.components.form.components.factory.InputComponentFactory;
 import org.swing.app.view.components.form.components.factory.LabelAndInputWrapperFactory;
 
 import java.awt.Dimension;
@@ -18,69 +19,69 @@ public class DateTimeChooser extends PanelWrapperComponent implements InputCompo
 
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.MEDIUM_H_GAP, ViewConstant.SMALL_V_GAP);
-    private DateChooser dateChooser;
+    private InputComponent dateChooser;
     private LabelAndInputWrapper hourSelector;
     private LabelAndInputWrapper minuteSelector;
     private LabelAndInputWrapper secondSelector;
 
-    private int dateChooserWidth;
+    private int dateChooserWidth = ViewConstant.DEFAULT_DATE_CHOOSER_WIDTH;
 
     public DateTimeChooser(LocalDateTime initValue) {
         super();
         setLayout(MAIN_LAYOUT);
-        init(initValue);
-        this.dateChooserWidth = ViewConstant.DEFAULT_DATE_CHOOSER_WIDTH;
+        init();
+        setValue(initValue);
     }
 
     public void setDateChooserWidth(int dateChooserWidth) {
         this.dateChooserWidth = dateChooserWidth;
     }
 
-    private void initDateChooser(LocalDate date) {
-        this.dateChooser = new DateChooser(date);
+    private void initDateChooser() {
+        this.dateChooser = InputComponentFactory.createDateChooser();
     }
 
-    private void initHourSelector(int hour) {
+    private void initHourSelector() {
         final String hourSelectorLabelText = "h: ";
         final Set<String> hourValueRange = new LinkedHashSet<>();
         for (byte h = 0; h < 24; h++) {
             hourValueRange.add(String.valueOf(h));
         }
         this.hourSelector = LabelAndInputWrapperFactory.createLabelAndComboBoxWrapper(
-                hourSelectorLabelText, hourValueRange, String.valueOf(hour));
+                hourSelectorLabelText, hourValueRange);
     }
 
-    private void initMinuteSelector(int minute) {
+    private void initMinuteSelector() {
         final String minuteSelectorLabelText = "m: ";
         final Set<String> minuteValueRange = new LinkedHashSet<>();
         for (byte h = 0; h < 60; h++) {
             minuteValueRange.add(String.valueOf(h));
         }
-        this.minuteSelector = LabelAndInputWrapperFactory.createLabelAndComboBoxWrapper(minuteSelectorLabelText,
-                minuteValueRange, String.valueOf(minute));
+        this.minuteSelector = LabelAndInputWrapperFactory.createLabelAndComboBoxWrapper(
+                minuteSelectorLabelText, minuteValueRange);
     }
 
-    private void initSecondSelector(int second) {
+    private void initSecondSelector() {
         final String secondSelectorLabelText = "m: ";
         final Set<String> secondValueRange = new LinkedHashSet<>();
         for (byte h = 0; h < 60; h++) {
             secondValueRange.add(String.valueOf(h));
         }
-        this.secondSelector = LabelAndInputWrapperFactory.createLabelAndComboBoxWrapper(secondSelectorLabelText,
-                secondValueRange, String.valueOf(second));
+        this.secondSelector = LabelAndInputWrapperFactory.createLabelAndComboBoxWrapper(
+                secondSelectorLabelText, secondValueRange);
     }
 
-    private void init(LocalDateTime dateTime) {
-        initDateChooser(dateTime.toLocalDate());
+    private void init() {
+        initDateChooser();
         addChildComponent(this.dateChooser);
 
-        initHourSelector(dateTime.getHour());
+        initHourSelector();
         addChildComponent(this.hourSelector);
 
-        initMinuteSelector(dateTime.getMinute());
+        initMinuteSelector();
         addChildComponent(this.minuteSelector);
 
-        initSecondSelector(dateTime.getSecond());
+        initSecondSelector();
         addChildComponent(this.secondSelector);
     }
 

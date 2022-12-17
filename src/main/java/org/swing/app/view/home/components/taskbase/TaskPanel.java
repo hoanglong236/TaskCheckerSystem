@@ -99,21 +99,12 @@ public abstract class TaskPanel extends HomeWrapperComponent
 
     public abstract void update(TaskPanelDto taskPanelDto);
 
-    private void onActionPerformedForEditPopupItem() {
-        boolean requestSuccess = false;
+    public abstract boolean requestLoadContent();
 
-        if (getClass().getName().equals("RootTaskPanel")) {
-            requestSuccess = this.homeFrameController.requestUpdateTaskPanel(
-                    ControllerBase.ROOT_TASK_TYPE, this);
-        }
-        else if (getClass().getName().equals("NodeTaskPanel")) {
-            requestSuccess = this.homeFrameController.requestUpdateTaskPanel(
-                    ControllerBase.NODE_TASK_TYPE, this);
-        }
-        else if (getClass().getName().equals("LeafTaskPanel")) {
-            requestSuccess = this.homeFrameController.requestUpdateTaskPanel(
-                    ControllerBase.LEAF_TASK_TYPE, this);
-        }
+    protected abstract boolean requestUpdate();
+
+    private void onActionPerformedForEditPopupItem() {
+        boolean requestSuccess = requestUpdate();
 
         if (!requestSuccess) {
             requestFailureHandler();

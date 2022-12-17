@@ -119,7 +119,7 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
         // TODO: handle validate
 
         if (this.isAddingTask) {
-            this.taskFormFrameController.insertTaskByDto(getFormData());
+            this.taskFormFrameController.addNewTaskByDto(getFormData());
         } else {
             this.taskFormFrameController.updateTaskByDto(getFormData());
         }

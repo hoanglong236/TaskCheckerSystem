@@ -14,10 +14,6 @@ public class ComboBox extends SimpleComponent implements InputComponent {
 
     public ComboBox(Set<String> valueRange, String initValue) {
         super();
-        if (valueRange == null || valueRange.isEmpty()) {
-            final MessageLoader messageLoader = MessageLoader.getInstance();
-            throw new IllegalArgumentException(messageLoader.getMessage("..."));
-        }
         final String[] valueRangeArray = this.valueRange.toArray(new String[0]);
         this.component = JComponentFactory.createJComboBox(valueRangeArray);
         this.valueRange = valueRange;

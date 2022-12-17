@@ -1,5 +1,6 @@
 package org.swing.app.view.home.components.roottask;
 
+import org.swing.app.controller.ControllerBase;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
@@ -36,6 +37,17 @@ public class RootTaskPanel extends TaskPanel {
     }
 
     @Override
+    public boolean requestLoadContent() {
+        return this.homeFrameController.requestLoadTaskContent(ControllerBase.ROOT_TASK_TYPE, this.taskId);
+    }
+
+    @Override
+    protected boolean requestUpdate() {
+        return this.homeFrameController.requestUpdateTaskPanel(
+                ControllerBase.ROOT_TASK_TYPE, this);
+    }
+
+    @Override
     protected void setNotResizableChildComponents() {
         this.activationLabel.setResizable(false);
     }
@@ -59,11 +71,7 @@ public class RootTaskPanel extends TaskPanel {
                 new Dimension(taskCenterPanelWidth, maxChildComponentHeight));
     }
 
-
-
     // TODO: handle dispose popup
     public void disposePopup() {
     }
-
-
 }

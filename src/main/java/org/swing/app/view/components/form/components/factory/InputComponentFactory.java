@@ -20,7 +20,7 @@ public class InputComponentFactory {
     }
 
     public static InputComponent createLabelField() {
-        return new LabelField(null);
+        return createLabelField(null);
     }
 
     public static InputComponent createLabelArea(String text) {
@@ -28,7 +28,7 @@ public class InputComponentFactory {
     }
 
     public static InputComponent createLabelArea() {
-        return new LabelArea(null);
+        return createLabelArea(null);
     }
 
     public static InputComponent createTextField(String text) {
@@ -36,7 +36,7 @@ public class InputComponentFactory {
     }
 
     public static InputComponent createTextField() {
-        return new TextField(null);
+        return createTextField(null);
     }
 
     public static InputComponent createTextArea(String text) {
@@ -44,15 +44,18 @@ public class InputComponentFactory {
     }
 
     public static InputComponent createTextArea() {
-        return new TextArea(null);
+        return createTextArea(null);
     }
 
     public static InputComponent createComboBox(Set<String> valueRange, String value) {
+        if (valueRange == null || valueRange.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
         return new ComboBox(valueRange, value);
     }
 
     public static InputComponent createComboBox(Set<String> valueRange) {
-        return new ComboBox(valueRange, null);
+        return createComboBox(valueRange, null);
     }
 
     public static InputComponent createDateChooser(LocalDate date) {
@@ -60,7 +63,7 @@ public class InputComponentFactory {
     }
 
     public static InputComponent createDateChooser() {
-        return new DateChooser(null);
+        return createDateChooser(null);
     }
 
     public static InputComponent createDateTimeChooser(LocalDateTime dateTime) {
@@ -68,6 +71,6 @@ public class InputComponentFactory {
     }
 
     public static InputComponent createDateTimeChooser() {
-        return new DateTimeChooser(null);
+        return createDateTimeChooser(null);
     }
 }
