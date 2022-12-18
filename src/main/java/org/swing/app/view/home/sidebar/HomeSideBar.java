@@ -9,7 +9,7 @@ import org.swing.app.view.components.OptionPane;
 import org.swing.app.view.components.ui.Button;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
-import org.swing.app.view.home.InsertableTaskComponent;
+import org.swing.app.view.components.request.InsertableTaskComponent;
 import org.swing.app.view.home.components.taskbase.TaskPanel;
 import org.swing.app.view.home.components.taskbase.TaskPanelContainer;
 import org.swing.app.view.home.components.factory.TaskPanelContainerFactory;

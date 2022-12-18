@@ -10,9 +10,9 @@ import org.swing.app.view.components.ui.Checker;
 import org.swing.app.view.components.ui.Popup;
 import org.swing.app.view.components.ui.PopupItem;
 import org.swing.app.view.components.factory.UIComponentFactory;
-import org.swing.app.view.home.DeletableTaskComponent;
+import org.swing.app.view.components.request.DeletableTaskComponent;
 import org.swing.app.view.home.HomeWrapperComponent;
-import org.swing.app.view.home.UpdatableTaskComponent;
+import org.swing.app.view.components.request.UpdatableTaskComponent;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;

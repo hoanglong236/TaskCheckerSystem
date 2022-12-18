@@ -4,11 +4,11 @@ import org.swing.app.business.CommonBusiness;
 import org.swing.app.business.HomeFrameBusiness;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.home.AbleToRequestComponent;
-import org.swing.app.view.home.DeletableTaskComponent;
+import org.swing.app.view.components.request.AbleToRequestComponent;
+import org.swing.app.view.components.request.DeletableTaskComponent;
 import org.swing.app.view.home.HomeFrame;
-import org.swing.app.view.home.InsertableTaskComponent;
-import org.swing.app.view.home.UpdatableTaskComponent;
+import org.swing.app.view.components.request.InsertableTaskComponent;
+import org.swing.app.view.components.request.UpdatableTaskComponent;
 
 import java.util.Set;
 
@@ -34,10 +34,6 @@ public class HomeFrameController extends ControllerBase {
         this.homeFrame = new HomeFrame(this, dailyTaskPanelDto, taskPanelDtos);
         this.homeFrame.resize(ViewConstant.HOME_FRAME_PREFER_SIZE);
         this.homeFrame.setVisible(true);
-    }
-
-    public Set<TaskPanelDto> getTaskPanelDtosByParentId(String parentId) {
-        return this.homeFrameBusiness.getTaskPanelDtosByParentId(parentId);
     }
 
     public TaskPanelDto getDailyTaskPanelDto() {

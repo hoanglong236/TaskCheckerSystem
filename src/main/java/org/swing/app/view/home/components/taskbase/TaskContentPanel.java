@@ -9,7 +9,7 @@ import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
-import org.swing.app.view.home.InsertableTaskComponent;
+import org.swing.app.view.components.request.InsertableTaskComponent;
 import org.swing.app.view.home.components.factory.TaskPanelContainerFactory;
 
 import java.awt.Dimension;
