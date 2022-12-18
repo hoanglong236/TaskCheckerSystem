@@ -17,8 +17,10 @@ import java.util.Set;
 
 public class DateTimeChooser extends PanelWrapperComponent implements InputComponent {
 
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
-            ViewConstant.MEDIUM_H_GAP, ViewConstant.SMALL_V_GAP);
+    private static final byte HORIZONTAL_GAP = ViewConstant.MEDIUM_H_GAP;
+    private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
+    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
+
     private InputComponent dateChooser;
     private LabelAndInputWrapper hourSelector;
     private LabelAndInputWrapper minuteSelector;
@@ -97,7 +99,7 @@ public class DateTimeChooser extends PanelWrapperComponent implements InputCompo
         this.childComponentSizeMap.clear();
 
         final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
-        final int maxChildComponentHeight = availableHeight - MAIN_LAYOUT.getVgap();
+        final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 
         this.childComponentSizeMap.put(this.dateChooser,
                 new Dimension(this.dateChooserWidth, maxChildComponentHeight));

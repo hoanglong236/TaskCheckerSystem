@@ -15,8 +15,9 @@ import java.util.Set;
 
 public class HomeFrame extends FrameWrapperComponent {
 
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
-            ViewConstant.LARGE_H_GAP, ViewConstant.LARGE_V_GAP);
+    private static final byte HORIZONTAL_GAP = ViewConstant.LARGE_H_GAP;
+    private static final byte VERTICAL_GAP = ViewConstant.LARGE_V_GAP;
+    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private HomeSideBar sideBar;
     private HomeBodyPanel bodyPanel;
@@ -69,13 +70,12 @@ public class HomeFrame extends FrameWrapperComponent {
         final int availableWidth = getSize().width - ViewConstant.FRAME_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.FRAME_RESERVE_HEIGHT;
 
-        final int maxChildComponentHeight = availableHeight - MAIN_LAYOUT.getVgap();
+        final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 
         final int sideBarWidth = ViewConstant.SIDEBAR_WIDTH;
         this.childComponentSizeMap.put(this.sideBar, new Dimension(sideBarWidth, maxChildComponentHeight));
 
-//        final int bodyPanelWidth = availableWidth - MAIN_LAYOUT.getHgap()
-//                - sideBarWidth - MAIN_LAYOUT.getHgap();
+//        final int bodyPanelWidth = availableWidth - HORIZONTAL_GAP - sideBarWidth - HORIZONTAL_GAP;
 //        this.childComponentSizeMap.put(this.bodyPanel, new Dimension(bodyPanelWidth, maxChildComponentHeight));
     }
 

@@ -16,8 +16,9 @@ import java.util.Set;
 
 public abstract class TaskPanelContainer extends HomeWrapperComponent {
 
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
-            ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
+    private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
+    private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
+    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private Label titleLabel;
     private Button filterButton;
@@ -70,22 +71,21 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent {
 
     @Override
     protected void loadChildComponentsSize() {
+        this.childComponentSizeMap.clear();
+
         final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
-
-        final int hGap = MAIN_LAYOUT.getHgap();
-        final int vGap = MAIN_LAYOUT.getVgap();
 
         final int commonComponentHeight = 40;
 
         final int filterBtnWidth = 40;
         this.childComponentSizeMap.put(this.filterButton, new Dimension(filterBtnWidth, commonComponentHeight));
 
-        final int titleLabelWidth = availableWidth - hGap - filterBtnWidth - hGap;
+        final int titleLabelWidth = availableWidth - HORIZONTAL_GAP - filterBtnWidth - HORIZONTAL_GAP;
         this.childComponentSizeMap.put(this.titleLabel, new Dimension(titleLabelWidth, commonComponentHeight));
 
-        final int verticalScrollPaneWidth = availableWidth - hGap;
-        final int verticalScrollPaneHeight = availableHeight - vGap - commonComponentHeight - vGap;
+        final int verticalScrollPaneWidth = availableWidth - HORIZONTAL_GAP;
+        final int verticalScrollPaneHeight = availableHeight - VERTICAL_GAP - commonComponentHeight - VERTICAL_GAP;
         this.childComponentSizeMap.put(this.verticalScrollPane,
                 new Dimension(verticalScrollPaneWidth, verticalScrollPaneHeight));
     }

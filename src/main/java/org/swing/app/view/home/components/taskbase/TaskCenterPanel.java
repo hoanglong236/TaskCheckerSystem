@@ -21,8 +21,9 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
     private static final byte UPDATE_ACTION_CHILD_COMPONENT = 2;
     private static final byte REMOVE_ACTION_CHILD_COMPONENT = 3;
 
-    private static FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
-            ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
+    private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
+    private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
+    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private Label titleLabel;
     private DeadlineLabel deadlineLabel;
@@ -177,13 +178,15 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
 
     @Override
     protected void loadChildComponentsSize() {
+        this.childComponentSizeMap.clear();
+
         final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
         int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
 
-        final int maxChildComponentWidth = availableWidth - MAIN_LAYOUT.getHgap();
+        final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
         boolean hasOtherChildComponents = false;
-        final int commonChildComponentHeight = availableHeight / 2 - MAIN_LAYOUT.getVgap();
+        final int commonChildComponentHeight = availableHeight / 2 - VERTICAL_GAP;
 
         if (this.deadlineLabel != null) {
             final int deadlineLabelWidth = 100;
@@ -207,10 +210,10 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
         }
 
         if (hasOtherChildComponents) {
-            availableHeight -= MAIN_LAYOUT.getVgap() + commonChildComponentHeight;
+            availableHeight -= VERTICAL_GAP + commonChildComponentHeight;
         }
 
-        final int titleLabelHeight = availableHeight - MAIN_LAYOUT.getVgap();
+        final int titleLabelHeight = availableHeight - VERTICAL_GAP;
         this.childComponentSizeMap.put(this.titleLabel, new Dimension(maxChildComponentWidth, titleLabelHeight));
     }
 

@@ -18,8 +18,9 @@ import java.util.Set;
 
 public abstract class TaskContentPanel extends HomeWrapperComponent implements InsertableTaskComponent {
 
-    protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
-            ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
+    private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
+    private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
+    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private Label titleLabel;
     private TaskPanelContainer taskPanelContainer;
@@ -63,15 +64,17 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
 
     @Override
     protected void loadChildComponentsSize() {
+        this.childComponentSizeMap.clear();
+
         final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
 
-        final int maxChildComponentWidth = availableWidth - MAIN_LAYOUT.getHgap();
+        final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
         final byte titleLabelHeight = 100;
         this.childComponentSizeMap.put(this.titleLabel, new Dimension(maxChildComponentWidth, titleLabelHeight));
 
-        final int taskPanelContainerHeight = (int) (((float) 0.8 * availableHeight) - MAIN_LAYOUT.getVgap());
+        final int taskPanelContainerHeight = (int) (((float) 0.8 * availableHeight) - VERTICAL_GAP);
         this.childComponentSizeMap.put(this.taskPanelContainer,
                 new Dimension(maxChildComponentWidth, taskPanelContainerHeight));
 

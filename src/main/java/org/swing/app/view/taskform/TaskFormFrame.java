@@ -17,8 +17,9 @@ import java.awt.event.ActionListener;
 
 public class TaskFormFrame extends FrameWrapperComponent implements ActionListener {
 
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER,
-            ViewConstant.FORM_FRAME_H_GAP, ViewConstant.FORM_FRAME_V_GAP);
+    private static final byte HORIZONTAL_GAP = ViewConstant.FORM_FRAME_H_GAP;
+    private static final byte VERTICAL_GAP = ViewConstant.FORM_FRAME_V_GAP;
+    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private TaskForm taskForm;
     private Button submitButton;
@@ -140,14 +141,13 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
         final int availableWidth = getSize().width - ViewConstant.FORM_FRAME_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.FORM_FRAME_RESERVE_HEIGHT;
 
-        final int maxChildComponentWidth = availableWidth - MAIN_LAYOUT.getHgap();
+        final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
         final int taskFormHeight = (int) ((float) 0.75 * availableHeight);
         this.childComponentSizeMap.put(this.taskForm, new Dimension(maxChildComponentWidth, taskFormHeight));
 
         final byte controlButtonWidth = 80;
-        final int controlButtonHeight = availableHeight - MAIN_LAYOUT.getVgap()
-                - taskFormHeight - MAIN_LAYOUT.getVgap();
+        final int controlButtonHeight = availableHeight - VERTICAL_GAP - taskFormHeight - VERTICAL_GAP;
         this.childComponentSizeMap.put(this.submitButton, new Dimension(controlButtonWidth, controlButtonHeight));
         this.childComponentSizeMap.put(this.resetButton, new Dimension(controlButtonWidth, controlButtonHeight));
         this.childComponentSizeMap.put(this.clearButton, new Dimension(controlButtonWidth, controlButtonHeight));
@@ -179,5 +179,6 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
             clear();
             return;
         }
+        throw new IllegalArgumentException();
     }
 }

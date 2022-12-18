@@ -20,21 +20,22 @@ import java.util.Set;
 public abstract class TaskContainerViewportView extends HomeWrapperComponent
         implements MouseListener, VerticalViewportView {
 
+    private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
+    private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
+    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
+
+    private static final byte NOTIFY_LABEL_WIDTH = ViewConstant.NOTIFY_LABEL_WIDTH;
+    private static final byte NOTIFY_LABEL_HEIGHT = ViewConstant.NOTIFY_LABEL_HEIGHT;
+
     private Label notifyLabel;
-    private static final int NOTIFY_LABEL_WIDTH = ViewConstant.NOTIFY_LABEL_WIDTH;
-    private static final int NOTIFY_LABEL_HEIGHT = ViewConstant.NOTIFY_LABEL_HEIGHT;
 
-    protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
-            ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
+    private int preferHeightOfViewportView = ViewConstant.SMALL_RESERVE_HEIGHT;
 
-    protected int preferHeightOfViewportView;
-
-    protected final Set<TaskPanel> taskPanels = new LinkedHashSet<>();
+    private final Set<TaskPanel> taskPanels = new LinkedHashSet<>();
 
     public TaskContainerViewportView(HomeFrameController homeFrameController) {
         super(homeFrameController);
         setLayout(MAIN_LAYOUT);
-        this.preferHeightOfViewportView = ViewConstant.SMALL_RESERVE_HEIGHT;
         init();
     }
 
@@ -91,13 +92,13 @@ public abstract class TaskContainerViewportView extends HomeWrapperComponent
 
         final TaskPanel taskPanel = (TaskPanel) childComponent;
         this.taskPanels.add(taskPanel);
-        this.preferHeightOfViewportView += taskPanel.getPreferHeight() + MAIN_LAYOUT.getVgap();
+        this.preferHeightOfViewportView += VERTICAL_GAP + taskPanel.getPreferHeight();
 
         if (hasNotifyLabel() && !(this.notifyLabel.isVisible())) {
             final int positionOfNotifyLabelIfVisible = getChildComponentPosition(this.notifyLabel);
             if (position == -1 || position > positionOfNotifyLabelIfVisible) {
                 this.notifyLabel.setVisible(true);
-                this.preferHeightOfViewportView += NOTIFY_LABEL_HEIGHT + MAIN_LAYOUT.getVgap();
+                this.preferHeightOfViewportView += VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
             }
         }
 
@@ -113,13 +114,13 @@ public abstract class TaskContainerViewportView extends HomeWrapperComponent
 
         final TaskPanel taskPanelToRemove = (TaskPanel) childComponent;
         this.taskPanels.remove(taskPanelToRemove);
-        this.preferHeightOfViewportView -= taskPanelToRemove.getPreferHeight() + MAIN_LAYOUT.getVgap();
+        this.preferHeightOfViewportView -= VERTICAL_GAP + taskPanelToRemove.getPreferHeight();
 
         if (hasNotifyLabel() && this.notifyLabel.isVisible()) {
             final int positionOfNotifyLabelIfVisible = getChildComponentPosition(this.notifyLabel);
             if (positionOfNotifyLabelIfVisible == getChildComponentCount() - 1) {
                 this.notifyLabel.setVisible(false);
-                this.preferHeightOfViewportView -= NOTIFY_LABEL_HEIGHT + MAIN_LAYOUT.getVgap();
+                this.preferHeightOfViewportView -= VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
             }
         }
 
@@ -128,7 +129,7 @@ public abstract class TaskContainerViewportView extends HomeWrapperComponent
 
     protected int getPreferChildComponentWidth() {
         final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
-        return availableWidth - MAIN_LAYOUT.getHgap();
+        return availableWidth - HORIZONTAL_GAP;
     }
 
     private void deactivateAllTaskPanels() {

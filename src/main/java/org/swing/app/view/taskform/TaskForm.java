@@ -14,8 +14,9 @@ import java.util.Iterator;
 
 public abstract class TaskForm extends PanelWrapperComponent implements Form<TaskDto> {
 
-    protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
-            ViewConstant.LARGE_H_GAP, ViewConstant.LARGE_V_GAP);
+    protected static final byte HORIZONTAL_GAP = ViewConstant.LARGE_H_GAP;
+    protected static final byte VERTICAL_GAP = ViewConstant.LARGE_V_GAP;
+    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     protected static final String TITLE_LABEL_TEXT = "Title: ";
     protected static final String START_DATETIME_LABEL_TEXT = "Start datetime: ";

@@ -25,8 +25,9 @@ import java.util.Set;
 
 public class HomeSideBar extends HomeWrapperComponent implements ActionListener, InsertableTaskComponent {
 
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER,
-            ViewConstant.MEDIUM_H_GAP, ViewConstant.MEDIUM_V_GAP);
+    private static final byte HORIZONTAL_GAP = ViewConstant.MEDIUM_H_GAP;
+    private static final byte VERTICAL_GAP = ViewConstant.MEDIUM_V_GAP;
+    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private TaskPanel dailyTaskPanel;
     private TaskPanelContainer taskPanelContainer;
@@ -80,8 +81,7 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
         final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
 
-        final int vGap = MAIN_LAYOUT.getVgap();
-        final int maxChildComponentWidth = availableWidth - MAIN_LAYOUT.getHgap();
+        final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
         final int dailyTaskPanelHeight = ViewConstant.ROOT_TASK_PANEL_HEIGHT;
         this.childComponentSizeMap.put(this.dailyTaskPanel,
@@ -90,8 +90,8 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
         final int addNewTaskBtnHeight = 45;
         this.childComponentSizeMap.put(this.addNewTaskBtn, new Dimension(maxChildComponentWidth, addNewTaskBtnHeight));
 
-        final int taskPanelContainerHeight = availableHeight - vGap
-                - dailyTaskPanelHeight - vGap - addNewTaskBtnHeight - vGap;
+        final int taskPanelContainerHeight = availableHeight - VERTICAL_GAP - dailyTaskPanelHeight
+                - VERTICAL_GAP - addNewTaskBtnHeight - VERTICAL_GAP;
         this.childComponentSizeMap.put(this.taskPanelContainer,
                 new Dimension(maxChildComponentWidth, taskPanelContainerHeight));
     }

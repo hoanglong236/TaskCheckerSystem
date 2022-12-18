@@ -14,8 +14,9 @@ import java.util.Set;
 
 public class HomeBodyPanel extends HomeWrapperComponent {
 
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
-            ViewConstant.MEDIUM_H_GAP, ViewConstant.MEDIUM_V_GAP);
+    private static final byte HORIZONTAL_GAP = ViewConstant.MEDIUM_H_GAP;
+    private static final byte VERTICAL_GAP = ViewConstant.MEDIUM_V_GAP;
+    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private TaskContentPanel rootTaskContentPanel;
     private TaskContentPanel nodeTaskContentPanel;
@@ -42,20 +43,22 @@ public class HomeBodyPanel extends HomeWrapperComponent {
 
     @Override
     protected void loadChildComponentsSize() {
+        this.childComponentSizeMap.clear();
+
         int availableWidth = getSize().width - ViewConstant.MEDIUM_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.MEDIUM_RESERVE_HEIGHT;
 
-        final int maxChildComponentHeight = availableHeight - MAIN_LAYOUT.getVgap();
+        final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 
         if (this.nodeTaskContentPanel != null) {
             final int nodeTaskContentPanelWidth = (int) (((float) 0.4) * availableWidth);
             this.childComponentSizeMap.put(this.nodeTaskContentPanel,
                     new Dimension(nodeTaskContentPanelWidth, maxChildComponentHeight));
-            availableWidth -= nodeTaskContentPanelWidth + MAIN_LAYOUT.getHgap();
+            availableWidth -= HORIZONTAL_GAP + nodeTaskContentPanelWidth;
         }
 
         if (this.rootTaskContentPanel != null) {
-            final int rootTaskContentPanelWidth = availableWidth - MAIN_LAYOUT.getHgap();
+            final int rootTaskContentPanelWidth = availableWidth - HORIZONTAL_GAP;
             this.childComponentSizeMap.put(this.rootTaskContentPanel,
                     new Dimension(rootTaskContentPanelWidth, maxChildComponentHeight));
         }

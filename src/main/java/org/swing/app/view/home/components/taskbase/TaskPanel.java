@@ -24,8 +24,9 @@ import java.time.LocalDateTime;
 public abstract class TaskPanel extends HomeWrapperComponent
         implements ActionListener, UpdatableTaskComponent, DeletableTaskComponent {
 
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
-            ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
+    private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
+    private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
+    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private ActivationLabel activationLabel;
     private Checker statusChecker;
@@ -162,29 +163,28 @@ public abstract class TaskPanel extends HomeWrapperComponent
         int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
 
-        final int hGap = MAIN_LAYOUT.getHgap();
-        final int maxChildComponentHeight = availableHeight - MAIN_LAYOUT.getVgap();
+        final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 
         final byte activationLabelWidth = 5;
         this.childComponentSizeMap.put(this.activationLabel,
                 new Dimension(activationLabelWidth, maxChildComponentHeight));
-        availableWidth -= hGap + activationLabelWidth;
+        availableWidth -= HORIZONTAL_GAP + activationLabelWidth;
 
         if (this.statusChecker != null) {
             final int statusCheckerWidth = 30;
             this.childComponentSizeMap.put(this.statusChecker,
                     new Dimension(statusCheckerWidth, maxChildComponentHeight));
-            availableWidth -= hGap + activationLabelWidth;
+            availableWidth -= HORIZONTAL_GAP + activationLabelWidth;
         }
 
         if (this.importantLabel != null) {
             final int importantLabelWidth = 30;
             this.childComponentSizeMap.put(this.importantLabel,
                     new Dimension(importantLabelWidth, maxChildComponentHeight));
-            availableWidth -= hGap + importantLabelWidth;
+            availableWidth -= HORIZONTAL_GAP + importantLabelWidth;
         }
 
-        final int taskCenterPanelWidth = availableWidth - hGap;
+        final int taskCenterPanelWidth = availableWidth - HORIZONTAL_GAP;
         this.childComponentSizeMap.put(this.taskCenterPanel,
                 new Dimension(taskCenterPanelWidth, maxChildComponentHeight));
     }
