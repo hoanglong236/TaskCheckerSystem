@@ -12,12 +12,12 @@ public class LeafTaskPanel extends TaskPanel {
     }
 
     @Override
-    protected boolean hasStatusChecker() {
+    protected boolean isNeedStatusChecker() {
         return true;
     }
 
     @Override
-    protected boolean hasImportantLabel() {
+    protected boolean isNeedImportantLabel() {
         return false;
     }
 

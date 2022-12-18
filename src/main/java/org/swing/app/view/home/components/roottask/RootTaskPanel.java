@@ -12,12 +12,12 @@ public class RootTaskPanel extends TaskPanel {
     }
 
     @Override
-    protected boolean hasStatusChecker() {
+    protected boolean isNeedStatusChecker() {
         return false;
     }
 
     @Override
-    protected boolean hasImportantLabel() {
+    protected boolean isNeedImportantLabel() {
         return false;
     }
 

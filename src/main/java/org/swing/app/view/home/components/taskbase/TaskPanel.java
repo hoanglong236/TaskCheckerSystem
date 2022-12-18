@@ -24,20 +24,20 @@ import java.time.LocalDateTime;
 public abstract class TaskPanel extends HomeWrapperComponent
         implements ActionListener, UpdatableTaskComponent, DeletableTaskComponent {
 
-    protected static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
+    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
 
-    protected ActivationLabel activationLabel;
-    protected Checker statusChecker;
+    private ActivationLabel activationLabel;
+    private Checker statusChecker;
     protected TaskCenterPanel taskCenterPanel;
     private Label importantLabel;
-    protected Popup popup;
-    protected PopupItem editPopupItem;
-    protected PopupItem deletePopupItem;
+    private Popup popup;
+    private PopupItem editPopupItem;
+    private PopupItem deletePopupItem;
 
     private final int preferHeight;
 
-    protected TaskPanelDto taskPanelDto;
+    private TaskPanelDto taskPanelDto;
 
     public TaskPanel(HomeFrameController homeFrameController, int preferHeight, TaskPanelDto taskPanelDto) {
         super(homeFrameController);
@@ -60,15 +60,15 @@ public abstract class TaskPanel extends HomeWrapperComponent
         return preferHeight;
     }
 
-    protected abstract boolean hasStatusChecker();
+    protected abstract boolean isNeedStatusChecker();
 
-    protected abstract boolean hasImportantLabel();
+    protected abstract boolean isNeedImportantLabel();
 
-    protected void initActivationLabel() {
+    private void initActivationLabel() {
         this.activationLabel = UIComponentFactory.createActivationLabel();
     }
 
-    protected void initStatusChecker(boolean checked) {
+    private void initStatusChecker(boolean checked) {
         this.statusChecker = UIComponentFactory.createChecker(checked);
     }
 
@@ -96,7 +96,7 @@ public abstract class TaskPanel extends HomeWrapperComponent
         this.deletePopupItem.addActionListener(this);
     }
 
-    protected void initPopup() {
+    private void initPopup() {
         this.popup = UIComponentFactory.createPopup();
 
         initEditPopupItem();
@@ -106,11 +106,11 @@ public abstract class TaskPanel extends HomeWrapperComponent
         this.popup.addPopupItem(this.deletePopupItem);
     }
 
-    protected void init(TaskPanelDto taskPanelDto) {
+    private void init(TaskPanelDto taskPanelDto) {
         initActivationLabel();
         addChildComponent(this.activationLabel);
 
-        if (hasStatusChecker()) {
+        if (isNeedStatusChecker()) {
             initStatusChecker(taskPanelDto.isCompleted());
             addChildComponent(this.statusChecker);
         }
@@ -118,7 +118,7 @@ public abstract class TaskPanel extends HomeWrapperComponent
         initTaskCenterPanel(taskPanelDto);
         addChildComponent(this.taskCenterPanel);
 
-        if (hasImportantLabel()) {
+        if (isNeedImportantLabel()) {
             initImportantLabel(taskPanelDto.isImportant());
             addChildComponent(this.importantLabel);
         }
@@ -127,11 +127,11 @@ public abstract class TaskPanel extends HomeWrapperComponent
         setPopup(this.popup);
     }
 
-    protected void updateStatusChecker(boolean checked) {
+    private void updateStatusChecker(boolean checked) {
         this.statusChecker.setChecked(checked);
     }
 
-    protected void updateTaskCenterPanel(TaskPanelDto taskPanelDto) {
+    private void updateTaskCenterPanel(TaskPanelDto taskPanelDto) {
         this.taskCenterPanel.update(taskPanelDto);
     }
 
@@ -144,13 +144,13 @@ public abstract class TaskPanel extends HomeWrapperComponent
     }
 
     public void update(TaskPanelDto taskPanelDto) {
-        if (hasStatusChecker()) {
+        if (isNeedStatusChecker()) {
             updateStatusChecker(taskPanelDto.isCompleted());
         }
 
         updateTaskCenterPanel(taskPanelDto);
 
-        if (hasImportantLabel()) {
+        if (isNeedImportantLabel()) {
             updateImportantLabel(taskPanelDto.isImportant());
         }
     }

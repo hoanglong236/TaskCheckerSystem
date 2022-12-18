@@ -11,10 +11,17 @@ class LeafTaskCenterPanel extends TaskCenterPanel {
     }
 
     @Override
-    protected void loadOtherChildComponentsSize() {
+    protected boolean isNeedDeadlineLabel() {
+        return false;
     }
 
     @Override
-    protected void setNotResizableChildComponents() {
+    protected boolean isNeedCompletionRateLabel() {
+        return false;
+    }
+
+    @Override
+    protected boolean isNeedNoteNotifyLabel() {
+        return false;
     }
 }
