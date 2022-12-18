@@ -39,34 +39,16 @@ class RootTaskCenterPanel extends TaskCenterPanel {
     @Override
     public void update(TaskPanelDto taskPanelDto) {
         super.update(taskPanelDto);
-        if (taskPanelDto.getFinishDatetime() == null) {
-            if (this.deadlineLabel != null) {
-                removeChildComponent(this.deadlineLabel);
-                this.deadlineLabel = null;
-            }
-        } else {
-            if (this.deadlineLabel == null) {
-                this.deadlineLabel.update(taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
-            } else {
-                initDeadlineLabel(taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
-                addChildComponent(this.deadlineLabel);
-            }
-        }
-        if (taskPanelDto.getChildTaskCount() == 0) {
-            if (this.completionRateLabel != null) {
-                removeChildComponent(this.completionRateLabel);
-                this.completionRateLabel.dispose();
-                this.completionRateLabel = null;
-            }
-        } else {
-            if (this.completionRateLabel != null) {
-                this.completionRateLabel.update(
-                        taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
-            } else {
-                initCompletionRateLabel(taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
-                addChildComponent(this.completionRateLabel);
-            }
-        }
+
+        final boolean hasDataForDeadlineLabel = taskPanelDto.getFinishDatetime() == null;
+        handleDeadlineLabelByActionChildComponent(
+                getActionChildComponentWhenTryToUpdate(this.deadlineLabel, hasDataForDeadlineLabel),
+                taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
+
+        final boolean hasDataForCompletionRateLabel = taskPanelDto.getChildTaskCount() > 0;
+        handleCompletionRateLabelByActionChildComponent(
+                getActionChildComponentWhenTryToUpdate(this.completionRateLabel, hasDataForCompletionRateLabel),
+                taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
     }
 
     @Override

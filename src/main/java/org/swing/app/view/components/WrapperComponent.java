@@ -11,6 +11,10 @@ import java.util.Map;
 public abstract class WrapperComponent extends ViewComponentBase implements Wrapper {
 
     protected final Map<ViewComponent, Dimension> childComponentSizeMap = new HashMap<>();
+
+    /**
+     * store child components in order when its display in the UI
+     */
     protected final List<ViewComponent> childComponents = new ArrayList<>();
 
     public WrapperComponent() {

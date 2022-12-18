@@ -3,6 +3,7 @@ package org.swing.app.view.home.components.taskbase;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.ui.CompletionRateLabel;
 import org.swing.app.view.components.ui.DeadlineLabel;
 import org.swing.app.view.components.ui.Label;
@@ -14,6 +15,11 @@ import java.awt.FlowLayout;
 import java.time.LocalDateTime;
 
 public abstract class TaskCenterPanel extends HomeWrapperComponent {
+
+    protected static final byte DO_NOTHING_ACTION_CHILD_COMPONENT = 0;
+    protected static final byte INIT_ACTION_CHILD_COMPONENT = 1;
+    protected static final byte UPDATE_ACTION_CHILD_COMPONENT = 2;
+    protected static final byte REMOVE_ACTION_CHILD_COMPONENT = 3;
 
     protected static FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT,
             ViewConstant.SMALL_H_GAP, ViewConstant.SMALL_V_GAP);
@@ -55,6 +61,63 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
 
     protected void updateCompletionRateLabel(int completedCount, int totalCount) {
         this.completionRateLabel.update(completedCount, totalCount);
+    }
+
+    protected byte getActionChildComponentWhenTryToUpdate(ViewComponent componentTryToUpdate, boolean hasData) {
+        if (hasData) {
+            if (componentTryToUpdate != null) {
+                return UPDATE_ACTION_CHILD_COMPONENT;
+            }
+            return INIT_ACTION_CHILD_COMPONENT;
+        }
+
+        if (componentTryToUpdate != null) {
+            return REMOVE_ACTION_CHILD_COMPONENT;
+        }
+
+        return DO_NOTHING_ACTION_CHILD_COMPONENT;
+    }
+
+    protected void handleDeadlineLabelByActionChildComponent(byte actionChildComponent,
+            LocalDateTime startDateTime, LocalDateTime finishDateTime) {
+
+        if (actionChildComponent == INIT_ACTION_CHILD_COMPONENT) {
+            initDeadlineLabel(startDateTime, finishDateTime);
+            addChildComponent(this.deadlineLabel);
+            return;
+        }
+
+        if (actionChildComponent == UPDATE_ACTION_CHILD_COMPONENT) {
+            updateDeadlineLabel(startDateTime, finishDateTime);
+            return;
+        }
+
+        if (actionChildComponent == REMOVE_ACTION_CHILD_COMPONENT) {
+            removeChildComponent(this.deadlineLabel);
+            this.deadlineLabel.dispose();
+            this.deadlineLabel = null;
+        }
+    }
+
+    protected void handleCompletionRateLabelByActionChildComponent(byte actionChildComponent,
+            int completedCount, int totalCount) {
+
+        if (actionChildComponent == INIT_ACTION_CHILD_COMPONENT) {
+            initCompletionRateLabel(completedCount, totalCount);
+            addChildComponent(this.completionRateLabel);
+            return;
+        }
+
+        if (actionChildComponent == UPDATE_ACTION_CHILD_COMPONENT) {
+            updateCompletionRateLabel(completedCount, totalCount);
+            return;
+        }
+
+        if (actionChildComponent == REMOVE_ACTION_CHILD_COMPONENT) {
+            removeChildComponent(this.completionRateLabel);
+            this.completionRateLabel.dispose();
+            this.completionRateLabel = null;
+        }
     }
 
     public void update(TaskPanelDto taskPanelDto) {

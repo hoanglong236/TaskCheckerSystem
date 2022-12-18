@@ -37,58 +37,51 @@ class NodeTaskCenterPanel extends TaskCenterPanel {
         }
     }
 
-    // TODO: common this
-    @Override
-    public void update(TaskPanelDto taskPanelDto) {
-        super.update(taskPanelDto);
-        if (taskPanelDto.getFinishDatetime() == null) {
-            if (this.deadlineLabel != null) {
-                removeChildComponent(this.deadlineLabel);
-                this.deadlineLabel.dispose();
-                this.deadlineLabel = null;
-            }
-        } else {
-            if (this.deadlineLabel != null) {
-                this.deadlineLabel.update(taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
-            } else {
-                initDeadlineLabel(taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
-                addChildComponent(this.deadlineLabel);
-            }
+    protected void handleNoteNotifyLabelByActionChildComponent(byte actionChildComponent) {
+        if (actionChildComponent == INIT_ACTION_CHILD_COMPONENT) {
+            initNoteNotifyLabel();
+            addChildComponent(this.noteNotifyLabel);
+            return;
         }
-        if (taskPanelDto.getChildTaskCount() == 0) {
-            if (this.completionRateLabel != null) {
-                removeChildComponent(this.completionRateLabel);
-                this.completionRateLabel.dispose();
-                this.completionRateLabel = null;
-            }
-        } else {
-            if (this.completionRateLabel != null) {
-                this.completionRateLabel.update(taskPanelDto.getChildTaskCompletedCount(),
-                        taskPanelDto.getChildTaskCount());
-            } else {
-                initCompletionRateLabel(taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
-                addChildComponent(this.completionRateLabel);
-            }
-        }
-        if (taskPanelDto.getNote() == null) {
-            if (this.noteNotifyLabel != null) {
-                removeChildComponent(this.noteNotifyLabel);
-                this.noteNotifyLabel.dispose();
-                this.noteNotifyLabel = null;
-            }
-        } else {
-            if (this.noteNotifyLabel == null) {
-                initNoteNotifyLabel();
-                addChildComponent(this.completionRateLabel);
-            }
+
+        if (actionChildComponent == REMOVE_ACTION_CHILD_COMPONENT) {
+            removeChildComponent(this.noteNotifyLabel);
+            this.noteNotifyLabel.dispose();
+            this.noteNotifyLabel = null;
         }
     }
 
     @Override
+    public void update(TaskPanelDto taskPanelDto) {
+        super.update(taskPanelDto);
+
+        final boolean hasDataForDeadlineLabel = taskPanelDto.getFinishDatetime() == null;
+        handleDeadlineLabelByActionChildComponent(
+                getActionChildComponentWhenTryToUpdate(this.deadlineLabel, hasDataForDeadlineLabel),
+                taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
+
+        final boolean hasDataForCompletionRateLabel = taskPanelDto.getChildTaskCount() > 0;
+        handleCompletionRateLabelByActionChildComponent(
+                getActionChildComponentWhenTryToUpdate(this.completionRateLabel, hasDataForCompletionRateLabel),
+                taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
+
+        final boolean hasDataForNoteNotifyLabel =
+                (taskPanelDto.getNote() != null) && !(taskPanelDto.getNote().isEmpty());
+        handleNoteNotifyLabelByActionChildComponent(
+                getActionChildComponentWhenTryToUpdate(this.noteNotifyLabel, hasDataForNoteNotifyLabel));
+    }
+
+    @Override
     protected void setNotResizableChildComponents() {
-        this.deadlineLabel.setResizable(false);
-        this.completionRateLabel.setResizable(false);
-        this.noteNotifyLabel.setResizable(false);
+        if (this.deadlineLabel != null) {
+            this.deadlineLabel.setResizable(false);
+        }
+        if (this.completionRateLabel != null) {
+            this.completionRateLabel.setResizable(false);
+        }
+        if (this.noteNotifyLabel != null) {
+            this.noteNotifyLabel.setResizable(false);
+        }
     }
 
     @Override
