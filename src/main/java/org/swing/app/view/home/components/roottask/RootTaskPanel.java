@@ -38,7 +38,7 @@ public class RootTaskPanel extends TaskPanel {
 
     @Override
     public boolean requestLoadContent() {
-        return this.homeFrameController.requestLoadTaskContent(ControllerBase.ROOT_TASK_TYPE, this.taskId);
+        return this.homeFrameController.requestLoadTaskContent(ControllerBase.ROOT_TASK_TYPE, getTaskId());
     }
 
     @Override
@@ -69,9 +69,5 @@ public class RootTaskPanel extends TaskPanel {
         final int taskCenterPanelWidth = availableWidth - hGap - activationLabelWidth - hGap;
         this.childComponentSizeMap.put(this.taskCenterPanel,
                 new Dimension(taskCenterPanelWidth, maxChildComponentHeight));
-    }
-
-    // TODO: handle dispose popup
-    public void disposePopup() {
     }
 }

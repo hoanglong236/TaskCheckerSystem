@@ -32,8 +32,8 @@ public class PopupItem extends SimpleComponent {
         return  ((JMenuItem) this.component).getActionListeners();
     }
 
-    private void removeActionListeners() {
-        final Iterator<ActionListener> actionListenerIterator = new ArrayIterator<>(getActionListeners());
+    private void removeActionListeners(ActionListener[] actionListeners) {
+        final Iterator<ActionListener> actionListenerIterator = new ArrayIterator<>(actionListeners);
 
         while (actionListenerIterator.hasNext()) {
             final ActionListener actionListener = actionListenerIterator.next();
@@ -45,8 +45,8 @@ public class PopupItem extends SimpleComponent {
         return this.component.getMouseListeners();
     }
 
-    private void removeMouseListeners() {
-        final Iterator<MouseListener> mouseListenerIterator = new ArrayIterator<>(getMouseListeners());
+    private void removeMouseListeners(MouseListener[] mouseListeners) {
+        final Iterator<MouseListener> mouseListenerIterator = new ArrayIterator<>(mouseListeners);
 
         while (mouseListenerIterator.hasNext()) {
             final MouseListener mouseListener = mouseListenerIterator.next();
@@ -55,7 +55,7 @@ public class PopupItem extends SimpleComponent {
     }
 
     public void dispose() {
-        removeActionListeners();
-        removeMouseListeners();
+        removeActionListeners(getActionListeners());
+        removeMouseListeners(getMouseListeners());
     }
 }

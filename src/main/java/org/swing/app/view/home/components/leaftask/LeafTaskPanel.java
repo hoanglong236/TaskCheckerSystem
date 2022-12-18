@@ -42,7 +42,7 @@ public class LeafTaskPanel extends TaskPanel {
 
     @Override
     public boolean requestLoadContent() {
-        return this.homeFrameController.requestLoadTaskContent(ControllerBase.LEAF_TASK_TYPE, this.taskId);
+        return this.homeFrameController.requestLoadTaskContent(ControllerBase.LEAF_TASK_TYPE, getTaskId());
     }
 
     @Override

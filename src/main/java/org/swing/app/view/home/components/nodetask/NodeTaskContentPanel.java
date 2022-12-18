@@ -28,7 +28,6 @@ public class NodeTaskContentPanel extends TaskContentPanel implements MouseListe
         setupTextField();
     }
 
-    // TODO: handle this
     private void setupTextField() {
         this.textField = InputComponentFactory.createTextField();
         ((AllowTypingInputComponent) this.textField).addKeyListener(this);

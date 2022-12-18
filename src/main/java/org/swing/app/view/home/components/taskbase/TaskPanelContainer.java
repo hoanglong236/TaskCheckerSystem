@@ -42,7 +42,6 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent {
         this.filterButton = UIComponentFactory.createButton(ViewConstant.ICON_LOCATION_FILTER);
     }
 
-    // TODO: handle taskPanelDtos
     protected abstract void initVerticalScrollPane(Set<TaskPanelDto> taskPanelDtos);
 
     private void init(String title, Set<TaskPanelDto> taskPanelDtos) {

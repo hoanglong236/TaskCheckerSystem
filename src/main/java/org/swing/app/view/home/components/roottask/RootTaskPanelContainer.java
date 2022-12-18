@@ -21,5 +21,9 @@ public class RootTaskPanelContainer extends TaskPanelContainer {
     protected void initVerticalScrollPane(Set<TaskPanelDto> taskPanelDtos) {
         this.verticalScrollPane = UIComponentFactory.createVerticalScrollPane(
                 new TaskContainerViewportViewWithoutNotify(this.homeFrameController));
+
+        for (final TaskPanelDto taskPanelDto : taskPanelDtos) {
+            addTaskPanelByDto(taskPanelDto);
+        }
     }
 }

@@ -58,7 +58,7 @@ public class Button extends SimpleComponent {
 
     @Override
     public void dispose() {
-        removeActionListeners(getActionListeners());
         super.dispose();
+        removeActionListeners(getActionListeners());
     }
 }

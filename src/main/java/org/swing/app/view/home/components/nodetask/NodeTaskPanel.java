@@ -66,7 +66,7 @@ public class NodeTaskPanel extends TaskPanel {
 
     @Override
     public boolean requestLoadContent() {
-        return this.homeFrameController.requestLoadTaskContent(ControllerBase.NODE_TASK_TYPE, this.taskId);
+        return this.homeFrameController.requestLoadTaskContent(ControllerBase.NODE_TASK_TYPE, getTaskId());
     }
 
     @Override

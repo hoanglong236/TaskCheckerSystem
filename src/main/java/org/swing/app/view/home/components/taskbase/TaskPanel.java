@@ -1,6 +1,5 @@
 package org.swing.app.view.home.components.taskbase;
 
-import org.swing.app.controller.ControllerBase;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
@@ -18,6 +17,7 @@ import org.swing.app.view.home.UpdatableTaskComponent;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 
 public abstract class TaskPanel extends HomeWrapperComponent
         implements ActionListener, UpdatableTaskComponent, DeletableTaskComponent {
@@ -34,19 +34,31 @@ public abstract class TaskPanel extends HomeWrapperComponent
 
     private final int preferHeight;
 
-    protected final String taskId;
+    protected TaskPanelDto taskPanelDto;
 
     public TaskPanel(HomeFrameController homeFrameController, int preferHeight, TaskPanelDto taskPanelDto) {
         super(homeFrameController);
         this.preferHeight = preferHeight;
-        this.taskId = taskPanelDto.getId();
+        this.taskPanelDto = taskPanelDto;
         setLayout(MAIN_LAYOUT);
         init(taskPanelDto);
     }
 
     @Override
     public String getTaskId() {
-        return taskId;
+        return this.taskPanelDto.getId();
+    }
+
+    public LocalDateTime getStartDateTime() {
+        return this.taskPanelDto.getStartDatetime();
+    }
+
+    public LocalDateTime getFinishDateTime() {
+        return this.taskPanelDto.getFinishDatetime();
+    }
+
+    public boolean isImportant() {
+        return this.taskPanelDto.isImportant();
     }
 
     public int getPreferHeight() {
@@ -176,5 +188,15 @@ public abstract class TaskPanel extends HomeWrapperComponent
 
     public void deactivate() {
         this.activationLabel.deactivate();
+    }
+
+    private void disposePopup() {
+        this.popup.dispose();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        disposePopup();
     }
 }
