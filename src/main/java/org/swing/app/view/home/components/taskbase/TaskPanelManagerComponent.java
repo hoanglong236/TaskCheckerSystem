@@ -6,6 +6,7 @@ import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.OptionPane;
 import org.swing.app.view.components.request.DeletableTaskComponent;
+import org.swing.app.view.components.request.InsertableTaskComponent;
 import org.swing.app.view.components.ui.Button;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.factory.UIComponentFactory;
@@ -23,7 +24,7 @@ import java.awt.event.ActionListener;
 import java.util.Set;
 
 public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
-        implements TaskPanelManager, ActionListener, DeletableTaskComponent {
+        implements TaskPanelManager, InsertableTaskComponent, DeletableTaskComponent, ActionListener {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
@@ -41,7 +42,6 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
     private final TaskPanelFactory taskPanelFactory;
     private final TaskPanelContainerFactory taskPanelContainerFactory;
 
-    // TODO: handle this
     private TaskPanel taskPanelRequesting;
 
     public TaskPanelManagerComponent(HomeFrameController homeFrameController,
@@ -163,11 +163,11 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
     }
 
     private void onActionPerformedForSortByCreateDatePopupItem() {
-//        this.verticalScrollPane.
+        this.taskPanelContainer.sortTaskPanel(TaskPanelContainer.SORT_BY_CREATE_DATE_ASC);
     }
 
     private void onActionPerformedForSortByModifyDatePopupItem() {
-
+        this.taskPanelContainer.sortTaskPanel(TaskPanelContainer.SORT_BY_MODIFY_DATE_ASC);
     }
 
     @Override
@@ -187,6 +187,28 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
             return;
         }
         throw new IllegalArgumentException();
+    }
+
+    @Override
+    public void insertTaskPanelHandler(byte taskType) {
+        final boolean requestSuccess = this.homeFrameController
+                .requestAddNewTaskPanel(taskType, this);
+
+        if (!requestSuccess) {
+            requestFailureHandler();
+        }
+    }
+
+    @Override
+    public void handlerForResultOfInsertTaskAction(boolean isSuccess, TaskPanelDto taskPanelDto) {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+
+        if (isSuccess) {
+            addTaskPanelByDto(taskPanelDto);
+            OptionPane.showMessageDialog(messageLoader.getMessage("insert.success.dialog"));
+        } else {
+            OptionPane.showMessageDialog(messageLoader.getMessage("insert.failure.dialog"));
+        }
     }
 
     @Override
@@ -224,5 +246,7 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
         } else {
             OptionPane.showMessageDialog(messageLoader.getMessage("delete.failure.dialog"));
         }
+
+        this.taskPanelRequesting = null;
     }
 }

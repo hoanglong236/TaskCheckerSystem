@@ -191,13 +191,15 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
     }
 
     private void onMousePressedForTaskPanel(TaskPanel taskPanel) {
-        deactivateAllTaskPanels();
-        taskPanel.activate();
-
-        final boolean requestSuccess = taskPanel.requestLoadContent();
+        final boolean requestSuccess = this.homeFrameController.requestLoadTaskContent(
+                taskPanel.getTaskTypeToRequest(), taskPanel.getTaskId());
         if (!requestSuccess) {
             requestFailureHandler();
+            return;
         }
+
+        deactivateAllTaskPanels();
+        taskPanel.activate();
     }
 
     @Override

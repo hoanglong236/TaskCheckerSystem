@@ -16,6 +16,7 @@ public class HomeFrameController extends ControllerBase {
 
     private HomeFrame homeFrame;
     private AbleToRequestComponent requestingComponent;
+
     private final TaskFormFrameController taskFormFrameController;
 
     private final HomeFrameBusiness homeFrameBusiness;
@@ -99,9 +100,9 @@ public class HomeFrameController extends ControllerBase {
             final TaskPanelDto taskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
             ((InsertableTaskComponent) this.requestingComponent)
                     .handlerForResultOfInsertTaskAction(isSuccess, taskPanelDto);
-            this.requestingComponent = null;
             return;
         }
+        this.requestingComponent = null;
         throw new UnsupportedOperationException();
     }
 
@@ -110,18 +111,18 @@ public class HomeFrameController extends ControllerBase {
             final TaskPanelDto taskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
             ((UpdatableTaskComponent) this.requestingComponent)
                     .handlerForResultOfUpdateTaskAction(isSuccess, taskPanelDto);
-            this.requestingComponent = null;
             return;
         }
+        this.requestingComponent = null;
         throw new UnsupportedOperationException();
     }
 
     private void handlerForDeleteTaskAction(boolean isSuccess) {
         if (this.requestingComponent instanceof DeletableTaskComponent) {
             ((DeletableTaskComponent) this.requestingComponent).handlerForResultOfDeleteTaskAction(isSuccess);
-            this.requestingComponent = null;
             return;
         }
+        this.requestingComponent = null;
         throw new UnsupportedOperationException();
     }
 

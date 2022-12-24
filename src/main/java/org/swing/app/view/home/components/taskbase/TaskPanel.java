@@ -20,7 +20,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 
-public abstract class TaskPanel extends HomeWrapperComponent implements ActionListener, UpdatableTaskComponent {
+public abstract class TaskPanel extends HomeWrapperComponent
+        implements UpdatableTaskComponent, ActionListener {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
@@ -74,6 +75,8 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
     protected abstract boolean isNeedStatusChecker();
 
     protected abstract boolean isNeedImportantLabel();
+
+    public abstract byte getTaskTypeToRequest();
 
     private void initActivationLabel() {
         this.activationLabel = UIComponentFactory.createActivationLabel();
@@ -212,12 +215,27 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
         }
     }
 
-    public abstract boolean requestLoadContent();
+    public void activate() {
+        this.activationLabel.activate();
+    }
 
-    protected abstract boolean requestUpdate();
+    public void deactivate() {
+        this.activationLabel.deactivate();
+    }
+
+    private void disposePopup() {
+        this.popup.dispose();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        disposePopup();
+    }
 
     private void onActionPerformedForEditPopupItem() {
-        boolean requestSuccess = requestUpdate();
+        boolean requestSuccess = this.homeFrameController.requestUpdateTaskPanel(
+                getTaskTypeToRequest(), this, getTaskId());
 
         if (!requestSuccess) {
             requestFailureHandler();
@@ -253,25 +271,5 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
         } else {
             OptionPane.showMessageDialog(messageLoader.getMessage("update.failure.dialog"));
         }
-    }
-
-
-
-    public void activate() {
-        this.activationLabel.activate();
-    }
-
-    public void deactivate() {
-        this.activationLabel.deactivate();
-    }
-
-    private void disposePopup() {
-        this.popup.dispose();
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        disposePopup();
     }
 }

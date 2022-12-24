@@ -4,19 +4,19 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.OptionPane;
-import org.swing.app.view.components.SimpleComponent;
+import org.swing.app.view.components.ui.Button;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
-import org.swing.app.view.components.request.InsertableTaskComponent;
 import org.swing.app.view.home.components.factory.TaskPanelManagerComponentFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Set;
 
-public abstract class TaskContentPanel extends HomeWrapperComponent implements InsertableTaskComponent {
+public abstract class TaskContentPanel extends HomeWrapperComponent implements ActionListener {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
@@ -24,7 +24,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
 
     private Label titleLabel;
     private TaskPanelManagerComponent taskPanelManagerComponent;
-    protected SimpleComponent addNewTaskComponent;
+    private Button addNewTaskButton;
 
     private final TaskPanelManagerComponentFactory taskPanelManagerComponentFactory;
 
@@ -38,20 +38,26 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         init(title, taskPanelDtos);
     }
 
+    protected abstract byte getTaskTypeToRequest();
+
     private void initTitleLabel(String title) {
         this.titleLabel = UIComponentFactory.createLabel(title);
     }
 
-    // TODO: handle title
     private void initTaskPanelManagerComponent(Set<TaskPanelDto> taskPanelDtos) {
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        final String taskPanelManagerComponentTitle = messageLoader.getMessage("...");
+        final String taskPanelManagerComponentTitle = messageLoader.getMessage("task.panel.manager.title");
 
         this.taskPanelManagerComponent = this.taskPanelManagerComponentFactory.createTaskPanelManagerComponent(
                 this.homeFrameController, taskPanelManagerComponentTitle, taskPanelDtos);
     }
 
-    protected abstract void initAddNewTaskComponent();
+    private void initAddNewTaskButton() {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        this.addNewTaskButton = UIComponentFactory.createButton(
+                messageLoader.getMessage("add.task.component.text"));
+        this.addNewTaskButton.addActionListener(this);
+    }
 
     private void init(String title, Set<TaskPanelDto> taskPanelDtos) {
         initTitleLabel(title);
@@ -60,8 +66,8 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         initTaskPanelManagerComponent(taskPanelDtos);
         addChildComponent(this.taskPanelManagerComponent);
 
-        initAddNewTaskComponent();
-        addChildComponent(this.addNewTaskComponent);
+        initAddNewTaskButton();
+        addChildComponent(this.addNewTaskButton);
     }
 
     @Override
@@ -80,27 +86,31 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         this.childComponentSizeMap.put(this.taskPanelManagerComponent,
                 new Dimension(maxChildComponentWidth, taskPanelManagerComponentHeight));
 
-        final int addTaskBtnWidth = 100;
-        final int addTaskBtnHeight = 50;
-        this.childComponentSizeMap.put(this.addNewTaskComponent, new Dimension(addTaskBtnWidth, addTaskBtnHeight));
+        final int addNewTaskButtonWidth = 100;
+        final int addNewTaskButtonHeight = 50;
+        this.childComponentSizeMap.put(this.addNewTaskButton,
+                new Dimension(addNewTaskButtonWidth, addNewTaskButtonHeight));
     }
 
     @Override
     protected void setNotResizableChildComponents() {
         this.titleLabel.setResizable(true);
         this.taskPanelManagerComponent.setResizable(true);
-        this.addNewTaskComponent.setResizable(false);
+        this.addNewTaskButton.setResizable(false);
+    }
+
+    private void onActionPerformedForAddNewTaskComponent() {
+        this.taskPanelManagerComponent.insertTaskPanelHandler(getTaskTypeToRequest());
     }
 
     @Override
-    public void handlerForResultOfInsertTaskAction(boolean isSuccess, TaskPanelDto taskPanelDto) {
-        final MessageLoader messageLoader = MessageLoader.getInstance();
+    public void actionPerformed(ActionEvent e) {
+        final Object eventSource = e.getSource();
 
-        if (isSuccess) {
-            this.taskPanelManagerComponent.addTaskPanelByDto(taskPanelDto);
-            OptionPane.showMessageDialog(messageLoader.getMessage("insert.success.dialog"));
-        } else {
-            OptionPane.showMessageDialog(messageLoader.getMessage("insert.failure.dialog"));
+        if (eventSource == this.addNewTaskButton) {
+            onActionPerformedForAddNewTaskComponent();
+            return;
         }
+        throw new IllegalArgumentException();
     }
 }

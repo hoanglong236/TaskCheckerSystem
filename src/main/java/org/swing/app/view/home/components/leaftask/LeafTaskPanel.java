@@ -25,18 +25,12 @@ public class LeafTaskPanel extends TaskPanel {
     }
 
     @Override
+    public byte getTaskTypeToRequest() {
+        return ControllerBase.LEAF_TASK_TYPE;
+    }
+
+    @Override
     protected void initTaskCenterPanel(TaskPanelDto taskPanelDto) {
         this.taskCenterPanel = new LeafTaskCenterPanel(this.homeFrameController, taskPanelDto);
-    }
-
-    @Override
-    public boolean requestLoadContent() {
-        return this.homeFrameController.requestLoadTaskContent(ControllerBase.LEAF_TASK_TYPE, getTaskId());
-    }
-
-    @Override
-    protected boolean requestUpdate() {
-        return this.homeFrameController.requestUpdateTaskPanel(
-                ControllerBase.LEAF_TASK_TYPE, this, getTaskId());
     }
 }

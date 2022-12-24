@@ -25,18 +25,12 @@ public class RootTaskPanel extends TaskPanel {
     }
 
     @Override
+    public byte getTaskTypeToRequest() {
+        return ControllerBase.ROOT_TASK_TYPE;
+    }
+
+    @Override
     protected void initTaskCenterPanel(TaskPanelDto taskPanelDto) {
         this.taskCenterPanel = new RootTaskCenterPanel(this.homeFrameController, taskPanelDto);
-    }
-
-    @Override
-    public boolean requestLoadContent() {
-        return this.homeFrameController.requestLoadTaskContent(ControllerBase.ROOT_TASK_TYPE, getTaskId());
-    }
-
-    @Override
-    protected boolean requestUpdate() {
-        return this.homeFrameController.requestUpdateTaskPanel(
-                ControllerBase.ROOT_TASK_TYPE, this, getTaskId());
     }
 }

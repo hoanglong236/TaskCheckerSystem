@@ -25,18 +25,12 @@ public class NodeTaskPanel extends TaskPanel {
     }
 
     @Override
+    public byte getTaskTypeToRequest() {
+        return ControllerBase.NODE_TASK_TYPE;
+    }
+
+    @Override
     protected void initTaskCenterPanel(TaskPanelDto taskPanelDto) {
         this.taskCenterPanel = new NodeTaskCenterPanel(this.homeFrameController, taskPanelDto);
-    }
-
-    @Override
-    public boolean requestLoadContent() {
-        return this.homeFrameController.requestLoadTaskContent(ControllerBase.NODE_TASK_TYPE, getTaskId());
-    }
-
-    @Override
-    protected boolean requestUpdate() {
-        return this.homeFrameController.requestUpdateTaskPanel(
-                ControllerBase.NODE_TASK_TYPE, this, getTaskId());
     }
 }
