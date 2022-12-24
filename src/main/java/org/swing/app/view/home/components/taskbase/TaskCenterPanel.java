@@ -178,8 +178,6 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
 
     @Override
     protected void loadChildComponentsSize() {
-        this.childComponentSizeMap.clear();
-
         final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
         int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
 

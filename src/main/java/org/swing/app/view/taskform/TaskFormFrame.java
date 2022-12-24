@@ -136,8 +136,6 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
 
     @Override
     protected void loadChildComponentsSize() {
-        this.childComponentSizeMap.clear();
-
         final int availableWidth = getSize().width - ViewConstant.FORM_FRAME_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.FORM_FRAME_RESERVE_HEIGHT;
 

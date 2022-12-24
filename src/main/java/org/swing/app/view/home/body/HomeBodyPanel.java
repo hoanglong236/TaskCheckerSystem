@@ -43,8 +43,6 @@ public class HomeBodyPanel extends HomeWrapperComponent {
 
     @Override
     protected void loadChildComponentsSize() {
-        this.childComponentSizeMap.clear();
-
         int availableWidth = getSize().width - ViewConstant.MEDIUM_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.MEDIUM_RESERVE_HEIGHT;
 

@@ -76,7 +76,6 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
 
     @Override
     protected void loadChildComponentsSize() {
-        this.childComponentSizeMap.clear();
         final int preferChildComponentWidth = getPreferChildComponentWidth();
 
         loadTaskPanelsSize(this.incompleteTaskPanels.iterator(), preferChildComponentWidth);

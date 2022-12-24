@@ -65,8 +65,6 @@ public class HomeFrame extends FrameWrapperComponent {
 
     @Override
     protected void loadChildComponentsSize() {
-        this.childComponentSizeMap.clear();
-
         final int availableWidth = getSize().width - ViewConstant.FRAME_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.FRAME_RESERVE_HEIGHT;
 

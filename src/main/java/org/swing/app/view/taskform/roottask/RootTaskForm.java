@@ -43,8 +43,6 @@ public class RootTaskForm extends TaskForm {
 
     @Override
     protected void loadChildComponentsSize() {
-        this.childComponentSizeMap.clear();
-
         final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
         final int smallInputWrapperHeight = 50;

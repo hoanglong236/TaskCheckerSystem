@@ -96,8 +96,6 @@ public class DateTimeChooser extends PanelWrapperComponent implements InputCompo
 
     @Override
     protected void loadChildComponentsSize() {
-        this.childComponentSizeMap.clear();
-
         final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
         final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 

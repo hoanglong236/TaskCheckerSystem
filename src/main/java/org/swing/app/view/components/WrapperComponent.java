@@ -72,6 +72,8 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
                 childComponent.resize(this.childComponentSizeMap.get(childComponent));
             }
         }
+
+        this.childComponentSizeMap.clear();
     }
 
     protected abstract void setNotResizableChildComponents();

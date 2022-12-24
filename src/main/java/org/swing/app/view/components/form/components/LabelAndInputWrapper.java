@@ -52,8 +52,6 @@ public abstract class LabelAndInputWrapper extends PanelWrapperComponent {
 
     @Override
     protected void loadChildComponentsSize() {
-        this.childComponentSizeMap.clear();
-
         final int availableWidth = getSize().width - ViewConstant.MEDIUM_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.MEDIUM_RESERVE_HEIGHT;
 

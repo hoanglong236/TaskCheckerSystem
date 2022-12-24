@@ -72,8 +72,6 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements A
 
     @Override
     protected void loadChildComponentsSize() {
-        this.childComponentSizeMap.clear();
-
         final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
 

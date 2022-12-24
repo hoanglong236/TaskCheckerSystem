@@ -35,13 +35,13 @@ public abstract class TaskPanel extends HomeWrapperComponent
     private PopupItem editPopupItem;
     private PopupItem deletePopupItem;
 
-    private final TaskPanelManagerComponent taskPanelManager;
+    private final TaskPanelManager taskPanelManager;
 
     private final int preferHeight;
 
     private TaskPanelDto taskPanelDto;
 
-    public TaskPanel(HomeFrameController homeFrameController, TaskPanelManagerComponent taskPanelManager,
+    public TaskPanel(HomeFrameController homeFrameController, TaskPanelManager taskPanelManager,
             int preferHeight, TaskPanelDto taskPanelDto) {
 
         super(homeFrameController);
@@ -171,8 +171,6 @@ public abstract class TaskPanel extends HomeWrapperComponent
 
     @Override
     protected void loadChildComponentsSize() {
-        this.childComponentSizeMap.clear();
-
         int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
 
