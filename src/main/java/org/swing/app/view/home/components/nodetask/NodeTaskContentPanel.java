@@ -8,8 +8,8 @@ import org.swing.app.view.components.form.components.InputComponent;
 import org.swing.app.view.components.form.components.factory.InputComponentFactory;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.components.form.components.input.AllowTypingInputComponent;
+import org.swing.app.view.home.components.leaftask.factory.LeafTaskPanelManagerComponentFactory;
 import org.swing.app.view.home.components.taskbase.TaskContentPanel;
-import org.swing.app.view.home.components.leaftask.factory.LeafTaskPanelContainerFactory;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -24,7 +24,7 @@ public class NodeTaskContentPanel extends TaskContentPanel implements MouseListe
     public NodeTaskContentPanel(HomeFrameController homeFrameController,
             String title, Set<TaskPanelDto> taskPanelDtos) {
 
-        super(homeFrameController, new LeafTaskPanelContainerFactory(), title, taskPanelDtos);
+        super(homeFrameController, new LeafTaskPanelManagerComponentFactory(), title, taskPanelDtos);
         setupTextField();
     }
 

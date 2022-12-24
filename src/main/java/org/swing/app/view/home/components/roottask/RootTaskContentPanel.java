@@ -7,7 +7,7 @@ import org.swing.app.util.MessageLoader;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.components.ui.Button;
 import org.swing.app.view.home.components.taskbase.TaskContentPanel;
-import org.swing.app.view.home.components.nodetask.factory.NodeTaskPanelContainerFactory;
+import org.swing.app.view.home.components.nodetask.factory.NodeTaskPanelManagerComponentFactory;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +18,7 @@ public class RootTaskContentPanel extends TaskContentPanel implements ActionList
     public RootTaskContentPanel(HomeFrameController homeFrameController,
             String title, Set<TaskPanelDto> taskPanelDtos) {
 
-        super(homeFrameController, new NodeTaskPanelContainerFactory(), title, taskPanelDtos);
+        super(homeFrameController, new NodeTaskPanelManagerComponentFactory(), title, taskPanelDtos);
     }
 
     @Override

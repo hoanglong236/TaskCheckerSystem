@@ -1,99 +1,229 @@
 package org.swing.app.view.home.components.taskbase;
 
 import org.swing.app.controller.HomeFrameController;
-import org.swing.app.dto.TaskPanelDto;
+import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.ui.Button;
-import org.swing.app.view.components.ui.Label;
+import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.factory.UIComponentFactory;
-import org.swing.app.view.components.ui.VerticalScrollPane;
+import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.home.HomeWrapperComponent;
-import org.swing.app.view.home.components.factory.TaskPanelFactory;
+import org.swing.app.view.home.comparetor.TaskPanelModifyDateComparator;
+import org.swing.app.view.home.comparetor.TaskPanelCreateDateComparator;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.Set;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
-public abstract class TaskPanelContainer extends HomeWrapperComponent {
+public abstract class TaskPanelContainer extends HomeWrapperComponent
+        implements MouseListener {
+
+    public static final byte SORT_BY_CREATE_DATE_ASC = 0;
+//    public static final byte SORT_BY_CREATE_DATE_DESC = 1;
+    public static final byte SORT_BY_MODIFY_DATE_ASC = 2;
+//    public static final byte SORT_BY_MODIFY_DATE_DESC = 3;
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
-    private Label titleLabel;
-    private Button filterButton;
-    protected VerticalScrollPane verticalScrollPane;
+    private static final byte NOTIFY_LABEL_WIDTH = ViewConstant.NOTIFY_LABEL_WIDTH;
+    private static final byte NOTIFY_LABEL_HEIGHT = ViewConstant.NOTIFY_LABEL_HEIGHT;
 
-    private final TaskPanelFactory taskPanelFactory;
+    private Label notifyLabel;
 
-    public TaskPanelContainer(HomeFrameController homeFrameController, TaskPanelFactory taskPanelFactory,
-            String title, Set<TaskPanelDto> taskPanelDtos) {
+    private int preferHeight = ViewConstant.SMALL_RESERVE_HEIGHT;
 
+    private final List<TaskPanel> incompleteTaskPanels = new ArrayList<>();
+    private final List<TaskPanel> completedTaskPanels = new ArrayList<>();
+
+    private Comparator<TaskPanel> comparator;
+
+    // TODO: handle this
+    public TaskPanelContainer(HomeFrameController homeFrameController) {
         super(homeFrameController);
-        this.taskPanelFactory = taskPanelFactory;
+        this.comparator = new TaskPanelCreateDateComparator();
+
         setLayout(MAIN_LAYOUT);
-        init(title, taskPanelDtos);
+        init();
     }
 
-    private void initTitleLabel(String title) {
-        this.titleLabel = UIComponentFactory.createLabel(title);
+    protected abstract boolean hasNotifyLabel();
+
+    private void initNotifyLabel() {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        this.notifyLabel = UIComponentFactory.createLabel(messageLoader.getMessage("label.notify.text"));
+        this.notifyLabel.setVisible(false);
     }
 
-    private void initFilterButton() {
-        this.filterButton = UIComponentFactory.createButton(ViewConstant.ICON_LOCATION_FILTER);
+    private void init() {
+        if (hasNotifyLabel()) {
+            initNotifyLabel();
+            addChildComponent(this.notifyLabel);
+        }
     }
 
-    protected abstract void initVerticalScrollPane(Set<TaskPanelDto> taskPanelDtos);
-
-    private void init(String title, Set<TaskPanelDto> taskPanelDtos) {
-        initTitleLabel(title);
-        addChildComponent(this.titleLabel);
-
-        initFilterButton();
-        addChildComponent(this.filterButton);
-
-        initVerticalScrollPane(taskPanelDtos);
-        addChildComponent(this.verticalScrollPane);
-    }
-
-    public void addTaskPanelByDto(TaskPanelDto taskPanelDto) {
-        final TaskPanel taskPanel = this.taskPanelFactory.createTaskPanel(this.homeFrameController, taskPanelDto);
-        addTaskPanel(taskPanel);
-    }
-
-    public void addTaskPanel(TaskPanel taskPanel) {
-        this.verticalScrollPane.addChildComponent(taskPanel);
-    }
-
-    public void removeTaskPanel(TaskPanel taskPanel) {
-        this.verticalScrollPane.removeChildComponent(taskPanel);
+    private void loadTaskPanelsSize(Iterator<TaskPanel> taskPanelIterator, int taskPanelWidth) {
+        while (taskPanelIterator.hasNext()) {
+            final TaskPanel taskPanel = taskPanelIterator.next();
+            this.childComponentSizeMap.put(taskPanel, new Dimension(taskPanelWidth, taskPanel.getPreferHeight()));
+        }
     }
 
     @Override
     protected void loadChildComponentsSize() {
         this.childComponentSizeMap.clear();
+        final int preferChildComponentWidth = getPreferChildComponentWidth();
 
-        final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
-        final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
+        loadTaskPanelsSize(this.incompleteTaskPanels.iterator(), preferChildComponentWidth);
+        loadTaskPanelsSize(this.completedTaskPanels.iterator(), preferChildComponentWidth);
 
-        final int commonComponentHeight = 40;
+        if (hasNotifyLabel() && this.notifyLabel.isVisible()) {
+            this.childComponentSizeMap.put(this.notifyLabel, new Dimension(NOTIFY_LABEL_WIDTH, NOTIFY_LABEL_HEIGHT));
+        }
+    }
 
-        final int filterBtnWidth = 40;
-        this.childComponentSizeMap.put(this.filterButton, new Dimension(filterBtnWidth, commonComponentHeight));
-
-        final int titleLabelWidth = availableWidth - HORIZONTAL_GAP - filterBtnWidth - HORIZONTAL_GAP;
-        this.childComponentSizeMap.put(this.titleLabel, new Dimension(titleLabelWidth, commonComponentHeight));
-
-        final int verticalScrollPaneWidth = availableWidth - HORIZONTAL_GAP;
-        final int verticalScrollPaneHeight = availableHeight - VERTICAL_GAP - commonComponentHeight - VERTICAL_GAP;
-        this.childComponentSizeMap.put(this.verticalScrollPane,
-                new Dimension(verticalScrollPaneWidth, verticalScrollPaneHeight));
+    public void resizeHeightWithoutResizeChildComponent(int height) {
+        this.component.setPreferredSize(new Dimension(getSize().width, height));
     }
 
     @Override
     protected void setNotResizableChildComponents() {
-        this.verticalScrollPane.setResizable(true);
-        this.filterButton.setResizable(false);
-        this.titleLabel.setResizable(true);
+    }
+
+    public void addTaskPanel(TaskPanel taskPanel) {
+        taskPanel.resize(new Dimension(getPreferChildComponentWidth(), taskPanel.getPreferHeight()));
+
+        int positionToAddInUI;
+
+        if (taskPanel.isCompleted()) {
+            this.completedTaskPanels.add(taskPanel);
+            this.completedTaskPanels.sort(this.comparator);
+            positionToAddInUI = this.completedTaskPanels.indexOf(taskPanel);
+        } else {
+            this.incompleteTaskPanels.add(taskPanel);
+            this.incompleteTaskPanels.sort(this.comparator);
+            positionToAddInUI = this.incompleteTaskPanels.indexOf(taskPanel);
+        }
+
+        addChildComponent(taskPanel, positionToAddInUI);
+
+        if (hasNotifyLabel() && !(this.notifyLabel.isVisible())) {
+            if (this.completedTaskPanels.size() > 0) {
+                this.notifyLabel.setVisible(true);
+                this.preferHeight += VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
+            }
+        }
+
+        this.preferHeight += VERTICAL_GAP + taskPanel.getSize().height;
+        resizeHeightWithoutResizeChildComponent(this.preferHeight);
+    }
+
+    private void handleAfterRemoveTaskPanel(TaskPanel taskPanel) {
+        if (taskPanel.isCompleted()) {
+            this.completedTaskPanels.remove(taskPanel);
+        } else {
+            this.incompleteTaskPanels.remove(taskPanel);
+        }
+
+        if (hasNotifyLabel() && this.notifyLabel.isVisible()) {
+            if (this.completedTaskPanels.size() == 0) {
+                this.notifyLabel.setVisible(false);
+                this.preferHeight -= VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
+            }
+        }
+
+        this.preferHeight -= VERTICAL_GAP + taskPanel.getSize().height;
+        resizeHeightWithoutResizeChildComponent(this.preferHeight);
+    }
+
+    @Override
+    public void removeChildComponent(ViewComponent childComponent) {
+        removeChildComponent(childComponent);
+
+        if (childComponent instanceof TaskPanel) {
+            handleAfterRemoveTaskPanel((TaskPanel) childComponent);
+        }
+    }
+
+    protected int getPreferChildComponentWidth() {
+        final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
+        return availableWidth - HORIZONTAL_GAP;
+    }
+
+    // TODO: handle this
+    private void sortTaskPanelByCreateDate() {
+        this.comparator = new TaskPanelCreateDateComparator();
+    }
+
+    // TODO: handle this
+    private void sortTaskPanelByModifyDate() {
+        this.comparator = new TaskPanelModifyDateComparator();
+    }
+
+    public void sortTaskPanel(byte typeOfSortBy) {
+        switch (typeOfSortBy) {
+            case SORT_BY_CREATE_DATE_ASC:
+                sortTaskPanelByCreateDate();
+                break;
+            case SORT_BY_MODIFY_DATE_ASC:
+                sortTaskPanelByModifyDate();
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    private void deactivateTaskPanels(Iterator<TaskPanel> taskPanelIterator) {
+        while (taskPanelIterator.hasNext()) {
+            final TaskPanel taskPanel = taskPanelIterator.next();
+            taskPanel.deactivate();
+        }
+    }
+
+    private void deactivateAllTaskPanels() {
+        deactivateTaskPanels(this.incompleteTaskPanels.iterator());
+        deactivateTaskPanels(this.completedTaskPanels.iterator());
+    }
+
+    private void onMousePressedForTaskPanel(TaskPanel taskPanel) {
+        deactivateAllTaskPanels();
+        taskPanel.activate();
+
+        final boolean requestSuccess = taskPanel.requestLoadContent();
+        if (!requestSuccess) {
+            requestFailureHandler();
+        }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        final Object eventSource = e.getSource();
+
+        if (eventSource instanceof TaskPanel) {
+            onMousePressedForTaskPanel((TaskPanel) eventSource);
+            return;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }

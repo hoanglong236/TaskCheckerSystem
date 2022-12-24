@@ -4,11 +4,14 @@ import org.swing.app.controller.ControllerBase;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.home.components.taskbase.TaskPanel;
+import org.swing.app.view.home.components.taskbase.TaskPanelManagerComponent;
 
 public class RootTaskPanel extends TaskPanel {
 
-    public RootTaskPanel(HomeFrameController homeFrameController, int preferHeight, TaskPanelDto taskPanelDto) {
-        super(homeFrameController, preferHeight, taskPanelDto);
+    public RootTaskPanel(HomeFrameController homeFrameController, TaskPanelManagerComponent taskPanelManager,
+            int preferHeight, TaskPanelDto taskPanelDto) {
+
+        super(homeFrameController, taskPanelManager, preferHeight, taskPanelDto);
     }
 
     @Override
@@ -34,6 +37,6 @@ public class RootTaskPanel extends TaskPanel {
     @Override
     protected boolean requestUpdate() {
         return this.homeFrameController.requestUpdateTaskPanel(
-                ControllerBase.ROOT_TASK_TYPE, this);
+                ControllerBase.ROOT_TASK_TYPE, this, getTaskId());
     }
 }

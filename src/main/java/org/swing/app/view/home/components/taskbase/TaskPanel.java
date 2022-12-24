@@ -11,7 +11,6 @@ import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.components.ui.Popup;
 import org.swing.app.view.components.ui.PopupItem;
 import org.swing.app.view.components.factory.UIComponentFactory;
-import org.swing.app.view.components.request.DeletableTaskComponent;
 import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.components.request.UpdatableTaskComponent;
 
@@ -21,8 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 
-public abstract class TaskPanel extends HomeWrapperComponent
-        implements ActionListener, UpdatableTaskComponent, DeletableTaskComponent {
+public abstract class TaskPanel extends HomeWrapperComponent implements ActionListener, UpdatableTaskComponent {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
@@ -36,25 +34,37 @@ public abstract class TaskPanel extends HomeWrapperComponent
     private PopupItem editPopupItem;
     private PopupItem deletePopupItem;
 
+    private final TaskPanelManagerComponent taskPanelManager;
+
     private final int preferHeight;
 
     private TaskPanelDto taskPanelDto;
 
-    public TaskPanel(HomeFrameController homeFrameController, int preferHeight, TaskPanelDto taskPanelDto) {
+    public TaskPanel(HomeFrameController homeFrameController, TaskPanelManagerComponent taskPanelManager,
+            int preferHeight, TaskPanelDto taskPanelDto) {
+
         super(homeFrameController);
+        this.taskPanelManager = taskPanelManager;
         this.preferHeight = preferHeight;
         this.taskPanelDto = taskPanelDto;
         setLayout(MAIN_LAYOUT);
         init(taskPanelDto);
     }
 
-    @Override
     public String getTaskId() {
         return this.taskPanelDto.getId();
     }
 
-    public LocalDateTime getFinishDateTime() {
-        return this.taskPanelDto.getFinishDatetime();
+    public LocalDateTime getCreateDateTime() {
+        return this.taskPanelDto.getCreatedAt();
+    }
+
+    public LocalDateTime getModifyDateTime() {
+        return this.taskPanelDto.getUpdatedAt();
+    }
+
+    public boolean isCompleted() {
+        return this.taskPanelDto.isCompleted();
     }
 
     public int getPreferHeight() {
@@ -215,21 +225,7 @@ public abstract class TaskPanel extends HomeWrapperComponent
     }
 
     private void onActionPerformedForDeletePopupItem() {
-        if (this.homeFrameController.hasRequestingComponent()) {
-            requestFailureHandler();
-            return;
-        }
-
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-        final byte result = OptionPane.showConfirmDialog(messageLoader.getMessage("confirm.dialog.question"),
-                messageLoader.getMessage("confirm.dialog.add.task.title"));
-
-        if (result == OptionPane.YES_DIALOG_OPTION) {
-            final boolean requestSuccess = this.homeFrameController.requestDeleteTaskPanel(this);
-            if (!requestSuccess) {
-                requestFailureHandler();
-            }
-        }
+        this.taskPanelManager.deleteTaskPanelHandler(this);
     }
 
     @Override
@@ -259,18 +255,7 @@ public abstract class TaskPanel extends HomeWrapperComponent
         }
     }
 
-    @Override
-    public void handlerForResultOfDeleteTaskAction(boolean isSuccess) {
-        final MessageLoader messageLoader = MessageLoader.getInstance();
 
-        if (isSuccess) {
-            dispose();
-            this.parent.removeChildComponent(this);
-            OptionPane.showMessageDialog(messageLoader.getMessage("delete.success.dialog"));
-        } else {
-            OptionPane.showMessageDialog(messageLoader.getMessage("delete.failure.dialog"));
-        }
-    }
 
     public void activate() {
         this.activationLabel.activate();

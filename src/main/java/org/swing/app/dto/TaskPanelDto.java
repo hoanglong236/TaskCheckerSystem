@@ -1,5 +1,7 @@
 package org.swing.app.dto;
 
+import jdk.vm.ci.meta.Local;
+
 import java.time.LocalDateTime;
 
 public class TaskPanelDto {
@@ -15,6 +17,9 @@ public class TaskPanelDto {
     private String note;
     private int childTaskCompletedCount;
     private int childTaskCount;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public TaskPanelDto() {
         this.id = null;
@@ -130,5 +135,21 @@ public class TaskPanelDto {
 
     public void setChildTaskCount(int childTaskCount) {
         this.childTaskCount = childTaskCount;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
