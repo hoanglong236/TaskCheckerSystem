@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 public class TaskPanelModifyDateComparator extends TaskPanelComparator {
 
     @Override
-    public int compareTo(TaskPanel o1, TaskPanel o2) {
+    public int compare(TaskPanel o1, TaskPanel o2) {
         final LocalDateTime dateTime1 = o1.getModifyDateTime();
         final LocalDateTime dateTime2 = o2.getModifyDateTime();
 

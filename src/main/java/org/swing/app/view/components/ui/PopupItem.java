@@ -4,6 +4,7 @@ import org.swing.app.common.ArrayIterator;
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.factory.JComponentFactory;
 
+import javax.swing.JComponent;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -11,13 +12,31 @@ import java.util.Iterator;
 
 public class PopupItem extends SimpleComponent {
 
-    public PopupItem(String itemName) {
-        this.component = JComponentFactory.createJMenuItem();
-        ((JMenuItem) this.component).setText(itemName);
+    public static final byte NORMAL_TYPE_POPUP_ITEM = 0;
+    public static final byte RADIO_BUTTON_TYPE_POPUP_ITEM = 1;
+    public static final byte CHECK_BOX_TYPE_POPUP_ITEM = 2;
+
+    public PopupItem(byte type, String itemText) {
+        super();
+        this.component = getPopupItemComponentByType(type);
+        setText(itemText);
     }
 
-    public JMenuItem getMenuItem() {
-        return (JMenuItem) this.component;
+    private JComponent getPopupItemComponentByType(byte type) {
+        switch (type) {
+            case NORMAL_TYPE_POPUP_ITEM:
+                return JComponentFactory.createJMenuItem();
+            case RADIO_BUTTON_TYPE_POPUP_ITEM:
+                return JComponentFactory.createJRadioButtonMenuItem();
+            case CHECK_BOX_TYPE_POPUP_ITEM:
+                return JComponentFactory.createJCheckBoxMenuItem();
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    public void setText(String text) {
+        ((JMenuItem) this.component).setText(text);
     }
 
     public void addActionListener(ActionListener actionListener) {

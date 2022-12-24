@@ -30,11 +30,6 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
     }
 
     @Override
-    public void addChildComponentToTheFirstPosition(ViewComponent childComponent) {
-        addChildComponent(childComponent, 0);
-    }
-
-    @Override
     public void addChildComponent(ViewComponent childComponent, int position) {
         if (position > getChildComponentCount() || position < -1) {
             throw new IndexOutOfBoundsException();

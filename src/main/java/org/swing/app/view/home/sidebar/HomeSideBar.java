@@ -11,10 +11,10 @@ import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.components.request.InsertableTaskComponent;
 import org.swing.app.view.home.components.taskbase.TaskPanel;
-import org.swing.app.view.home.components.taskbase.TaskPanelContainer;
-import org.swing.app.view.home.components.factory.TaskPanelContainerFactory;
+import org.swing.app.view.home.components.taskbase.TaskPanelManagerComponent;
+import org.swing.app.view.home.components.factory.TaskPanelManagerComponentFactory;
 import org.swing.app.view.home.components.factory.TaskPanelFactory;
-import org.swing.app.view.home.components.roottask.factory.RootTaskPanelContainerFactory;
+import org.swing.app.view.home.components.roottask.factory.RootTaskPanelManagerComponentFactory;
 import org.swing.app.view.home.components.roottask.factory.RootTaskPanelFactory;
 
 import java.awt.Dimension;
@@ -29,33 +29,34 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
     private static final byte VERTICAL_GAP = ViewConstant.MEDIUM_V_GAP;
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
+    // TODO: handle this, use manager component instead
     private TaskPanel dailyTaskPanel;
-    private TaskPanelContainer taskPanelContainer;
+    private TaskPanelManagerComponent taskPanelManagerComponent;
     private Button addNewTaskBtn;
 
-    private final TaskPanelFactory taskPanelFactory;
-    private final TaskPanelContainerFactory taskPanelContainerFactory;
+//    private final TaskPanelFactory taskPanelFactory;
+    private final TaskPanelManagerComponentFactory taskPanelManagerFactory;
 
     public HomeSideBar(HomeFrameController homeFrameController,
             TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> taskPanelDtos) {
 
         super(homeFrameController);
-        this.taskPanelFactory = new RootTaskPanelFactory();
-        this.taskPanelContainerFactory = new RootTaskPanelContainerFactory();
+//        this.taskPanelFactory = new RootTaskPanelFactory();
+        this.taskPanelManagerFactory = new RootTaskPanelManagerComponentFactory();
         setLayout(MAIN_LAYOUT);
         init(dailyTaskPanelDto, taskPanelDtos);
     }
 
-    private void initDailyTaskPanel(TaskPanelDto dailyTaskPanelDto) {
-        this.dailyTaskPanel = this.taskPanelFactory.createTaskPanel(this.homeFrameController, dailyTaskPanelDto);
-    }
+//    private void initDailyTaskPanel(TaskPanelDto dailyTaskPanelDto) {
+//        this.dailyTaskPanel = this.taskPanelFactory.createTaskPanel(this.homeFrameController, dailyTaskPanelDto);
+//    }
 
-    private void initTaskPanelContainer(Set<TaskPanelDto> taskPanelDtos) {
+    private void initTaskPanelManagerComponent(Set<TaskPanelDto> taskPanelDtos) {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final String taskPanelContainerTitle =
                 messageLoader.getMessage("task.panel.container.title");
 
-        this.taskPanelContainer = this.taskPanelContainerFactory.createTaskPanelContainer(
+        this.taskPanelManagerComponent = this.taskPanelManagerFactory.createTaskPanelManagerComponent(
                 this.homeFrameController, taskPanelContainerTitle, taskPanelDtos);
     }
 
@@ -66,11 +67,11 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
     }
 
     private void init(TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> taskPanelDtos) {
-        initDailyTaskPanel(dailyTaskPanelDto);
-        addChildComponent(this.dailyTaskPanel);
+//        initDailyTaskPanel(dailyTaskPanelDto);
+//        addChildComponent(this.dailyTaskPanel);
 
-        initTaskPanelContainer(taskPanelDtos);
-        addChildComponent(this.taskPanelContainer);
+        initTaskPanelManagerComponent(taskPanelDtos);
+        addChildComponent(this.taskPanelManagerComponent);
 
         initAddNewTaskBtn();
         addChildComponent(this.addNewTaskBtn);
@@ -90,16 +91,16 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
         final int addNewTaskBtnHeight = 45;
         this.childComponentSizeMap.put(this.addNewTaskBtn, new Dimension(maxChildComponentWidth, addNewTaskBtnHeight));
 
-        final int taskPanelContainerHeight = availableHeight - VERTICAL_GAP - dailyTaskPanelHeight
+        final int taskPanelManagerComponentHeight = availableHeight - VERTICAL_GAP - dailyTaskPanelHeight
                 - VERTICAL_GAP - addNewTaskBtnHeight - VERTICAL_GAP;
-        this.childComponentSizeMap.put(this.taskPanelContainer,
-                new Dimension(maxChildComponentWidth, taskPanelContainerHeight));
+        this.childComponentSizeMap.put(this.taskPanelManagerComponent,
+                new Dimension(maxChildComponentWidth, taskPanelManagerComponentHeight));
     }
 
     @Override
     protected void setNotResizableChildComponents() {
         this.dailyTaskPanel.setResizable(false);
-        this.taskPanelContainer.setResizable(false);
+        this.taskPanelManagerComponent.setResizable(false);
         this.addNewTaskBtn.setResizable(false);
     }
 
@@ -128,7 +129,7 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
         final MessageLoader messageLoader = MessageLoader.getInstance();
 
         if (isSuccess) {
-            this.taskPanelContainer.addTaskPanelByDto(taskPanelDto);
+            this.taskPanelManagerComponent.addTaskPanelByDto(taskPanelDto);
             OptionPane.showMessageDialog(messageLoader.getMessage("insert.success.dialog"));
         } else {
             OptionPane.showMessageDialog(messageLoader.getMessage("insert.failure.dialog"));

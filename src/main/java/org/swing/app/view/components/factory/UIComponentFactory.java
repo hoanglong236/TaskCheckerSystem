@@ -42,18 +42,23 @@ public class UIComponentFactory {
         return new Label(text, iconLocation);
     }
 
+    public static VerticalScrollPane createVerticalScrollPane() {
+        return new VerticalScrollPane();
+    }
+
     public static Popup createPopup() {
         return new Popup();
     }
 
     public static PopupItem createPopupItem(String itemName) {
-        return new PopupItem(itemName);
+        return new PopupItem(PopupItem.NORMAL_TYPE_POPUP_ITEM, itemName);
     }
 
-    public static VerticalScrollPane createVerticalScrollPane(PanelWrapperComponent viewportView) {
-        if (viewportView == null || !(viewportView instanceof VerticalViewportView)) {
-            throw new IllegalArgumentException();
-        }
-        return new VerticalScrollPane(viewportView);
+    public static PopupItem createRadioButtonPopupItem(String itemName) {
+        return new PopupItem(PopupItem.RADIO_BUTTON_TYPE_POPUP_ITEM, itemName);
+    }
+
+    public static PopupItem createCheckBoxPopupItem(String itemName) {
+        return new PopupItem(PopupItem.CHECK_BOX_TYPE_POPUP_ITEM, itemName);
     }
 }

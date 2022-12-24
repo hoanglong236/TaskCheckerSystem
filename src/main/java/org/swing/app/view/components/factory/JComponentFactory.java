@@ -30,14 +30,6 @@ public class JComponentFactory {
         return new JComboBox<>(stringArray);
     }
 
-    public static JComponent createJPopupMenu() {
-        return new JPopupMenu();
-    }
-
-    public static JComponent createJMenuItem() {
-        return new JMenuItem();
-    }
-
     public static JComponent createJButton() {
         return new JButton();
     }
@@ -46,7 +38,23 @@ public class JComponentFactory {
         return new JCheckBox();
     }
 
-    public static JDateChooser createJDateChooser() {
+    public static JComponent createJDateChooser() {
         return new JDateChooser();
+    }
+
+    public static JComponent createJPopupMenu() {
+        return new JPopupMenu();
+    }
+
+    public static JComponent createJMenuItem() {
+        return new JMenuItem();
+    }
+
+    public static JComponent createJRadioButtonMenuItem() {
+        return new JRadioButtonMenuItem();
+    }
+
+    public static JComponent createJCheckBoxMenuItem() {
+        return new JCheckBoxMenuItem();
     }
 }
