@@ -127,7 +127,7 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
     }
 
     private void deleteTaskPanel(TaskPanel taskPanel) {
-        this.taskPanelContainer.removeChildComponent(taskPanel);
+        this.taskPanelContainer.deleteTaskPanel(taskPanel);
     }
 
     @Override

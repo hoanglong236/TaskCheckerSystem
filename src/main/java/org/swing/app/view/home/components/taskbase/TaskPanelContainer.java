@@ -3,10 +3,10 @@ package org.swing.app.view.home.components.taskbase;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.components.ui.Label;
 import org.swing.app.view.home.HomeWrapperComponent;
+import org.swing.app.view.home.comparetor.TaskPanelComparator;
 import org.swing.app.view.home.comparetor.TaskPanelModifyDateComparator;
 import org.swing.app.view.home.comparetor.TaskPanelCreateDateComparator;
 
@@ -43,7 +43,6 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
 
     private Comparator<TaskPanel> comparator;
 
-    // TODO: handle this
     public TaskPanelContainer(HomeFrameController homeFrameController) {
         super(homeFrameController);
         this.comparator = new TaskPanelCreateDateComparator();
@@ -94,6 +93,15 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
     protected void setNotResizableChildComponents() {
     }
 
+    private int getPositionToAddingIncompleteTaskPanelInUI(TaskPanel taskPanel) {
+        return this.incompleteTaskPanels.indexOf(taskPanel);
+    }
+
+    private int getPositionToAddingCompletedTaskPanelInUI(TaskPanel taskPanel) {
+        final int startIndexOfCompletedTaskPanel = getChildComponentPosition(this.notifyLabel) + 1;
+        return startIndexOfCompletedTaskPanel + this.completedTaskPanels.indexOf(taskPanel);
+    }
+
     public void addTaskPanel(TaskPanel taskPanel) {
         taskPanel.resize(new Dimension(getPreferChildComponentWidth(), taskPanel.getPreferHeight()));
 
@@ -102,11 +110,11 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
         if (taskPanel.isCompleted()) {
             this.completedTaskPanels.add(taskPanel);
             this.completedTaskPanels.sort(this.comparator);
-            positionToAddInUI = this.completedTaskPanels.indexOf(taskPanel);
+            positionToAddInUI = getPositionToAddingIncompleteTaskPanelInUI(taskPanel);
         } else {
             this.incompleteTaskPanels.add(taskPanel);
             this.incompleteTaskPanels.sort(this.comparator);
-            positionToAddInUI = this.incompleteTaskPanels.indexOf(taskPanel);
+            positionToAddInUI = getPositionToAddingCompletedTaskPanelInUI(taskPanel);
         }
 
         addChildComponent(taskPanel, positionToAddInUI);
@@ -122,7 +130,9 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
         resizeHeightWithoutResizeChildComponent(this.preferHeight);
     }
 
-    private void handleAfterRemoveTaskPanel(TaskPanel taskPanel) {
+    public void deleteTaskPanel(TaskPanel taskPanel) {
+        removeChildComponent(taskPanel);
+
         if (taskPanel.isCompleted()) {
             this.completedTaskPanels.remove(taskPanel);
         } else {
@@ -140,28 +150,33 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
         resizeHeightWithoutResizeChildComponent(this.preferHeight);
     }
 
-    @Override
-    public void removeChildComponent(ViewComponent childComponent) {
-        removeChildComponent(childComponent);
-
-        if (childComponent instanceof TaskPanel) {
-            handleAfterRemoveTaskPanel((TaskPanel) childComponent);
-        }
-    }
-
     protected int getPreferChildComponentWidth() {
         final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
         return availableWidth - HORIZONTAL_GAP;
     }
 
-    // TODO: handle this
-    private void sortTaskPanelByCreateDate() {
-        this.comparator = new TaskPanelCreateDateComparator();
+    private void reSortTaskPanels(TaskPanelComparator taskPanelComparator) {
+        this.comparator = taskPanelComparator;
+
+        for (final TaskPanel taskPanel : this.incompleteTaskPanels) {
+            removeChildComponent(taskPanel);
+            addChildComponent(taskPanel, getPositionToAddingIncompleteTaskPanelInUI(taskPanel));
+        }
+
+        for (final TaskPanel taskPanel : this.completedTaskPanels) {
+            removeChildComponent(taskPanel);
+            addChildComponent(taskPanel, getPositionToAddingCompletedTaskPanelInUI(taskPanel));
+        }
+
+        refreshUI();
     }
 
-    // TODO: handle this
+    private void sortTaskPanelByCreateDate() {
+        reSortTaskPanels(new TaskPanelCreateDateComparator());
+    }
+
     private void sortTaskPanelByModifyDate() {
-        this.comparator = new TaskPanelModifyDateComparator();
+        reSortTaskPanels(new TaskPanelModifyDateComparator());
     }
 
     public void sortTaskPanel(byte typeOfSortBy) {
