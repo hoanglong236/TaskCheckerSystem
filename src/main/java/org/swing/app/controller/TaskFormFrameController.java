@@ -58,11 +58,11 @@ public class TaskFormFrameController extends ControllerBase {
 
     public void addNewTaskByDto(TaskDto taskDto) {
         final boolean isSuccess = this.commonBusiness.insertTaskByDto(taskDto);
-        this.homeFrameController.handlerForActionAddNewTask(isSuccess, taskDto.getId());
+        this.homeFrameController.handlerForAddNewTaskAction(isSuccess, taskDto.getId());
     }
 
     public void updateTaskByDto(TaskDto taskDto) {
         final boolean isSuccess = this.taskFormFrameBusiness.updateTaskByDto(taskDto);
-        this.homeFrameController.handlerForActionUpdateTask(isSuccess, taskDto.getId());
+        this.homeFrameController.handlerForUpdateTaskAction(isSuccess, taskDto.getId());
     }
 }
