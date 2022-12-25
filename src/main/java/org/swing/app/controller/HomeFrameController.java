@@ -10,6 +10,7 @@ import org.swing.app.view.home.HomeFrame;
 import org.swing.app.view.components.request.InsertableTaskComponent;
 import org.swing.app.view.components.request.UpdatableTaskComponent;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class HomeFrameController extends ControllerBase {
@@ -28,11 +29,12 @@ public class HomeFrameController extends ControllerBase {
         this.commonBusiness = new CommonBusiness();
     }
 
+    // TODO: handle this
     public void startHomeFrame() {
-        final TaskPanelDto dailyTaskPanelDto = getDailyTaskPanelDto();
-        final Set<TaskPanelDto> taskPanelDtos = this.homeFrameBusiness.getIncompleteRootTaskPanelDtos();
+        final Set<TaskPanelDto> staticTaskPanelDtos = new LinkedHashSet<>();
+        final Set<TaskPanelDto> dynamicTaskPanelDtos = this.homeFrameBusiness.getIncompleteRootTaskPanelDtos();
 
-        this.homeFrame = new HomeFrame(this, dailyTaskPanelDto, taskPanelDtos);
+        this.homeFrame = new HomeFrame(this, staticTaskPanelDtos, dynamicTaskPanelDtos);
         this.homeFrame.resize(ViewConstant.HOME_FRAME_PREFER_SIZE);
         this.homeFrame.setVisible(true);
     }

@@ -25,20 +25,20 @@ public class HomeFrame extends FrameWrapperComponent {
     private final HomeFrameController homeFrameController;
 
     public HomeFrame(HomeFrameController homeFrameController,
-            TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
+            Set<TaskPanelDto> staticTaskPanelDtos, Set<TaskPanelDto> dynamicTaskPanelDtos) {
 
         super();
         this.homeFrameController = homeFrameController;
         setLayout(MAIN_LAYOUT);
         setBackgroundColor(ViewConstant.PRIMARY_BACKGROUND_COLOR);
-        init(dailyTaskPanelDto, nonRepeatTaskPanelDtos);
+        init(staticTaskPanelDtos, dynamicTaskPanelDtos);
 
         final MessageLoader messageLoader = MessageLoader.getInstance();
         setFrameTitle(messageLoader.getMessage("home.frame.title"));
     }
 
-    private void initSideBar(TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> taskPanelDtos) {
-        this.sideBar = new HomeSideBar(this.homeFrameController, dailyTaskPanelDto, taskPanelDtos);
+    private void initSideBar(Set<TaskPanelDto> staticTaskPanelDtos, Set<TaskPanelDto> dynamicTaskPanelDtos) {
+        this.sideBar = new HomeSideBar(this.homeFrameController, staticTaskPanelDtos, dynamicTaskPanelDtos);
         this.sideBar.setBackgroundColor(Color.cyan);
         this.sideBar.setOpaque(true);
     }
@@ -47,12 +47,12 @@ public class HomeFrame extends FrameWrapperComponent {
         this.bodyPanel = new HomeBodyPanel(this.homeFrameController);
     }
 
-    private void init(TaskPanelDto dailyTaskPanelDto, Set<TaskPanelDto> nonRepeatTaskPanelDtos) {
-        initSideBar(dailyTaskPanelDto, nonRepeatTaskPanelDtos);
+    private void init(Set<TaskPanelDto> staticTaskPanelDtos, Set<TaskPanelDto> dynamicTaskPanelDtos) {
+        initSideBar(staticTaskPanelDtos, dynamicTaskPanelDtos);
         addChildComponent(this.sideBar);
 
-//        initBodyPanel();
-//        addChildComponent(this.bodyPanel);
+        initBodyPanel();
+        addChildComponent(this.bodyPanel);
     }
 
     public void loadRootTaskContentPanel(String taskTitle, Set<TaskPanelDto> childTaskPanelDtos) {
@@ -73,13 +73,13 @@ public class HomeFrame extends FrameWrapperComponent {
         final int sideBarWidth = ViewConstant.SIDEBAR_WIDTH;
         this.childComponentSizeMap.put(this.sideBar, new Dimension(sideBarWidth, maxChildComponentHeight));
 
-//        final int bodyPanelWidth = availableWidth - HORIZONTAL_GAP - sideBarWidth - HORIZONTAL_GAP;
-//        this.childComponentSizeMap.put(this.bodyPanel, new Dimension(bodyPanelWidth, maxChildComponentHeight));
+        final int bodyPanelWidth = availableWidth - HORIZONTAL_GAP - sideBarWidth - HORIZONTAL_GAP;
+        this.childComponentSizeMap.put(this.bodyPanel, new Dimension(bodyPanelWidth, maxChildComponentHeight));
     }
 
     @Override
     protected void setNotResizableChildComponents() {
-//        this.sideBar.setResizable(true);
-//        this.bodyPanel.setResizable(false);
+        this.sideBar.setResizable(true);
+        this.bodyPanel.setResizable(false);
     }
 }
