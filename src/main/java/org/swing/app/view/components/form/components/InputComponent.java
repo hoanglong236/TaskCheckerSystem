@@ -2,9 +2,11 @@ package org.swing.app.view.components.form.components;
 
 import org.swing.app.view.components.ViewComponent;
 
-public interface InputComponent extends ViewComponent {
+import java.util.Optional;
 
-    void setValue(Object value);
-    Object getValue();
+public interface InputComponent<T> extends ViewComponent {
+
+    void setValue(T value);
+    Optional<T> getValue();
     void clear();
 }

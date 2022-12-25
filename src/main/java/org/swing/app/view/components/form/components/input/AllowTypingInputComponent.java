@@ -5,25 +5,23 @@ import org.swing.app.view.components.form.components.InputComponent;
 
 import javax.swing.text.JTextComponent;
 import java.awt.event.KeyListener;
+import java.util.Optional;
 
-public abstract class AllowTypingInputComponent extends SimpleComponent implements InputComponent {
+public abstract class AllowTypingInputComponent extends SimpleComponent implements InputComponent<String> {
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(String value) {
         if (value == null) {
             clear();
             return;
         }
-        if (!(value instanceof String)) {
-            throw new IllegalArgumentException();
-        }
-        ((JTextComponent) this.component).setText((String) value);
+        ((JTextComponent) this.component).setText(value);
     }
 
     @Override
-    public Object getValue() {
+    public Optional<String> getValue() {
         final String inputValue = ((JTextComponent) this.component).getText();
-        return inputValue == null ? null : inputValue.trim();
+        return Optional.ofNullable(inputValue);
     }
 
     @Override

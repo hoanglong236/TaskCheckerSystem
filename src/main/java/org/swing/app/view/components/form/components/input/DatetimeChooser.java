@@ -3,9 +3,9 @@ package org.swing.app.view.components.form.components.input;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.form.components.InputComponent;
-import org.swing.app.view.components.form.components.LabelAndInputWrapper;
+import org.swing.app.view.components.form.components.InputComponentWrapper;
 import org.swing.app.view.components.form.components.factory.InputComponentFactory;
-import org.swing.app.view.components.form.components.factory.LabelAndInputWrapperFactory;
+import org.swing.app.view.components.form.components.factory.InputComponentWrapperFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -13,22 +13,23 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.Set;
 
-public class DateTimeChooser extends PanelWrapperComponent implements InputComponent {
+public class DatetimeChooser extends PanelWrapperComponent implements InputComponent<LocalDateTime> {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.MEDIUM_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
-    private InputComponent dateChooser;
-    private LabelAndInputWrapper hourSelector;
-    private LabelAndInputWrapper minuteSelector;
-    private LabelAndInputWrapper secondSelector;
+    private InputComponent<LocalDate> dateChooser;
+    private InputComponentWrapper<String> hourSelector;
+    private InputComponentWrapper<String> minuteSelector;
+    private InputComponentWrapper<String> secondSelector;
 
     private int dateChooserWidth = ViewConstant.DEFAULT_DATE_CHOOSER_WIDTH;
 
-    public DateTimeChooser(LocalDateTime initValue) {
+    public DatetimeChooser(LocalDateTime initValue) {
         super();
         setLayout(MAIN_LAYOUT);
         init();
@@ -49,27 +50,27 @@ public class DateTimeChooser extends PanelWrapperComponent implements InputCompo
         for (byte h = 0; h < 24; h++) {
             hourValueRange.add(String.valueOf(h));
         }
-        this.hourSelector = LabelAndInputWrapperFactory.createLabelAndComboBoxWrapper(
+        this.hourSelector = InputComponentWrapperFactory.createComboBoxWrapper(
                 hourSelectorLabelText, hourValueRange);
     }
 
     private void initMinuteSelector() {
         final String minuteSelectorLabelText = "m: ";
         final Set<String> minuteValueRange = new LinkedHashSet<>();
-        for (byte h = 0; h < 60; h++) {
-            minuteValueRange.add(String.valueOf(h));
+        for (byte m = 0; m < 60; m++) {
+            minuteValueRange.add(String.valueOf(m));
         }
-        this.minuteSelector = LabelAndInputWrapperFactory.createLabelAndComboBoxWrapper(
+        this.minuteSelector = InputComponentWrapperFactory.createComboBoxWrapper(
                 minuteSelectorLabelText, minuteValueRange);
     }
 
     private void initSecondSelector() {
         final String secondSelectorLabelText = "m: ";
         final Set<String> secondValueRange = new LinkedHashSet<>();
-        for (byte h = 0; h < 60; h++) {
-            secondValueRange.add(String.valueOf(h));
+        for (byte s = 0; s < 60; s++) {
+            secondValueRange.add(String.valueOf(s));
         }
-        this.secondSelector = LabelAndInputWrapperFactory.createLabelAndComboBoxWrapper(
+        this.secondSelector = InputComponentWrapperFactory.createComboBoxWrapper(
                 secondSelectorLabelText, secondValueRange);
     }
 
@@ -119,28 +120,37 @@ public class DateTimeChooser extends PanelWrapperComponent implements InputCompo
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(LocalDateTime value) {
         if (value == null) {
             clear();
             return;
         }
-        if (!(value instanceof LocalDateTime)) {
-            throw new IllegalArgumentException();
-        }
-        update((LocalDateTime) value);
+        update(value);
     }
 
     @Override
-    public Object getValue() {
-        final LocalDate date = (LocalDate) this.dateChooser.getValue();
+    public Optional<LocalDateTime> getValue() {
+        final Optional<LocalDate> optionalLocalDateInputValue = this.dateChooser.getValue();
+        if (!optionalLocalDateInputValue.isPresent()) {
+            return Optional.empty();
+        }
 
-        final byte hour = Byte.parseByte((String) this.hourSelector.getValue());
-        final byte minute = Byte.parseByte((String) this.minuteSelector.getValue());
-        final byte second = Byte.parseByte((String) this.secondSelector.getValue());
-        final LocalTime time = LocalTime.of(hour, minute, second);
+        final String defaultTimeValue = "0";
 
-        return LocalDateTime.of(date, time);
+        final Optional<String> optionalHourInputValue = this.hourSelector.getValue();
+        final byte hour = Byte.parseByte(optionalHourInputValue.orElse(defaultTimeValue));
+
+        final Optional<String> optionalMinuteInputValue = this.minuteSelector.getValue();
+        final byte minute = Byte.parseByte(optionalMinuteInputValue.orElse(defaultTimeValue));
+
+        final Optional<String> optionalSecondInputValue = this.secondSelector.getValue();
+        final byte second = Byte.parseByte(optionalSecondInputValue.orElse(defaultTimeValue));
+
+        final LocalTime timeInputValue = LocalTime.of(hour, minute, second);
+        final LocalDateTime dateTime = LocalDateTime.of(optionalLocalDateInputValue.get(), timeInputValue);
+        return Optional.of(dateTime);
     }
+
 
     @Override
     public void clear() {

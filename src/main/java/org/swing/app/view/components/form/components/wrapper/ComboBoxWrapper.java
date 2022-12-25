@@ -1,13 +1,13 @@
 package org.swing.app.view.components.form.components.wrapper;
 
+import org.swing.app.view.components.form.components.InputComponentWrapper;
 import org.swing.app.view.components.form.components.factory.InputComponentFactory;
-import org.swing.app.view.components.form.components.LabelAndInputWrapper;
 
 import java.util.Set;
 
-public class LabelAndComboBoxWrapper extends LabelAndInputWrapper {
+public class ComboBoxWrapper extends InputComponentWrapper<String> {
 
-    public LabelAndComboBoxWrapper(String labelText, Set<String> valueRange, String initValue) {
+    public ComboBoxWrapper(String labelText, Set<String> valueRange, String initValue) {
         super();
         init(labelText, valueRange, initValue);
     }

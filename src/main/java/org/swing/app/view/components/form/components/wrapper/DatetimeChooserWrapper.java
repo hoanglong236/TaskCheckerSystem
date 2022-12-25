@@ -1,13 +1,13 @@
 package org.swing.app.view.components.form.components.wrapper;
 
+import org.swing.app.view.components.form.components.InputComponentWrapper;
 import org.swing.app.view.components.form.components.factory.InputComponentFactory;
-import org.swing.app.view.components.form.components.LabelAndInputWrapper;
 
 import java.time.LocalDateTime;
 
-public class LabelAndDateTimeChooserWrapper extends LabelAndInputWrapper {
+public class DatetimeChooserWrapper extends InputComponentWrapper<LocalDateTime> {
 
-    public LabelAndDateTimeChooserWrapper(String labelText, LocalDateTime initValue) {
+    public DatetimeChooserWrapper(String labelText, LocalDateTime initValue) {
         super();
         init(labelText, initValue);
     }

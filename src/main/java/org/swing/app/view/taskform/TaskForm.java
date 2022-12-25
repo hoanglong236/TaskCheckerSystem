@@ -5,8 +5,8 @@ import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.form.Form;
-import org.swing.app.view.components.form.components.LabelAndInputWrapper;
-import org.swing.app.view.components.form.components.factory.LabelAndInputWrapperFactory;
+import org.swing.app.view.components.form.components.InputComponentWrapper;
+import org.swing.app.view.components.form.components.factory.InputComponentWrapperFactory;
 
 import java.awt.FlowLayout;
 import java.time.LocalDateTime;
@@ -22,9 +22,9 @@ public abstract class TaskForm extends PanelWrapperComponent implements Form<Tas
     protected static final String START_DATETIME_LABEL_TEXT = "Start datetime: ";
     protected static final String FINISH_DATETIME_LABEL_TEXT = "Finish datetime: ";
 
-    protected LabelAndInputWrapper titleInputWrapper;
-    protected LabelAndInputWrapper startDatetimeInputWrapper;
-    protected LabelAndInputWrapper finishDatetimeInputWrapper;
+    protected InputComponentWrapper<String> titleInputWrapper;
+    protected InputComponentWrapper<LocalDateTime> startDatetimeInputWrapper;
+    protected InputComponentWrapper<LocalDateTime> finishDatetimeInputWrapper;
 
     protected int labelWidthInWrapper;
     protected float rateOfLabelWidthInWrapper;
@@ -50,31 +50,31 @@ public abstract class TaskForm extends PanelWrapperComponent implements Form<Tas
     }
 
     protected void initTitleInputWrapper() {
-        this.titleInputWrapper = LabelAndInputWrapperFactory.createLabelAndTextFieldWrapper(TITLE_LABEL_TEXT);
+        this.titleInputWrapper = InputComponentWrapperFactory.createTextFieldWrapper(TITLE_LABEL_TEXT);
     }
 
     protected void initTitleInputWrapper(String title) {
-        this.titleInputWrapper = LabelAndInputWrapperFactory.createLabelAndTextFieldWrapper(TITLE_LABEL_TEXT, title);
+        this.titleInputWrapper = InputComponentWrapperFactory.createTextFieldWrapper(TITLE_LABEL_TEXT, title);
     }
 
     protected void initStartDatetimeInputWrapper() {
-        this.startDatetimeInputWrapper = LabelAndInputWrapperFactory
-                .createLabelAndDateTimeChooserWrapper(START_DATETIME_LABEL_TEXT);
+        this.startDatetimeInputWrapper = InputComponentWrapperFactory
+                .createDatetimeChooserWrapper(START_DATETIME_LABEL_TEXT);
     }
 
     protected void initStartDatetimeInputWrapper(LocalDateTime startDatetime) {
-        this.startDatetimeInputWrapper = LabelAndInputWrapperFactory
-                .createLabelAndDateTimeChooserWrapper(START_DATETIME_LABEL_TEXT, startDatetime);
+        this.startDatetimeInputWrapper = InputComponentWrapperFactory
+                .createDatetimeChooserWrapper(START_DATETIME_LABEL_TEXT, startDatetime);
     }
 
     protected void initFinishDatetimeInputWrapper() {
-        this.finishDatetimeInputWrapper = LabelAndInputWrapperFactory
-                .createLabelAndDateTimeChooserWrapper(FINISH_DATETIME_LABEL_TEXT);
+        this.finishDatetimeInputWrapper = InputComponentWrapperFactory
+                .createDatetimeChooserWrapper(FINISH_DATETIME_LABEL_TEXT);
     }
 
     protected void initFinishDatetimeInputWrapper(LocalDateTime finishDateTime) {
-        this.finishDatetimeInputWrapper = LabelAndInputWrapperFactory
-                .createLabelAndDateTimeChooserWrapper(FINISH_DATETIME_LABEL_TEXT, finishDateTime);
+        this.finishDatetimeInputWrapper = InputComponentWrapperFactory
+                .createDatetimeChooserWrapper(FINISH_DATETIME_LABEL_TEXT, finishDateTime);
     }
 
     protected abstract void init();
@@ -87,8 +87,8 @@ public abstract class TaskForm extends PanelWrapperComponent implements Form<Tas
 
         while (childComponentIterator.hasNext()) {
             final ViewComponent childComponent = childComponentIterator.next();
-            if (childComponent instanceof LabelAndInputWrapper) {
-                ((LabelAndInputWrapper) childComponent).clear();
+            if (childComponent instanceof InputComponentWrapper) {
+                ((InputComponentWrapper) childComponent).clear();
             }
         }
     }

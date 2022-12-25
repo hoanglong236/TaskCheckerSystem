@@ -1,11 +1,11 @@
 package org.swing.app.view.taskform.roottask;
 
 import org.swing.app.dto.TaskDto;
+import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.taskform.TaskForm;
 
 import java.awt.Dimension;
-import java.time.LocalDateTime;
 
 public class RootTaskForm extends TaskForm {
 
@@ -60,20 +60,39 @@ public class RootTaskForm extends TaskForm {
     }
 
     @Override
-    public boolean validate() {
-        return false;
+    public String validate() {
+        final StringBuilder validateMessage = new StringBuilder();
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+
+//        final String emptyText = "";
+//        final String title = (String) this.titleInputWrapper.getValue();
+//
+//        if (emptyText.equals(title)) {
+//            return messageLoader.getMessage("title.valid");
+//        }
+//
+//        final LocalDateTime startDatetime = (LocalDateTime) this.startDatetimeInputWrapper.getValue();
+//        final LocalDateTime finishDatetime = (LocalDateTime) this.finishDatetimeInputWrapper.getValue();
+//
+//        if (startDatetime != null )
+//        if (!finishDatetime.isAfter(startDatetime)) {
+//            validateMessage.append(messageLoader.getMessage("finish.datetime.valid"));
+//            validateMessage.append("\n");
+//        }
+
+        return validateMessage.toString();
     }
 
     @Override
     public TaskDto getFormData() {
-        final String title = (String) this.titleInputWrapper.getValue();
-        final LocalDateTime startDatetime = (LocalDateTime) this.startDatetimeInputWrapper.getValue();
-        final LocalDateTime finishDatetime = (LocalDateTime) this.finishDatetimeInputWrapper.getValue();
+//        final String title = (String) this.titleInputWrapper.getValue();
+//        final LocalDateTime startDatetime = (LocalDateTime) this.startDatetimeInputWrapper.getValue();
+//        final LocalDateTime finishDatetime = (LocalDateTime) this.finishDatetimeInputWrapper.getValue();
 
         final TaskDto taskDto = new TaskDto();
-        taskDto.setTitle(title);
-        taskDto.setStartDatetime(startDatetime);
-        taskDto.setFinishDatetime(finishDatetime);
+//        taskDto.setTitle(title);
+//        taskDto.setStartDatetime(startDatetime);
+//        taskDto.setFinishDatetime(finishDatetime);
 
         return taskDto;
     }

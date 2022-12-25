@@ -2,24 +2,26 @@ package org.swing.app.view.components.form.components;
 
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.PanelWrapperComponent;
-import org.swing.app.view.components.form.components.factory.InputComponentFactory;
+import org.swing.app.view.components.SimpleComponent;
+import org.swing.app.view.components.factory.UIComponentFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.Optional;
 
-public abstract class LabelAndInputWrapper extends PanelWrapperComponent {
+public abstract class InputComponentWrapper<T> extends PanelWrapperComponent {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.MEDIUM_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.MEDIUM_V_GAP;
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
-    protected InputComponent labelField;
-    protected InputComponent inputField;
+    protected SimpleComponent labelField;
+    protected InputComponent<T> inputField;
 
     private int labelFieldWidth;
     private float rateOfLabelFieldWidthInTotal;
 
-    public LabelAndInputWrapper() {
+    public InputComponentWrapper() {
         super();
         setLayout(MAIN_LAYOUT);
         this.labelFieldWidth = ViewConstant.DEFAULT_LABEL_WIDTH;
@@ -34,20 +36,20 @@ public abstract class LabelAndInputWrapper extends PanelWrapperComponent {
         this.rateOfLabelFieldWidthInTotal = rateOfLabelFieldWidthInTotal;
     }
 
-    protected void initLabelField(String labelText) {
-        this.labelField = InputComponentFactory.createLabelField(labelText);
-    }
-
-    public void setValue(Object value) {
+    public void setValue(T value) {
         this.inputField.setValue(value);
     }
 
-    public Object getValue() {
+    public Optional<T> getValue() {
         return this.inputField.getValue();
     }
 
     public void clear() {
         this.inputField.clear();
+    }
+
+    protected void initLabelField(String text) {
+        this.labelField = UIComponentFactory.createLabel(text);
     }
 
     @Override

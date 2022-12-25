@@ -1,6 +1,5 @@
 package org.swing.app.view.components.factory;
 
-import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ui.*;
 
 import java.time.LocalDateTime;
@@ -40,6 +39,10 @@ public class UIComponentFactory {
 
     public static Label createLabel(String text, String iconLocation) {
         return new Label(text, iconLocation);
+    }
+
+    public static LabelArea createLabelArea(String text) {
+        return new LabelArea(text);
     }
 
     public static VerticalScrollPane createVerticalScrollPane() {

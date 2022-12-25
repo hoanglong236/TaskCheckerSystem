@@ -8,6 +8,7 @@ import org.swing.app.view.components.FrameWrapperComponent;
 import org.swing.app.view.components.OptionPane;
 import org.swing.app.view.components.ui.Button;
 import org.swing.app.view.components.factory.UIComponentFactory;
+import org.swing.app.view.components.ui.LabelArea;
 import org.swing.app.view.taskform.factory.TaskFormFactory;
 
 import java.awt.Dimension;
@@ -22,15 +23,16 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
     private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private TaskForm taskForm;
+    private LabelArea validateMessageArea;
     private Button submitButton;
     private Button resetButton;
     private Button clearButton;
 
     private final TaskFormFactory taskFormFactory;
 
-    private TaskFormFrameController taskFormFrameController;
+    private final TaskFormFrameController taskFormFrameController;
 
-    private boolean isAddingTask;
+    private final boolean isAddingTask;
 
     private TaskDto taskDto = null;
 
@@ -62,6 +64,10 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
         this.taskForm = this.taskFormFactory.createTaskForm(taskDto);
     }
 
+    protected void initValidateMessageArea(String message) {
+        this.validateMessageArea = UIComponentFactory.createLabelArea(message);
+    }
+
     private void initSubmitButton() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         this.submitButton = UIComponentFactory.createButton(messageLoader.getMessage("submit.button.text"));
@@ -84,6 +90,10 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
         initTaskForm();
         addChildComponent(this.taskForm);
 
+        final String emptyMessage = "";
+        initValidateMessageArea(emptyMessage);
+        addChildComponent(this.validateMessageArea);
+
         initSubmitButton();
         addChildComponent(this.submitButton);
 
@@ -97,6 +107,10 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
     private void init(TaskDto taskDto) {
         initTaskForm(taskDto);
         addChildComponent(this.taskForm);
+
+        final String emptyMessage = "";
+        initValidateMessageArea(emptyMessage);
+        addChildComponent(this.validateMessageArea);
 
         initSubmitButton();
         addChildComponent(this.submitButton);
@@ -116,8 +130,17 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
         return this.taskForm.getFormData();
     }
 
+    private void showValidateMessage(String validateMessage) {
+        this.validateMessageArea.setText(validateMessage);
+    }
+
     public void submit() {
-        // TODO: handle validate
+        final String validateMessage = this.taskForm.validate();
+
+        if (!validateMessage.isEmpty()) {
+            showValidateMessage(validateMessage);
+            return;
+        }
 
         if (this.isAddingTask) {
             this.taskFormFrameController.addNewTaskByDto(getFormData());
@@ -132,6 +155,9 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
 
     public void clear() {
         this.taskForm.clear();
+
+        final String emptyMessage = "";
+        this.validateMessageArea.setText(emptyMessage);
     }
 
     @Override

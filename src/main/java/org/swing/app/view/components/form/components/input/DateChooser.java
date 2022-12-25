@@ -8,8 +8,9 @@ import org.swing.app.view.components.form.components.InputComponent;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Optional;
 
-public class DateChooser extends SimpleComponent implements InputComponent {
+public class DateChooser extends SimpleComponent implements InputComponent<LocalDate> {
 
     public DateChooser(LocalDate initValue) {
         super();
@@ -18,22 +19,23 @@ public class DateChooser extends SimpleComponent implements InputComponent {
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(LocalDate value) {
         if (value == null) {
             clear();
             return;
         }
-        if (!(value instanceof LocalDate)) {
-            throw new IllegalArgumentException();
-        }
-        ((JDateChooser) this.component).setDate(DateConverter.toDate((LocalDate) value));
+        ((JDateChooser) this.component).setDate(DateConverter.toDate(value));
     }
 
     @Override
-    public Object getValue() {
+    public Optional<LocalDate> getValue() {
         final Date chosenDate = ((JDateChooser) this.component).getDate();
-        return DateConverter.toLocalDate(chosenDate);
+        if (chosenDate == null) {
+            return Optional.empty();
+        }
+        return Optional.of(DateConverter.toLocalDate(chosenDate));
     }
+
 
     @Override
     public void clear() {

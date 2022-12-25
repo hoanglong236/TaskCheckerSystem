@@ -2,12 +2,11 @@ package org.swing.app.view.taskform.nodetask;
 
 import org.swing.app.dto.TaskDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.form.components.LabelAndInputWrapper;
-import org.swing.app.view.components.form.components.factory.LabelAndInputWrapperFactory;
+import org.swing.app.view.components.form.components.InputComponentWrapper;
+import org.swing.app.view.components.form.components.factory.InputComponentWrapperFactory;
 import org.swing.app.view.taskform.TaskForm;
 
 import java.awt.Dimension;
-import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -16,8 +15,8 @@ public class NodeTaskForm extends TaskForm {
     private static final String IMPORTANT_LABEL_TEXT = "Important: ";
     private static final String NOTE_LABEL_TEXT = "Note: ";
 
-    private LabelAndInputWrapper importantInputWrapper;
-    private LabelAndInputWrapper noteInputWrapper;
+    private InputComponentWrapper importantInputWrapper;
+    private InputComponentWrapper noteInputWrapper;
 
     public NodeTaskForm() {
         super();
@@ -32,8 +31,9 @@ public class NodeTaskForm extends TaskForm {
         final Set<String> importantValueRange = new LinkedHashSet<>();
         importantValueRange.add("Yes");
         importantValueRange.add("No");
-        this.importantInputWrapper = LabelAndInputWrapperFactory
-                .createLabelAndComboBoxWrapper(IMPORTANT_LABEL_TEXT, importantValueRange);
+
+        this.importantInputWrapper = InputComponentWrapperFactory
+                .createComboBoxWrapper(IMPORTANT_LABEL_TEXT, importantValueRange);
     }
 
     private void initImportantInputWrapper(boolean important) {
@@ -42,16 +42,16 @@ public class NodeTaskForm extends TaskForm {
         importantValueRange.add("No");
         final String initValue = important ? "Yes" : "No";
 
-        this.importantInputWrapper = LabelAndInputWrapperFactory
-                .createLabelAndComboBoxWrapper(IMPORTANT_LABEL_TEXT, importantValueRange, initValue);
+        this.importantInputWrapper = InputComponentWrapperFactory
+                .createComboBoxWrapper(IMPORTANT_LABEL_TEXT, importantValueRange, initValue);
     }
 
     private void initNoteInputWrapper() {
-        this.noteInputWrapper = LabelAndInputWrapperFactory.createLabelAndTextAreaWrapper(NOTE_LABEL_TEXT);
+        this.noteInputWrapper = InputComponentWrapperFactory.createTextAreaWrapper(NOTE_LABEL_TEXT);
     }
 
     private void initNoteInputWrapper(String note) {
-        this.noteInputWrapper = LabelAndInputWrapperFactory.createLabelAndTextAreaWrapper(NOTE_LABEL_TEXT, note);
+        this.noteInputWrapper = InputComponentWrapperFactory.createTextAreaWrapper(NOTE_LABEL_TEXT, note);
     }
 
     @Override
@@ -112,25 +112,26 @@ public class NodeTaskForm extends TaskForm {
     protected void setNotResizableChildComponents() {
     }
 
+    // TODO: handle this
     @Override
-    public boolean validate() {
-        return false;
+    public String validate() {
+        return null;
     }
 
     @Override
     public TaskDto getFormData() {
-        final String title = (String) this.titleInputWrapper.getValue();
-        final boolean important = this.importantInputWrapper.getValue().equals("Yes");
-        final LocalDateTime startDatetime = (LocalDateTime) this.startDatetimeInputWrapper.getValue();
-        final LocalDateTime finishDatetime = (LocalDateTime) this.finishDatetimeInputWrapper.getValue();
-        final String note = (String) this.noteInputWrapper.getValue();
+//        final String title = (String) this.titleInputWrapper.getValue();
+//        final boolean important = this.importantInputWrapper.getValue().equals("Yes");
+//        final LocalDateTime startDatetime = (LocalDateTime) this.startDatetimeInputWrapper.getValue();
+//        final LocalDateTime finishDatetime = (LocalDateTime) this.finishDatetimeInputWrapper.getValue();
+//        final String note = (String) this.noteInputWrapper.getValue();
 
         final TaskDto taskDto = new TaskDto();
-        taskDto.setTitle(title);
-        taskDto.setImportant(important);
-        taskDto.setStartDatetime(startDatetime);
-        taskDto.setFinishDatetime(finishDatetime);
-        taskDto.setNote(note);
+//        taskDto.setTitle(title);
+//        taskDto.setImportant(important);
+//        taskDto.setStartDatetime(startDatetime);
+//        taskDto.setFinishDatetime(finishDatetime);
+//        taskDto.setNote(note);
 
         return taskDto;
     }

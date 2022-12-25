@@ -1,12 +1,16 @@
 package org.swing.app.view.taskform.leaftask;
 
 import org.swing.app.dto.TaskDto;
+import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.taskform.TaskForm;
 
 import java.awt.Dimension;
+import java.util.Optional;
 
 public class LeafTaskForm extends TaskForm {
+
+    private static final int TITLE_MAX_LENGTH = 256;
 
     public LeafTaskForm() {
         super();
@@ -43,16 +47,29 @@ public class LeafTaskForm extends TaskForm {
     }
 
     @Override
-    public boolean validate() {
-        return false;
+    public String validate() {
+        final StringBuilder validateMessage = new StringBuilder();
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+
+        final Optional<String> optionalTitleInputValue = this.titleInputWrapper.getValue();
+        if (!optionalTitleInputValue.isPresent()) {
+            validateMessage.append(messageLoader.getMessage("title.value.invalid"));
+        } else {
+            final String title = optionalTitleInputValue.get().trim();
+            if (title.length() > TITLE_MAX_LENGTH) {
+                validateMessage.append(messageLoader.getMessage("title.length.invalid"));
+            }
+        }
+
+        return validateMessage.toString();
     }
 
     @Override
     public TaskDto getFormData() {
-        final String title = (String) this.titleInputWrapper.getValue();
-
         final TaskDto taskDto = new TaskDto();
-        taskDto.setTitle(title);
+
+        final Optional<String> optionalTitleInputValue = this.titleInputWrapper.getValue();
+        optionalTitleInputValue.ifPresent(title -> taskDto.setTitle(title.trim()));
 
         return taskDto;
     }
