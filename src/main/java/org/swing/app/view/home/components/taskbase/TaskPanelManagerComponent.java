@@ -7,11 +7,11 @@ import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.OptionPane;
 import org.swing.app.view.components.request.DeletableTaskComponent;
 import org.swing.app.view.components.request.InsertableTaskComponent;
-import org.swing.app.view.components.ui.Button;
-import org.swing.app.view.components.ui.Label;
+import org.swing.app.view.components.ui.button.BasicButton;
+import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.components.ui.Popup;
-import org.swing.app.view.components.ui.PopupItem;
+import org.swing.app.view.components.ui.button.PopupItem;
 import org.swing.app.view.components.ui.VerticalScrollPane;
 import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.home.components.factory.TaskPanelContainerFactory;
@@ -32,7 +32,7 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private Label titleLabel;
-    private Button filterButton;
+    private BasicButton filterButton;
     private VerticalScrollPane verticalScrollPane;
     protected TaskPanelContainer taskPanelContainer;
 
@@ -61,7 +61,7 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
     }
 
     private void initFilterButton() {
-        this.filterButton = UIComponentFactory.createButton(ViewConstant.ICON_LOCATION_FILTER);
+        this.filterButton = UIComponentFactory.createBasicButton(ViewConstant.ICON_LOCATION_FILTER);
         this.filterButton.addActionListener(this);
     }
 
@@ -173,15 +173,15 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
     public void actionPerformed(ActionEvent e) {
         final Object eventSource = e.getSource();
 
-        if (eventSource == this.filterButton) {
+        if (eventSource == this.filterButton.getComponent()) {
             onActionPerformedForFilterButton();
             return;
         }
-        if (eventSource == this.sortByCreateDatePopupItem) {
+        if (eventSource == this.sortByCreateDatePopupItem.getComponent()) {
             onActionPerformedForSortByCreateDatePopupItem();
             return;
         }
-        if (eventSource == this.sortByModifyDatePopupItem) {
+        if (eventSource == this.sortByModifyDatePopupItem.getComponent()) {
             onActionPerformedForSortByModifyDatePopupItem();
             return;
         }

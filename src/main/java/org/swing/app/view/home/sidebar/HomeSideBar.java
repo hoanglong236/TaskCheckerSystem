@@ -6,7 +6,7 @@ import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.OptionPane;
-import org.swing.app.view.components.ui.Button;
+import org.swing.app.view.components.ui.button.BasicButton;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.components.request.InsertableTaskComponent;
@@ -29,7 +29,7 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
 
     private TaskPanelManagerComponent staticTaskPanelManagerComponent;
     private TaskPanelManagerComponent dynamicTaskPanelManagerComponent;
-    private Button addNewTaskBtn;
+    private BasicButton addNewTaskBtn;
     private final TaskPanelManagerComponentFactory taskPanelManagerFactory;
 
     public HomeSideBar(HomeFrameController homeFrameController,
@@ -61,7 +61,8 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
 
     private void initAddNewTaskBtn() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        this.addNewTaskBtn = UIComponentFactory.createButton(messageLoader.getMessage("add.task.component.text"));
+        this.addNewTaskBtn = UIComponentFactory.createBasicButton(
+                messageLoader.getMessage("add.task.component.text"));
         this.addNewTaskBtn.addActionListener(this);
     }
 
@@ -117,7 +118,7 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
     public void actionPerformed(ActionEvent e) {
         final Object eventSource = e.getSource();
 
-        if (eventSource == this.addNewTaskBtn) {
+        if (eventSource == this.addNewTaskBtn.getComponent()) {
             onActionPerformedForAddNewTaskBtn();
             return;
         }

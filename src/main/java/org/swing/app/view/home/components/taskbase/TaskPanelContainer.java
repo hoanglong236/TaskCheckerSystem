@@ -4,7 +4,7 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.factory.UIComponentFactory;
-import org.swing.app.view.components.ui.Label;
+import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.home.comparetor.TaskPanelComparator;
 import org.swing.app.view.home.comparetor.TaskPanelModifyDateComparator;
@@ -225,6 +225,7 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
     public void mousePressed(MouseEvent e) {
         final Object eventSource = e.getSource();
 
+        // TODO: bugs
         if (eventSource instanceof TaskPanel) {
             onMousePressedForTaskPanel((TaskPanel) eventSource);
             return;

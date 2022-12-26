@@ -4,9 +4,9 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.ViewComponent;
-import org.swing.app.view.components.ui.CompletionRateLabel;
-import org.swing.app.view.components.ui.DeadlineLabel;
-import org.swing.app.view.components.ui.Label;
+import org.swing.app.view.components.ui.label.CompletionRateLabel;
+import org.swing.app.view.components.ui.label.DeadlineLabel;
+import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
 

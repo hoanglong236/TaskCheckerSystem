@@ -4,8 +4,8 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.ui.Button;
-import org.swing.app.view.components.ui.Label;
+import org.swing.app.view.components.ui.button.BasicButton;
+import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.home.components.factory.TaskPanelManagerComponentFactory;
@@ -25,7 +25,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements A
 
     private Label titleLabel;
     private TaskPanelManagerComponent taskPanelManagerComponent;
-    private Button addNewTaskButton;
+    private BasicButton addNewTaskButton;
 
     private final TaskPanelManagerComponentFactory taskPanelManagerComponentFactory;
 
@@ -55,7 +55,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements A
 
     private void initAddNewTaskButton() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        this.addNewTaskButton = UIComponentFactory.createButton(
+        this.addNewTaskButton = UIComponentFactory.createBasicButton(
                 messageLoader.getMessage("add.task.component.text"));
         this.addNewTaskButton.addActionListener(this);
     }
@@ -106,7 +106,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements A
     public void actionPerformed(ActionEvent e) {
         final Object eventSource = e.getSource();
 
-        if (eventSource == this.addNewTaskButton) {
+        if (eventSource == this.addNewTaskButton.getComponent()) {
             onActionPerformedForAddNewTaskComponent();
             return;
         }

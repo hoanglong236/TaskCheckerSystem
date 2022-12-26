@@ -6,7 +6,7 @@ import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.FrameWrapperComponent;
 import org.swing.app.view.components.OptionPane;
-import org.swing.app.view.components.ui.Button;
+import org.swing.app.view.components.ui.button.BasicButton;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.components.ui.LabelArea;
 import org.swing.app.view.taskform.factory.TaskFormFactory;
@@ -25,9 +25,9 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
 
     private TaskForm taskForm;
     private LabelArea validateMessageArea;
-    private Button submitButton;
-    private Button resetButton;
-    private Button clearButton;
+    private BasicButton submitButton;
+    private BasicButton resetButton;
+    private BasicButton clearButton;
 
     private final TaskFormFactory taskFormFactory;
 
@@ -71,19 +71,19 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
 
     private void initSubmitButton() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        this.submitButton = UIComponentFactory.createButton(messageLoader.getMessage("submit.button.text"));
+        this.submitButton = UIComponentFactory.createBasicButton(messageLoader.getMessage("submit.button.text"));
         this.submitButton.addActionListener(this);
     }
 
     private void initResetButton() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        this.resetButton = UIComponentFactory.createButton(messageLoader.getMessage("reset.button.text"));
+        this.resetButton = UIComponentFactory.createBasicButton(messageLoader.getMessage("reset.button.text"));
         this.resetButton.addActionListener(this);
     }
 
     private void initClearButton() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        this.clearButton = UIComponentFactory.createButton(messageLoader.getMessage("clear.button.text"));
+        this.clearButton = UIComponentFactory.createBasicButton(messageLoader.getMessage("clear.button.text"));
         this.clearButton.addActionListener(this);
     }
 

@@ -5,11 +5,11 @@ import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.OptionPane;
-import org.swing.app.view.components.ui.ActivationLabel;
-import org.swing.app.view.components.ui.Checker;
-import org.swing.app.view.components.ui.Label;
+import org.swing.app.view.components.ui.label.ActivationLabel;
+import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.components.ui.Popup;
-import org.swing.app.view.components.ui.PopupItem;
+import org.swing.app.view.components.ui.button.CheckBox;
+import org.swing.app.view.components.ui.button.PopupItem;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.components.request.UpdatableTaskComponent;
@@ -29,7 +29,7 @@ public abstract class TaskPanel extends HomeWrapperComponent
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private ActivationLabel activationLabel;
-    private Checker statusChecker;
+    private CheckBox statusChecker;
     protected TaskCenterPanel taskCenterPanel;
     private Label importantLabel;
     private Popup popup;
@@ -84,7 +84,8 @@ public abstract class TaskPanel extends HomeWrapperComponent
     }
 
     private void initStatusChecker(boolean checked) {
-        this.statusChecker = UIComponentFactory.createChecker(checked);
+        this.statusChecker = UIComponentFactory.createCheckBox("");
+        this.statusChecker.setSelected(checked);
     }
 
     protected abstract void initTaskCenterPanel(TaskPanelDto taskPanelDto);
@@ -143,7 +144,7 @@ public abstract class TaskPanel extends HomeWrapperComponent
     }
 
     private void updateStatusChecker(boolean checked) {
-        this.statusChecker.setChecked(checked);
+        this.statusChecker.setSelected(checked);
     }
 
     private void updateTaskCenterPanel(TaskPanelDto taskPanelDto) {
@@ -252,11 +253,11 @@ public abstract class TaskPanel extends HomeWrapperComponent
     public void actionPerformed(ActionEvent e) {
         final Object eventSource = e.getSource();
 
-        if (eventSource == this.editPopupItem) {
+        if (eventSource == this.editPopupItem.getComponent()) {
             onActionPerformedForEditPopupItem();
             return;
         }
-        if (eventSource == this.deletePopupItem) {
+        if (eventSource == this.deletePopupItem.getComponent()) {
             onActionPerformedForDeletePopupItem();
             return;
         }
