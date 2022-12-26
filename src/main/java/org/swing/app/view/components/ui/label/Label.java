@@ -1,4 +1,4 @@
-package org.swing.app.view.components.ui;
+package org.swing.app.view.components.ui.label;
 
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.factory.JComponentFactory;
@@ -8,12 +8,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class Label extends SimpleComponent {
-
-    public Label(String text, String iconLocation) {
-        this.component = JComponentFactory.createJLabel();
-        setText(text);
-        setIcon(iconLocation);
-    }
 
     public Label(String text) {
         this.component = JComponentFactory.createJLabel();

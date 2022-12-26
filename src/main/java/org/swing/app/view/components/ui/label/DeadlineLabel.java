@@ -1,4 +1,4 @@
-package org.swing.app.view.components.ui;
+package org.swing.app.view.components.ui.label;
 
 import org.swing.app.common.Constant;
 import org.swing.app.common.Observable;
@@ -16,7 +16,8 @@ public class DeadlineLabel extends Label implements CountdownObserver {
     private long hideCountDown;
 
     public DeadlineLabel(LocalDateTime startDatetime, LocalDateTime finishDatetime) {
-        super(ViewConstant.ICON_LOCATION_DEADLINE, null);
+        super("");
+        setIcon(ViewConstant.ICON_LOCATION_DEADLINE);
         setValueForCountDowns(startDatetime, finishDatetime);
 
         this.countdownObservable = Countdown.getInstance();

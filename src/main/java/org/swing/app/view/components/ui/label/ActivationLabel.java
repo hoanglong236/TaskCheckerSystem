@@ -1,4 +1,4 @@
-package org.swing.app.view.components.ui;
+package org.swing.app.view.components.ui.label;
 
 import org.swing.app.view.common.ViewConstant;
 
