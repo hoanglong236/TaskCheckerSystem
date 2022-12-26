@@ -1,50 +1,50 @@
-package org.swing.app.view.components.ui;
+package org.swing.app.view.components.ui.button;
 
 import org.swing.app.common.ArrayIterator;
 import org.swing.app.view.components.SimpleComponent;
-import org.swing.app.view.components.factory.JComponentFactory;
 import org.swing.app.view.util.ViewUtil;
 
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
 
-public class Button extends SimpleComponent {
-
-    public Button(String text, String iconLocation) {
-        this.component = JComponentFactory.createJButton();
-        setText(text);
-        setIcon(iconLocation);
-    }
-
-    public Button(String text) {
-        this.component = JComponentFactory.createJButton();
-        setText(text);
-    }
+public abstract class Button extends SimpleComponent {
 
     public void setIcon(String iconLocation) {
         final byte iconWidth = 15;
         final byte iconHeight = 15;
         final ImageIcon imageIcon = ViewUtil.getImageIcon(iconLocation, iconWidth, iconHeight);
 
-        ((JButton) this.component).setIcon(imageIcon);
+        ((AbstractButton) this.component).setIcon(imageIcon);
+    }
+
+    public void setSelected(boolean selected) {
+        ((AbstractButton) this.component).setSelected(selected);
+    }
+
+    public boolean isSelected() {
+        return ((AbstractButton) this.component).isSelected();
     }
 
     public void setText(String text) {
-        ((JButton) this.component).setText(text);
+        ((AbstractButton) this.component).setText(text);
+    }
+
+    public String getText() {
+        return ((AbstractButton) this.component).getText();
     }
 
     public void addActionListener(ActionListener actionListener) {
-        ((JButton) this.component).addActionListener(actionListener);
+        ((AbstractButton) this.component).addActionListener(actionListener);
     }
 
     public void removeActionListener(ActionListener actionListener) {
-        ((JButton) this.component).removeActionListener(actionListener);
+        ((AbstractButton) this.component).removeActionListener(actionListener);
     }
 
     private ActionListener[] getActionListeners() {
-        return ((JButton) this.component).getActionListeners();
+        return ((AbstractButton) this.component).getActionListeners();
     }
 
     private void removeActionListeners(ActionListener[] actionListeners) {

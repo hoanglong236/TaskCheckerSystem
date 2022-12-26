@@ -57,4 +57,8 @@ public class JComponentFactory {
     public static JComponent createJCheckBoxMenuItem() {
         return new JCheckBoxMenuItem();
     }
+
+    public static JComponent createJRadioButton() {
+        return new JRadioButton();
+    }
 }
