@@ -38,8 +38,8 @@ public class JComponentFactory {
         return new JCheckBox();
     }
 
-    public static JComponent createJDateChooser() {
-        return new JDateChooser();
+    public static JComponent createJRadioButton() {
+        return new JRadioButton();
     }
 
     public static JComponent createJPopupMenu() {
@@ -58,7 +58,7 @@ public class JComponentFactory {
         return new JCheckBoxMenuItem();
     }
 
-    public static JComponent createJRadioButton() {
-        return new JRadioButton();
+    public static JComponent createJDateChooser() {
+        return new JDateChooser();
     }
 }

@@ -6,6 +6,7 @@ import org.swing.app.view.components.form.components.input.DatetimeChooser;
 import org.swing.app.view.components.form.components.InputComponent;
 import org.swing.app.view.components.form.components.input.TextArea;
 import org.swing.app.view.components.form.components.input.TextField;
+import org.swing.app.view.components.form.components.input.YesNoOptionChooser;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,7 +19,7 @@ public class InputComponentFactory {
     }
 
     public static InputComponent<String> createTextField() {
-        return createTextField(null);
+        return createTextField("");
     }
 
     public static InputComponent<String> createTextArea(String text) {
@@ -26,7 +27,7 @@ public class InputComponentFactory {
     }
 
     public static InputComponent<String> createTextArea() {
-        return createTextArea(null);
+        return createTextArea("");
     }
 
     public static InputComponent<String> createComboBox(Set<String> valueRange, String value) {
@@ -51,5 +52,13 @@ public class InputComponentFactory {
 
     public static InputComponent<LocalDateTime> createDateTimeChooser() {
         return createDateTimeChooser(null);
+    }
+
+    public static InputComponent<Boolean> createYesNoOptionChooser(boolean value) {
+        return new YesNoOptionChooser(value);
+    }
+
+    public static InputComponent<Boolean> createYesNoOptionChooser() {
+        return createYesNoOptionChooser(false);
     }
 }

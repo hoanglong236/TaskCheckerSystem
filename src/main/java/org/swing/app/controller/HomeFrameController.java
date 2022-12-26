@@ -39,10 +39,6 @@ public class HomeFrameController extends ControllerBase {
         this.homeFrame.setVisible(true);
     }
 
-    public TaskPanelDto getDailyTaskPanelDto() {
-        return this.homeFrameBusiness.getDailyTaskPanelDto();
-    }
-
     public boolean hasRequestingComponent() {
         return this.requestingComponent != null;
     }
