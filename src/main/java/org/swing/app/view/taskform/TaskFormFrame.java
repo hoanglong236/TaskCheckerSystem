@@ -13,6 +13,7 @@ import org.swing.app.view.taskform.factory.TaskFormFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,7 +21,7 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
 
     private static final byte HORIZONTAL_GAP = ViewConstant.FORM_FRAME_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.FORM_FRAME_V_GAP;
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
+    private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private TaskForm taskForm;
     private LabelArea validateMessageArea;

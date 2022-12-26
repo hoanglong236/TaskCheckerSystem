@@ -10,13 +10,14 @@ import java.awt.Dimension;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+// TODO: should we use template design pattern for this
 public class NodeTaskForm extends TaskForm {
 
     private static final String IMPORTANT_LABEL_TEXT = "Important: ";
     private static final String NOTE_LABEL_TEXT = "Note: ";
 
-    private InputComponentWrapper importantInputWrapper;
-    private InputComponentWrapper noteInputWrapper;
+    private InputComponentWrapper<String> importantInputWrapper;
+    private InputComponentWrapper<String> noteInputWrapper;
 
     public NodeTaskForm() {
         super();
@@ -115,7 +116,12 @@ public class NodeTaskForm extends TaskForm {
     // TODO: handle this
     @Override
     public String validate() {
-        return null;
+        final StringBuilder validateMessage = new StringBuilder();
+
+        final String validateTitleInputWrapperResult = validateTitleInputWrapper();
+        validateMessage.append(validateTitleInputWrapperResult);
+
+        return validateMessage.toString();
     }
 
     @Override
@@ -143,7 +149,7 @@ public class NodeTaskForm extends TaskForm {
             return;
         }
         this.titleInputWrapper.setValue(taskDto.getTitle());
-        this.importantInputWrapper.setValue(taskDto.isImportant());
+        this.importantInputWrapper.setValue(taskDto.isImportant() ? "Yes" : "No");
         this.startDatetimeInputWrapper.setValue(taskDto.getStartDatetime());
         this.finishDatetimeInputWrapper.setValue(taskDto.getFinishDatetime());
         this.noteInputWrapper.setValue(taskDto.getNote());

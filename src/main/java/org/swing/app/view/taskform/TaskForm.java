@@ -1,22 +1,28 @@
 package org.swing.app.view.taskform;
 
 import org.swing.app.dto.TaskDto;
+import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.form.Form;
 import org.swing.app.view.components.form.components.InputComponentWrapper;
 import org.swing.app.view.components.form.components.factory.InputComponentWrapperFactory;
+import org.swing.app.view.components.form.validators.TextValidator;
 
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.time.LocalDateTime;
 import java.util.Iterator;
+import java.util.Optional;
 
 public abstract class TaskForm extends PanelWrapperComponent implements Form<TaskDto> {
 
+    private static final int TITLE_MAX_LENGTH = 256;
+
     protected static final byte HORIZONTAL_GAP = ViewConstant.LARGE_H_GAP;
     protected static final byte VERTICAL_GAP = ViewConstant.LARGE_V_GAP;
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
+    private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     protected static final String TITLE_LABEL_TEXT = "Title: ";
     protected static final String START_DATETIME_LABEL_TEXT = "Start datetime: ";
@@ -91,5 +97,19 @@ public abstract class TaskForm extends PanelWrapperComponent implements Form<Tas
                 ((InputComponentWrapper) childComponent).clear();
             }
         }
+    }
+
+    protected String validateTitleInputWrapper() {
+        final String emptyMessage = "";
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        final Optional<String> optionalTitleInputValue = this.titleInputWrapper.getValue();
+
+        if (!TextValidator.validateNotEmpty(optionalTitleInputValue)) {
+            return messageLoader.getMessage("title.value.invalid");
+        }
+        if (!TextValidator.validateMaxLength(optionalTitleInputValue, TITLE_MAX_LENGTH)) {
+            return messageLoader.getMessage("title.length.invalid");
+        }
+        return emptyMessage;
     }
 }

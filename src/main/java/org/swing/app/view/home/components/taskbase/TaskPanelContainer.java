@@ -12,6 +12,7 @@ import org.swing.app.view.home.comparetor.TaskPanelCreateDateComparator;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
+    private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private static final byte NOTIFY_LABEL_WIDTH = ViewConstant.NOTIFY_LABEL_WIDTH;
     private static final byte NOTIFY_LABEL_HEIGHT = ViewConstant.NOTIFY_LABEL_HEIGHT;

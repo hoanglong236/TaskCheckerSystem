@@ -16,6 +16,7 @@ import org.swing.app.view.home.components.roottask.factory.RootTaskPanelManagerC
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
@@ -24,7 +25,7 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
 
     private static final byte HORIZONTAL_GAP = ViewConstant.MEDIUM_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.MEDIUM_V_GAP;
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
+    private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private TaskPanelManagerComponent staticTaskPanelManagerComponent;
     private TaskPanelManagerComponent dynamicTaskPanelManagerComponent;

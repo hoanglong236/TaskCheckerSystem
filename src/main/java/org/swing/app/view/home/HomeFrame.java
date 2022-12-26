@@ -11,13 +11,14 @@ import org.swing.app.view.home.sidebar.HomeSideBar;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.util.Set;
 
 public class HomeFrame extends FrameWrapperComponent {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.LARGE_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.LARGE_V_GAP;
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
+    private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private HomeSideBar sideBar;
     private HomeBodyPanel bodyPanel;

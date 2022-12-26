@@ -12,6 +12,7 @@ import org.swing.app.view.home.HomeWrapperComponent;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.time.LocalDateTime;
 
 public abstract class TaskCenterPanel extends HomeWrapperComponent {
@@ -23,7 +24,7 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
+    private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private Label titleLabel;
     private DeadlineLabel deadlineLabel;

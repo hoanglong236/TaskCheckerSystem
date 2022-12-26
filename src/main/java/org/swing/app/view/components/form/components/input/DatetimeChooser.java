@@ -9,6 +9,7 @@ import org.swing.app.view.components.form.components.factory.InputComponentWrapp
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -20,7 +21,7 @@ public class DatetimeChooser extends PanelWrapperComponent implements InputCompo
 
     private static final byte HORIZONTAL_GAP = ViewConstant.MEDIUM_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
+    private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private InputComponent<LocalDate> dateChooser;
     private InputComponentWrapper<String> hourSelector;

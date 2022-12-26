@@ -16,6 +16,7 @@ import org.swing.app.view.components.request.UpdatableTaskComponent;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
@@ -25,7 +26,7 @@ public abstract class TaskPanel extends HomeWrapperComponent
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
+    private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private ActivationLabel activationLabel;
     private Checker statusChecker;
@@ -157,7 +158,10 @@ public abstract class TaskPanel extends HomeWrapperComponent
         }
     }
 
+    // TODO: after update how can we sort?
     public void update(TaskPanelDto taskPanelDto) {
+        this.taskPanelDto = taskPanelDto;
+
         if (isNeedStatusChecker()) {
             updateStatusChecker(taskPanelDto.isCompleted());
         }

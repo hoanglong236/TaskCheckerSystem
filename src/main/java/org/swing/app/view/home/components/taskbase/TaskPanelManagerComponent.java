@@ -19,6 +19,7 @@ import org.swing.app.view.home.components.factory.TaskPanelFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
@@ -28,7 +29,7 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
+    private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private Label titleLabel;
     private Button filterButton;

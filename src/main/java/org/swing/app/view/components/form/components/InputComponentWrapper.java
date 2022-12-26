@@ -7,13 +7,14 @@ import org.swing.app.view.components.factory.UIComponentFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.util.Optional;
 
 public abstract class InputComponentWrapper<T> extends PanelWrapperComponent {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.MEDIUM_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.MEDIUM_V_GAP;
-    private static final FlowLayout MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
+    private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     protected SimpleComponent labelField;
     protected InputComponent<T> inputField;
