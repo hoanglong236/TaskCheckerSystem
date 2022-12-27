@@ -17,8 +17,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public abstract class TaskPanelContainer extends HomeWrapperComponent
         implements MouseListener {
@@ -43,6 +45,8 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
     private final List<TaskPanel> completedTaskPanels = new ArrayList<>();
 
     private Comparator<TaskPanel> comparator;
+
+    private Map<Object, TaskPanel> sourceComponentTaskPanelMap = new HashMap<>();
 
     public TaskPanelContainer(HomeFrameController homeFrameController) {
         super(homeFrameController);
@@ -87,11 +91,31 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
     }
 
     public void resizeHeightWithoutResizeChildComponent(int height) {
-        this.component.setPreferredSize(new Dimension(getSize().width, height));
+        this.sourceComponent.setPreferredSize(new Dimension(getSize().width, height));
     }
 
     @Override
     protected void setNotResizableChildComponents() {
+    }
+
+    private void displayNotifyLabelIfNecessary() {
+        if (hasNotifyLabel() && !(this.notifyLabel.isVisible())) {
+            if (this.completedTaskPanels.size() > 0) {
+                this.notifyLabel.setVisible(true);
+                this.preferHeight += VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
+                resizeHeightWithoutResizeChildComponent(this.preferHeight);
+            }
+        }
+    }
+
+    private void hiddenNotifyLabelIfNecessary() {
+        if (hasNotifyLabel() && this.notifyLabel.isVisible()) {
+            if (this.completedTaskPanels.size() == 0) {
+                this.notifyLabel.setVisible(false);
+                this.preferHeight -= VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
+                resizeHeightWithoutResizeChildComponent(this.preferHeight);
+            }
+        }
     }
 
     private int getPositionToAddingIncompleteTaskPanelInUI(TaskPanel taskPanel) {
@@ -103,36 +127,33 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
         return startIndexOfCompletedTaskPanel + this.completedTaskPanels.indexOf(taskPanel);
     }
 
-    public void addTaskPanel(TaskPanel taskPanel) {
-        taskPanel.resize(new Dimension(getPreferChildComponentWidth(), taskPanel.getPreferHeight()));
-
-        int positionToAddInUI;
-
+    private int getTaskPanelPositionToAdding(TaskPanel taskPanel) {
         if (taskPanel.isCompleted()) {
             this.completedTaskPanels.add(taskPanel);
             this.completedTaskPanels.sort(this.comparator);
-            positionToAddInUI = getPositionToAddingIncompleteTaskPanelInUI(taskPanel);
+            return getPositionToAddingCompletedTaskPanelInUI(taskPanel);
         } else {
             this.incompleteTaskPanels.add(taskPanel);
             this.incompleteTaskPanels.sort(this.comparator);
-            positionToAddInUI = getPositionToAddingCompletedTaskPanelInUI(taskPanel);
+            return getPositionToAddingIncompleteTaskPanelInUI(taskPanel);
         }
+    }
 
+    public void addTaskPanel(TaskPanel taskPanel) {
+        this.sourceComponentTaskPanelMap.put(taskPanel.getSourceComponent(), taskPanel);
+        taskPanel.resize(new Dimension(getPreferChildComponentWidth(), taskPanel.getPreferHeight()));
+
+        final int positionToAddInUI = getTaskPanelPositionToAdding(taskPanel);
         addChildComponent(taskPanel, positionToAddInUI);
-
-        if (hasNotifyLabel() && !(this.notifyLabel.isVisible())) {
-            if (this.completedTaskPanels.size() > 0) {
-                this.notifyLabel.setVisible(true);
-                this.preferHeight += VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
-            }
-        }
 
         this.preferHeight += VERTICAL_GAP + taskPanel.getSize().height;
         resizeHeightWithoutResizeChildComponent(this.preferHeight);
+
+        displayNotifyLabelIfNecessary();
     }
 
     public void deleteTaskPanel(TaskPanel taskPanel) {
-        removeChildComponent(taskPanel);
+        this.sourceComponentTaskPanelMap.remove(taskPanel.getSourceComponent());
 
         if (taskPanel.isCompleted()) {
             this.completedTaskPanels.remove(taskPanel);
@@ -140,15 +161,12 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
             this.incompleteTaskPanels.remove(taskPanel);
         }
 
-        if (hasNotifyLabel() && this.notifyLabel.isVisible()) {
-            if (this.completedTaskPanels.size() == 0) {
-                this.notifyLabel.setVisible(false);
-                this.preferHeight -= VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
-            }
-        }
+        removeChildComponent(taskPanel);
 
         this.preferHeight -= VERTICAL_GAP + taskPanel.getSize().height;
         resizeHeightWithoutResizeChildComponent(this.preferHeight);
+
+        hiddenNotifyLabelIfNecessary();
     }
 
     protected int getPreferChildComponentWidth() {
@@ -225,9 +243,9 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
     public void mousePressed(MouseEvent e) {
         final Object eventSource = e.getSource();
 
-        // TODO: bugs
-        if (eventSource instanceof TaskPanel) {
-            onMousePressedForTaskPanel((TaskPanel) eventSource);
+        if (this.sourceComponentTaskPanelMap.containsKey(eventSource)) {
+            final TaskPanel taskPanel = this.sourceComponentTaskPanelMap.get(eventSource);
+            onMousePressedForTaskPanel(taskPanel);
             return;
         }
         throw new IllegalArgumentException();
