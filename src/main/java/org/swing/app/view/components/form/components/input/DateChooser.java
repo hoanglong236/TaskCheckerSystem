@@ -14,7 +14,7 @@ public class DateChooser extends SimpleComponent implements InputComponent<Local
 
     public DateChooser(LocalDate initValue) {
         super();
-        this.component = JComponentFactory.createJDateChooser();
+        this.sourceComponent = JComponentFactory.createJDateChooser();
         setValue(initValue);
     }
 
@@ -24,12 +24,12 @@ public class DateChooser extends SimpleComponent implements InputComponent<Local
             clear();
             return;
         }
-        ((JDateChooser) this.component).setDate(DateConverter.toDate(value));
+        ((JDateChooser) this.sourceComponent).setDate(DateConverter.toDate(value));
     }
 
     @Override
     public Optional<LocalDate> getValue() {
-        final Date chosenDate = ((JDateChooser) this.component).getDate();
+        final Date chosenDate = ((JDateChooser) this.sourceComponent).getDate();
         if (chosenDate == null) {
             return Optional.empty();
         }
@@ -39,6 +39,6 @@ public class DateChooser extends SimpleComponent implements InputComponent<Local
 
     @Override
     public void clear() {
-        ((JDateChooser) this.component).cleanup();
+        ((JDateChooser) this.sourceComponent).cleanup();
     }
 }

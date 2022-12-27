@@ -8,14 +8,14 @@ import javax.swing.JPanel;
 public abstract class PanelWrapperComponent extends WrapperComponent {
 
     public PanelWrapperComponent() {
-        this.component = JComponentFactory.createJPanel();
+        this.sourceComponent = JComponentFactory.createJPanel();
     }
 
     protected void setPopup(Popup popup) {
-        ((JPanel) this.component).setComponentPopupMenu(popup.getPopupMenu());
+        ((JPanel) this.sourceComponent).setComponentPopupMenu(popup.getPopupMenu());
     }
 
     public void setOpaque(boolean opaque) {
-        ((JPanel) this.component).setOpaque(opaque);
+        ((JPanel) this.sourceComponent).setOpaque(opaque);
     }
 }

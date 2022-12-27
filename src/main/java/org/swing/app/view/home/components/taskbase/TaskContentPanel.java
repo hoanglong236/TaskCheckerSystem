@@ -106,7 +106,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements A
     public void actionPerformed(ActionEvent e) {
         final Object eventSource = e.getSource();
 
-        if (eventSource == this.addNewTaskButton.getComponent()) {
+        if (eventSource == this.addNewTaskButton.getSourceComponent()) {
             onActionPerformedForAddNewTaskComponent();
             return;
         }

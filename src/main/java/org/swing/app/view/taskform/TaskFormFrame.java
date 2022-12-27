@@ -186,7 +186,7 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
     public void actionPerformed(ActionEvent e) {
         final Object eventSource = e.getSource();
 
-        if (eventSource == this.submitButton.getComponent()) {
+        if (eventSource == this.submitButton.getSourceComponent()) {
             final MessageLoader messageLoader = MessageLoader.getInstance();
             final int result = OptionPane.showConfirmDialog(messageLoader.getMessage("confirm.dialog.question"),
                     messageLoader.getMessage("confirm.dialog.add.task.title"));
@@ -196,11 +196,11 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
             }
             return;
         }
-        if (eventSource == this.resetButton.getComponent()) {
+        if (eventSource == this.resetButton.getSourceComponent()) {
             reset();
             return;
         }
-        if (eventSource == this.clearButton.getComponent()) {
+        if (eventSource == this.clearButton.getSourceComponent()) {
             clear();
             return;
         }

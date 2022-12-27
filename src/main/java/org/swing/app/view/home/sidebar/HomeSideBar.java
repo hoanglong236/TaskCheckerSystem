@@ -118,7 +118,7 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
     public void actionPerformed(ActionEvent e) {
         final Object eventSource = e.getSource();
 
-        if (eventSource == this.addNewTaskBtn.getComponent()) {
+        if (eventSource == this.addNewTaskBtn.getSourceComponent()) {
             onActionPerformedForAddNewTaskBtn();
             return;
         }

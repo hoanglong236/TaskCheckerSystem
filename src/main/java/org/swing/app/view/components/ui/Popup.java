@@ -15,22 +15,22 @@ public class Popup extends SimpleComponent {
     protected final Set<PopupItem> popupItems = new LinkedHashSet<>();
 
     public Popup() {
-        this.component = JComponentFactory.createJPopupMenu();
+        this.sourceComponent = JComponentFactory.createJPopupMenu();
     }
 
     public JPopupMenu getPopupMenu() {
-        return (JPopupMenu) this.component;
+        return (JPopupMenu) this.sourceComponent;
     }
 
     public void addPopupItem(PopupItem popupItem) {
         this.popupItems.add(popupItem);
-        this.component.add(popupItem.getComponent());
+        this.sourceComponent.add(popupItem.getSourceComponent());
         pack();
     }
 
     public void removeItem(PopupItem popupItem) {
         this.popupItems.remove(popupItem);
-        this.component.remove(popupItem.getComponent());
+        this.sourceComponent.remove(popupItem.getSourceComponent());
         pack();
     }
 
@@ -39,7 +39,7 @@ public class Popup extends SimpleComponent {
     }
 
     public void show(ViewComponent parent, int x, int y) {
-        ((JPopupMenu) this.component).show(parent.getComponent(), x, y);
+        ((JPopupMenu) this.sourceComponent).show(parent.getSourceComponent(), x, y);
     }
 
     public void dispose() {
@@ -56,6 +56,6 @@ public class Popup extends SimpleComponent {
     }
 
     private void pack() {
-        ((JPopupMenu) this.component).pack();
+        ((JPopupMenu) this.sourceComponent).pack();
     }
 }

@@ -13,24 +13,26 @@ import java.awt.Dimension;
 public class VerticalScrollPane extends SimpleComponent {
 
     public VerticalScrollPane() {
-        this.component = JComponentFactory.createJScrollPane();
+        this.sourceComponent = JComponentFactory.createJScrollPane();
         init();
     }
 
     private void customVerticalScrollBar() {
-        final JScrollBar verticalScrollBar = ((JScrollPane) this.component).getVerticalScrollBar();
+        final JScrollBar verticalScrollBar = ((JScrollPane) this.sourceComponent).getVerticalScrollBar();
         final int scrollBarHeight = verticalScrollBar.getPreferredSize().height;
         verticalScrollBar.setPreferredSize(new Dimension(ViewConstant.VERTICAL_SCROLLBAR_WIDTH, scrollBarHeight));
     }
 
     private void init() {
-        ((JScrollPane) this.component).setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        ((JScrollPane) this.component).setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        ((JScrollPane) this.sourceComponent).setVerticalScrollBarPolicy(
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        ((JScrollPane) this.sourceComponent).setHorizontalScrollBarPolicy(
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         customVerticalScrollBar();
     }
 
     public void setViewportViewPanel(PanelWrapperComponent viewportViewPanel) {
-        ((JScrollPane) this.component).setViewportView(viewportViewPanel.getComponent());
+        ((JScrollPane) this.sourceComponent).setViewportView(viewportViewPanel.getSourceComponent());
     }
 }

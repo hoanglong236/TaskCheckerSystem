@@ -5,7 +5,7 @@ import org.swing.app.view.components.factory.JComponentFactory;
 public class CheckBox extends Button {
 
     public CheckBox(String text) {
-        this.component = JComponentFactory.createJCheckBox();
+        this.sourceComponent = JComponentFactory.createJCheckBox();
         setText(text);
     }
 }

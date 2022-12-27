@@ -8,14 +8,14 @@ public abstract class SimpleComponent extends ViewComponentBase {
 
     @Override
     public void resize(Dimension dimension) {
-        this.component.setPreferredSize(dimension);
+        this.sourceComponent.setPreferredSize(dimension);
     }
 
     public void setOpaque(boolean opaque) {
-        ((JComponent) this.component).setOpaque(opaque);
+        ((JComponent) this.sourceComponent).setOpaque(opaque);
     }
 
     public void setBorder(Border border) {
-        ((JComponent) this.component).setBorder(border);
+        ((JComponent) this.sourceComponent).setBorder(border);
     }
 }

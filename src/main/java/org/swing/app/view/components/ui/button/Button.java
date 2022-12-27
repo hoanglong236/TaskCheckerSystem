@@ -16,35 +16,35 @@ public abstract class Button extends SimpleComponent {
         final byte iconHeight = 15;
         final ImageIcon imageIcon = ViewUtil.getImageIcon(iconLocation, iconWidth, iconHeight);
 
-        ((AbstractButton) this.component).setIcon(imageIcon);
+        ((AbstractButton) this.sourceComponent).setIcon(imageIcon);
     }
 
     public void setSelected(boolean selected) {
-        ((AbstractButton) this.component).setSelected(selected);
+        ((AbstractButton) this.sourceComponent).setSelected(selected);
     }
 
     public boolean isSelected() {
-        return ((AbstractButton) this.component).isSelected();
+        return ((AbstractButton) this.sourceComponent).isSelected();
     }
 
     public void setText(String text) {
-        ((AbstractButton) this.component).setText(text);
+        ((AbstractButton) this.sourceComponent).setText(text);
     }
 
     public String getText() {
-        return ((AbstractButton) this.component).getText();
+        return ((AbstractButton) this.sourceComponent).getText();
     }
 
     public void addActionListener(ActionListener actionListener) {
-        ((AbstractButton) this.component).addActionListener(actionListener);
+        ((AbstractButton) this.sourceComponent).addActionListener(actionListener);
     }
 
     public void removeActionListener(ActionListener actionListener) {
-        ((AbstractButton) this.component).removeActionListener(actionListener);
+        ((AbstractButton) this.sourceComponent).removeActionListener(actionListener);
     }
 
     private ActionListener[] getActionListeners() {
-        return ((AbstractButton) this.component).getActionListeners();
+        return ((AbstractButton) this.sourceComponent).getActionListeners();
     }
 
     private void removeActionListeners(ActionListener[] actionListeners) {

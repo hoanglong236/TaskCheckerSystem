@@ -18,7 +18,7 @@ public class ComboBox extends SimpleComponent implements InputComponent<String> 
             throw new IllegalArgumentException();
         }
         final String[] valueRangeArray = this.valueRange.toArray(new String[0]);
-        this.component = JComponentFactory.createJComboBox(valueRangeArray);
+        this.sourceComponent = JComponentFactory.createJComboBox(valueRangeArray);
         this.valueRange = valueRange;
         setValue(initValue);
     }
@@ -32,12 +32,12 @@ public class ComboBox extends SimpleComponent implements InputComponent<String> 
         if (!this.valueRange.contains(value)) {
             throw new IllegalArgumentException();
         }
-        ((JComboBox<?>) this.component).setSelectedItem(value);
+        ((JComboBox<?>) this.sourceComponent).setSelectedItem(value);
     }
 
     @Override
     public Optional<String> getValue() {
-        final Object selectedItem = ((JComboBox<?>) this.component).getSelectedItem();
+        final Object selectedItem = ((JComboBox<?>) this.sourceComponent).getSelectedItem();
         if (selectedItem == null) {
             return Optional.empty();
         }
@@ -47,6 +47,6 @@ public class ComboBox extends SimpleComponent implements InputComponent<String> 
     @Override
     public void clear() {
         final String firstValueInRange = this.valueRange.iterator().next();
-        ((JComboBox<?>) this.component).setSelectedItem(firstValueInRange);
+        ((JComboBox<?>) this.sourceComponent).setSelectedItem(firstValueInRange);
     }
 }

@@ -12,8 +12,8 @@ public class TextArea extends AllowTypingInputComponent {
 
     public TextArea(String initValue) {
         super();
-        this.component = JComponentFactory.createJTextArea();
-        this.component.setFont(TEXT_FIELD_FONT);
+        this.sourceComponent = JComponentFactory.createJTextArea();
+        this.sourceComponent.setFont(TEXT_FIELD_FONT);
         setValue(initValue);
     }
 }

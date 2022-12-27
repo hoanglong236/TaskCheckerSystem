@@ -12,7 +12,7 @@ public class PopupItem extends Button {
 
     public PopupItem(byte type, String itemText) {
         super();
-        this.component = getPopupItemComponentByType(type);
+        this.sourceComponent = getPopupItemComponentByType(type);
         setText(itemText);
     }
 

@@ -15,15 +15,15 @@ public class LabelArea extends SimpleComponent {
 
     public LabelArea(String text) {
         super();
-        this.component = JComponentFactory.createJTextArea();
-        this.component.setFont(TEXT_FIELD_FONT);
+        this.sourceComponent = JComponentFactory.createJTextArea();
+        this.sourceComponent.setFont(TEXT_FIELD_FONT);
         setOpaque(true);
         setBorder(BorderFactory.createEmptyBorder());
-        ((JTextArea) this.component).setEditable(false);
+        ((JTextArea) this.sourceComponent).setEditable(false);
         setText(text);
     }
 
     public void setText(String value) {
-        ((JTextArea) this.component).setText((String) value);
+        ((JTextArea) this.sourceComponent).setText((String) value);
     }
 }

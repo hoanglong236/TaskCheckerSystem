@@ -14,11 +14,11 @@ public class ButtonGrouper {
     }
 
     public void group(Button button) {
-        this.buttonGroup.add((AbstractButton) button.getComponent());
+        this.buttonGroup.add((AbstractButton) button.getSourceComponent());
     }
 
     public void ungroup(Button button) {
-        this.buttonGroup.remove((AbstractButton) button.getComponent());
+        this.buttonGroup.remove((AbstractButton) button.getSourceComponent());
     }
 
     public void clearSelection() {

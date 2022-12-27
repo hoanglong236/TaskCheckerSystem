@@ -13,7 +13,7 @@ import java.util.Iterator;
 public abstract class ViewComponentBase implements ViewComponent {
 
     protected WrapperComponent parent;
-    protected Container component = null;
+    protected Container sourceComponent = null;
     private boolean resizable = true;
 
     @Override
@@ -27,16 +27,16 @@ public abstract class ViewComponentBase implements ViewComponent {
     }
 
     @Override
-    public Component getComponent() {
-        return this.component;
+    public Component getSourceComponent() {
+        return this.sourceComponent;
     }
 
     public boolean isVisible() {
-        return this.component.isVisible();
+        return this.sourceComponent.isVisible();
     }
 
     public void setVisible(boolean visible) {
-        this.component.setVisible(visible);
+        this.sourceComponent.setVisible(visible);
     }
 
     public boolean isResizable() {
@@ -50,19 +50,19 @@ public abstract class ViewComponentBase implements ViewComponent {
     public abstract void resize(Dimension dimension);
 
     public Dimension getSize() {
-        return this.component.getPreferredSize();
+        return this.sourceComponent.getPreferredSize();
     }
 
     public void addComponentListener(ComponentListener componentListener) {
-        this.component.addComponentListener(componentListener);
+        this.sourceComponent.addComponentListener(componentListener);
     }
 
     public void removeComponentListener(ComponentListener componentListener) {
-        this.component.removeComponentListener(componentListener);
+        this.sourceComponent.removeComponentListener(componentListener);
     }
 
     private ComponentListener[] getComponentListeners() {
-        return this.component.getComponentListeners();
+        return this.sourceComponent.getComponentListeners();
     }
 
     private void removeComponentListeners(ComponentListener[] componentListeners) {
@@ -75,15 +75,15 @@ public abstract class ViewComponentBase implements ViewComponent {
     }
 
     public void addMouseListener(MouseListener mouseListener) {
-        this.component.addMouseListener(mouseListener);
+        this.sourceComponent.addMouseListener(mouseListener);
     }
 
     public void removeMouseListener(MouseListener mouseListener) {
-        this.component.removeMouseListener(mouseListener);
+        this.sourceComponent.removeMouseListener(mouseListener);
     }
 
     private MouseListener[] getMouseListeners() {
-        return this.component.getMouseListeners();
+        return this.sourceComponent.getMouseListeners();
     }
 
     private void removeMouseListeners(MouseListener[] mouseListeners) {
@@ -96,7 +96,7 @@ public abstract class ViewComponentBase implements ViewComponent {
     }
 
     public void setBackgroundColor(Color color) {
-        this.component.setBackground(color);
+        this.sourceComponent.setBackground(color);
     }
 
     public void dispose() {
@@ -106,6 +106,6 @@ public abstract class ViewComponentBase implements ViewComponent {
 
     @Override
     public boolean requestFocusInWindow() {
-        return this.component.requestFocusInWindow();
+        return this.sourceComponent.requestFocusInWindow();
     }
 }

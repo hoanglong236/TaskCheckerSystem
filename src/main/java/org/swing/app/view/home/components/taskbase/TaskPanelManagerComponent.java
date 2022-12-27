@@ -173,15 +173,15 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
     public void actionPerformed(ActionEvent e) {
         final Object eventSource = e.getSource();
 
-        if (eventSource == this.filterButton.getComponent()) {
+        if (eventSource == this.filterButton.getSourceComponent()) {
             onActionPerformedForFilterButton();
             return;
         }
-        if (eventSource == this.sortByCreateDatePopupItem.getComponent()) {
+        if (eventSource == this.sortByCreateDatePopupItem.getSourceComponent()) {
             onActionPerformedForSortByCreateDatePopupItem();
             return;
         }
-        if (eventSource == this.sortByModifyDatePopupItem.getComponent()) {
+        if (eventSource == this.sortByModifyDatePopupItem.getSourceComponent()) {
             onActionPerformedForSortByModifyDatePopupItem();
             return;
         }

@@ -5,7 +5,7 @@ import org.swing.app.view.components.factory.JComponentFactory;
 public class BasicButton extends Button {
 
     public BasicButton(String text) {
-        this.component = JComponentFactory.createJButton();
+        this.sourceComponent = JComponentFactory.createJButton();
         setText(text);
     }
 }

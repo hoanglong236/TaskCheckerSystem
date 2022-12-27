@@ -15,25 +15,25 @@ public abstract class AllowTypingInputComponent extends SimpleComponent implemen
             clear();
             return;
         }
-        ((JTextComponent) this.component).setText(value);
+        ((JTextComponent) this.sourceComponent).setText(value);
     }
 
     @Override
     public Optional<String> getValue() {
-        final String inputValue = ((JTextComponent) this.component).getText();
+        final String inputValue = ((JTextComponent) this.sourceComponent).getText();
         return Optional.ofNullable(inputValue);
     }
 
     @Override
     public void clear() {
-        ((JTextComponent) this.component).setText("");
+        ((JTextComponent) this.sourceComponent).setText("");
     }
 
     public void addKeyListener(KeyListener keyListener) {
-        this.component.addKeyListener(keyListener);
+        this.sourceComponent.addKeyListener(keyListener);
     }
 
     public void removeKeyListener(KeyListener keyListener) {
-        this.component.removeKeyListener(keyListener);
+        this.sourceComponent.removeKeyListener(keyListener);
     }
 }

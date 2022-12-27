@@ -21,7 +21,7 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
     }
 
     protected void setLayout(LayoutManager layoutManager) {
-        this.component.setLayout(layoutManager);
+        this.sourceComponent.setLayout(layoutManager);
     }
 
     @Override
@@ -35,7 +35,7 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
             throw new IndexOutOfBoundsException();
         }
 
-        this.component.add(childComponent.getComponent(), position);
+        this.sourceComponent.add(childComponent.getSourceComponent(), position);
         if (position == -1) {
             position = getChildComponentCount();
         }
@@ -46,7 +46,7 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
     @Override
     public void removeChildComponent(ViewComponent childComponent) {
         this.childComponents.remove(childComponent);
-        this.component.remove(childComponent.getComponent());
+        this.sourceComponent.remove(childComponent.getSourceComponent());
         childComponent.setParent(null);
     }
 
@@ -80,7 +80,7 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
 
     @Override
     public void resize(Dimension dimension) {
-        this.component.setPreferredSize(dimension);
+        this.sourceComponent.setPreferredSize(dimension);
         loadChildComponentsSize();
         resizeChildComponents();
         setNotResizableChildComponents();
@@ -109,7 +109,7 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
 
     @Override
     public void refreshUI() {
-        this.component.revalidate();
-        this.component.repaint();
+        this.sourceComponent.revalidate();
+        this.sourceComponent.repaint();
     }
 }

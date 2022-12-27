@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 public class Label extends SimpleComponent {
 
     public Label(String text) {
-        this.component = JComponentFactory.createJLabel();
+        this.sourceComponent = JComponentFactory.createJLabel();
         setText(text);
     }
 
@@ -19,10 +19,10 @@ public class Label extends SimpleComponent {
         final byte iconHeight = 15;
         final ImageIcon imageIcon = ViewUtil.getImageIcon(iconLocation, iconWidth, iconHeight);
 
-        ((JLabel) this.component).setIcon(imageIcon);
+        ((JLabel) this.sourceComponent).setIcon(imageIcon);
     }
 
     public void setText(String text) {
-        ((JLabel) this.component).setText(text);
+        ((JLabel) this.sourceComponent).setText(text);
     }
 }

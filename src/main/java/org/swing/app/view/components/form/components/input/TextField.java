@@ -12,8 +12,8 @@ public class TextField extends AllowTypingInputComponent {
 
     public TextField(String initValue) {
         super();
-        this.component = JComponentFactory.createJTextField();
-        this.component.setFont(TEXT_FIELD_FONT);
+        this.sourceComponent = JComponentFactory.createJTextField();
+        this.sourceComponent.setFont(TEXT_FIELD_FONT);
         setValue(initValue);
     }
 }

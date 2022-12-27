@@ -253,11 +253,11 @@ public abstract class TaskPanel extends HomeWrapperComponent
     public void actionPerformed(ActionEvent e) {
         final Object eventSource = e.getSource();
 
-        if (eventSource == this.editPopupItem.getComponent()) {
+        if (eventSource == this.editPopupItem.getSourceComponent()) {
             onActionPerformedForEditPopupItem();
             return;
         }
-        if (eventSource == this.deletePopupItem.getComponent()) {
+        if (eventSource == this.deletePopupItem.getSourceComponent()) {
             onActionPerformedForDeletePopupItem();
             return;
         }
