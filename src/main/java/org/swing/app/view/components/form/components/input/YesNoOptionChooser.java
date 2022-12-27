@@ -12,7 +12,6 @@ import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.util.Optional;
 
-// TODO: use this instead of combo box yes no
 public class YesNoOptionChooser extends PanelWrapperComponent implements InputComponent<Boolean> {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.LARGE_H_GAP;

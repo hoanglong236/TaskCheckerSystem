@@ -7,8 +7,6 @@ import org.swing.app.view.components.form.components.factory.InputComponentWrapp
 import org.swing.app.view.taskform.TaskForm;
 
 import java.awt.Dimension;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 // TODO: should we use template design pattern for this
 public class NodeTaskForm extends TaskForm {
@@ -16,7 +14,7 @@ public class NodeTaskForm extends TaskForm {
     private static final String IMPORTANT_LABEL_TEXT = "Important: ";
     private static final String NOTE_LABEL_TEXT = "Note: ";
 
-    private InputComponentWrapper<String> importantInputWrapper;
+    private InputComponentWrapper<Boolean> importantInputWrapper;
     private InputComponentWrapper<String> noteInputWrapper;
 
     public NodeTaskForm() {
@@ -27,24 +25,14 @@ public class NodeTaskForm extends TaskForm {
         super(taskDto);
     }
 
-    // TODO: handle this
     private void initImportantInputWrapper() {
-        final Set<String> importantValueRange = new LinkedHashSet<>();
-        importantValueRange.add("Yes");
-        importantValueRange.add("No");
-
         this.importantInputWrapper = InputComponentWrapperFactory
-                .createComboBoxWrapper(IMPORTANT_LABEL_TEXT, importantValueRange);
+                .createYesNoOptionChooserWrapper(IMPORTANT_LABEL_TEXT);
     }
 
     private void initImportantInputWrapper(boolean important) {
-        final Set<String> importantValueRange = new LinkedHashSet<>();
-        importantValueRange.add("Yes");
-        importantValueRange.add("No");
-        final String initValue = important ? "Yes" : "No";
-
         this.importantInputWrapper = InputComponentWrapperFactory
-                .createComboBoxWrapper(IMPORTANT_LABEL_TEXT, importantValueRange, initValue);
+                .createYesNoOptionChooserWrapper(IMPORTANT_LABEL_TEXT, important);
     }
 
     private void initNoteInputWrapper() {
@@ -94,8 +82,10 @@ public class NodeTaskForm extends TaskForm {
     @Override
     protected void loadChildComponentsSize() {
         final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
+        final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
+
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
-        final int smallInputWrapperHeight = 50;
+        final byte smallInputWrapperHeight = 50;
 
         this.childComponentSizeMap.put(this.titleInputWrapper,
                 new Dimension(maxChildComponentWidth, smallInputWrapperHeight));
@@ -105,8 +95,10 @@ public class NodeTaskForm extends TaskForm {
                 new Dimension(maxChildComponentWidth, smallInputWrapperHeight));
         this.childComponentSizeMap.put(this.finishDatetimeInputWrapper,
                 new Dimension(maxChildComponentWidth, smallInputWrapperHeight));
+
+        final int noteInputWrapperHeight = availableHeight - (VERTICAL_GAP + smallInputWrapperHeight) * 4;
         this.childComponentSizeMap.put(this.noteInputWrapper,
-                new Dimension(maxChildComponentWidth, smallInputWrapperHeight));
+                new Dimension(maxChildComponentWidth, noteInputWrapperHeight));
     }
 
     @Override
@@ -149,7 +141,7 @@ public class NodeTaskForm extends TaskForm {
             return;
         }
         this.titleInputWrapper.setValue(taskDto.getTitle());
-        this.importantInputWrapper.setValue(taskDto.isImportant() ? "Yes" : "No");
+        this.importantInputWrapper.setValue(taskDto.isImportant());
         this.startDatetimeInputWrapper.setValue(taskDto.getStartDatetime());
         this.finishDatetimeInputWrapper.setValue(taskDto.getFinishDatetime());
         this.noteInputWrapper.setValue(taskDto.getNote());
