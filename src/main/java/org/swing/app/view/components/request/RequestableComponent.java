@@ -1,4 +1,4 @@
 package org.swing.app.view.components.request;
 
-public interface AbleToRequestComponent {
+public interface RequestableComponent {
 }

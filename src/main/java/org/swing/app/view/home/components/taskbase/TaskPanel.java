@@ -237,11 +237,11 @@ public abstract class TaskPanel extends HomeWrapperComponent
     }
 
     private void onActionPerformedForEditPopupItem() {
-        boolean requestSuccess = this.homeFrameController.requestUpdateTaskPanel(
-                getTaskTypeToRequest(), this, getTaskId());
+        final boolean requestSuccess = this.homeFrameController
+                .requestUpdateTaskPanel(this, getTaskTypeToRequest(), getTaskId());
 
         if (!requestSuccess) {
-            requestFailureHandler();
+            this.requestResultProcessor.requestWaitingHandler();
         }
     }
 

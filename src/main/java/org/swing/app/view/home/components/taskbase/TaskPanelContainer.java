@@ -4,6 +4,7 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.factory.UIComponentFactory;
+import org.swing.app.view.components.request.LoadableTaskComponent;
 import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.home.comparetor.TaskPanelComparator;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class TaskPanelContainer extends HomeWrapperComponent
-        implements MouseListener {
+        implements LoadableTaskComponent, MouseListener {
 
     public static final byte SORT_BY_CREATE_DATE_ASC = 0;
 //    public static final byte SORT_BY_CREATE_DATE_DESC = 1;
@@ -46,7 +47,7 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
 
     private Comparator<TaskPanel> comparator;
 
-    private Map<Object, TaskPanel> sourceComponentTaskPanelMap = new HashMap<>();
+    private final Map<Object, TaskPanel> sourceComponentTaskPanelMap = new HashMap<>();
 
     public TaskPanelContainer(HomeFrameController homeFrameController) {
         super(homeFrameController);
@@ -118,24 +119,18 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
         }
     }
 
-    private int getPositionToAddingIncompleteTaskPanelInUI(TaskPanel taskPanel) {
-        return this.incompleteTaskPanels.indexOf(taskPanel);
-    }
-
-    private int getPositionToAddingCompletedTaskPanelInUI(TaskPanel taskPanel) {
-        final int startIndexOfCompletedTaskPanel = getChildComponentPosition(this.notifyLabel) + 1;
-        return startIndexOfCompletedTaskPanel + this.completedTaskPanels.indexOf(taskPanel);
-    }
-
     private int getTaskPanelPositionToAdding(TaskPanel taskPanel) {
         if (taskPanel.isCompleted()) {
             this.completedTaskPanels.add(taskPanel);
             this.completedTaskPanels.sort(this.comparator);
-            return getPositionToAddingCompletedTaskPanelInUI(taskPanel);
+
+            final int notifyLabelPosition = getChildComponentPosition(this.notifyLabel);
+            return notifyLabelPosition + this.completedTaskPanels.indexOf(taskPanel);
         } else {
             this.incompleteTaskPanels.add(taskPanel);
             this.incompleteTaskPanels.sort(this.comparator);
-            return getPositionToAddingIncompleteTaskPanelInUI(taskPanel);
+
+            return this.incompleteTaskPanels.indexOf(taskPanel);
         }
     }
 
@@ -177,14 +172,22 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
     private void reSortTaskPanels(TaskPanelComparator taskPanelComparator) {
         this.comparator = taskPanelComparator;
 
+        this.incompleteTaskPanels.sort(this.comparator);
         for (final TaskPanel taskPanel : this.incompleteTaskPanels) {
             removeChildComponent(taskPanel);
-            addChildComponent(taskPanel, getPositionToAddingIncompleteTaskPanelInUI(taskPanel));
+
+            final int incompleteTaskPanelPosition = this.incompleteTaskPanels.indexOf(taskPanel);
+            addChildComponent(taskPanel, incompleteTaskPanelPosition);
         }
 
+        final int notifyLabelPosition = getChildComponentPosition(this.notifyLabel);
+
+        this.completedTaskPanels.sort(this.comparator);
         for (final TaskPanel taskPanel : this.completedTaskPanels) {
             removeChildComponent(taskPanel);
-            addChildComponent(taskPanel, getPositionToAddingCompletedTaskPanelInUI(taskPanel));
+
+            final int completedTaskPanelPosition = notifyLabelPosition + this.completedTaskPanels.indexOf(taskPanel);
+            addChildComponent(taskPanel, completedTaskPanelPosition);
         }
 
         refreshUI();
@@ -223,11 +226,16 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
         deactivateTaskPanels(this.completedTaskPanels.iterator());
     }
 
+    @Override
+    public void handlerForResultOfLoadTaskAction() {
+    }
+
     private void onMousePressedForTaskPanel(TaskPanel taskPanel) {
-        final boolean requestSuccess = this.homeFrameController.requestLoadTaskContent(
+        final boolean requestSuccess = this.homeFrameController.requestLoadTaskContent(this,
                 taskPanel.getTaskTypeToRequest(), taskPanel.getTaskId());
+
         if (!requestSuccess) {
-            requestFailureHandler();
+            this.requestResultProcessor.requestWaitingHandler();
             return;
         }
 

@@ -106,11 +106,11 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
     }
 
     private void onActionPerformedForAddNewTaskBtn() {
-        final boolean requestSuccess = this.homeFrameController.requestAddNewTaskPanel(
-                ControllerBase.ROOT_TASK_TYPE, this);
+        final boolean requestSuccess = this.homeFrameController
+                .requestAddNewTaskPanel(this, ControllerBase.ROOT_TASK_TYPE);
 
         if (!requestSuccess) {
-            requestFailureHandler();
+            this.requestResultProcessor.requestWaitingHandler();
         }
     }
 

@@ -4,7 +4,8 @@ import org.swing.app.business.CommonBusiness;
 import org.swing.app.business.HomeFrameBusiness;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.request.AbleToRequestComponent;
+import org.swing.app.view.components.request.LoadableTaskComponent;
+import org.swing.app.view.components.request.RequestableComponent;
 import org.swing.app.view.components.request.DeletableTaskComponent;
 import org.swing.app.view.home.HomeFrame;
 import org.swing.app.view.components.request.InsertableTaskComponent;
@@ -16,7 +17,7 @@ import java.util.Set;
 public class HomeFrameController extends ControllerBase {
 
     private HomeFrame homeFrame;
-    private AbleToRequestComponent requestingComponent;
+    private RequestableComponent requestingComponent;
 
     private final TaskFormFrameController taskFormFrameController;
 
@@ -43,7 +44,9 @@ public class HomeFrameController extends ControllerBase {
         return this.requestingComponent != null;
     }
 
-    public boolean requestLoadTaskContent(byte taskType, String taskId) {
+    public boolean requestLoadTaskContent(LoadableTaskComponent loadableTaskComponent,
+            byte taskType, String taskId) {
+
         if (hasRequestingComponent()) {
             return false;
         }
@@ -51,6 +54,7 @@ public class HomeFrameController extends ControllerBase {
             throw new IllegalArgumentException();
         }
         if (taskType == ROOT_TASK_TYPE || taskType == NODE_TASK_TYPE) {
+            this.requestingComponent = loadableTaskComponent;
             handlerForLoadContentTaskAction(taskType, taskId);
             return true;
         }
@@ -69,9 +73,12 @@ public class HomeFrameController extends ControllerBase {
         } else if (taskType == NODE_TASK_TYPE) {
             this.homeFrame.loadNodeTaskContentPanel(taskPanelDto.getTitle(), childTaskPanelDtos);
         }
+
+        ((LoadableTaskComponent) this.requestingComponent).handlerForResultOfLoadTaskAction();
+        this.requestingComponent = null;
     }
 
-    public boolean requestAddNewTaskPanel(byte taskType, InsertableTaskComponent insertableTaskComponent) {
+    public boolean requestAddNewTaskPanel(InsertableTaskComponent insertableTaskComponent, byte taskType) {
         if (hasRequestingComponent()) {
             return false;
         }
@@ -86,14 +93,15 @@ public class HomeFrameController extends ControllerBase {
             final TaskPanelDto taskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
             ((InsertableTaskComponent) this.requestingComponent)
                     .handlerForResultOfInsertTaskAction(isSuccess, taskPanelDto);
+
+            this.requestingComponent = null;
             return;
         }
-        this.requestingComponent = null;
         throw new UnsupportedOperationException();
     }
 
-    public boolean requestUpdateTaskPanel(byte taskType,
-            UpdatableTaskComponent updatableTaskComponent, String taskId) {
+    public boolean requestUpdateTaskPanel(UpdatableTaskComponent updatableTaskComponent,
+            byte taskType, String taskId) {
 
         if (hasRequestingComponent()) {
             return false;
@@ -109,9 +117,10 @@ public class HomeFrameController extends ControllerBase {
             final TaskPanelDto taskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
             ((UpdatableTaskComponent) this.requestingComponent)
                     .handlerForResultOfUpdateTaskAction(isSuccess, taskPanelDto);
+
+            this.requestingComponent = null;
             return;
         }
-        this.requestingComponent = null;
         throw new UnsupportedOperationException();
     }
 
@@ -121,17 +130,25 @@ public class HomeFrameController extends ControllerBase {
         }
 
         this.requestingComponent = deletableTaskComponent;
-        final boolean isSuccess = this.homeFrameBusiness.deleteTaskById(taskId);
-        handlerForDeleteTaskAction(isSuccess);
+        handlerForDeleteTaskAction(taskId);
         return true;
     }
 
-    private void handlerForDeleteTaskAction(boolean isSuccess) {
+    private void handlerForDeleteTaskAction(String taskId) {
         if (this.requestingComponent instanceof DeletableTaskComponent) {
-            ((DeletableTaskComponent) this.requestingComponent).handlerForResultOfDeleteTaskAction(isSuccess);
+            final DeletableTaskComponent deletableTaskComponent = (DeletableTaskComponent) this.requestingComponent;
+            final boolean isConfirm = deletableTaskComponent.showDeleteTaskConfirmDialog();
+
+            if (isConfirm) {
+                final boolean isSuccess = this.homeFrameBusiness.deleteTaskById(taskId);
+                deletableTaskComponent.handlerForResultOfDeleteTaskAction(isSuccess);
+            } else {
+                deletableTaskComponent.handlerForCancelDeleteTaskAction();
+            }
+
+            this.requestingComponent = null;
             return;
         }
-        this.requestingComponent = null;
         throw new UnsupportedOperationException();
     }
 }
