@@ -45,8 +45,8 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
         this.titleLabel = UIComponentFactory.createLabel(title);
     }
 
-    private void initDeadlineLabel(LocalDateTime startDatetime, LocalDateTime finishDatetime) {
-        this.deadlineLabel = UIComponentFactory.createDeadlineLabel(startDatetime, finishDatetime);
+    private void initDeadlineLabel(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
+        this.deadlineLabel = UIComponentFactory.createDeadlineLabel(startDateTime, finishDateTime);
     }
 
     private void initCompletionRateLabel(int completedCount, int totalCount) {
@@ -61,8 +61,8 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
         initTitleLabel(taskPanelDto.getTitle());
         addChildComponent(this.titleLabel);
 
-        if (isNeedDeadlineLabel() && taskPanelDto.getFinishDatetime() != null) {
-            initDeadlineLabel(taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
+        if (isNeedDeadlineLabel() && taskPanelDto.getFinishDateTime() != null) {
+            initDeadlineLabel(taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
             addChildComponent(this.deadlineLabel);
         }
 
@@ -156,10 +156,10 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
         updateTitleLabel(taskPanelDto.getTitle());
 
         if (isNeedDeadlineLabel()) {
-            final boolean hasDataForDeadlineLabel = taskPanelDto.getFinishDatetime() == null;
+            final boolean hasDataForDeadlineLabel = taskPanelDto.getFinishDateTime() == null;
             handleDeadlineLabelByActionChildComponent(
                     getActionChildComponentWhenTryToUpdate(this.deadlineLabel, hasDataForDeadlineLabel),
-                    taskPanelDto.getStartDatetime(), taskPanelDto.getFinishDatetime());
+                    taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
         }
 
         if (isNeedCompletionRateLabel()) {

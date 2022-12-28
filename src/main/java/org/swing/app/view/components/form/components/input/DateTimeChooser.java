@@ -17,7 +17,7 @@ import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class DatetimeChooser extends PanelWrapperComponent implements InputComponent<LocalDateTime> {
+public class DateTimeChooser extends PanelWrapperComponent implements InputComponent<LocalDateTime> {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.MEDIUM_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
@@ -30,7 +30,7 @@ public class DatetimeChooser extends PanelWrapperComponent implements InputCompo
 
     private int dateChooserWidth = ViewConstant.DEFAULT_DATE_CHOOSER_WIDTH;
 
-    public DatetimeChooser(LocalDateTime initValue) {
+    public DateTimeChooser(LocalDateTime initValue) {
         super();
         setLayout(MAIN_LAYOUT);
         init();

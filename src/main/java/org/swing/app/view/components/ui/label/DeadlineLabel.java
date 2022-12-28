@@ -15,18 +15,18 @@ public class DeadlineLabel extends Label implements CountdownObserver {
     private long displayCountDown;
     private long hideCountDown;
 
-    public DeadlineLabel(LocalDateTime startDatetime, LocalDateTime finishDatetime) {
+    public DeadlineLabel(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
         super("");
         setIcon(ViewConstant.ICON_LOCATION_DEADLINE);
-        setValueForCountDowns(startDatetime, finishDatetime);
+        setValueForCountDowns(startDateTime, finishDateTime);
 
         this.countdownObservable = Countdown.getInstance();
         this.countdownObservable.registerObserver(this);
     }
 
-    private void setValueForCountDowns(LocalDateTime startDatetime, LocalDateTime finishDatetime) {
-        final long originalCountDown = DeadlineLabel.getSecondBetween(startDatetime, finishDatetime);
-        final long currentCountDown = DeadlineLabel.getSecondBetween(LocalDateTime.now(), finishDatetime);
+    private void setValueForCountDowns(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
+        final long originalCountDown = DeadlineLabel.getSecondBetween(startDateTime, finishDateTime);
+        final long currentCountDown = DeadlineLabel.getSecondBetween(LocalDateTime.now(), finishDateTime);
 
         this.displayCountDown = currentCountDown;
         this.hideCountDown = 0;
@@ -60,12 +60,12 @@ public class DeadlineLabel extends Label implements CountdownObserver {
         return deadlineText.toString();
     }
 
-    private static long getSecondBetween(LocalDateTime startDatetime, LocalDateTime finishDatetime) {
-        return ChronoUnit.SECONDS.between(startDatetime, finishDatetime);
+    private static long getSecondBetween(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
+        return ChronoUnit.SECONDS.between(startDateTime, finishDateTime);
     }
 
-    public void update(LocalDateTime startDatetime, LocalDateTime finishDatetime) {
-        setValueForCountDowns(startDatetime, finishDatetime);
+    public void update(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
+        setValueForCountDowns(startDateTime, finishDateTime);
         if (!((Countdown) this.countdownObservable).isObserverRegistered(this)) {
             this.countdownObservable.registerObserver(this);
         }

@@ -36,8 +36,8 @@ public class TaskFormFrameDaoImpl implements TaskFormFrameDao {
 
             preStmt.setString(1, taskDto.getTitle());
             preStmt.setBoolean(2, taskDto.isImportant());
-            preStmt.setTimestamp(3, Timestamp.valueOf(taskDto.getStartDatetime()));
-            preStmt.setTimestamp(4, Timestamp.valueOf(taskDto.getFinishDatetime()));
+            preStmt.setTimestamp(3, Timestamp.valueOf(taskDto.getStartDateTime()));
+            preStmt.setTimestamp(4, Timestamp.valueOf(taskDto.getFinishDateTime()));
             preStmt.setString(5, taskDto.getNote());
             preStmt.setString(6, taskDto.getId());
 
@@ -93,8 +93,8 @@ public class TaskFormFrameDaoImpl implements TaskFormFrameDao {
         taskDto.setId(resultSet.getString("id"));
         taskDto.setTitle(resultSet.getString("title"));
         taskDto.setImportant(resultSet.getBoolean("important"));
-        taskDto.setStartDatetime(resultSet.getTimestamp("start_datetime").toLocalDateTime());
-        taskDto.setFinishDatetime(resultSet.getTimestamp("finish_datetime").toLocalDateTime());
+        taskDto.setStartDateTime(resultSet.getTimestamp("start_datetime").toLocalDateTime());
+        taskDto.setFinishDateTime(resultSet.getTimestamp("finish_datetime").toLocalDateTime());
         taskDto.setNote(resultSet.getString("note"));
 
         return taskDto;

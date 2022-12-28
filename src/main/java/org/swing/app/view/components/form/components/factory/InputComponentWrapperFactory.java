@@ -3,7 +3,7 @@ package org.swing.app.view.components.form.components.factory;
 import org.swing.app.view.components.form.components.InputComponentWrapper;
 import org.swing.app.view.components.form.components.wrapper.ComboBoxWrapper;
 import org.swing.app.view.components.form.components.wrapper.DateChooserWrapper;
-import org.swing.app.view.components.form.components.wrapper.DatetimeChooserWrapper;
+import org.swing.app.view.components.form.components.wrapper.DateTimeChooserWrapper;
 import org.swing.app.view.components.form.components.wrapper.TextAreaWrapper;
 import org.swing.app.view.components.form.components.wrapper.TextFieldWrapper;
 import org.swing.app.view.components.form.components.wrapper.YesNoOptionChooserWrapper;
@@ -48,14 +48,14 @@ public class InputComponentWrapperFactory {
         return createDateChooserWrapper(labelText, null);
     }
 
-    public static InputComponentWrapper<LocalDateTime> createDatetimeChooserWrapper(
+    public static InputComponentWrapper<LocalDateTime> createDateTimeChooserWrapper(
             String labelText, LocalDateTime initValue) {
 
-        return new DatetimeChooserWrapper(labelText, initValue);
+        return new DateTimeChooserWrapper(labelText, initValue);
     }
 
-    public static InputComponentWrapper<LocalDateTime> createDatetimeChooserWrapper(String labelText) {
-        return createDatetimeChooserWrapper(labelText, null);
+    public static InputComponentWrapper<LocalDateTime> createDateTimeChooserWrapper(String labelText) {
+        return createDateTimeChooserWrapper(labelText, null);
     }
 
     public static InputComponentWrapper<Boolean> createYesNoOptionChooserWrapper(String labelText, boolean initValue) {

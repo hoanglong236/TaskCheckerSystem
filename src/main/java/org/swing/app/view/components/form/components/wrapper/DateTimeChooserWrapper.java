@@ -5,9 +5,9 @@ import org.swing.app.view.components.form.components.factory.InputComponentFacto
 
 import java.time.LocalDateTime;
 
-public class DatetimeChooserWrapper extends InputComponentWrapper<LocalDateTime> {
+public class DateTimeChooserWrapper extends InputComponentWrapper<LocalDateTime> {
 
-    public DatetimeChooserWrapper(String labelText, LocalDateTime initValue) {
+    public DateTimeChooserWrapper(String labelText, LocalDateTime initValue) {
         super();
         init(labelText, initValue);
     }

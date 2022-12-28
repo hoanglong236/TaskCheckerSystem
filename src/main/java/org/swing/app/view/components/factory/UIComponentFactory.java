@@ -50,11 +50,11 @@ public class UIComponentFactory {
         return new CompletionRateLabel(completedCount, totalCount);
     }
 
-    public static DeadlineLabel createDeadlineLabel(LocalDateTime startDatetime, LocalDateTime finishDatetime) {
-        if (startDatetime == null || finishDatetime == null) {
+    public static DeadlineLabel createDeadlineLabel(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
+        if (startDateTime == null || finishDateTime == null) {
             throw new IllegalArgumentException();
         }
-        return new DeadlineLabel(startDatetime, finishDatetime);
+        return new DeadlineLabel(startDateTime, finishDateTime);
     }
 
     public static LabelArea createLabelArea(String text) {

@@ -8,9 +8,9 @@ public class TaskDto {
     private String parentId;
     private String title;
     private boolean important;
-    private LocalDateTime startDatetime;
-    private LocalDateTime finishDatetime;
-    private LocalDateTime submitDatetime;
+    private LocalDateTime startDateTime;
+    private LocalDateTime finishDateTime;
+    private LocalDateTime submitDateTime;
     private boolean completed;
     private String note;
 
@@ -19,9 +19,9 @@ public class TaskDto {
         this.parentId = null;
         this.title = null;
         this.important = false;
-        this.startDatetime = null;
-        this.finishDatetime = null;
-        this.submitDatetime = null;
+        this.startDateTime = null;
+        this.finishDateTime = null;
+        this.submitDateTime = null;
         this.completed = false;
         this.note = null;
     }
@@ -58,28 +58,28 @@ public class TaskDto {
         this.important = important;
     }
 
-    public LocalDateTime getStartDatetime() {
-        return startDatetime;
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
     }
 
-    public void setStartDatetime(LocalDateTime startDatetime) {
-        this.startDatetime = startDatetime;
+    public void setStartDateTime(LocalDateTime startDateTime) {
+        this.startDateTime = startDateTime;
     }
 
-    public LocalDateTime getFinishDatetime() {
-        return finishDatetime;
+    public LocalDateTime getFinishDateTime() {
+        return finishDateTime;
     }
 
-    public void setFinishDatetime(LocalDateTime finishDatetime) {
-        this.finishDatetime = finishDatetime;
+    public void setFinishDateTime(LocalDateTime finishDateTime) {
+        this.finishDateTime = finishDateTime;
     }
 
-    public LocalDateTime getSubmitDatetime() {
-        return submitDatetime;
+    public LocalDateTime getSubmitDateTime() {
+        return submitDateTime;
     }
 
-    public void setSubmitDatetime(LocalDateTime submitDatetime) {
-        this.submitDatetime = submitDatetime;
+    public void setSubmitDateTime(LocalDateTime submitDateTime) {
+        this.submitDateTime = submitDateTime;
     }
 
     public boolean isCompleted() {

@@ -32,8 +32,8 @@ public class CommonDaoImpl implements CommonDao {
             preStmt.setString(2, taskDto.getParentId());
             preStmt.setString(3, taskDto.getTitle());
             preStmt.setBoolean(4, taskDto.isImportant());
-            preStmt.setTimestamp(5, Timestamp.valueOf(taskDto.getStartDatetime()));
-            preStmt.setTimestamp(6, Timestamp.valueOf(taskDto.getFinishDatetime()));
+            preStmt.setTimestamp(5, Timestamp.valueOf(taskDto.getStartDateTime()));
+            preStmt.setTimestamp(6, Timestamp.valueOf(taskDto.getFinishDateTime()));
             preStmt.setString(7, taskDto.getNote());
 
             preStmt.executeUpdate();

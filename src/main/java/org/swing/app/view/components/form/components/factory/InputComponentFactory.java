@@ -2,7 +2,7 @@ package org.swing.app.view.components.form.components.factory;
 
 import org.swing.app.view.components.form.components.input.ComboBox;
 import org.swing.app.view.components.form.components.input.DateChooser;
-import org.swing.app.view.components.form.components.input.DatetimeChooser;
+import org.swing.app.view.components.form.components.input.DateTimeChooser;
 import org.swing.app.view.components.form.components.InputComponent;
 import org.swing.app.view.components.form.components.input.TextArea;
 import org.swing.app.view.components.form.components.input.TextField;
@@ -47,7 +47,7 @@ public class InputComponentFactory {
     }
 
     public static InputComponent<LocalDateTime> createDateTimeChooser(LocalDateTime dateTime) {
-        return new DatetimeChooser(dateTime);
+        return new DateTimeChooser(dateTime);
     }
 
     public static InputComponent<LocalDateTime> createDateTimeChooser() {

@@ -10,9 +10,9 @@ public class TaskPanelDto {
     private String parentId;
     private String title;
     private boolean important;
-    private LocalDateTime startDatetime;
-    private LocalDateTime finishDatetime;
-    private LocalDateTime submitDatetime;
+    private LocalDateTime startDateTime;
+    private LocalDateTime finishDateTime;
+    private LocalDateTime submitDateTime;
     private boolean completed;
     private String note;
     private int childTaskCompletedCount;
@@ -26,9 +26,9 @@ public class TaskPanelDto {
         this.parentId = null;
         this.title = null;
         this.important = false;
-        this.startDatetime = null;
-        this.finishDatetime = null;
-        this.submitDatetime = null;
+        this.startDateTime = null;
+        this.finishDateTime = null;
+        this.submitDateTime = null;
         this.completed = false;
         this.note = null;
         this.childTaskCompletedCount = 0;
@@ -40,9 +40,9 @@ public class TaskPanelDto {
         this.parentId = taskDto.getParentId();
         this.title = taskDto.getTitle();
         this.important = taskDto.isImportant();
-        this.startDatetime = taskDto.getStartDatetime();
-        this.finishDatetime = taskDto.getFinishDatetime();
-        this.submitDatetime = taskDto.getSubmitDatetime();
+        this.startDateTime = taskDto.getStartDateTime();
+        this.finishDateTime = taskDto.getFinishDateTime();
+        this.submitDateTime = taskDto.getSubmitDateTime();
         this.completed = taskDto.isCompleted();
         this.note = taskDto.getNote();
         this.childTaskCompletedCount = 0;
@@ -81,28 +81,28 @@ public class TaskPanelDto {
         this.important = important;
     }
 
-    public LocalDateTime getStartDatetime() {
-        return startDatetime;
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
     }
 
-    public void setStartDatetime(LocalDateTime startDatetime) {
-        this.startDatetime = startDatetime;
+    public void setStartDateTime(LocalDateTime startDateTime) {
+        this.startDateTime = startDateTime;
     }
 
-    public LocalDateTime getFinishDatetime() {
-        return finishDatetime;
+    public LocalDateTime getFinishDateTime() {
+        return finishDateTime;
     }
 
-    public void setFinishDatetime(LocalDateTime finishDatetime) {
-        this.finishDatetime = finishDatetime;
+    public void setFinishDateTime(LocalDateTime finishDateTime) {
+        this.finishDateTime = finishDateTime;
     }
 
-    public LocalDateTime getSubmitDatetime() {
-        return submitDatetime;
+    public LocalDateTime getSubmitDateTime() {
+        return submitDateTime;
     }
 
-    public void setSubmitDatetime(LocalDateTime submitDatetime) {
-        this.submitDatetime = submitDatetime;
+    public void setSubmitDateTime(LocalDateTime submitDateTime) {
+        this.submitDateTime = submitDateTime;
     }
 
     public boolean isCompleted() {
