@@ -11,9 +11,6 @@ public class ViewConstant {
     public static final byte MODAL_RESERVE_WIDTH = 20;
     public static final byte MODAL_RESERVE_HEIGHT = 50;
 
-    public static final byte FORM_FRAME_RESERVE_WIDTH = 50;
-    public static final byte FORM_FRAME_RESERVE_HEIGHT = 80;
-
     public static final byte FORM_WRAPPER_RESERVE_WIDTH = 50;
     public static final byte FORM_WRAPPER_RESERVE_HEIGHT = 80;
 
@@ -34,8 +31,6 @@ public class ViewConstant {
     public static final byte LARGE_V_GAP = 12;
     public static final byte VERY_LARGE_H_GAP = 15;
     public static final byte VERY_LARGE_V_GAP = 15;
-    public static final byte FORM_FRAME_H_GAP = 30;
-    public static final byte FORM_FRAME_V_GAP = 30;
     public static final byte FORM_WRAPPER_H_GAP = 30;
     public static final byte FORM_WRAPPER_V_GAP = 30;
 
@@ -59,9 +54,9 @@ public class ViewConstant {
     public static final byte PRIMARY_FONT_SIZE = 15;
 
     public static final Dimension HOME_FRAME_PREFER_SIZE = new Dimension(1140, 650);
-    public static final Dimension ROOT_TASK_FORM_FRAME_PREFER_SIZE = new Dimension(600, 320);
-    public static final Dimension NODE_TASK_FORM_FRAME_PREFER_SIZE = new Dimension(600, 400);
-    public static final Dimension LEAF_TASK_FORM_FRAME_PREFER_SIZE = new Dimension(600, 200);
+    public static final Dimension ROOT_TASK_FORM_MODAL_PREFER_SIZE = new Dimension(600, 320);
+    public static final Dimension NODE_TASK_FORM_MODAL_PREFER_SIZE = new Dimension(600, 400);
+    public static final Dimension LEAF_TASK_FORM_MODAL_PREFER_SIZE = new Dimension(600, 200);
     public static final int SIDEBAR_WIDTH = 330;
     public static final Color ACTIVATION_COLOR = new Color(230, 230, 230);
     public static final byte ROOT_TASK_PANEL_HEIGHT = 60;
