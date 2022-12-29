@@ -1,7 +1,7 @@
 package org.swing.app.view.components.request;
 
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.components.OptionPane;
+import org.swing.app.view.components.modal.OptionPane;
 
 public class RequestResultProcessor {
 

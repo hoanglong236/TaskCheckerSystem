@@ -1,11 +1,14 @@
 package org.swing.app;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JTextArea;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
@@ -28,6 +31,15 @@ public class MainApplication {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
+
+//        JOptionPane.showMessageDialog(null, "abc");
+        JDialog dialog = new JDialog(frame, true);
+        final JLabel label = new JLabel();
+        label.setText("test dialog");
+        dialog.add(label);
+        dialog.setVisible(true);
+
+        System.out.println("Test dialog modal");
     }
 
     private static void createUI(final JFrame frame){
@@ -48,11 +60,18 @@ public class MainApplication {
             @Override
             public void actionPerformed(ActionEvent e) {
                 menu.show(button, 0, button.getBounds().height);
+
             }
         });
 
         panel.add(button);
-        panel.add(label);
+
+        JTextArea textArea = new JTextArea();
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setText("abc1234567890abc1234567890abc1234567890\nacb");
+        panel.add(textArea);
+
         frame.getContentPane().add(panel, BorderLayout.CENTER);
         System.out.println(button.getBounds().width);
     }

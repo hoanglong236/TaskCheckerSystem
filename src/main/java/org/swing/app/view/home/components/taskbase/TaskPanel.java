@@ -4,7 +4,7 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.OptionPane;
+import org.swing.app.view.components.modal.OptionPane;
 import org.swing.app.view.components.ui.label.ActivationLabel;
 import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.components.ui.Popup;
@@ -226,23 +226,14 @@ public abstract class TaskPanel extends HomeWrapperComponent
         this.activationLabel.deactivate();
     }
 
-    private void disposePopup() {
-        this.popup.dispose();
-    }
-
     @Override
-    public void dispose() {
-        super.dispose();
-        disposePopup();
+    public void cancelAllEventListeners() {
+        super.cancelAllEventListeners();
+        this.popup.cancelAllEventListeners();
     }
 
     private void onActionPerformedForEditPopupItem() {
-        final boolean requestSuccess = this.homeFrameController
-                .requestUpdateTaskPanel(this, getTaskTypeToRequest(), getTaskId());
-
-        if (!requestSuccess) {
-            this.requestResultProcessor.requestWaitingHandler();
-        }
+        this.homeFrameController.requestUpdateTaskPanel(this, getTaskTypeToRequest(), getTaskId());
     }
 
     private void onActionPerformedForDeletePopupItem() {

@@ -1,5 +1,6 @@
-package org.swing.app.dao;
+package org.swing.app.dao.impl;
 
+import org.swing.app.dao.HomeFrameDao;
 import org.swing.app.dao.connection.MySQLConnection;
 import org.swing.app.dto.TaskPanelDto;
 

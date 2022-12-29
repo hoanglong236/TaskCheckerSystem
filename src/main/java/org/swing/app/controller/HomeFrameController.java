@@ -19,13 +19,13 @@ public class HomeFrameController extends ControllerBase {
     private HomeFrame homeFrame;
     private RequestableComponent requestingComponent;
 
-    private final TaskFormFrameController taskFormFrameController;
+    private final TaskFormModalController taskFormModalController;
 
     private final HomeFrameBusiness homeFrameBusiness;
     private final CommonBusiness commonBusiness;
 
     public HomeFrameController() {
-        this.taskFormFrameController = new TaskFormFrameController(this);
+        this.taskFormModalController = new TaskFormModalController(this);
         this.homeFrameBusiness = new HomeFrameBusiness();
         this.commonBusiness = new CommonBusiness();
     }
@@ -44,48 +44,42 @@ public class HomeFrameController extends ControllerBase {
         return this.requestingComponent != null;
     }
 
-    public boolean requestLoadTaskContent(LoadableTaskComponent loadableTaskComponent,
+    public void requestLoadTaskContent(LoadableTaskComponent loadableTaskComponent,
             byte taskType, String taskId) {
 
-        if (hasRequestingComponent()) {
-            return false;
-        }
         if (taskId == null) {
             throw new IllegalArgumentException();
         }
         if (taskType == ROOT_TASK_TYPE || taskType == NODE_TASK_TYPE) {
             this.requestingComponent = loadableTaskComponent;
             handlerForLoadContentTaskAction(taskType, taskId);
-            return true;
         }
         if (taskType == LEAF_TASK_TYPE) {
-            return true;
+            return;
         }
         throw new IllegalArgumentException();
     }
 
     private void handlerForLoadContentTaskAction(byte taskType, String taskId) {
-        final TaskPanelDto taskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
-        final Set<TaskPanelDto> childTaskPanelDtos = this.homeFrameBusiness.getTaskPanelDtosByParentId(taskId);
+        if (this.requestingComponent instanceof LoadableTaskComponent) {
+            final TaskPanelDto taskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
+            final Set<TaskPanelDto> childTaskPanelDtos = this.homeFrameBusiness.getTaskPanelDtosByParentId(taskId);
 
-        if (taskType == ROOT_TASK_TYPE) {
-            this.homeFrame.loadRootTaskContentPanel(taskPanelDto.getTitle(), childTaskPanelDtos);
-        } else if (taskType == NODE_TASK_TYPE) {
-            this.homeFrame.loadNodeTaskContentPanel(taskPanelDto.getTitle(), childTaskPanelDtos);
+            if (taskType == ROOT_TASK_TYPE) {
+                this.homeFrame.loadRootTaskContentPanel(taskPanelDto.getTitle(), childTaskPanelDtos);
+            } else if (taskType == NODE_TASK_TYPE) {
+                this.homeFrame.loadNodeTaskContentPanel(taskPanelDto.getTitle(), childTaskPanelDtos);
+            }
+
+            ((LoadableTaskComponent) this.requestingComponent).handlerForResultOfLoadTaskAction();
+            this.requestingComponent = null;
         }
-
-        ((LoadableTaskComponent) this.requestingComponent).handlerForResultOfLoadTaskAction();
-        this.requestingComponent = null;
+        throw new UnsupportedOperationException();
     }
 
-    public boolean requestAddNewTaskPanel(InsertableTaskComponent insertableTaskComponent, byte taskType) {
-        if (hasRequestingComponent()) {
-            return false;
-        }
-
+    public void requestAddNewTaskPanel(InsertableTaskComponent insertableTaskComponent, byte taskType) {
         this.requestingComponent = insertableTaskComponent;
-        this.taskFormFrameController.startAddingTaskFormFrame(taskType);
-        return true;
+        this.taskFormModalController.startAddingTaskFormModal(this.homeFrame, taskType);
     }
 
     public void handlerForAddNewTaskAction(boolean isSuccess, String taskId) {
@@ -100,16 +94,11 @@ public class HomeFrameController extends ControllerBase {
         throw new UnsupportedOperationException();
     }
 
-    public boolean requestUpdateTaskPanel(UpdatableTaskComponent updatableTaskComponent,
+    public void requestUpdateTaskPanel(UpdatableTaskComponent updatableTaskComponent,
             byte taskType, String taskId) {
 
-        if (hasRequestingComponent()) {
-            return false;
-        }
-
         this.requestingComponent = updatableTaskComponent;
-        this.taskFormFrameController.startUpdatingRootTaskFormFrame(taskType, taskId);
-        return true;
+        this.taskFormModalController.startUpdatingRootTaskFormModal(this.homeFrame, taskType, taskId);
     }
 
     public void handlerForUpdateTaskAction(boolean isSuccess, String taskId) {
@@ -124,14 +113,9 @@ public class HomeFrameController extends ControllerBase {
         throw new UnsupportedOperationException();
     }
 
-    public boolean requestDeleteTaskPanel(DeletableTaskComponent deletableTaskComponent, String taskId) {
-        if (hasRequestingComponent()) {
-            return false;
-        }
-
+    public void requestDeleteTaskPanel(DeletableTaskComponent deletableTaskComponent, String taskId) {
         this.requestingComponent = deletableTaskComponent;
         handlerForDeleteTaskAction(taskId);
-        return true;
     }
 
     private void handlerForDeleteTaskAction(String taskId) {

@@ -1,14 +1,15 @@
 package org.swing.app.view.taskform;
 
-import org.swing.app.controller.TaskFormFrameController;
+import org.swing.app.controller.TaskFormModalController;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.FrameWrapperComponent;
-import org.swing.app.view.components.OptionPane;
-import org.swing.app.view.components.ui.button.BasicButton;
 import org.swing.app.view.components.factory.UIComponentFactory;
+import org.swing.app.view.components.modal.ModalWrapperComponent;
+import org.swing.app.view.components.modal.OptionPane;
 import org.swing.app.view.components.ui.LabelArea;
+import org.swing.app.view.components.ui.button.BasicButton;
 import org.swing.app.view.taskform.factory.TaskFormFactory;
 
 import java.awt.Dimension;
@@ -17,10 +18,10 @@ import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TaskFormFrame extends FrameWrapperComponent implements ActionListener {
+public class TaskFormModal extends ModalWrapperComponent implements ActionListener {
 
-    private static final byte HORIZONTAL_GAP = ViewConstant.FORM_FRAME_H_GAP;
-    private static final byte VERTICAL_GAP = ViewConstant.FORM_FRAME_V_GAP;
+    private static final byte HORIZONTAL_GAP = ViewConstant.FORM_WRAPPER_H_GAP;
+    private static final byte VERTICAL_GAP = ViewConstant.FORM_WRAPPER_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private TaskForm taskForm;
@@ -31,28 +32,30 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
 
     private final TaskFormFactory taskFormFactory;
 
-    private final TaskFormFrameController taskFormFrameController;
+    private final TaskFormModalController taskFormModalController;
 
     private final boolean isAddingTask;
 
     private TaskDto taskDto = null;
 
-    public TaskFormFrame(TaskFormFrameController taskFormFrameController, TaskFormFactory taskFormFactory) {
-        super();
-        this.taskFormFrameController = taskFormFrameController;
+    public TaskFormModal(FrameWrapperComponent parentFrame, TaskFormModalController taskFormModalController,
+            TaskFormFactory taskFormFactory) {
+
+        super(parentFrame);
+        this.taskFormModalController = taskFormModalController;
         this.taskFormFactory = taskFormFactory;
         this.isAddingTask = true;
         setLayout(MAIN_LAYOUT);
         init();
     }
 
-    public TaskFormFrame(TaskFormFrameController taskFormFrameController,
+    public TaskFormModal(FrameWrapperComponent parentFrame, TaskFormModalController taskFormModalController,
             TaskFormFactory taskFormFactory, TaskDto taskDto) {
 
-        super();
-        this.taskFormFrameController = taskFormFrameController;
+        super(parentFrame);
+        this.taskFormModalController = taskFormModalController;
         this.taskFormFactory = taskFormFactory;
-        this.isAddingTask = false;
+        this.isAddingTask = true;
         setLayout(MAIN_LAYOUT);
         init(taskDto);
     }
@@ -124,6 +127,7 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
     }
 
     public void setFormData(TaskDto taskDto) {
+        this.taskDto = taskDto;
         this.taskForm.setFormData(taskDto);
     }
 
@@ -144,9 +148,9 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
         }
 
         if (this.isAddingTask) {
-            this.taskFormFrameController.addNewTaskByDto(getFormData());
+            this.taskFormModalController.addNewTaskByDto(getFormData());
         } else {
-            this.taskFormFrameController.updateTaskByDto(getFormData());
+            this.taskFormModalController.updateTaskByDto(getFormData());
         }
     }
 
@@ -163,8 +167,8 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
 
     @Override
     protected void loadChildComponentsSize() {
-        final int availableWidth = getSize().width - ViewConstant.FORM_FRAME_RESERVE_WIDTH;
-        final int availableHeight = getSize().height - ViewConstant.FORM_FRAME_RESERVE_HEIGHT;
+        final int availableWidth = getSize().width - ViewConstant.FORM_WRAPPER_RESERVE_WIDTH;
+        final int availableHeight = getSize().height - ViewConstant.FORM_WRAPPER_RESERVE_HEIGHT;
 
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
@@ -182,26 +186,38 @@ public class TaskFormFrame extends FrameWrapperComponent implements ActionListen
     protected void setNotResizableChildComponents() {
     }
 
+    private void onActionPerformedForSubmitButton() {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        final int result = OptionPane.showConfirmDialog(messageLoader.getMessage("confirm.dialog.question"),
+                messageLoader.getMessage("confirm.dialog.add.task.title"));
+
+        if (result == OptionPane.YES_DIALOG_OPTION) {
+            submit();
+        }
+    }
+
+    private void onActionPerformedForResetButton() {
+        reset();
+    }
+
+    private void onActionPerformedForClearButton() {
+        clear();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         final Object eventSource = e.getSource();
 
         if (eventSource == this.submitButton.getSourceComponent()) {
-            final MessageLoader messageLoader = MessageLoader.getInstance();
-            final int result = OptionPane.showConfirmDialog(messageLoader.getMessage("confirm.dialog.question"),
-                    messageLoader.getMessage("confirm.dialog.add.task.title"));
-
-            if (result == OptionPane.YES_DIALOG_OPTION) {
-                submit();
-            }
+            onActionPerformedForSubmitButton();
             return;
         }
         if (eventSource == this.resetButton.getSourceComponent()) {
-            reset();
+            onActionPerformedForResetButton();
             return;
         }
         if (eventSource == this.clearButton.getSourceComponent()) {
-            clear();
+            onActionPerformedForClearButton();
             return;
         }
         throw new IllegalArgumentException();

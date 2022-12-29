@@ -1,7 +1,7 @@
 package org.swing.app.business;
 
 import org.swing.app.dao.HomeFrameDao;
-import org.swing.app.dao.HomeFrameDaoImpl;
+import org.swing.app.dao.impl.HomeFrameDaoImpl;
 import org.swing.app.dto.TaskPanelDto;
 
 import java.util.Set;

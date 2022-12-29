@@ -1,8 +1,9 @@
-package org.swing.app.dao;
+package org.swing.app.dao.impl;
 
+import org.swing.app.dao.TaskFormModalDao;
 import org.swing.app.dao.connection.MySQLConnection;
-import org.swing.app.util.RandomString;
 import org.swing.app.dto.TaskDto;
+import org.swing.app.util.RandomString;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,8 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-public class TaskFormFrameDaoImpl implements TaskFormFrameDao {
-
+public class TaskFormModalImpl implements TaskFormModalDao {
     private static final Connection CONNECTION = MySQLConnection.getConnection();
 
     private String getUpdateTaskByDtoQuery() {

@@ -2,7 +2,7 @@ package org.swing.app.dao;
 
 import org.swing.app.dto.TaskDto;
 
-public interface TaskFormFrameDao {
+public interface TaskFormModalDao {
 
     boolean updateTaskByDto(TaskDto taskDto);
     String generateTaskId();

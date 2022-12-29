@@ -5,7 +5,7 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.OptionPane;
+import org.swing.app.view.components.modal.OptionPane;
 import org.swing.app.view.components.ui.button.BasicButton;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
@@ -106,12 +106,7 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
     }
 
     private void onActionPerformedForAddNewTaskBtn() {
-        final boolean requestSuccess = this.homeFrameController
-                .requestAddNewTaskPanel(this, ControllerBase.ROOT_TASK_TYPE);
-
-        if (!requestSuccess) {
-            this.requestResultProcessor.requestWaitingHandler();
-        }
+        this.homeFrameController.requestAddNewTaskPanel(this, ControllerBase.ROOT_TASK_TYPE);
     }
 
     @Override

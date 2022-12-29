@@ -4,7 +4,7 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.OptionPane;
+import org.swing.app.view.components.modal.OptionPane;
 import org.swing.app.view.components.request.DeletableTaskComponent;
 import org.swing.app.view.components.request.InsertableTaskComponent;
 import org.swing.app.view.components.ui.button.BasicButton;
@@ -136,16 +136,17 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
         final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
 
-        final int commonComponentHeight = 40;
+        final int commonChildComponentHeight = 40;
 
         final int filterBtnWidth = 40;
-        this.childComponentSizeMap.put(this.filterButton, new Dimension(filterBtnWidth, commonComponentHeight));
+        this.childComponentSizeMap.put(this.filterButton, new Dimension(filterBtnWidth, commonChildComponentHeight));
 
         final int titleLabelWidth = availableWidth - HORIZONTAL_GAP - filterBtnWidth - HORIZONTAL_GAP;
-        this.childComponentSizeMap.put(this.titleLabel, new Dimension(titleLabelWidth, commonComponentHeight));
+        this.childComponentSizeMap.put(this.titleLabel, new Dimension(titleLabelWidth, commonChildComponentHeight));
 
         final int verticalScrollPaneWidth = availableWidth - HORIZONTAL_GAP;
-        final int verticalScrollPaneHeight = availableHeight - VERTICAL_GAP - commonComponentHeight - VERTICAL_GAP;
+        final int verticalScrollPaneHeight =
+                availableHeight - VERTICAL_GAP - commonChildComponentHeight - VERTICAL_GAP;
         this.childComponentSizeMap.put(this.verticalScrollPane,
                 new Dimension(verticalScrollPaneWidth, verticalScrollPaneHeight));
     }
@@ -190,12 +191,7 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
 
     @Override
     public void insertTaskPanelHandler(byte taskType) {
-        final boolean requestSuccess = this.homeFrameController
-                .requestAddNewTaskPanel(taskType, this);
-
-        if (!requestSuccess) {
-            requestFailureHandler();
-        }
+        this.homeFrameController.requestAddNewTaskPanel(this, taskType);
     }
 
     @Override
@@ -211,26 +207,22 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
     }
 
     @Override
-    public void deleteTaskPanelHandler(TaskPanel taskPanel) {
-        if (this.homeFrameController.hasRequestingComponent()) {
-            requestFailureHandler();
-            return;
-        }
-
+    public boolean showDeleteTaskConfirmDialog() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final byte result = OptionPane.showConfirmDialog(messageLoader.getMessage("confirm.dialog.question"),
                 messageLoader.getMessage("confirm.dialog.delete.task.title"));
 
         if (result == OptionPane.YES_DIALOG_OPTION) {
-            final boolean requestSuccess = this.homeFrameController
-                    .requestDeleteTaskPanel(this, taskPanel.getTaskId());
-
-            if (!requestSuccess) {
-                requestFailureHandler();
-            }
-
-            this.taskPanelRequesting = taskPanel;
+            return true;
         }
+
+        return false;
+    }
+
+    @Override
+    public void deleteTaskPanelHandler(TaskPanel taskPanel) {
+        this.taskPanelRequesting = taskPanel;
+        this.homeFrameController.requestDeleteTaskPanel(this, taskPanel.getTaskId());
     }
 
     @Override
@@ -238,7 +230,7 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
         final MessageLoader messageLoader = MessageLoader.getInstance();
 
         if (isSuccess) {
-            dispose();
+            this.taskPanelRequesting.cancelAllEventListeners();
             deleteTaskPanel(this.taskPanelRequesting);
             refreshUI();
             OptionPane.showMessageDialog(messageLoader.getMessage("delete.success.dialog"));
@@ -246,6 +238,11 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
             OptionPane.showMessageDialog(messageLoader.getMessage("delete.failure.dialog"));
         }
 
+        this.taskPanelRequesting = null;
+    }
+
+    @Override
+    public void handlerForCancelDeleteTaskAction() {
         this.taskPanelRequesting = null;
     }
 }

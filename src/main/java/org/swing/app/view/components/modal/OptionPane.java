@@ -1,4 +1,4 @@
-package org.swing.app.view.components;
+package org.swing.app.view.components.modal;
 
 import javax.swing.JOptionPane;
 

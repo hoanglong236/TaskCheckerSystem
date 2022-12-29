@@ -7,8 +7,16 @@ public class ViewConstant {
 
     public static final byte FRAME_RESERVE_WIDTH = 20;
     public static final byte FRAME_RESERVE_HEIGHT = 50; // include navbar that contains minimum, maximum, close button.
+
+    public static final byte MODAL_RESERVE_WIDTH = 20;
+    public static final byte MODAL_RESERVE_HEIGHT = 50;
+
     public static final byte FORM_FRAME_RESERVE_WIDTH = 50;
     public static final byte FORM_FRAME_RESERVE_HEIGHT = 80;
+
+    public static final byte FORM_WRAPPER_RESERVE_WIDTH = 50;
+    public static final byte FORM_WRAPPER_RESERVE_HEIGHT = 80;
+
     public static final byte SCROLL_RESERVE_WIDTH = 16;
     public static final byte VERTICAL_SCROLLBAR_WIDTH = 12;
     public static final byte LARGE_RESERVE_WIDTH = 12;
@@ -28,6 +36,11 @@ public class ViewConstant {
     public static final byte VERY_LARGE_V_GAP = 15;
     public static final byte FORM_FRAME_H_GAP = 30;
     public static final byte FORM_FRAME_V_GAP = 30;
+    public static final byte FORM_WRAPPER_H_GAP = 30;
+    public static final byte FORM_WRAPPER_V_GAP = 30;
+
+    public static final byte MODAL_H_GAP = 30;
+    public static final byte MODAL_V_GAP = 30;
 
     public static final String ICON_LOCATION_CHECK = "icons/check.png";
     public static final String ICON_LOCATION_DEADLINE = "icons/deadline.png";
