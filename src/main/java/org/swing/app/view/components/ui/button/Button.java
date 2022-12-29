@@ -57,8 +57,8 @@ public abstract class Button extends SimpleComponent {
     }
 
     @Override
-    public void dispose() {
-        super.dispose();
+    public void cancelAllEventListeners() {
+        super.cancelAllEventListeners();
         removeActionListeners(getActionListeners());
     }
 }

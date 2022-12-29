@@ -42,16 +42,17 @@ public class Popup extends SimpleComponent {
         ((JPopupMenu) this.sourceComponent).show(parent.getSourceComponent(), x, y);
     }
 
-    public void dispose() {
-        disposePopupItems();
+    @Override
+    public void cancelAllEventListeners() {
+        cancelAllEventListenersForPopupItems();
     }
 
-    private void disposePopupItems() {
+    private void cancelAllEventListenersForPopupItems() {
         final Iterator<PopupItem> popupItemIterator = getPopupItemIterator();
 
         while (popupItemIterator.hasNext()) {
             final PopupItem popupItem = popupItemIterator.next();
-            popupItem.dispose();
+            popupItem.cancelAllEventListeners();
         }
     }
 

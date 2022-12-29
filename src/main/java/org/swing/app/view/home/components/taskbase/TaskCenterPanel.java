@@ -116,7 +116,7 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
         }
         else if (actionChildComponent == REMOVE_ACTION_CHILD_COMPONENT) {
             removeChildComponent(this.deadlineLabel);
-            this.deadlineLabel.dispose();
+            this.deadlineLabel.cancelAllEventListeners();
             this.deadlineLabel = null;
         }
     }
@@ -133,7 +133,7 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
         }
         else if (actionChildComponent == REMOVE_ACTION_CHILD_COMPONENT) {
             removeChildComponent(this.completionRateLabel);
-            this.completionRateLabel.dispose();
+            this.completionRateLabel.cancelAllEventListeners();
             this.completionRateLabel = null;
         }
     }
@@ -147,7 +147,7 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
 
         if (actionChildComponent == REMOVE_ACTION_CHILD_COMPONENT) {
             removeChildComponent(this.noteNotifyLabel);
-            this.noteNotifyLabel.dispose();
+            this.noteNotifyLabel.cancelAllEventListeners();
             this.noteNotifyLabel = null;
         }
     }

@@ -87,19 +87,19 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
         refreshUI();
     }
 
-    private void disposeChildComponents() {
+    private void cancelAllEventListenersForChildComponents() {
         final Iterator<ViewComponent> childComponentIterator = getChildComponentIterator();
 
         while (childComponentIterator.hasNext()) {
             final ViewComponent childComponent = childComponentIterator.next();
-            childComponent.dispose();
+            childComponent.cancelAllEventListeners();
         }
     }
 
     @Override
-    public void dispose() {
-        super.dispose();
-        disposeChildComponents();
+    public void cancelAllEventListeners() {
+        super.cancelAllEventListeners();
+        cancelAllEventListenersForChildComponents();
     }
 
     @Override

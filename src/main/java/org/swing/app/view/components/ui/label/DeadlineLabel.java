@@ -72,8 +72,8 @@ public class DeadlineLabel extends Label implements CountdownObserver {
     }
 
     @Override
-    public void dispose() {
-        super.dispose();
+    public void cancelAllEventListeners() {
+        super.cancelAllEventListeners();
         this.countdownObservable.removeObserver(this);
     }
 

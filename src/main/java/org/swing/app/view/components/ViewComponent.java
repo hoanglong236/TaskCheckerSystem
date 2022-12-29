@@ -27,7 +27,7 @@ public interface ViewComponent {
     void addMouseListener(MouseListener mouseListener);
     void removeMouseListener(MouseListener mouseListener);
 
-    void dispose();
+    void cancelAllEventListeners();
     void setBackgroundColor(Color color);
 
     boolean requestFocusInWindow();

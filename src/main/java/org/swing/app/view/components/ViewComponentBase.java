@@ -99,7 +99,8 @@ public abstract class ViewComponentBase implements ViewComponent {
         this.sourceComponent.setBackground(color);
     }
 
-    public void dispose() {
+    @Override
+    public void cancelAllEventListeners() {
         removeComponentListeners(getComponentListeners());
         removeMouseListeners(getMouseListeners());
     }

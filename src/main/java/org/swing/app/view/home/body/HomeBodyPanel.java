@@ -37,7 +37,7 @@ public class HomeBodyPanel extends HomeWrapperComponent {
     }
 
     public void removeNodeTaskContentPanel() {
-        this.nodeTaskContentPanel.dispose();
+        this.nodeTaskContentPanel.cancelAllEventListeners();
         this.nodeTaskContentPanel = null;
         resize(getSize());
     }
