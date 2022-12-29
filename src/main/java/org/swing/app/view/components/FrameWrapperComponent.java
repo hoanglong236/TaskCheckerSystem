@@ -5,10 +5,19 @@ import java.awt.Color;
 
 public abstract class FrameWrapperComponent extends WrapperComponent {
 
-    protected FrameWrapperComponent() {
+    public static final int DO_NOTHING_ON_CLOSE = JFrame.DO_NOTHING_ON_CLOSE;
+    public static final int HIDE_ON_CLOSE = JFrame.HIDE_ON_CLOSE;
+    public static final int DISPOSE_ON_CLOSE = JFrame.DISPOSE_ON_CLOSE;
+    public static final int EXIT_ON_CLOSE = JFrame.EXIT_ON_CLOSE;
+
+    public FrameWrapperComponent() {
         super();
         this.sourceComponent = new JFrame();
-        ((JFrame) this.sourceComponent).setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public void setDefaultCloseOperation(int operation) {
+        ((JFrame) this.sourceComponent).setDefaultCloseOperation(operation);
     }
 
     public void setFrameTitle(String title) {
@@ -26,5 +35,10 @@ public abstract class FrameWrapperComponent extends WrapperComponent {
     @Override
     public void setBackgroundColor(Color color) {
         ((JFrame) this.sourceComponent).getContentPane().setBackground(color);
+    }
+
+    public void dispose() {
+        ((JFrame) this.sourceComponent).dispose();
+        cancelAllEventListeners();
     }
 }
