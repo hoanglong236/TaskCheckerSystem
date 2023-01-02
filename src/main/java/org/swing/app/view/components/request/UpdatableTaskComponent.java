@@ -2,7 +2,15 @@ package org.swing.app.view.components.request;
 
 import org.swing.app.dto.TaskPanelDto;
 
-public interface UpdatableTaskComponent extends RequestableComponent {
+public interface UpdatableTaskComponent {
 
-    void handlerForResultOfUpdateTaskAction(boolean isSuccess, TaskPanelDto taskPanelDto);
+    void handleForSuccessUpdateTaskAction(TaskPanelDto taskPanelDto);
+
+    void handleForFailureUpdateTaskAction();
+
+    void handleForCancelUpdateTaskAction();
+
+    void handleForDeniedUpdateTaskAction();
+
+    void handleForNothingToUpdateTaskAction();
 }

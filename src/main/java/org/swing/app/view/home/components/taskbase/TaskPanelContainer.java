@@ -4,7 +4,6 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.factory.UIComponentFactory;
-import org.swing.app.view.components.request.LoadableTaskComponent;
 import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.home.comparetor.TaskPanelComparator;
@@ -23,8 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public abstract class TaskPanelContainer extends HomeWrapperComponent
-        implements LoadableTaskComponent, MouseListener {
+public abstract class TaskPanelContainer extends HomeWrapperComponent implements MouseListener {
 
     public static final byte SORT_BY_CREATE_DATE_ASC = 0;
 //    public static final byte SORT_BY_CREATE_DATE_DESC = 1;
@@ -45,12 +43,15 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
     private final List<TaskPanel> incompleteTaskPanels = new ArrayList<>();
     private final List<TaskPanel> completedTaskPanels = new ArrayList<>();
 
+    private final TaskPanelManager taskPanelManager;
+
     private Comparator<TaskPanel> comparator;
 
     private final Map<Object, TaskPanel> sourceComponentTaskPanelMap = new HashMap<>();
 
-    public TaskPanelContainer(HomeFrameController homeFrameController) {
+    public TaskPanelContainer(HomeFrameController homeFrameController, TaskPanelManager taskPanelManager) {
         super(homeFrameController);
+        this.taskPanelManager = taskPanelManager;
         this.comparator = new TaskPanelCreateDateComparator();
 
         setLayout(MAIN_LAYOUT);
@@ -221,26 +222,13 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent
         }
     }
 
-    private void deactivateAllTaskPanels() {
+    public void deactivateAllTaskPanels() {
         deactivateTaskPanels(this.incompleteTaskPanels.iterator());
         deactivateTaskPanels(this.completedTaskPanels.iterator());
     }
 
-    @Override
-    public void handlerForResultOfLoadTaskAction() {
-    }
-
     private void onMousePressedForTaskPanel(TaskPanel taskPanel) {
-        final boolean requestSuccess = this.homeFrameController.requestLoadTaskContent(this,
-                taskPanel.getTaskTypeToRequest(), taskPanel.getTaskId());
-
-        if (!requestSuccess) {
-            this.requestResultProcessor.requestWaitingHandler();
-            return;
-        }
-
-        deactivateAllTaskPanels();
-        taskPanel.activate();
+        this.taskPanelManager.loadTaskPanelContentHandler(taskPanel);
     }
 
     @Override

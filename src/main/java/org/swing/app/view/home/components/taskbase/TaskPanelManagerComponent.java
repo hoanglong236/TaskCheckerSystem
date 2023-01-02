@@ -7,6 +7,8 @@ import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.modal.OptionPane;
 import org.swing.app.view.components.request.DeletableTaskComponent;
 import org.swing.app.view.components.request.InsertableTaskComponent;
+import org.swing.app.view.components.request.LoadableTaskComponent;
+import org.swing.app.view.components.request.UpdatableTaskComponent;
 import org.swing.app.view.components.ui.button.BasicButton;
 import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.components.factory.UIComponentFactory;
@@ -24,8 +26,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
 
-public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
-        implements TaskPanelManager, InsertableTaskComponent, DeletableTaskComponent, ActionListener {
+public abstract class TaskPanelManagerComponent extends HomeWrapperComponent implements TaskPanelManager,
+        InsertableTaskComponent, DeletableTaskComponent, UpdatableTaskComponent, LoadableTaskComponent,
+        ActionListener {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
@@ -70,7 +73,8 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
     }
 
     private void initTaskPanelContainer(Set<TaskPanelDto> taskPanelDtos) {
-        this.taskPanelContainer = this.taskPanelContainerFactory.createTaskPanelContainer(this.homeFrameController);
+        this.taskPanelContainer = this.taskPanelContainerFactory
+                .createTaskPanelContainer(this.homeFrameController, this);
 
         for (final TaskPanelDto taskPanelDto : taskPanelDtos) {
             addTaskPanelByDto(taskPanelDto);
@@ -195,54 +199,104 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
     }
 
     @Override
-    public void handlerForResultOfInsertTaskAction(boolean isSuccess, TaskPanelDto taskPanelDto) {
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-
-        if (isSuccess) {
-            addTaskPanelByDto(taskPanelDto);
-            OptionPane.showMessageDialog(messageLoader.getMessage("insert.success.dialog"));
-        } else {
-            OptionPane.showMessageDialog(messageLoader.getMessage("insert.failure.dialog"));
-        }
-    }
-
-    @Override
-    public boolean showDeleteTaskConfirmDialog() {
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-        final byte result = OptionPane.showConfirmDialog(messageLoader.getMessage("confirm.dialog.question"),
-                messageLoader.getMessage("confirm.dialog.delete.task.title"));
-
-        if (result == OptionPane.YES_DIALOG_OPTION) {
-            return true;
-        }
-
-        return false;
-    }
-
-    @Override
     public void deleteTaskPanelHandler(TaskPanel taskPanel) {
         this.taskPanelRequesting = taskPanel;
         this.homeFrameController.requestDeleteTaskPanel(this, taskPanel.getTaskId());
     }
 
     @Override
-    public void handlerForResultOfDeleteTaskAction(boolean isSuccess) {
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-
-        if (isSuccess) {
-            this.taskPanelRequesting.cancelAllEventListeners();
-            deleteTaskPanel(this.taskPanelRequesting);
-            refreshUI();
-            OptionPane.showMessageDialog(messageLoader.getMessage("delete.success.dialog"));
-        } else {
-            OptionPane.showMessageDialog(messageLoader.getMessage("delete.failure.dialog"));
-        }
-
-        this.taskPanelRequesting = null;
+    public void updateTaskPanelHandler(TaskPanel taskPanel) {
+        this.taskPanelRequesting = taskPanel;
+        this.homeFrameController.requestUpdateTaskPanel(this,
+                taskPanel.getTaskTypeToRequest(), taskPanel.getTaskId());
     }
 
     @Override
-    public void handlerForCancelDeleteTaskAction() {
+    public void loadTaskPanelContentHandler(TaskPanel taskPanel) {
+        this.taskPanelRequesting = taskPanel;
+        this.homeFrameController.requestLoadTaskContent(this,
+                taskPanel.getTaskTypeToRequest(), taskPanel.getTaskId());
+    }
+
+    @Override
+    public void handleForSuccessInsertTaskAction(TaskPanelDto taskPanelDto) {
+        addTaskPanelByDto(taskPanelDto);
+
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.success.dialog"));
+    }
+
+    @Override
+    public void handleForFailureInsertTaskAction() {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.failure.dialog"));
+    }
+
+    @Override
+    public void handleForCancelInsertTaskAction() {
+    }
+
+    @Override
+    public void handleForSuccessDeleteTaskAction() {
+        this.taskPanelRequesting.cancelAllEventListeners();
+        deleteTaskPanel(this.taskPanelRequesting);
         this.taskPanelRequesting = null;
+
+        refreshUI();
+
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        OptionPane.showMessageDialog(messageLoader.getMessage("delete.task.success.dialog"));
+    }
+
+    @Override
+    public void handleForFailureDeleteTaskAction() {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        OptionPane.showMessageDialog(messageLoader.getMessage("delete.task.failure.dialog"));
+    }
+
+    @Override
+    public void handleForCancelDeleteTaskAction() {
+    }
+
+    @Override
+    public void handleForSuccessUpdateTaskAction(TaskPanelDto taskPanelDto) {
+        this.taskPanelRequesting.update(taskPanelDto);
+        deleteTaskPanel(this.taskPanelRequesting);
+        addTaskPanel(this.taskPanelRequesting);
+
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        OptionPane.showMessageDialog(messageLoader.getMessage("update.task.success.dialog"));
+    }
+
+    @Override
+    public void handleForFailureUpdateTaskAction() {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        OptionPane.showMessageDialog(messageLoader.getMessage("update.task.failure.dialog"));
+    }
+
+    @Override
+    public void handleForDeniedUpdateTaskAction() {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        OptionPane.showMessageDialog(messageLoader.getMessage("update.task.denied.dialog"));
+    }
+
+    @Override
+    public void handleForCancelUpdateTaskAction() {
+    }
+
+    @Override
+    public void handleForNothingToUpdateTaskAction() {
+    }
+
+    @Override
+    public void handleForSuccessLoadTaskAction() {
+        this.taskPanelContainer.deactivateAllTaskPanels();
+        this.taskPanelRequesting.activate();
+    }
+
+    @Override
+    public void handleForFailureLoadTaskAction() {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        OptionPane.showMessageDialog(messageLoader.getMessage("load.task.failure.dialog"));
     }
 }

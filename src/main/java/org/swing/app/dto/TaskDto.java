@@ -4,26 +4,29 @@ import java.time.LocalDateTime;
 
 public class TaskDto {
 
-    private String id;
-    private String parentId;
-    private String title;
-    private boolean important;
-    private LocalDateTime startDateTime;
-    private LocalDateTime finishDateTime;
-    private LocalDateTime submitDateTime;
-    private boolean completed;
-    private String note;
+    private String id = null;
+    private String parentId = null;
+    private String title = null;
+    private boolean important = false;
+    private LocalDateTime startDateTime = null;
+    private LocalDateTime finishDateTime = null;
+    private LocalDateTime submitDateTime = null;
+    private boolean completed = false;
+    private String note = null;
 
     public TaskDto() {
-        this.id = null;
-        this.parentId = null;
-        this.title = null;
-        this.important = false;
-        this.startDateTime = null;
-        this.finishDateTime = null;
-        this.submitDateTime = null;
-        this.completed = false;
-        this.note = null;
+    }
+
+    public TaskDto(TaskDto taskDto) {
+        this.id = taskDto.getId();
+        this.parentId = taskDto.getParentId();
+        this.title = taskDto.getTitle();
+        this.important = taskDto.isImportant();
+        this.startDateTime = taskDto.getStartDateTime();
+        this.finishDateTime = taskDto.getFinishDateTime();
+        this.submitDateTime = taskDto.getSubmitDateTime();
+        this.completed = taskDto.isCompleted();
+        this.note = taskDto.getNote();
     }
 
     public String getId() {
@@ -97,4 +100,6 @@ public class TaskDto {
     public void setNote(String note) {
         this.note = note;
     }
+
+    // TODO: handle equals method
 }

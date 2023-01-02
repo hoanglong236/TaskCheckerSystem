@@ -2,7 +2,9 @@ package org.swing.app.view.components.request;
 
 import org.swing.app.dto.TaskPanelDto;
 
-public interface InsertableTaskComponent extends RequestableComponent {
+public interface InsertableTaskComponent {
 
-    void handlerForResultOfInsertTaskAction(boolean isSuccess, TaskPanelDto taskPanelDto);
+    void handleForSuccessInsertTaskAction(TaskPanelDto taskPanelDto);
+    void handleForFailureInsertTaskAction();
+    void handleForCancelInsertTaskAction();
 }

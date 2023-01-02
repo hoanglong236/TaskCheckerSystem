@@ -121,14 +121,21 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
     }
 
     @Override
-    public void handlerForResultOfInsertTaskAction(boolean isSuccess, TaskPanelDto taskPanelDto) {
-        final MessageLoader messageLoader = MessageLoader.getInstance();
+    public void handleForSuccessInsertTaskAction(TaskPanelDto taskPanelDto) {
+        this.dynamicTaskPanelManagerComponent.addTaskPanelByDto(taskPanelDto);
 
-        if (isSuccess) {
-            this.dynamicTaskPanelManagerComponent.addTaskPanelByDto(taskPanelDto);
-            OptionPane.showMessageDialog(messageLoader.getMessage("insert.success.dialog"));
-        } else {
-            OptionPane.showMessageDialog(messageLoader.getMessage("insert.failure.dialog"));
-        }
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.success.dialog"));
+    }
+
+    @Override
+    public void handleForFailureInsertTaskAction() {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.success.dialog"));
+    }
+
+    @Override
+    public void handleForCancelInsertTaskAction() {
+
     }
 }

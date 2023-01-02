@@ -1,6 +1,7 @@
 package org.swing.app.view.components.request;
 
-public interface LoadableTaskComponent extends RequestableComponent {
+public interface LoadableTaskComponent {
 
-    void handlerForResultOfLoadTaskAction();
+    void handleForSuccessLoadTaskAction();
+    void handleForFailureLoadTaskAction();
 }

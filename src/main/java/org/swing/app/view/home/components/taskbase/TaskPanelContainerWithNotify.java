@@ -4,8 +4,8 @@ import org.swing.app.controller.HomeFrameController;
 
 public class TaskPanelContainerWithNotify extends TaskPanelContainer {
 
-    public TaskPanelContainerWithNotify(HomeFrameController homeFrameController) {
-        super(homeFrameController);
+    public TaskPanelContainerWithNotify(HomeFrameController homeFrameController, TaskPanelManager taskPanelManager) {
+        super(homeFrameController, taskPanelManager);
     }
 
     @Override

@@ -2,8 +2,10 @@ package org.swing.app.business;
 
 import org.swing.app.dao.HomeFrameDao;
 import org.swing.app.dao.impl.HomeFrameDaoImpl;
+import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class HomeFrameBusiness {
@@ -18,11 +20,23 @@ public class HomeFrameBusiness {
         return HOME_FRAME_DAO.getTaskPanelDtosByParentId(parentId);
     }
 
-    public boolean deleteTaskById(String taskId) {
-        return HOME_FRAME_DAO.deleteTaskById(taskId);
+    public Optional<TaskPanelDto> getTaskPanelDtoById(String taskId) {
+        return HOME_FRAME_DAO.getTaskPanelDtoById(taskId);
     }
 
-    public TaskPanelDto getTaskPanelDtoById(String taskId) {
-        return HOME_FRAME_DAO.getTaskPanelDtoById(taskId);
+    public Optional<TaskDto> getTaskDtoById(String taskId) {
+        return HOME_FRAME_DAO.getTaskDtoById(taskId);
+    }
+
+    public boolean insertTaskByDto(TaskDto taskDto) {
+        return HOME_FRAME_DAO.insertTaskByDto(taskDto);
+    }
+
+    public boolean updateTaskByDto(TaskDto taskDto) {
+        return HOME_FRAME_DAO.updateTaskByDto(taskDto);
+    }
+
+    public boolean deleteTaskById(String taskId) {
+        return HOME_FRAME_DAO.deleteTaskById(taskId);
     }
 }

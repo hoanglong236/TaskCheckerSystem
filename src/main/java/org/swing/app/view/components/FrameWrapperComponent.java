@@ -13,7 +13,6 @@ public abstract class FrameWrapperComponent extends WrapperComponent {
     public FrameWrapperComponent() {
         super();
         this.sourceComponent = new JFrame();
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     public void setDefaultCloseOperation(int operation) {

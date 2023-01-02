@@ -1,6 +1,5 @@
 package org.swing.app.view.taskform;
 
-import org.swing.app.controller.TaskFormModalController;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
@@ -17,6 +16,7 @@ import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Optional;
 
 public class TaskFormModal extends ModalWrapperComponent implements ActionListener {
 
@@ -32,32 +32,26 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
 
     private final TaskFormFactory taskFormFactory;
 
-    private final TaskFormModalController taskFormModalController;
+    private Optional<TaskDto> formData;
 
-    private final boolean isAddingTask;
-
-    private TaskDto taskDto = null;
-
-    public TaskFormModal(FrameWrapperComponent parentFrame, TaskFormModalController taskFormModalController,
-            TaskFormFactory taskFormFactory) {
-
+    public TaskFormModal(FrameWrapperComponent parentFrame, TaskFormFactory taskFormFactory) {
         super(parentFrame);
-        this.taskFormModalController = taskFormModalController;
         this.taskFormFactory = taskFormFactory;
-        this.isAddingTask = true;
+        this.formData = Optional.empty();
         setLayout(MAIN_LAYOUT);
         init();
     }
 
-    public TaskFormModal(FrameWrapperComponent parentFrame, TaskFormModalController taskFormModalController,
-            TaskFormFactory taskFormFactory, TaskDto taskDto) {
-
+    public TaskFormModal(FrameWrapperComponent parentFrame, TaskFormFactory taskFormFactory, TaskDto taskDto) {
         super(parentFrame);
-        this.taskFormModalController = taskFormModalController;
         this.taskFormFactory = taskFormFactory;
-        this.isAddingTask = true;
+        this.formData = Optional.ofNullable(taskDto);
         setLayout(MAIN_LAYOUT);
         init(taskDto);
+    }
+
+    public Optional<TaskDto> getFormData() {
+        return formData;
     }
 
     private void initTaskForm() {
@@ -126,43 +120,39 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
         addChildComponent(this.clearButton);
     }
 
-    public void setFormData(TaskDto taskDto) {
-        this.taskDto = taskDto;
-        this.taskForm.setFormData(taskDto);
+    private void saveFormDataBeforeSubmit() {
+        final TaskDto taskDto = this.taskForm.getFormData();
+        this.formData = Optional.ofNullable(taskDto);
     }
 
-    public TaskDto getFormData() {
-        return this.taskForm.getFormData();
-    }
-
-    private void showValidateMessage(String validateMessage) {
-        this.validateMessageArea.setText(validateMessage);
-    }
-
-    public void submit() {
+    private boolean validateFormData() {
         final String validateMessage = this.taskForm.validate();
 
         if (!validateMessage.isEmpty()) {
-            showValidateMessage(validateMessage);
-            return;
+            this.validateMessageArea.setText(validateMessage);
+            return false;
         }
 
-        if (this.isAddingTask) {
-            this.taskFormModalController.addNewTaskByDto(getFormData());
-        } else {
-            this.taskFormModalController.updateTaskByDto(getFormData());
-        }
+        return true;
     }
 
     public void reset() {
-        setFormData(this.taskDto);
+        if (this.formData.isPresent()) {
+            this.taskForm.setFormData(formData.get());
+            clearValidateMessageArea();
+        } else {
+            clear();
+        }
+    }
+
+    private void clearValidateMessageArea() {
+        final String emptyMessage = "";
+        this.validateMessageArea.setText(emptyMessage);
     }
 
     public void clear() {
         this.taskForm.clear();
-
-        final String emptyMessage = "";
-        this.validateMessageArea.setText(emptyMessage);
+        clearValidateMessageArea();
     }
 
     @Override
@@ -191,8 +181,13 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
         final int result = OptionPane.showConfirmDialog(messageLoader.getMessage("confirm.dialog.question"),
                 messageLoader.getMessage("confirm.dialog.add.task.title"));
 
-        if (result == OptionPane.YES_DIALOG_OPTION) {
-            submit();
+        if (result != OptionPane.YES_DIALOG_OPTION) {
+            return;
+        }
+
+        if (validateFormData()) {
+            saveFormDataBeforeSubmit();
+            dispose();
         }
     }
 

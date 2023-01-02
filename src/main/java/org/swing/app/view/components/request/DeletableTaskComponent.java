@@ -1,8 +1,8 @@
 package org.swing.app.view.components.request;
 
-public interface DeletableTaskComponent extends RequestableComponent {
+public interface DeletableTaskComponent {
 
-    boolean showDeleteTaskConfirmDialog();
-    void handlerForResultOfDeleteTaskAction(boolean isSuccess);
-    void handlerForCancelDeleteTaskAction();
+    void handleForSuccessDeleteTaskAction();
+    void handleForFailureDeleteTaskAction();
+    void handleForCancelDeleteTaskAction();
 }

@@ -4,8 +4,10 @@ import org.swing.app.controller.HomeFrameController;
 
 public class TaskPanelContainerWithoutNotify extends TaskPanelContainer {
 
-    public TaskPanelContainerWithoutNotify(HomeFrameController homeFrameController) {
-        super(homeFrameController);
+    public TaskPanelContainerWithoutNotify(HomeFrameController homeFrameController,
+            TaskPanelManager taskPanelManager) {
+
+        super(homeFrameController, taskPanelManager);
     }
 
     @Override

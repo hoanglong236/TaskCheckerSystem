@@ -4,7 +4,6 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.modal.OptionPane;
 import org.swing.app.view.components.ui.label.ActivationLabel;
 import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.components.ui.Popup;
@@ -12,7 +11,6 @@ import org.swing.app.view.components.ui.button.CheckBox;
 import org.swing.app.view.components.ui.button.PopupItem;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
-import org.swing.app.view.components.request.UpdatableTaskComponent;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -21,8 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 
-public abstract class TaskPanel extends HomeWrapperComponent
-        implements UpdatableTaskComponent, ActionListener {
+public abstract class TaskPanel extends HomeWrapperComponent implements ActionListener {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
@@ -159,7 +156,6 @@ public abstract class TaskPanel extends HomeWrapperComponent
         }
     }
 
-    // TODO: after update how can we sort?
     public void update(TaskPanelDto taskPanelDto) {
         this.taskPanelDto = taskPanelDto;
 
@@ -233,7 +229,7 @@ public abstract class TaskPanel extends HomeWrapperComponent
     }
 
     private void onActionPerformedForEditPopupItem() {
-        this.homeFrameController.requestUpdateTaskPanel(this, getTaskTypeToRequest(), getTaskId());
+        this.taskPanelManager.updateTaskPanelHandler(this);
     }
 
     private void onActionPerformedForDeletePopupItem() {
@@ -253,17 +249,5 @@ public abstract class TaskPanel extends HomeWrapperComponent
             return;
         }
         throw new IllegalArgumentException();
-    }
-
-    @Override
-    public void handlerForResultOfUpdateTaskAction(boolean isSuccess, TaskPanelDto taskPanelDto) {
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-
-        if (isSuccess) {
-            update(taskPanelDto);
-            OptionPane.showMessageDialog(messageLoader.getMessage("update.success.dialog"));
-        } else {
-            OptionPane.showMessageDialog(messageLoader.getMessage("update.failure.dialog"));
-        }
     }
 }
