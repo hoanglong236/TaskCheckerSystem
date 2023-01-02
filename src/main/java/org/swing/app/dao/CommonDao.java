@@ -1,8 +1,12 @@
 package org.swing.app.dao;
 
-import org.swing.app.dto.TaskDto;
-
 public interface CommonDao {
 
-    boolean insertTaskByDto(TaskDto taskDto);
+    /**
+     * Task id max length store in gen_master table with data_id = "01", data_cd = "01"
+     * @return int task id max length
+     */
+    int getTaskIdMaxLength();
+
+    boolean isTaskIdExist(String taskId);
 }
