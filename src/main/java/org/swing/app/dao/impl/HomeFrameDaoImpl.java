@@ -46,7 +46,7 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
         taskPanelDto.setFinishDateTime(finishTimestamp == null ? null : finishTimestamp.toLocalDateTime());
         taskPanelDto.setSubmitDateTime(submitTimestamp == null ? null : submitTimestamp.toLocalDateTime());
 
-        taskPanelDto.setCompleted(resultSet.getBoolean("is_completed"));
+        taskPanelDto.setCompleted(resultSet.getBoolean("completed"));
         taskPanelDto.setNote(resultSet.getString("note"));
         taskPanelDto.setChildTaskCompletedCount(resultSet.getInt("child_task_completed_count"));
         taskPanelDto.setChildTaskCount(resultSet.getInt("child_task_count"));

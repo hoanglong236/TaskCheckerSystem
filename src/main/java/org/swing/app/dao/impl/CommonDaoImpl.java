@@ -68,8 +68,7 @@ public class CommonDaoImpl implements CommonDao {
         }
 
         try {
-            final int taskIdMaxLength = Integer.parseInt(dataValue.get());
-            return taskIdMaxLength;
+            return Integer.parseInt(dataValue.get());
         } catch (NumberFormatException e) {
             e.printStackTrace();
             return defaultTaskIdMaxLength;

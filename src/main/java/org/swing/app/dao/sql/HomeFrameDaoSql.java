@@ -6,11 +6,11 @@ public class HomeFrameDaoSql {
         final StringBuilder sql = new StringBuilder();
 
         sql.append("SELECT id, parent_id, title, start_datetime, finish_datetime\n");
-        sql.append("    , submit_datetime, is_completed, note\n");
+        sql.append("    , submit_datetime, completed, note\n");
         sql.append("    , (\n");
         sql.append("        SELECT count(*)\n");
         sql.append("        FROM task t1\n");
-        sql.append("        WHERE t1.parent_id = task.id AND t1.is_completed = TRUE\n");
+        sql.append("        WHERE t1.parent_id = task.id AND t1.completed = TRUE\n");
         sql.append("    ) AS child_task_completed_count\n");
         sql.append("    , (\n");
         sql.append("        SELECT count(*)\n");
@@ -26,7 +26,7 @@ public class HomeFrameDaoSql {
         final StringBuilder sql = new StringBuilder();
 
         sql.append(createSqlToGetTaskPanelDto());
-        sql.append("WHERE task.parent_id IS NULL AND task.is_completed = FALSE\n");
+        sql.append("WHERE task.parent_id IS NULL AND task.completed = FALSE\n");
 
         return sql.toString();
     }
@@ -36,7 +36,7 @@ public class HomeFrameDaoSql {
 
         sql.append(createSqlToGetTaskPanelDto());
         sql.append("WHERE parent_id = ?\n");
-        sql.append("ORDER BY is_completed\n");
+        sql.append("ORDER BY completed\n");
 
         return sql.toString();
     }
