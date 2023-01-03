@@ -1,14 +1,14 @@
 package org.swing.app.view.components.form.components.wrapper;
 
 import org.swing.app.view.components.factory.UIComponentFactory;
-import org.swing.app.view.components.form.components.InputComponentWrapper;
 import org.swing.app.view.components.form.components.factory.InputComponentFactory;
 
-public class TextAreaWrapper extends InputComponentWrapper<String> {
+public class TextAreaWrapper extends SingleInputComponentWrapper<String> {
 
     public TextAreaWrapper(String labelText, String initValue) {
         super();
-        init(labelText, initValue);
+        init(labelText);
+        setValue(initValue);
     }
 
     @Override
@@ -16,15 +16,15 @@ public class TextAreaWrapper extends InputComponentWrapper<String> {
         this.labelField = UIComponentFactory.createLabelArea(labelText);
     }
 
-    private void initInputField(String initValue) {
-        this.inputField = InputComponentFactory.createTextArea(initValue);
+    private void initInputField() {
+        this.inputField = InputComponentFactory.createTextArea();
     }
 
-    private void init(String labelText, String initValue) {
+    private void init(String labelText) {
         initLabelField(labelText);
         addChildComponent(this.labelField);
 
-        initInputField(initValue);
+        initInputField();
         addChildComponent(this.inputField);
     }
 }

@@ -61,8 +61,12 @@ public class ViewConstant {
 
     public static final byte NOTIFY_LABEL_WIDTH = 60;
     public static final byte NOTIFY_LABEL_HEIGHT = 40;
-    public static final byte INPUT_TEXT_FONT_SIZE = 15;
+
+    public static final byte LABEL_FIELD_FONT_SIZE = 13;
+    public static final byte INPUT_FIELD_FONT_SIZE = 13;
 
     public static final byte DEFAULT_LABEL_WIDTH = 100;
     public static final byte DEFAULT_DATE_CHOOSER_WIDTH = 100;
+
+    public static final String DEFAULT_DATE_CHOOSER_FORMAT = "dd/MM/yyyy";
 }

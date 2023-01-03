@@ -1,26 +1,27 @@
 package org.swing.app.view.components.form.components.wrapper;
 
-import org.swing.app.view.components.form.components.InputComponentWrapper;
 import org.swing.app.view.components.form.components.factory.InputComponentFactory;
 
 import java.time.LocalDate;
 
-public class DateChooserWrapper extends InputComponentWrapper<LocalDate> {
+public class DateChooserWrapper extends SingleInputComponentWrapper<LocalDate> {
 
     public DateChooserWrapper(String labelText, LocalDate initValue) {
         super();
-        init(labelText, initValue);
+        init(labelText);
+        setValue(initValue);
     }
 
-    private void initInputField(LocalDate initValue) {
-        this.inputField = InputComponentFactory.createDateChooser(initValue);
+    private void initInputField() {
+        this.inputField = InputComponentFactory.createDateChooser();
+        this.inputField.setFont(DEFAULT_INPUT_FIELD_FONT);
     }
 
-    private void init(String labelText, LocalDate initValue) {
+    private void init(String labelText) {
         initLabelField(labelText);
         addChildComponent(this.labelField);
 
-        initInputField(initValue);
+        initInputField();
         addChildComponent(this.inputField);
     }
 }

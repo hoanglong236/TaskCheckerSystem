@@ -2,6 +2,7 @@ package org.swing.app.view.components.form.components.input;
 
 import com.toedter.calendar.JDateChooser;
 import org.swing.app.util.DateConverter;
+import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.factory.JComponentFactory;
 import org.swing.app.view.components.form.components.InputComponent;
@@ -12,10 +13,12 @@ import java.util.Optional;
 
 public class DateChooser extends SimpleComponent implements InputComponent<LocalDate> {
 
-    public DateChooser(LocalDate initValue) {
+    private static final String DATE_CHOOSER_FORMAT = ViewConstant.DEFAULT_DATE_CHOOSER_FORMAT;
+
+    public DateChooser() {
         super();
         this.sourceComponent = JComponentFactory.createJDateChooser();
-        setValue(initValue);
+        ((JDateChooser) this.sourceComponent).setDateFormatString(DATE_CHOOSER_FORMAT);
     }
 
     @Override
@@ -35,7 +38,6 @@ public class DateChooser extends SimpleComponent implements InputComponent<Local
         }
         return Optional.of(DateConverter.toLocalDate(chosenDate));
     }
-
 
     @Override
     public void clear() {

@@ -12,7 +12,7 @@ public class ComboBox extends SimpleComponent implements InputComponent<String> 
 
     private Set<String> valueRange;
 
-    public ComboBox(Set<String> valueRange, String initValue) {
+    public ComboBox(Set<String> valueRange) {
         super();
         if (valueRange == null || valueRange.isEmpty() || valueRange.contains(null)) {
             throw new IllegalArgumentException();
@@ -20,7 +20,6 @@ public class ComboBox extends SimpleComponent implements InputComponent<String> 
         final String[] valueRangeArray = valueRange.toArray(new String[0]);
         this.sourceComponent = JComponentFactory.createJComboBox(valueRangeArray);
         this.valueRange = valueRange;
-        setValue(initValue);
     }
 
     @Override

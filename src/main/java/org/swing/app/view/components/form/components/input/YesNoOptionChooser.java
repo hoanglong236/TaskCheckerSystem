@@ -23,11 +23,10 @@ public class YesNoOptionChooser extends PanelWrapperComponent implements InputCo
 
     private ButtonGrouper buttonGrouper;
 
-    public YesNoOptionChooser(boolean initValue) {
+    public YesNoOptionChooser() {
         super();
         setLayout(MAIN_LAYOUT);
         this.buttonGrouper = new ButtonGrouper();
-        setValue(initValue);
     }
 
     private void initYesRadioButton() {
