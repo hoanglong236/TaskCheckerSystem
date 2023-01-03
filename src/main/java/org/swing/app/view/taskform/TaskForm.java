@@ -22,8 +22,8 @@ public abstract class TaskForm extends PanelWrapperComponent implements Form<Tas
     private static final int TITLE_MAX_LENGTH = 150;
     private static final int NOTE_MAX_LENGTH = 300;
 
-    private static final byte HORIZONTAL_GAP = ViewConstant.LARGE_H_GAP;
-    private static final byte VERTICAL_GAP = ViewConstant.LARGE_V_GAP;
+    private static final byte HORIZONTAL_GAP = ViewConstant.MEDIUM_H_GAP;
+    private static final byte VERTICAL_GAP = ViewConstant.MEDIUM_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private static final String TITLE_LABEL_TEXT = "Title: ";
@@ -209,7 +209,6 @@ public abstract class TaskForm extends PanelWrapperComponent implements Form<Tas
         return emptyMessage;
     }
 
-    // TODO: handle message loader
     private String validateForStartAndFinishDateTimeWrapper() {
         final String emptyMessage = "";
         final MessageLoader messageLoader = MessageLoader.getInstance();
@@ -235,14 +234,13 @@ public abstract class TaskForm extends PanelWrapperComponent implements Form<Tas
         return emptyMessage;
     }
 
-    // TODO: add message loader
     public String validateForNoteInputWrapper() {
         final String emptyMessage = "";
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final Optional<String> optionalNote = this.noteInputWrapper.getValue();
 
         if (!TextValidator.validateMaxLength(optionalNote, TITLE_MAX_LENGTH)) {
-            return messageLoader.getMessage("note.length.invalid");
+            return messageLoader.getMessage("note.length.invalid") + NOTE_MAX_LENGTH;
         }
         return emptyMessage;
     }

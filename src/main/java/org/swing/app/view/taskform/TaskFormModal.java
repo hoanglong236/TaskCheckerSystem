@@ -162,14 +162,19 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
 
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
-        final int taskFormHeight = (int) ((float) 0.75 * availableHeight);
-        this.childComponentSizeMap.put(this.taskForm, new Dimension(maxChildComponentWidth, taskFormHeight));
+        final int validateMessageAreaHeight = 80;
+        this.childComponentSizeMap.put(this.validateMessageArea,
+                new Dimension(maxChildComponentWidth, validateMessageAreaHeight));
 
         final byte controlButtonWidth = 80;
-        final int controlButtonHeight = availableHeight - VERTICAL_GAP - taskFormHeight - VERTICAL_GAP;
+        final int controlButtonHeight = 30;
         this.childComponentSizeMap.put(this.submitButton, new Dimension(controlButtonWidth, controlButtonHeight));
         this.childComponentSizeMap.put(this.resetButton, new Dimension(controlButtonWidth, controlButtonHeight));
         this.childComponentSizeMap.put(this.clearButton, new Dimension(controlButtonWidth, controlButtonHeight));
+
+        final int taskFormHeight = availableHeight - VERTICAL_GAP - validateMessageAreaHeight
+                - VERTICAL_GAP - controlButtonHeight - VERTICAL_GAP;
+        this.childComponentSizeMap.put(this.taskForm, new Dimension(maxChildComponentWidth, taskFormHeight));
     }
 
     @Override

@@ -15,7 +15,6 @@ public abstract class TaskFormModalFactory {
     public Optional<TaskDto> showAddingTaskFormModal(FrameWrapperComponent parentFrame) {
         final TaskFormModal addingTaskFormModal = createAddingTaskFormModal(parentFrame);
 
-        addingTaskFormModal.resize(ViewConstant.LEAF_TASK_FORM_MODAL_PREFER_SIZE);
         addingTaskFormModal.setDefaultCloseOperation(ModalWrapperComponent.DISPOSE_ON_CLOSE);
         addingTaskFormModal.setVisible(true);
 
@@ -27,7 +26,6 @@ public abstract class TaskFormModalFactory {
     public Optional<TaskDto> showUpdatingTaskFormModal(FrameWrapperComponent parentFrame, TaskDto taskDto) {
         final TaskFormModal updatingTaskFormModal = createUpdatingTaskFormModal(parentFrame, taskDto);
 
-        updatingTaskFormModal.resize(ViewConstant.LEAF_TASK_FORM_MODAL_PREFER_SIZE);
         updatingTaskFormModal.setDefaultCloseOperation(ModalWrapperComponent.DISPOSE_ON_CLOSE);
         updatingTaskFormModal.setVisible(true);
 

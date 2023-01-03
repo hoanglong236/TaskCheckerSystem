@@ -26,4 +26,12 @@ public abstract class ModalWrapperComponent extends WrapperComponent {
         ((JDialog) this.sourceComponent).dispose();
         cancelAllEventListeners();
     }
+
+    @Override
+    public void refreshUI() {
+        ((JDialog) this.sourceComponent).getContentPane().revalidate();
+        ((JDialog) this.sourceComponent).getContentPane().repaint();
+        ((JDialog) this.sourceComponent).pack();
+        ((JDialog) this.sourceComponent).setLocationRelativeTo(null);
+    }
 }

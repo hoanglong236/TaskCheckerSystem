@@ -6,13 +6,12 @@ import java.awt.Dimension;
 public class ViewConstant {
 
     public static final byte FRAME_RESERVE_WIDTH = 20;
-    public static final byte FRAME_RESERVE_HEIGHT = 50; // include navbar that contains minimum, maximum, close button.
 
-    public static final byte MODAL_RESERVE_WIDTH = 20;
-    public static final byte MODAL_RESERVE_HEIGHT = 50;
+    // include navbar that contains minimum, maximum, close button.
+    public static final byte FRAME_RESERVE_HEIGHT = 50;
 
     public static final byte FORM_WRAPPER_RESERVE_WIDTH = 50;
-    public static final byte FORM_WRAPPER_RESERVE_HEIGHT = 80;
+    public static final byte FORM_WRAPPER_RESERVE_HEIGHT = 65;
 
     public static final byte SCROLL_RESERVE_WIDTH = 16;
     public static final byte VERTICAL_SCROLLBAR_WIDTH = 12;
@@ -32,10 +31,7 @@ public class ViewConstant {
     public static final byte VERY_LARGE_H_GAP = 15;
     public static final byte VERY_LARGE_V_GAP = 15;
     public static final byte FORM_WRAPPER_H_GAP = 30;
-    public static final byte FORM_WRAPPER_V_GAP = 30;
-
-    public static final byte MODAL_H_GAP = 30;
-    public static final byte MODAL_V_GAP = 30;
+    public static final byte FORM_WRAPPER_V_GAP = 20;
 
     public static final String ICON_LOCATION_CHECK = "icons/check.png";
     public static final String ICON_LOCATION_DEADLINE = "icons/deadline.png";
@@ -54,9 +50,9 @@ public class ViewConstant {
     public static final byte PRIMARY_FONT_SIZE = 15;
 
     public static final Dimension HOME_FRAME_PREFER_SIZE = new Dimension(1140, 650);
-    public static final Dimension ROOT_TASK_FORM_MODAL_PREFER_SIZE = new Dimension(600, 320);
-    public static final Dimension NODE_TASK_FORM_MODAL_PREFER_SIZE = new Dimension(600, 400);
-    public static final Dimension LEAF_TASK_FORM_MODAL_PREFER_SIZE = new Dimension(600, 200);
+    public static final Dimension ROOT_TASK_FORM_MODAL_PREFER_SIZE = new Dimension(600, 420);
+    public static final Dimension NODE_TASK_FORM_MODAL_PREFER_SIZE = new Dimension(600, 600);
+    public static final Dimension LEAF_TASK_FORM_MODAL_PREFER_SIZE = new Dimension(600, 300);
     public static final int SIDEBAR_WIDTH = 330;
     public static final Color ACTIVATION_COLOR = new Color(230, 230, 230);
     public static final byte ROOT_TASK_PANEL_HEIGHT = 60;
@@ -65,11 +61,8 @@ public class ViewConstant {
 
     public static final byte NOTIFY_LABEL_WIDTH = 60;
     public static final byte NOTIFY_LABEL_HEIGHT = 40;
-
-    public static final Dimension EDIT_LIST_FRAME_PREFER_SIZE = new Dimension(650, 650);
     public static final byte INPUT_TEXT_FONT_SIZE = 15;
-    public static final byte F_TEXT_AREA_FONT_SIZE = 13;
 
-    public static final byte DEFAULT_LABEL_WIDTH = 80;
+    public static final byte DEFAULT_LABEL_WIDTH = 100;
     public static final byte DEFAULT_DATE_CHOOSER_WIDTH = 100;
 }
