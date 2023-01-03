@@ -3,6 +3,7 @@ package org.swing.app.view.components;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseListener;
 
@@ -31,4 +32,6 @@ public interface ViewComponent {
     void setBackgroundColor(Color color);
 
     boolean requestFocusInWindow();
+
+    void setFont(Font font);
 }

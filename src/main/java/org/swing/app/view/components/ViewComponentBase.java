@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseListener;
 import java.util.Iterator;
@@ -108,5 +109,10 @@ public abstract class ViewComponentBase implements ViewComponent {
     @Override
     public boolean requestFocusInWindow() {
         return this.sourceComponent.requestFocusInWindow();
+    }
+
+    @Override
+    public void setFont(Font font) {
+        this.sourceComponent.setFont(font);
     }
 }
