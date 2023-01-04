@@ -42,18 +42,18 @@ public class DeadlineLabel extends Label implements CountdownObserver {
 
         final int day = (int) (countDown / Constant.SECOND_PER_DAY);
         countDown = countDown - day * Constant.SECOND_PER_DAY;
-        final short hour = (short) (countDown / Constant.SECOND_PER_HOUR);
+        final byte hour = (byte) (countDown / Constant.SECOND_PER_HOUR);
         countDown = countDown - hour * Constant.SECOND_PER_HOUR;
         final byte minute = (byte) (countDown / Constant.SECOND_PER_MINUTE);
         countDown = countDown - minute * Constant.SECOND_PER_MINUTE;
         final byte second = (byte) countDown;
 
         deadlineText.append(day);
-        deadlineText.append("D: ");
+        deadlineText.append("D : ");
         deadlineText.append(hour);
-        deadlineText.append("h: ");
+        deadlineText.append("h : ");
         deadlineText.append(minute);
-        deadlineText.append("m: ");
+        deadlineText.append("m : ");
         deadlineText.append(second);
         deadlineText.append("s");
 

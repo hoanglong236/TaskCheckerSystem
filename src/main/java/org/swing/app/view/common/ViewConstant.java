@@ -53,7 +53,7 @@ public class ViewConstant {
     public static final Dimension ROOT_TASK_FORM_MODAL_PREFER_SIZE = new Dimension(600, 420);
     public static final Dimension NODE_TASK_FORM_MODAL_PREFER_SIZE = new Dimension(600, 600);
     public static final Dimension LEAF_TASK_FORM_MODAL_PREFER_SIZE = new Dimension(600, 300);
-    public static final int SIDEBAR_WIDTH = 330;
+    public static final short SIDEBAR_WIDTH = 330;
     public static final Color ACTIVATION_COLOR = new Color(230, 230, 230);
     public static final byte ROOT_TASK_PANEL_HEIGHT = 60;
     public static final byte NODE_TASK_PANEL_HEIGHT = 40;

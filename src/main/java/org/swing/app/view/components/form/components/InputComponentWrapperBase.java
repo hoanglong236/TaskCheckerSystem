@@ -23,7 +23,7 @@ public abstract class InputComponentWrapperBase<T> extends PanelWrapperComponent
 
     protected SimpleComponent labelField;
 
-    protected int labelFieldWidth;
+    protected short labelFieldWidth;
     protected float rateOfLabelFieldWidthInTotal;
 
     public InputComponentWrapperBase() {
@@ -34,7 +34,7 @@ public abstract class InputComponentWrapperBase<T> extends PanelWrapperComponent
     }
 
     @Override
-    public void setLabelFieldWidth(int labelFieldWidth) {
+    public void setLabelFieldWidth(short labelFieldWidth) {
         this.labelFieldWidth = labelFieldWidth;
     }
 
