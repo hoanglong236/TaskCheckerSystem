@@ -23,7 +23,7 @@ public class SingleInputComponentWrapper<T> extends InputComponentWrapperBase<T>
         final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 
         if (this.rateOfLabelFieldWidthInTotal > 0) {
-            this.labelFieldWidth = (short) (this.rateOfLabelFieldWidthInTotal * availableHeight);
+            this.labelFieldWidth = (int) (this.rateOfLabelFieldWidthInTotal * availableHeight);
         }
         this.childComponentSizeMap.put(this.labelField, new Dimension(this.labelFieldWidth, maxChildComponentHeight));
 

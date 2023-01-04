@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface InputComponentWrapper<T> extends ViewComponent {
 
-    void setLabelFieldWidth(short labelFieldWidth);
+    void setLabelFieldWidth(int labelFieldWidth);
 
     void setRateOfLabelFieldWidthInTotal(float rateOfLabelFieldWidthInTotal);
 
