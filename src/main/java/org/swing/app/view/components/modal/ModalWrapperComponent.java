@@ -22,6 +22,10 @@ public abstract class ModalWrapperComponent extends WrapperComponent {
         ((JDialog) this.sourceComponent).setDefaultCloseOperation(operation);
     }
 
+    public void setModalTitle(String title) {
+        ((JDialog) this.sourceComponent).setTitle(title);
+    }
+
     public void dispose() {
         ((JDialog) this.sourceComponent).dispose();
         cancelAllEventListeners();

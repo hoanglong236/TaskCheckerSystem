@@ -297,6 +297,6 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent imp
     @Override
     public void handleForFailureLoadTaskAction() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        OptionPane.showMessageDialog(messageLoader.getMessage("load.task.failure.dialog"));
+        OptionPane.showMessageDialog(messageLoader.getMessage("load.task.content.failure.dialog"));
     }
 }
