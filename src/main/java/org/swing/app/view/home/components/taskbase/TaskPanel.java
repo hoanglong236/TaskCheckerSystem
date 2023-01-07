@@ -83,6 +83,7 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
     private void initStatusChecker(boolean checked) {
         this.statusChecker = UIComponentFactory.createCheckBox("");
         this.statusChecker.setSelected(checked);
+        this.statusChecker.addActionListener(this);
     }
 
     protected abstract void initTaskCenterPanel(TaskPanelDto taskPanelDto);
@@ -182,14 +183,14 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
                 new Dimension(activationLabelWidth, maxChildComponentHeight));
         availableWidth -= HORIZONTAL_GAP + activationLabelWidth;
 
-        if (this.statusChecker != null) {
+        if (isNeedStatusChecker()) {
             final int statusCheckerWidth = 30;
             this.childComponentSizeMap.put(this.statusChecker,
                     new Dimension(statusCheckerWidth, maxChildComponentHeight));
             availableWidth -= HORIZONTAL_GAP + activationLabelWidth;
         }
 
-        if (this.importantLabel != null) {
+        if (isNeedImportantLabel()) {
             final int importantLabelWidth = 30;
             this.childComponentSizeMap.put(this.importantLabel,
                     new Dimension(importantLabelWidth, maxChildComponentHeight));
@@ -205,11 +206,11 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
     protected void setNotResizableChildComponents() {
         this.activationLabel.setResizable(false);
 
-        if (this.statusChecker != null) {
+        if (isNeedStatusChecker()) {
             this.statusChecker.setResizable(false);
         }
 
-        if (this.importantLabel != null) {
+        if (isNeedImportantLabel()) {
             this.importantLabel.setResizable(false);
         }
     }
@@ -236,6 +237,11 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
         this.taskPanelManager.deleteTaskPanelHandler(this);
     }
 
+    // TODO: handle this
+    private void onActionPerformedForStatusChecker() {
+
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         final Object eventSource = e.getSource();
@@ -247,6 +253,12 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
         if (eventSource == this.deletePopupItem.getSourceComponent()) {
             onActionPerformedForDeletePopupItem();
             return;
+        }
+        if (isNeedStatusChecker()) {
+            if (eventSource == this.statusChecker.getSourceComponent()) {
+                onActionPerformedForStatusChecker();
+                return;
+            }
         }
         throw new IllegalArgumentException();
     }
