@@ -1,8 +1,10 @@
 package org.swing.app.dao.impl;
 
-import org.swing.app.common.Constant;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.swing.app.dao.CommonDao;
 import org.swing.app.dao.connection.MySQLConnection;
+import org.swing.app.dao.exception.DaoException;
 import org.swing.app.dao.sql.CommonDaoSql;
 
 import java.sql.Connection;
@@ -13,70 +15,64 @@ import java.util.Optional;
 
 public class CommonDaoImpl implements CommonDao {
 
+    private static final Logger LOGGER = LogManager.getLogger(CommonDaoImpl.class);
+
     private static final Connection CONNECTION = MySQLConnection.getConnection();
 
-    public Optional<String> getDataValueFromGenMaster(String dataId, String dataCd) {
+    private Optional<String> getDataValueFromGenMaster(String dataId, String dataCd) throws SQLException {
         final String sql = CommonDaoSql.createSqlToGetDataValueFromGenMaster();
         String dataValue = null;
 
-        try {
-            final PreparedStatement preStmt = CONNECTION.prepareStatement(sql);
-            preStmt.setString(1, dataId);
-            preStmt.setString(2, dataCd);
+        final PreparedStatement preStmt = CONNECTION.prepareStatement(sql);
+        preStmt.setString(1, dataId);
+        preStmt.setString(2, dataCd);
 
-            final ResultSet resultSet = preStmt.executeQuery();
-            if (resultSet.next()) {
-                dataValue = resultSet.getString("data_value");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        final ResultSet resultSet = preStmt.executeQuery();
+        if (resultSet.next()) {
+            dataValue = resultSet.getString("data_value");
         }
 
         return Optional.ofNullable(dataValue);
     }
 
-    public Optional<String> getDataNameFromGenMaster(String dataId, String dataCd) {
+    private Optional<String> getDataNameFromGenMaster(String dataId, String dataCd) throws SQLException {
         final String sql = CommonDaoSql.createSqlToGetDataNameFromGenMaster();
         String dataName = null;
 
-        try {
-            final PreparedStatement preStmt = CONNECTION.prepareStatement(sql);
-            preStmt.setString(1, dataId);
-            preStmt.setString(2, dataCd);
+        final PreparedStatement preStmt = CONNECTION.prepareStatement(sql);
+        preStmt.setString(1, dataId);
+        preStmt.setString(2, dataCd);
 
-            final ResultSet resultSet = preStmt.executeQuery();
-            if (resultSet.next()) {
-                dataName = resultSet.getString("data_name");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        final ResultSet resultSet = preStmt.executeQuery();
+        if (resultSet.next()) {
+            dataName = resultSet.getString("data_name");
         }
 
         return Optional.ofNullable(dataName);
     }
 
     @Override
-    public int getTaskIdMaxLength() {
-        final byte defaultTaskIdMaxLength = Constant.DEFAULT_TASK_ID_MAX_LENGTH;
-
+    public Optional<Integer> getTaskIdMaxLength() throws DaoException {
         final String dataId = "01";
         final String dataCd = "02";
-        final Optional<String> dataValue = getDataValueFromGenMaster(dataId, dataCd);
-
-        if (!dataValue.isPresent()) {
-            return defaultTaskIdMaxLength;
-        }
 
         try {
-            return Integer.parseInt(dataValue.get());
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            return defaultTaskIdMaxLength;
+            final Optional<String> dataValue = getDataValueFromGenMaster(dataId, dataCd);
+
+            if (dataValue.isPresent()) {
+                final Integer taskIdMaxLength = Integer.parseInt(dataValue.get());
+                return Optional.of(taskIdMaxLength);
+            }
+
+            return Optional.empty();
+        } catch (SQLException | NumberFormatException e) {
+            LOGGER.error("Method: getTaskIdMaxLength", e);
+            throw new DaoException(e);
         }
     }
 
     @Override
-    public boolean isTaskIdExist(String taskId) {
+    public boolean isTaskIdExist(String taskId) throws DaoException {
         final String sql = CommonDaoSql.createSqlToCheckTaskIdExist();
 
         try {
@@ -88,10 +84,11 @@ public class CommonDaoImpl implements CommonDao {
                 final int taskCount = resultSet.getInt("task_count");
                 return taskCount > 0;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        return true;
+            return true;
+        } catch (SQLException e) {
+            LOGGER.error("Method: isTaskIdExist", e);
+            throw new DaoException(e);
+        }
     }
 }

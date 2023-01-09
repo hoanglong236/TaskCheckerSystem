@@ -1,0 +1,16 @@
+<Configuration status="debug" name="TaskCheckerSystem" packages="">
+    <Appenders>
+        <File name="fileOut" fileName="TaskCheckerSystem.log" append="true">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %m%nw</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+
+    <Root level="INFO">
+        <AppenderRef ref="stdout" />
+        <AppenderRef ref="fileOut"/>
+    </Root>
+</Configuration>
+
+

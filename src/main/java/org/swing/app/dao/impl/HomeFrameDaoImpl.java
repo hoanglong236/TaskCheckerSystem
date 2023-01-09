@@ -1,7 +1,10 @@
 package org.swing.app.dao.impl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.swing.app.dao.HomeFrameDao;
 import org.swing.app.dao.connection.MySQLConnection;
+import org.swing.app.dao.exception.DaoException;
 import org.swing.app.dao.sql.HomeFrameDaoSql;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
@@ -16,6 +19,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public class HomeFrameDaoImpl implements HomeFrameDao {
+
+    private static final Logger LOGGER = LogManager.getLogger(HomeFrameDaoImpl.class);
 
     private static final Connection CONNECTION = MySQLConnection.getConnection();
 
@@ -66,22 +71,22 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
     }
 
     @Override
-    public Set<TaskPanelDto> getIncompleteRootTaskPanelDtos() {
+    public Set<TaskPanelDto> getIncompleteRootTaskPanelDtos() throws DaoException {
         final String sql = HomeFrameDaoSql.createSqlToGetIncompleteRootTaskPanelDto();
 
         try {
             final PreparedStatement preStmt = CONNECTION.prepareStatement(sql);
             final ResultSet resultSet = preStmt.executeQuery();
+
             return getTaskPanelDtosFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Method: getIncompleteRootTaskPanelDtos", e);
+            throw new DaoException(e);
         }
-
-        return new LinkedHashSet<>();
     }
 
     @Override
-    public Set<TaskPanelDto> getTaskPanelDtosByParentId(String parentId) {
+    public Set<TaskPanelDto> getTaskPanelDtosByParentId(String parentId) throws DaoException {
         final String sql = HomeFrameDaoSql.createSqlToGetTaskPanelDtoByParentId();
 
         try {
@@ -91,14 +96,13 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
             final ResultSet resultSet = preStmt.executeQuery();
             return getTaskPanelDtosFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Method: getTaskPanelDtosByParentId", e);
+            throw new DaoException(e);
         }
-
-        return new LinkedHashSet<>();
     }
 
     @Override
-    public Optional<TaskPanelDto> getTaskPanelDtoById(String taskId) {
+    public Optional<TaskPanelDto> getTaskPanelDtoById(String taskId) throws DaoException {
         final String sql = HomeFrameDaoSql.createSqlToGetTaskPanelDtoById();
 
         try {
@@ -110,15 +114,16 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
                 final TaskPanelDto taskPanelDto = getTaskPanelDtoFromResultSet(resultSet);
                 return Optional.of(taskPanelDto);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        return Optional.empty();
+            return Optional.empty();
+        } catch (SQLException e) {
+            LOGGER.error("Method: getTaskPanelDtoById", e);
+            throw new DaoException(e);
+        }
     }
 
     @Override
-    public Optional<TaskDto> getTaskDtoById(String taskId) {
+    public Optional<TaskDto> getTaskDtoById(String taskId) throws DaoException {
         final String sql = HomeFrameDaoSql.createSqlToGetTaskDtoById();
 
         try {
@@ -130,15 +135,16 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
                 final TaskDto taskDto = getTaskDtoFromResultSet(resultSet);
                 return Optional.of(taskDto);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        return Optional.empty();
+            return Optional.empty();
+        } catch (SQLException e) {
+            LOGGER.error("Method: getTaskDtoById", e);
+            throw new DaoException(e);
+        }
     }
 
     @Override
-    public boolean insertTaskByDto(TaskDto taskDto) {
+    public void insertTaskByDto(TaskDto taskDto) throws DaoException {
         final String sql = HomeFrameDaoSql.createSqlToInsertTask();
 
         try {
@@ -154,15 +160,13 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
 
             preStmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            LOGGER.error("Method: insertTaskByDto", e);
+            throw new DaoException(e);
         }
-
-        return true;
     }
 
     @Override
-    public boolean updateTaskByDto(TaskDto taskDto) {
+    public void updateTaskByDto(TaskDto taskDto) throws DaoException {
         final String query = HomeFrameDaoSql.createSqlToUpdateTaskById();
 
         try {
@@ -176,15 +180,14 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
             preStmt.setString(6, taskDto.getId());
 
             preStmt.executeUpdate();
-            return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            LOGGER.error("Method: updateTaskByDto", e);
+            throw new DaoException(e);
         }
     }
 
     @Override
-    public boolean deleteTaskById(String taskId) {
+    public void deleteTaskById(String taskId) throws DaoException {
         final String sql = HomeFrameDaoSql.createSqlToDeleteTaskById();
 
         try {
@@ -192,10 +195,9 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
             preStmt.setString(1, taskId);
 
             preStmt.executeUpdate();
-            return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            LOGGER.error("Method: deleteTaskById", e);
+            throw new DaoException(e);
         }
     }
 }

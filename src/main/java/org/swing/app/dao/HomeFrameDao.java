@@ -1,5 +1,6 @@
 package org.swing.app.dao;
 
+import org.swing.app.dao.exception.DaoException;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 
@@ -8,17 +9,17 @@ import java.util.Set;
 
 public interface HomeFrameDao {
 
-    Set<TaskPanelDto> getIncompleteRootTaskPanelDtos();
+    Set<TaskPanelDto> getIncompleteRootTaskPanelDtos() throws DaoException;
 
-    Set<TaskPanelDto> getTaskPanelDtosByParentId(String parentId);
+    Set<TaskPanelDto> getTaskPanelDtosByParentId(String parentId) throws DaoException;
 
-    Optional<TaskPanelDto> getTaskPanelDtoById(String taskId);
+    Optional<TaskPanelDto> getTaskPanelDtoById(String taskId) throws DaoException;
 
-    Optional<TaskDto> getTaskDtoById(String taskId);
+    Optional<TaskDto> getTaskDtoById(String taskId) throws DaoException;
 
-    boolean insertTaskByDto(TaskDto taskDto);
+    void insertTaskByDto(TaskDto taskDto) throws DaoException;
 
-    boolean updateTaskByDto(TaskDto taskDto);
+    void updateTaskByDto(TaskDto taskDto) throws DaoException;
 
-    boolean deleteTaskById(String taskId);
+    void deleteTaskById(String taskId) throws DaoException;
 }
