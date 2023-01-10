@@ -58,72 +58,36 @@ public class TaskPanelDto {
         return this.taskDto.getId();
     }
 
-    public void setId(String id) {
-        this.taskDto.setId(id);
-    }
-
     public String getParentId() {
         return this.taskDto.getParentId();
-    }
-
-    public void setParentId(String parentId) {
-        this.taskDto.setParentId(parentId);
     }
 
     public String getTitle() {
         return this.taskDto.getTitle();
     }
 
-    public void setTitle(String title) {
-        this.taskDto.setTitle(title);
-    }
-
     public boolean isImportant() {
         return this.taskDto.isImportant();
-    }
-
-    public void setImportant(boolean important) {
-        this.taskDto.setImportant(important);
     }
 
     public LocalDateTime getStartDateTime() {
         return this.taskDto.getStartDateTime();
     }
 
-    public void setStartDateTime(LocalDateTime startDateTime) {
-        this.taskDto.setStartDateTime(startDateTime);
-    }
-
     public LocalDateTime getFinishDateTime() {
         return this.taskDto.getFinishDateTime();
-    }
-
-    public void setFinishDateTime(LocalDateTime finishDateTime) {
-        this.taskDto.setFinishDateTime(finishDateTime);
     }
 
     public LocalDateTime getSubmitDateTime() {
         return this.taskDto.getSubmitDateTime();
     }
 
-    public void setSubmitDateTime(LocalDateTime submitDateTime) {
-        this.taskDto.setSubmitDateTime(submitDateTime);
-    }
-
     public boolean isCompleted() {
         return this.taskDto.isCompleted();
     }
 
-    public void setCompleted(boolean completed) {
-        this.taskDto.setCompleted(completed);
-    }
-
     public String getNote() {
         return this.taskDto.getNote();
-    }
-
-    public void setNote(String note) {
-        this.taskDto.setNote(note);
     }
 
     public TaskPanelDto getCopy() {

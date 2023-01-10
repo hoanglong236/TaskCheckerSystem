@@ -65,8 +65,9 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
             preStmt.setBoolean(2, taskDto.isImportant());
             preStmt.setTimestamp(3, Timestamp.valueOf(taskDto.getStartDateTime()));
             preStmt.setTimestamp(4, Timestamp.valueOf(taskDto.getFinishDateTime()));
-            preStmt.setString(5, taskDto.getNote());
-            preStmt.setString(6, taskDto.getId());
+            preStmt.setTimestamp(5, Timestamp.valueOf(taskDto.getSubmitDateTime()));
+            preStmt.setString(6, taskDto.getNote());
+            preStmt.setString(7, taskDto.getId());
 
             preStmt.executeUpdate();
         } catch (SQLException e) {
@@ -97,32 +98,34 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
         taskDto.setParentId(resultSet.getString("parent_id"));
         taskDto.setTitle(resultSet.getString("title"));
         taskDto.setImportant(resultSet.getBoolean("important"));
-        taskDto.setStartDateTime(resultSet.getTimestamp("start_datetime").toLocalDateTime());
-        taskDto.setFinishDateTime(resultSet.getTimestamp("finish_datetime").toLocalDateTime());
-        taskDto.setNote(resultSet.getString("note"));
 
+        final Timestamp startTimestamp = resultSet.getTimestamp("start_datetime");
+        taskDto.setStartDateTime(startTimestamp == null ? null : startTimestamp.toLocalDateTime());
+
+        final Timestamp finishTimestamp = resultSet.getTimestamp("finish_datetime");
+        taskDto.setFinishDateTime(finishTimestamp == null ? null : finishTimestamp.toLocalDateTime());
+
+        final Timestamp submitTimestamp = resultSet.getTimestamp("submit_datetime");
+        taskDto.setSubmitDateTime(submitTimestamp == null ? null : submitTimestamp.toLocalDateTime());
+
+        taskDto.setNote(resultSet.getString("note"));
         return taskDto;
     }
 
     private TaskPanelDto getTaskPanelDtoFromResultSet(ResultSet resultSet) throws SQLException {
         final TaskPanelDto taskPanelDto = new TaskPanelDto();
-        final Timestamp startTimestamp = resultSet.getTimestamp("start_datetime");
-        final Timestamp finishTimestamp = resultSet.getTimestamp("finish_datetime");
-        final Timestamp submitTimestamp = resultSet.getTimestamp("submit_datetime");
 
-        taskPanelDto.setId(resultSet.getString("id"));
-        taskPanelDto.setParentId(resultSet.getString("parent_id"));
-        taskPanelDto.setTitle(resultSet.getString("title"));
+        final TaskDto taskDto = getTaskDtoFromResultSet(resultSet);
+        taskPanelDto.setTaskDto(taskDto);
 
-        taskPanelDto.setStartDateTime(startTimestamp == null ? null : startTimestamp.toLocalDateTime());
-        taskPanelDto.setFinishDateTime(finishTimestamp == null ? null : finishTimestamp.toLocalDateTime());
-        taskPanelDto.setSubmitDateTime(submitTimestamp == null ? null : submitTimestamp.toLocalDateTime());
+        final Timestamp createdAtTimestamp = resultSet.getTimestamp("created_at");
+        taskPanelDto.setCreatedAt(createdAtTimestamp == null ? null : createdAtTimestamp.toLocalDateTime());
 
-        taskPanelDto.setCompleted(resultSet.getBoolean("completed"));
-        taskPanelDto.setNote(resultSet.getString("note"));
+        final Timestamp updatedAtTimestamp = resultSet.getTimestamp("updated_at");
+        taskPanelDto.setUpdatedAt(updatedAtTimestamp == null ? null : updatedAtTimestamp.toLocalDateTime());
+
         taskPanelDto.setChildCompletedTaskCount(resultSet.getInt("child_task_completed_count"));
         taskPanelDto.setChildTaskCount(resultSet.getInt("child_task_count"));
-
         return taskPanelDto;
     }
 

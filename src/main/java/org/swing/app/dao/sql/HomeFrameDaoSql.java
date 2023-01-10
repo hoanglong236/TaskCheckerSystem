@@ -6,7 +6,7 @@ public class HomeFrameDaoSql {
         final StringBuilder sql = new StringBuilder();
 
         sql.append("SELECT id, parent_id, title, start_datetime, finish_datetime\n");
-        sql.append("    , submit_datetime, completed, note\n");
+        sql.append("    , submit_datetime, completed, note, created_at, updated_at\n");
         sql.append("    , (\n");
         sql.append("        SELECT count(*)\n");
         sql.append("        FROM task t1\n");
@@ -53,7 +53,7 @@ public class HomeFrameDaoSql {
     public static final String createSqlToGetTaskDtoById() {
         final StringBuilder sql = new StringBuilder();
 
-        sql.append("SELECT id, parent_id, title, important, start_datetime, finish_datetime, note\n");
+        sql.append("SELECT id, parent_id, title, important, start_datetime, finish_datetime, submit_datetime note\n");
         sql.append("FROM task\n");
         sql.append("WHERE id = ?");
 
@@ -77,6 +77,7 @@ public class HomeFrameDaoSql {
         query.append("    AND important = ?\n");
         query.append("    AND start_datetime = ?\n");
         query.append("    AND finish_datetime = ?\n");
+        query.append("    AND submit_datetime = ?\n");
         query.append("    AND note = ?\n");
         query.append("WHERE id = ?");
 
