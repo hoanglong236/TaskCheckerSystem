@@ -7,7 +7,6 @@ import org.swing.app.view.components.FrameWrapperComponent;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.components.modal.ModalWrapperComponent;
 import org.swing.app.view.components.modal.OptionPane;
-import org.swing.app.view.components.ui.LabelArea;
 import org.swing.app.view.components.ui.button.BasicButton;
 import org.swing.app.view.taskform.factory.TaskFormFactory;
 
@@ -25,19 +24,15 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private TaskForm taskForm;
-    private LabelArea validateMessageArea;
     private BasicButton submitButton;
     private BasicButton resetButton;
     private BasicButton clearButton;
 
     private final TaskFormFactory taskFormFactory;
 
-    private Optional<TaskDto> formData;
-
     public TaskFormModal(FrameWrapperComponent parentFrame, TaskFormFactory taskFormFactory) {
         super(parentFrame);
         this.taskFormFactory = taskFormFactory;
-        this.formData = Optional.empty();
         setLayout(MAIN_LAYOUT);
         init();
     }
@@ -45,13 +40,8 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
     public TaskFormModal(FrameWrapperComponent parentFrame, TaskFormFactory taskFormFactory, TaskDto taskDto) {
         super(parentFrame);
         this.taskFormFactory = taskFormFactory;
-        this.formData = Optional.ofNullable(taskDto);
         setLayout(MAIN_LAYOUT);
         init(taskDto);
-    }
-
-    public Optional<TaskDto> getFormData() {
-        return formData;
     }
 
     private void initTaskForm() {
@@ -60,10 +50,6 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
 
     private void initTaskForm(TaskDto taskDto) {
         this.taskForm = this.taskFormFactory.createTaskForm(taskDto);
-    }
-
-    protected void initValidateMessageArea(String message) {
-        this.validateMessageArea = UIComponentFactory.createLabelArea(message);
     }
 
     private void initSubmitButton() {
@@ -88,10 +74,6 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
         initTaskForm();
         addChildComponent(this.taskForm);
 
-        final String emptyMessage = "";
-        initValidateMessageArea(emptyMessage);
-        addChildComponent(this.validateMessageArea);
-
         initSubmitButton();
         addChildComponent(this.submitButton);
 
@@ -106,10 +88,6 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
         initTaskForm(taskDto);
         addChildComponent(this.taskForm);
 
-        final String emptyMessage = "";
-        initValidateMessageArea(emptyMessage);
-        addChildComponent(this.validateMessageArea);
-
         initSubmitButton();
         addChildComponent(this.submitButton);
 
@@ -120,39 +98,21 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
         addChildComponent(this.clearButton);
     }
 
-    private void saveFormDataBeforeSubmit() {
-        final TaskDto taskDto = this.taskForm.getFormData();
-        this.formData = Optional.ofNullable(taskDto);
-    }
-
     private boolean validateFormData() {
         final String validateMessage = this.taskForm.validate();
-
-        if (!validateMessage.isEmpty()) {
-            this.validateMessageArea.setText(validateMessage);
-            return false;
+        if (validateMessage.isEmpty()) {
+            return true;
         }
-
-        return true;
+        OptionPane.showErrorDialog(validateMessage);
+        return false;
     }
 
     public void reset() {
-        if (this.formData.isPresent()) {
-            this.taskForm.setFormData(formData.get());
-            clearValidateMessageArea();
-        } else {
-            clear();
-        }
-    }
-
-    private void clearValidateMessageArea() {
-        final String emptyMessage = "";
-        this.validateMessageArea.setText(emptyMessage);
+        this.taskForm.reset();
     }
 
     public void clear() {
         this.taskForm.clear();
-        clearValidateMessageArea();
     }
 
     @Override
@@ -162,18 +122,13 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
 
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
-        final int validateMessageAreaHeight = 80;
-        this.childComponentSizeMap.put(this.validateMessageArea,
-                new Dimension(maxChildComponentWidth, validateMessageAreaHeight));
-
         final byte controlButtonWidth = 80;
         final int controlButtonHeight = 30;
         this.childComponentSizeMap.put(this.submitButton, new Dimension(controlButtonWidth, controlButtonHeight));
         this.childComponentSizeMap.put(this.resetButton, new Dimension(controlButtonWidth, controlButtonHeight));
         this.childComponentSizeMap.put(this.clearButton, new Dimension(controlButtonWidth, controlButtonHeight));
 
-        final int taskFormHeight = availableHeight - VERTICAL_GAP - validateMessageAreaHeight
-                - VERTICAL_GAP - controlButtonHeight - VERTICAL_GAP;
+        final int taskFormHeight = availableHeight - VERTICAL_GAP - controlButtonHeight - VERTICAL_GAP;
         this.childComponentSizeMap.put(this.taskForm, new Dimension(maxChildComponentWidth, taskFormHeight));
     }
 
@@ -191,7 +146,6 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
         }
 
         if (validateFormData()) {
-            saveFormDataBeforeSubmit();
             dispose();
         }
     }
@@ -221,5 +175,9 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
             return;
         }
         throw new IllegalArgumentException();
+    }
+
+    public Optional<TaskDto> getFormData() {
+        return Optional.ofNullable(this.taskForm.getFormData());
     }
 }

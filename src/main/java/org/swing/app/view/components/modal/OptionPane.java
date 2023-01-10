@@ -1,5 +1,7 @@
 package org.swing.app.view.components.modal;
 
+import org.swing.app.util.MessageLoader;
+
 import javax.swing.JOptionPane;
 
 public class OptionPane {
@@ -10,6 +12,13 @@ public class OptionPane {
 
     public static void showMessageDialog(String message) {
         JOptionPane.showMessageDialog(null, message);
+    }
+
+    public static void showErrorDialog(String errorMessage) {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+
+        JOptionPane.showMessageDialog(null,
+                 errorMessage, messageLoader.getMessage("error.title.dialog"), JOptionPane.ERROR_MESSAGE);
     }
 
     public static byte showConfirmDialog(String confirmQuestion, String confirmTitle) {

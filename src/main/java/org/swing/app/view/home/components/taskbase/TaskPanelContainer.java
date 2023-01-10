@@ -43,15 +43,12 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent implements
     private final List<TaskPanel> incompleteTaskPanels = new ArrayList<>();
     private final List<TaskPanel> completedTaskPanels = new ArrayList<>();
 
-    private final TaskPanelManager taskPanelManager;
-
     private Comparator<TaskPanel> comparator;
 
     private final Map<Object, TaskPanel> sourceComponentTaskPanelMap = new HashMap<>();
 
-    public TaskPanelContainer(HomeFrameController homeFrameController, TaskPanelManager taskPanelManager) {
+    public TaskPanelContainer(HomeFrameController homeFrameController) {
         super(homeFrameController);
-        this.taskPanelManager = taskPanelManager;
         this.comparator = new TaskPanelCreateDateComparator();
 
         setLayout(MAIN_LAYOUT);
@@ -146,6 +143,7 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent implements
         resizeHeightWithoutResizeChildComponent(this.preferHeight);
 
         displayNotifyLabelIfNecessary();
+        refreshUI();
     }
 
     public void deleteTaskPanel(TaskPanel taskPanel) {
@@ -163,6 +161,7 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent implements
         resizeHeightWithoutResizeChildComponent(this.preferHeight);
 
         hiddenNotifyLabelIfNecessary();
+        refreshUI();
     }
 
     protected int getPreferChildComponentWidth() {
@@ -227,8 +226,9 @@ public abstract class TaskPanelContainer extends HomeWrapperComponent implements
         deactivateTaskPanels(this.completedTaskPanels.iterator());
     }
 
+    // TODO: handle this
     private void onMousePressedForTaskPanel(TaskPanel taskPanel) {
-        this.taskPanelManager.loadTaskPanelContentHandler(taskPanel);
+
     }
 
     @Override

@@ -1,7 +1,8 @@
 package org.swing.app.view.home.sidebar;
 
-import org.swing.app.controller.ControllerBase;
+import org.swing.app.controller.ControllerResponse;
 import org.swing.app.controller.HomeFrameController;
+import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
@@ -9,19 +10,21 @@ import org.swing.app.view.components.modal.OptionPane;
 import org.swing.app.view.components.ui.button.BasicButton;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
-import org.swing.app.view.components.request.InsertableTaskComponent;
 import org.swing.app.view.home.components.taskbase.TaskPanelManagerComponent;
 import org.swing.app.view.home.components.factory.TaskPanelManagerComponentFactory;
 import org.swing.app.view.home.components.roottask.factory.RootTaskPanelManagerComponentFactory;
+import org.swing.app.view.taskform.factory.TaskFormModalFactory;
+import org.swing.app.view.taskform.roottask.factory.RootTaskFormModalFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Optional;
 import java.util.Set;
 
-public class HomeSideBar extends HomeWrapperComponent implements ActionListener, InsertableTaskComponent {
+public class HomeSideBar extends HomeWrapperComponent implements ActionListener {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.MEDIUM_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.MEDIUM_V_GAP;
@@ -105,8 +108,39 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
         this.addNewTaskBtn.setResizable(false);
     }
 
+    private void handleForInsertTaskPanelResponse(ControllerResponse response) {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+
+        if (response.getResponseType() == ControllerResponse.RESPONSE_TYPE_SUCCESS) {
+            final Optional<Object> insertedTaskPanelDtoOptional = response.getData(
+                    messageLoader.getMessage("inserted.task.panel.dto"));
+
+            if (insertedTaskPanelDtoOptional.isPresent()) {
+                this.dynamicTaskPanelManagerComponent.addTaskPanelByDto(
+                        (TaskPanelDto) insertedTaskPanelDtoOptional.get());
+                OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.success.dialog"));
+                return;
+            }
+
+            OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.failure.dialog"));
+            return;
+        }
+        if (response.getResponseType() == ControllerResponse.RESPONSE_TYPE_ERROR) {
+            OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.failure.dialog"));
+        }
+    }
+
     private void onActionPerformedForAddNewTaskBtn() {
-        this.homeFrameController.requestAddNewTaskPanel(this, ControllerBase.ROOT_TASK_TYPE);
+        final TaskFormModalFactory taskFormModalFactory = new RootTaskFormModalFactory();
+        final Optional<TaskDto> formModalResult = taskFormModalFactory.showAddingTaskFormModal(getRootFrame());
+
+        if (!formModalResult.isPresent()) {
+            return;
+        }
+
+        final TaskDto taskDtoToInsert = formModalResult.get();
+        final ControllerResponse response = this.homeFrameController.requestInsertTaskPanel(taskDtoToInsert);
+        handleForInsertTaskPanelResponse(response);
     }
 
     @Override
@@ -118,24 +152,5 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener,
             return;
         }
         throw new IllegalArgumentException();
-    }
-
-    @Override
-    public void handleForSuccessInsertTaskAction(TaskPanelDto taskPanelDto) {
-        this.dynamicTaskPanelManagerComponent.addTaskPanelByDto(taskPanelDto);
-
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-        OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.success.dialog"));
-    }
-
-    @Override
-    public void handleForFailureInsertTaskAction() {
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-        OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.success.dialog"));
-    }
-
-    @Override
-    public void handleForCancelInsertTaskAction() {
-
     }
 }

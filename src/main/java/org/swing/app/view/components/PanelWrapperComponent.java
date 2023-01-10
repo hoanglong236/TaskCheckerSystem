@@ -18,4 +18,9 @@ public abstract class PanelWrapperComponent extends WrapperComponent {
     public void setOpaque(boolean opaque) {
         ((JPanel) this.sourceComponent).setOpaque(opaque);
     }
+
+    // TODO: handle this
+    public FrameWrapperComponent getRootFrame() {
+        return null;
+    }
 }

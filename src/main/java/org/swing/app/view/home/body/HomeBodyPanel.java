@@ -27,19 +27,55 @@ public class HomeBodyPanel extends HomeWrapperComponent {
         setLayout(MAIN_LAYOUT);
     }
 
-    public void loadRootTaskContentPanel(String taskTitle, Set<TaskPanelDto> childTaskPanelDtos) {
-        this.rootTaskContentPanel = new RootTaskContentPanel(this.homeFrameController, taskTitle, childTaskPanelDtos);
+    private void initRootTaskContentPanel(TaskPanelDto rootTaskPanelDto, Set<TaskPanelDto> childTaskPanelDtos) {
+        this.rootTaskContentPanel = new RootTaskContentPanel(this.homeFrameController,
+                rootTaskPanelDto, childTaskPanelDtos);
     }
 
-    public void loadNodeTaskContentPanel(String taskTitle, Set<TaskPanelDto> childTaskPanelDtos) {
-        this.nodeTaskContentPanel = new NodeTaskContentPanel(this.homeFrameController, taskTitle, childTaskPanelDtos);
-        resize(getSize());
+    private void initNodeTaskContentPanel(TaskPanelDto nodeTaskPanelDto, Set<TaskPanelDto> childTaskPanelDtos) {
+        this.nodeTaskContentPanel = new NodeTaskContentPanel(this.homeFrameController,
+                nodeTaskPanelDto, childTaskPanelDtos);
     }
 
-    public void removeNodeTaskContentPanel() {
-        this.nodeTaskContentPanel.cancelAllEventListeners();
-        this.nodeTaskContentPanel = null;
-        resize(getSize());
+    private void clearRootTaskContentPanel() {
+        if (this.rootTaskContentPanel != null) {
+            removeChildComponent(this.rootTaskContentPanel);
+            this.rootTaskContentPanel.cancelAllEventListeners();
+            this.rootTaskContentPanel = null;
+        }
+    }
+
+    private void clearNodeTaskContentPanel() {
+        if (this.nodeTaskContentPanel != null) {
+            removeChildComponent(this.nodeTaskContentPanel);
+            this.nodeTaskContentPanel.cancelAllEventListeners();
+            this.nodeTaskContentPanel = null;
+        }
+    }
+
+    public void loadRootTaskContent(TaskPanelDto rootTaskPanelDto, Set<TaskPanelDto> childTaskPanelDtos) {
+        clearNodeTaskContentPanel();
+        clearRootTaskContentPanel();
+        initRootTaskContentPanel(rootTaskPanelDto, childTaskPanelDtos);
+        addChildComponent(this.rootTaskContentPanel);
+    }
+
+    public void loadNodeTaskContent(TaskPanelDto nodeTaskPanelDto, Set<TaskPanelDto> childTaskPanelDtos) {
+        clearNodeTaskContentPanel();
+        initNodeTaskContentPanel(nodeTaskPanelDto, childTaskPanelDtos);
+        addChildComponent(this.nodeTaskContentPanel);
+    }
+
+    public void clearContentOf(String taskPanelDtoId) {
+        if (this.rootTaskContentPanel.isContentOf(taskPanelDtoId)) {
+            clearRootTaskContentPanel();
+            clearNodeTaskContentPanel();
+            return;
+        }
+
+        if (this.nodeTaskContentPanel.isContentOf(taskPanelDtoId)) {
+            clearNodeTaskContentPanel();
+        }
     }
 
     @Override

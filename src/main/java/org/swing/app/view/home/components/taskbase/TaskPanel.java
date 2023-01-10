@@ -1,9 +1,12 @@
 package org.swing.app.view.home.components.taskbase;
 
+import org.swing.app.controller.ControllerResponse;
 import org.swing.app.controller.HomeFrameController;
+import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.components.modal.OptionPane;
 import org.swing.app.view.components.ui.label.ActivationLabel;
 import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.components.ui.Popup;
@@ -11,15 +14,19 @@ import org.swing.app.view.components.ui.button.CheckBox;
 import org.swing.app.view.components.ui.button.PopupItem;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
+import org.swing.app.view.taskform.factory.TaskFormModalFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
-public abstract class TaskPanel extends HomeWrapperComponent implements ActionListener {
+public abstract class TaskPanel extends HomeWrapperComponent implements ActionListener, MouseListener {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
@@ -39,29 +46,41 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
 
     private TaskPanelDto taskPanelDto;
 
+    private final TaskFormModalFactory taskFormModalFactory;
+
     public TaskPanel(HomeFrameController homeFrameController, TaskPanelManager taskPanelManager,
-            int preferHeight, TaskPanelDto taskPanelDto) {
+            TaskFormModalFactory taskFormModalFactory, int preferHeight, TaskPanelDto taskPanelDto) {
 
         super(homeFrameController);
         this.taskPanelManager = taskPanelManager;
         this.preferHeight = preferHeight;
         this.taskPanelDto = taskPanelDto;
+        this.taskFormModalFactory = taskFormModalFactory;
+
         setLayout(MAIN_LAYOUT);
         init(taskPanelDto);
     }
 
+    public TaskPanelDto getTaskPanelDto() {
+        return taskPanelDto;
+    }
+
+    // TODO: handle this
     public String getTaskId() {
         return this.taskPanelDto.getId();
     }
 
+    // TODO: handle this
     public LocalDateTime getCreateDateTime() {
         return this.taskPanelDto.getCreatedAt();
     }
 
+    // TODO: handle this
     public LocalDateTime getModifyDateTime() {
         return this.taskPanelDto.getUpdatedAt();
     }
 
+    // TODO: handle this
     public boolean isCompleted() {
         return this.taskPanelDto.isCompleted();
     }
@@ -74,8 +93,6 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
 
     protected abstract boolean isNeedImportantLabel();
 
-    public abstract byte getTaskTypeToRequest();
-
     private void initActivationLabel() {
         this.activationLabel = UIComponentFactory.createActivationLabel();
     }
@@ -86,7 +103,9 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
         this.statusChecker.addActionListener(this);
     }
 
-    protected abstract void initTaskCenterPanel(TaskPanelDto taskPanelDto);
+    private void initTaskCenterPanel(TaskPanelDto taskPanelDto) {
+        this.taskCenterPanel = new TaskCenterPanel(this.homeFrameController, taskPanelDto);
+    }
 
     private void initImportantLabel(boolean important) {
         if (important) {
@@ -94,6 +113,7 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
         } else {
             this.importantLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_UNIMPORTANT);
         }
+        this.importantLabel.addMouseListener(this);
     }
 
     private void initEditPopupItem() {
@@ -229,17 +249,82 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
         this.popup.cancelAllEventListeners();
     }
 
+    private void handleForUpdateTaskPanelResponse(ControllerResponse response, boolean isShowSuccessDialog) {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+
+        if (response.getResponseType() == ControllerResponse.RESPONSE_TYPE_SUCCESS) {
+            final Optional<Object> updatedTaskPanelDtoOptional = response.getData(
+                    messageLoader.getMessage("inserted.task.panel.dto"));
+
+            if (updatedTaskPanelDtoOptional.isPresent()) {
+                update((TaskPanelDto) updatedTaskPanelDtoOptional.get());
+                this.taskPanelManager.handleUpdateTaskPanel(this);
+
+                if (isShowSuccessDialog) {
+                    OptionPane.showMessageDialog(messageLoader.getMessage("update.task.success.dialog"));
+                }
+                return;
+            }
+
+            OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.failure.dialog"));
+            return;
+        }
+        if (response.getResponseType() == ControllerResponse.RESPONSE_TYPE_ERROR) {
+            OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.failure.dialog"));
+        }
+    }
+
     private void onActionPerformedForEditPopupItem() {
-        this.taskPanelManager.updateTaskPanelHandler(this);
+        final TaskDto currentTaskDto = this.taskPanelDto.getTaskDto();
+        final Optional<TaskDto> newTaskDtoOptional = this.taskFormModalFactory.showUpdatingTaskFormModal(
+                getRootFrame(), currentTaskDto);
+
+        if (!newTaskDtoOptional.isPresent()) {
+            return;
+        }
+
+        final TaskDto taskDtoToUpdate = newTaskDtoOptional.get();
+        final ControllerResponse response = this.homeFrameController.requestUpdateTaskPanel(taskDtoToUpdate);
+        handleForUpdateTaskPanelResponse(response, true);
+    }
+
+    private void handleForDeleteTaskPanelResponse(ControllerResponse response) {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+
+        if (response.getResponseType() == ControllerResponse.RESPONSE_TYPE_SUCCESS) {
+            cancelAllEventListeners();
+            this.taskPanelManager.handleDeleteTaskPanel(this);
+            OptionPane.showMessageDialog(messageLoader.getMessage("delete.task.success.dialog"));
+            return;
+        }
+        if (response.getResponseType() == ControllerResponse.RESPONSE_TYPE_ERROR) {
+            OptionPane.showMessageDialog(messageLoader.getMessage("delete.task.failure.dialog"));
+        }
     }
 
     private void onActionPerformedForDeletePopupItem() {
-        this.taskPanelManager.deleteTaskPanelHandler(this);
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        final byte confirmResult = OptionPane.showConfirmDialog(
+                messageLoader.getMessage("confirm.dialog.question"),
+                messageLoader.getMessage("confirm.dialog.delete.task.title"));
+
+        if (confirmResult != OptionPane.YES_DIALOG_OPTION) {
+            return;
+        }
+
+        final ControllerResponse response = this.homeFrameController.requestDeleteTaskPanel(getTaskId());
+        handleForDeleteTaskPanelResponse(response);
     }
 
-    // TODO: handle this
     private void onActionPerformedForStatusChecker() {
+        final boolean isCompleted = this.statusChecker.isSelected();
 
+        final TaskDto taskDtoToUpdate = this.taskPanelDto.getTaskDto();
+        taskDtoToUpdate.setCompleted(isCompleted);
+        taskDtoToUpdate.setSubmitDateTime(LocalDateTime.now());
+
+        final ControllerResponse response = this.homeFrameController.requestUpdateTaskPanel(taskDtoToUpdate);
+        handleForUpdateTaskPanelResponse(response, false);
     }
 
     @Override
@@ -261,5 +346,44 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
             }
         }
         throw new IllegalArgumentException();
+    }
+
+    private void onMousePressedForImportantLabel() {
+        final boolean currentImportant = this.taskPanelDto.isImportant();
+
+        final TaskDto taskDtoToUpdate = this.taskPanelDto.getTaskDto();
+        taskDtoToUpdate.setImportant(!currentImportant);
+
+        final ControllerResponse response = this.homeFrameController.requestUpdateTaskPanel(taskDtoToUpdate);
+        handleForUpdateTaskPanelResponse(response, false);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        final Object eventSource = e.getSource();
+
+        if (isNeedImportantLabel()) {
+            if (eventSource == this.importantLabel.getSourceComponent()) {
+                onMousePressedForImportantLabel();
+                return;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }

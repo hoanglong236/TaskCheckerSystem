@@ -56,12 +56,16 @@ public class HomeFrame extends FrameWrapperComponent {
         addChildComponent(this.bodyPanel);
     }
 
-    public void loadRootTaskContentPanel(String taskTitle, Set<TaskPanelDto> childTaskPanelDtos) {
-        this.bodyPanel.loadRootTaskContentPanel(taskTitle, childTaskPanelDtos);
+    public void loadRootTaskContent(TaskPanelDto masterTaskPanelDto, Set<TaskPanelDto> childTaskPanelDtos) {
+        this.bodyPanel.loadRootTaskContent(masterTaskPanelDto, childTaskPanelDtos);
     }
 
-    public void loadNodeTaskContentPanel(String taskTitle, Set<TaskPanelDto> childTaskPanelDtos) {
-        this.bodyPanel.loadNodeTaskContentPanel(taskTitle, childTaskPanelDtos);
+    public void loadNodeTaskContent(TaskPanelDto masterTaskPanelDto, Set<TaskPanelDto> childTaskPanelDtos) {
+        this.bodyPanel.loadNodeTaskContent(masterTaskPanelDto, childTaskPanelDtos);
+    }
+
+    public void clearContentOf(String taskPanelDtoId) {
+        this.bodyPanel.clearContentOf(taskPanelDtoId);
     }
 
     @Override
@@ -81,6 +85,6 @@ public class HomeFrame extends FrameWrapperComponent {
     @Override
     protected void setNotResizableChildComponents() {
         this.sideBar.setResizable(true);
-        this.bodyPanel.setResizable(false);
+        this.bodyPanel.setResizable(true);
     }
 }
