@@ -46,7 +46,9 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements A
         super(homeFrameController);
         this.taskPanelManagerComponentFactory = taskPanelManagerComponentFactory;
         this.taskFormModalFactory = taskFormModalFactory;
-        this.masterTaskPanelDtoId = masterTaskPanelDto.getId();
+
+        final TaskDto masterTaskDto = masterTaskPanelDto.getTaskDto();
+        this.masterTaskPanelDtoId = masterTaskDto.getId();
 
         setLayout(MAIN_LAYOUT);
         init(masterTaskPanelDto, childTaskPanelDtos);
@@ -72,7 +74,9 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements A
     }
 
     private void init(TaskPanelDto masterTaskPanelDto, Set<TaskPanelDto> childTaskPanelDtos) {
-        initMasterTitleLabel(masterTaskPanelDto.getTitle());
+        final TaskDto masterTaskDto = masterTaskPanelDto.getTaskDto();
+
+        initMasterTitleLabel(masterTaskDto.getTitle());
         addChildComponent(this.masterTitleLabel);
 
         initChildTaskPanelManagerComponent(childTaskPanelDtos);
@@ -162,6 +166,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements A
     }
 
     public void updateMaster(TaskPanelDto masterTaskPanelDto) {
-        this.masterTitleLabel.setText(masterTaskPanelDto.getTitle());
+        final TaskDto masterTaskDto = masterTaskPanelDto.getTaskDto();
+        this.masterTitleLabel.setText(masterTaskDto.getTitle());
     }
 }

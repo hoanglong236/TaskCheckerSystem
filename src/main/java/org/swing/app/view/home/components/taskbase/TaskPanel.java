@@ -67,7 +67,8 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
 
     // TODO: handle this
     public String getTaskId() {
-        return this.taskPanelDto.getId();
+        final TaskDto taskDto = this.taskPanelDto.getTaskDto();
+        return taskDto.getId();
     }
 
     // TODO: handle this
@@ -82,7 +83,8 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
 
     // TODO: handle this
     public boolean isCompleted() {
-        return this.taskPanelDto.isCompleted();
+        final TaskDto taskDto = this.taskPanelDto.getTaskDto();
+        return taskDto.isCompleted();
     }
 
     public int getPreferHeight() {
@@ -141,11 +143,13 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
     }
 
     private void init(TaskPanelDto taskPanelDto) {
+        final TaskDto taskDto = taskPanelDto.getTaskDto();
+
         initActivationLabel();
         addChildComponent(this.activationLabel);
 
         if (isNeedStatusChecker()) {
-            initStatusChecker(taskPanelDto.isCompleted());
+            initStatusChecker(taskDto.isCompleted());
             addChildComponent(this.statusChecker);
         }
 
@@ -153,7 +157,7 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
         addChildComponent(this.taskCenterPanel);
 
         if (isNeedImportantLabel()) {
-            initImportantLabel(taskPanelDto.isImportant());
+            initImportantLabel(taskDto.isImportant());
             addChildComponent(this.importantLabel);
         }
 
@@ -179,15 +183,16 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
 
     public void update(TaskPanelDto taskPanelDto) {
         this.taskPanelDto = taskPanelDto;
+        final TaskDto taskDto = taskPanelDto.getTaskDto();
 
         if (isNeedStatusChecker()) {
-            updateStatusChecker(taskPanelDto.isCompleted());
+            updateStatusChecker(taskDto.isCompleted());
         }
 
         updateTaskCenterPanel(taskPanelDto);
 
         if (isNeedImportantLabel()) {
-            updateImportantLabel(taskPanelDto.isImportant());
+            updateImportantLabel(taskDto.isImportant());
         }
     }
 
@@ -225,11 +230,9 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
     @Override
     protected void setNotResizableChildComponents() {
         this.activationLabel.setResizable(false);
-
         if (isNeedStatusChecker()) {
             this.statusChecker.setResizable(false);
         }
-
         if (isNeedImportantLabel()) {
             this.importantLabel.setResizable(false);
         }
@@ -349,10 +352,8 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
     }
 
     private void onMousePressedForImportantLabel() {
-        final boolean currentImportant = this.taskPanelDto.isImportant();
-
         final TaskDto taskDtoToUpdate = this.taskPanelDto.getTaskDto();
-        taskDtoToUpdate.setImportant(!currentImportant);
+        taskDtoToUpdate.setImportant(!taskDtoToUpdate.isImportant());
 
         final ControllerResponse response = this.homeFrameController.requestUpdateTaskPanel(taskDtoToUpdate);
         handleForUpdateTaskPanelResponse(response, false);

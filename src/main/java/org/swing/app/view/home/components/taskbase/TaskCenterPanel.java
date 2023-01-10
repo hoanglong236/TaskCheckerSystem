@@ -1,6 +1,7 @@
 package org.swing.app.view.home.components.taskbase;
 
 import org.swing.app.controller.HomeFrameController;
+import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.ViewComponent;
@@ -54,18 +55,20 @@ class TaskCenterPanel extends HomeWrapperComponent {
     }
 
     private void init(TaskPanelDto taskPanelDto) {
-        initTitleLabel(taskPanelDto.getTitle());
+        final TaskDto taskDto = taskPanelDto.getTaskDto();
+
+        initTitleLabel(taskDto.getTitle());
         addChildComponent(this.titleLabel);
 
-        if (taskPanelDto.getFinishDateTime() != null) {
-            initDeadlineLabel(taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
+        if (taskDto.getFinishDateTime() != null) {
+            initDeadlineLabel(taskDto.getStartDateTime(), taskDto.getFinishDateTime());
             addChildComponent(this.deadlineLabel);
         }
         if (taskPanelDto.getChildTaskCount() > 0) {
             initCompletionRateLabel(taskPanelDto.getChildCompletedTaskCount(), taskPanelDto.getChildTaskCount());
             addChildComponent(this.completionRateLabel);
         }
-        if (taskPanelDto.getNote() != null && !taskPanelDto.getNote().isEmpty()) {
+        if (taskDto.getNote() != null && !taskDto.getNote().isEmpty()) {
             initNoteNotifyLabel();
             addChildComponent(this.noteNotifyLabel);
         }
@@ -144,12 +147,13 @@ class TaskCenterPanel extends HomeWrapperComponent {
     }
 
     public void update(TaskPanelDto taskPanelDto) {
-        updateTitleLabel(taskPanelDto.getTitle());
+        final TaskDto taskDto = taskPanelDto.getTaskDto();
+        updateTitleLabel(taskDto.getTitle());
 
-        final boolean hasDataForDeadlineLabel = taskPanelDto.getFinishDateTime() == null;
+        final boolean hasDataForDeadlineLabel = taskDto.getFinishDateTime() == null;
         handleDeadlineLabelByActionChildComponent(
                 getActionChildComponentWhenTryToUpdate(this.deadlineLabel, hasDataForDeadlineLabel),
-                taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
+                taskDto.getStartDateTime(), taskDto.getFinishDateTime());
 
         final boolean hasDataForCompletionRateLabel = taskPanelDto.getChildTaskCount() > 0;
         handleCompletionRateLabelByActionChildComponent(
@@ -157,7 +161,7 @@ class TaskCenterPanel extends HomeWrapperComponent {
                 taskPanelDto.getChildCompletedTaskCount(), taskPanelDto.getChildTaskCount());
 
         final boolean hasDataForNoteNotifyLabel =
-                (taskPanelDto.getNote() != null) && !(taskPanelDto.getNote().isEmpty());
+                (taskDto.getNote() != null) && !(taskDto.getNote().isEmpty());
         handleNoteNotifyLabelByActionChildComponent(
                 getActionChildComponentWhenTryToUpdate(this.noteNotifyLabel, hasDataForNoteNotifyLabel));
     }

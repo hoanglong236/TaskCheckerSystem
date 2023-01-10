@@ -54,42 +54,6 @@ public class TaskPanelDto {
         this.updatedAt = updatedAt;
     }
 
-    public String getId() {
-        return this.taskDto.getId();
-    }
-
-    public String getParentId() {
-        return this.taskDto.getParentId();
-    }
-
-    public String getTitle() {
-        return this.taskDto.getTitle();
-    }
-
-    public boolean isImportant() {
-        return this.taskDto.isImportant();
-    }
-
-    public LocalDateTime getStartDateTime() {
-        return this.taskDto.getStartDateTime();
-    }
-
-    public LocalDateTime getFinishDateTime() {
-        return this.taskDto.getFinishDateTime();
-    }
-
-    public LocalDateTime getSubmitDateTime() {
-        return this.taskDto.getSubmitDateTime();
-    }
-
-    public boolean isCompleted() {
-        return this.taskDto.isCompleted();
-    }
-
-    public String getNote() {
-        return this.taskDto.getNote();
-    }
-
     public TaskPanelDto getCopy() {
         final TaskPanelDto copy = new TaskPanelDto();
 
