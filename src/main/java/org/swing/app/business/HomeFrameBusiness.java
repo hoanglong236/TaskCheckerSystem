@@ -9,57 +9,26 @@ import org.swing.app.dao.impl.HomeFrameDaoImpl;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 
-import java.util.Optional;
 import java.util.Set;
 
 public class HomeFrameBusiness {
 
     private static final Logger LOGGER = LogManager.getLogger(HomeFrameBusiness.class);
 
-    private static final HomeFrameDao HOME_FRAME_DAO = new HomeFrameDaoImpl();
+    private final HomeFrameDao homeFrameDao;
 
-    public HomeFrameBusiness() {
-    }
-
-    public Set<TaskPanelDto> getIncompleteRootTaskPanelDtos() throws BusinessException {
+    public HomeFrameBusiness() throws BusinessException {
         try {
-            return HOME_FRAME_DAO.getIncompleteRootTaskPanelDtos();
+            this.homeFrameDao = new HomeFrameDaoImpl();
         } catch (DaoException e) {
-            LOGGER.error("Method: getIncompleteRootTaskPanelDtos", e);
-            throw new BusinessException(e);
-        }
-    }
-
-    public Set<TaskPanelDto> getTaskPanelDtosByParentId(String parentId) throws BusinessException {
-        try {
-            return HOME_FRAME_DAO.getTaskPanelDtosByParentId(parentId);
-        } catch (DaoException e) {
-            LOGGER.error("Method: getTaskPanelDtosByParentId", e);
-            throw new BusinessException(e);
-        }
-    }
-
-    public Optional<TaskPanelDto> getTaskPanelDtoById(String taskId) throws BusinessException {
-        try {
-            return HOME_FRAME_DAO.getTaskPanelDtoById(taskId);
-        } catch (DaoException e) {
-            LOGGER.error("Method: getTaskPanelDtoById", e);
-            throw new BusinessException(e);
-        }
-    }
-
-    public Optional<TaskDto> getTaskDtoById(String taskId) throws BusinessException {
-        try {
-            return HOME_FRAME_DAO.getTaskDtoById(taskId);
-        } catch (DaoException e) {
-            LOGGER.error("Method: getTaskDtoById", e);
+            LOGGER.error("Constructor: HomeFrameBusiness", e);
             throw new BusinessException(e);
         }
     }
 
     public void insertTaskByDto(TaskDto taskDto) throws BusinessException {
         try {
-            HOME_FRAME_DAO.insertTaskByDto(taskDto);
+            this.homeFrameDao.insertTaskByDto(taskDto);
         } catch (DaoException e) {
             LOGGER.error("Method: insertTaskByDto");
             throw new BusinessException(e);
@@ -68,7 +37,7 @@ public class HomeFrameBusiness {
 
     public void updateTaskByDto(TaskDto taskDto) throws BusinessException {
         try {
-            HOME_FRAME_DAO.updateTaskByDto(taskDto);
+            this.homeFrameDao.updateTaskByDto(taskDto);
         } catch (DaoException e) {
             LOGGER.error("Method: updateTaskByDto", e);
             throw new BusinessException(e);
@@ -77,9 +46,45 @@ public class HomeFrameBusiness {
 
     public void deleteTaskById(String taskId) throws BusinessException {
         try {
-            HOME_FRAME_DAO.deleteTaskById(taskId);
+            this.homeFrameDao.deleteTaskById(taskId);
         } catch (DaoException e) {
             LOGGER.error("Method: deleteTaskById", e);
+            throw new BusinessException(e);
+        }
+    }
+
+    public TaskPanelDto getTaskPanelDtoById(String taskId) throws BusinessException {
+        try {
+            return this.homeFrameDao.getTaskPanelDtoById(taskId);
+        } catch (DaoException e) {
+            LOGGER.error("Method: getTaskPanelDtoById", e);
+            throw new BusinessException(e);
+        }
+    }
+
+    public TaskDto getTaskDtoById(String taskId) throws BusinessException {
+        try {
+            return this.homeFrameDao.getTaskDtoById(taskId);
+        } catch (DaoException e) {
+            LOGGER.error("Method: getTaskDtoById", e);
+            throw new BusinessException(e);
+        }
+    }
+
+    public Set<TaskPanelDto> getIncompleteRootTaskPanelDtos() throws BusinessException {
+        try {
+            return this.homeFrameDao.getIncompleteRootTaskPanelDtos();
+        } catch (DaoException e) {
+            LOGGER.error("Method: getIncompleteRootTaskPanelDtos", e);
+            throw new BusinessException(e);
+        }
+    }
+
+    public Set<TaskPanelDto> getTaskPanelDtosByParentId(String parentId) throws BusinessException {
+        try {
+            return this.homeFrameDao.getTaskPanelDtosByParentId(parentId);
+        } catch (DaoException e) {
+            LOGGER.error("Method: getTaskPanelDtosByParentId", e);
             throw new BusinessException(e);
         }
     }
