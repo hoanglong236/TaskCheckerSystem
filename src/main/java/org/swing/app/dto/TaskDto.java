@@ -18,18 +18,6 @@ public class TaskDto {
     public TaskDto() {
     }
 
-    public TaskDto(TaskDto taskDto) {
-        this.id = taskDto.getId();
-        this.parentId = taskDto.getParentId();
-        this.title = taskDto.getTitle();
-        this.important = taskDto.isImportant();
-        this.startDateTime = taskDto.getStartDateTime();
-        this.finishDateTime = taskDto.getFinishDateTime();
-        this.submitDateTime = taskDto.getSubmitDateTime();
-        this.completed = taskDto.isCompleted();
-        this.note = taskDto.getNote();
-    }
-
     public String getId() {
         return id;
     }
@@ -147,5 +135,21 @@ public class TaskDto {
             return true;
         }
         return false;
+    }
+
+    public TaskDto getCopy() {
+        final TaskDto copy = new TaskDto();
+
+        copy.setId(this.id);
+        copy.setParentId(this.parentId);
+        copy.setTitle(this.title);
+        copy.setImportant(this.important);
+        copy.setStartDateTime(this.startDateTime);
+        copy.setFinishDateTime(this.finishDateTime);
+        copy.setSubmitDateTime(this.submitDateTime);
+        copy.setCompleted(this.completed);
+        copy.setNote(this.note);
+
+        return copy;
     }
 }
