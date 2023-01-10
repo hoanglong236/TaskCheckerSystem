@@ -53,7 +53,7 @@ public class HomeFrameDaoSql {
     public static final String createSqlToGetTaskDtoById() {
         final StringBuilder sql = new StringBuilder();
 
-        sql.append("SELECT id, title, important, start_datetime, finish_datetime, note\n");
+        sql.append("SELECT id, parent_id, title, important, start_datetime, finish_datetime, note\n");
         sql.append("FROM task\n");
         sql.append("WHERE id = ?");
 

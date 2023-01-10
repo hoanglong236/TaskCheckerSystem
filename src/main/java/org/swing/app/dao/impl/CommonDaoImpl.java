@@ -17,13 +17,22 @@ public class CommonDaoImpl implements CommonDao {
 
     private static final Logger LOGGER = LogManager.getLogger(CommonDaoImpl.class);
 
-    private static final Connection CONNECTION = MySQLConnection.getConnection();
+    private final Connection connection;
+
+    public CommonDaoImpl() throws DaoException {
+        try {
+            this.connection = MySQLConnection.getConnection();
+        } catch (SQLException | ClassNotFoundException e) {
+            LOGGER.error("Create this.connection failure", e);
+            throw new DaoException(e);
+        }
+    }
 
     private Optional<String> getDataValueFromGenMaster(String dataId, String dataCd) throws SQLException {
         final String sql = CommonDaoSql.createSqlToGetDataValueFromGenMaster();
         String dataValue = null;
 
-        final PreparedStatement preStmt = CONNECTION.prepareStatement(sql);
+        final PreparedStatement preStmt = this.connection.prepareStatement(sql);
         preStmt.setString(1, dataId);
         preStmt.setString(2, dataCd);
 
@@ -39,7 +48,7 @@ public class CommonDaoImpl implements CommonDao {
         final String sql = CommonDaoSql.createSqlToGetDataNameFromGenMaster();
         String dataName = null;
 
-        final PreparedStatement preStmt = CONNECTION.prepareStatement(sql);
+        final PreparedStatement preStmt = this.connection.prepareStatement(sql);
         preStmt.setString(1, dataId);
         preStmt.setString(2, dataCd);
 
@@ -76,7 +85,7 @@ public class CommonDaoImpl implements CommonDao {
         final String sql = CommonDaoSql.createSqlToCheckTaskIdExist();
 
         try {
-            final PreparedStatement preStmt = CONNECTION.prepareStatement(sql);
+            final PreparedStatement preStmt = this.connection.prepareStatement(sql);
             preStmt.setString(1, taskId);
 
             final ResultSet resultSet = preStmt.executeQuery();

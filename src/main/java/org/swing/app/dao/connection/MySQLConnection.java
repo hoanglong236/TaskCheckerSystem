@@ -1,10 +1,15 @@
 package org.swing.app.dao.connection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MySQLConnection {
+
+    private static final Logger LOGGER = LogManager.getLogger(MySQLConnection.class);
 
     private static final String DB_HOST = "localhost";
     private static final String DB_PORT = "3306";
@@ -16,9 +21,10 @@ public class MySQLConnection {
 
     private static Connection UNIQUE_CONNECTION = null;
 
-    public static Connection getConnection() {
+    public static Connection getConnection() throws SQLException, ClassNotFoundException {
         if (UNIQUE_CONNECTION == null) {
             final StringBuilder databaseUrl = new StringBuilder();
+
             databaseUrl.append("jdbc:mysql://");
             databaseUrl.append(DB_HOST);
             databaseUrl.append(":");
@@ -26,12 +32,9 @@ public class MySQLConnection {
             databaseUrl.append("/");
             databaseUrl.append(DB_NAME);
 
-            try {
-                Class.forName(DRIVER_CLASS_NAME);
-                UNIQUE_CONNECTION = DriverManager.getConnection(databaseUrl.toString(), DB_USER, DB_SECRET);
-            } catch (SQLException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+            Class.forName(DRIVER_CLASS_NAME);
+            UNIQUE_CONNECTION = DriverManager.getConnection(databaseUrl.toString(), DB_USER, DB_SECRET);
+            LOGGER.info("Create connection success");
         }
 
         return UNIQUE_CONNECTION;
