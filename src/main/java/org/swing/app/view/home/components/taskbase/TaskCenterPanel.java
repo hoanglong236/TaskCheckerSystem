@@ -15,7 +15,7 @@ import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.time.LocalDateTime;
 
-public abstract class TaskCenterPanel extends HomeWrapperComponent {
+class TaskCenterPanel extends HomeWrapperComponent {
 
     private static final byte DO_NOTHING_ACTION_CHILD_COMPONENT = 0;
     private static final byte INIT_ACTION_CHILD_COMPONENT = 1;
@@ -37,10 +37,6 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
         init(taskPanelDto);
     }
 
-    protected abstract boolean isNeedDeadlineLabel();
-    protected abstract boolean isNeedCompletionRateLabel();
-    protected abstract boolean isNeedNoteNotifyLabel();
-
     private void initTitleLabel(String title) {
         this.titleLabel = UIComponentFactory.createLabel(title);
     }
@@ -61,17 +57,15 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
         initTitleLabel(taskPanelDto.getTitle());
         addChildComponent(this.titleLabel);
 
-        if (isNeedDeadlineLabel() && taskPanelDto.getFinishDateTime() != null) {
+        if (taskPanelDto.getFinishDateTime() != null) {
             initDeadlineLabel(taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
             addChildComponent(this.deadlineLabel);
         }
-
-        if (isNeedCompletionRateLabel() && taskPanelDto.getChildTaskCount() > 0) {
-            initCompletionRateLabel(taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
+        if (taskPanelDto.getChildTaskCount() > 0) {
+            initCompletionRateLabel(taskPanelDto.getChildCompletedTaskCount(), taskPanelDto.getChildTaskCount());
             addChildComponent(this.completionRateLabel);
         }
-
-        if (isNeedNoteNotifyLabel() && !(taskPanelDto.getNote().isEmpty())) {
+        if (taskPanelDto.getNote() != null && !taskPanelDto.getNote().isEmpty()) {
             initNoteNotifyLabel();
             addChildComponent(this.noteNotifyLabel);
         }
@@ -96,11 +90,9 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
             }
             return INIT_ACTION_CHILD_COMPONENT;
         }
-
         if (componentTryToUpdate != null) {
             return REMOVE_ACTION_CHILD_COMPONENT;
         }
-
         return DO_NOTHING_ACTION_CHILD_COMPONENT;
     }
 
@@ -144,7 +136,6 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
             addChildComponent(this.noteNotifyLabel);
             return;
         }
-
         if (actionChildComponent == REMOVE_ACTION_CHILD_COMPONENT) {
             removeChildComponent(this.noteNotifyLabel);
             this.noteNotifyLabel.cancelAllEventListeners();
@@ -155,26 +146,20 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
     public void update(TaskPanelDto taskPanelDto) {
         updateTitleLabel(taskPanelDto.getTitle());
 
-        if (isNeedDeadlineLabel()) {
-            final boolean hasDataForDeadlineLabel = taskPanelDto.getFinishDateTime() == null;
-            handleDeadlineLabelByActionChildComponent(
-                    getActionChildComponentWhenTryToUpdate(this.deadlineLabel, hasDataForDeadlineLabel),
-                    taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
-        }
+        final boolean hasDataForDeadlineLabel = taskPanelDto.getFinishDateTime() == null;
+        handleDeadlineLabelByActionChildComponent(
+                getActionChildComponentWhenTryToUpdate(this.deadlineLabel, hasDataForDeadlineLabel),
+                taskPanelDto.getStartDateTime(), taskPanelDto.getFinishDateTime());
 
-        if (isNeedCompletionRateLabel()) {
-            final boolean hasDataForCompletionRateLabel = taskPanelDto.getChildTaskCount() > 0;
-            handleCompletionRateLabelByActionChildComponent(
-                    getActionChildComponentWhenTryToUpdate(this.completionRateLabel, hasDataForCompletionRateLabel),
-                    taskPanelDto.getChildTaskCompletedCount(), taskPanelDto.getChildTaskCount());
-        }
+        final boolean hasDataForCompletionRateLabel = taskPanelDto.getChildTaskCount() > 0;
+        handleCompletionRateLabelByActionChildComponent(
+                getActionChildComponentWhenTryToUpdate(this.completionRateLabel, hasDataForCompletionRateLabel),
+                taskPanelDto.getChildCompletedTaskCount(), taskPanelDto.getChildTaskCount());
 
-        if (isNeedNoteNotifyLabel()) {
-            final boolean hasDataForNoteNotifyLabel =
-                    (taskPanelDto.getNote() != null) && !(taskPanelDto.getNote().isEmpty());
-            handleNoteNotifyLabelByActionChildComponent(
-                    getActionChildComponentWhenTryToUpdate(this.noteNotifyLabel, hasDataForNoteNotifyLabel));
-        }
+        final boolean hasDataForNoteNotifyLabel =
+                (taskPanelDto.getNote() != null) && !(taskPanelDto.getNote().isEmpty());
+        handleNoteNotifyLabelByActionChildComponent(
+                getActionChildComponentWhenTryToUpdate(this.noteNotifyLabel, hasDataForNoteNotifyLabel));
     }
 
     @Override
@@ -193,14 +178,12 @@ public abstract class TaskCenterPanel extends HomeWrapperComponent {
                     new Dimension(deadlineLabelWidth, commonChildComponentHeight));
             hasOtherChildComponents = true;
         }
-
         if (this.completionRateLabel != null) {
             final int completionRateLabelWidth = 80;
             this.childComponentSizeMap.put(this.completionRateLabel,
                     new Dimension(completionRateLabelWidth, commonChildComponentHeight));
             hasOtherChildComponents = true;
         }
-
         if (noteNotifyLabel != null) {
             final int noteNotifyLabelWidth = 30;
             this.childComponentSizeMap.put(this.noteNotifyLabel,
