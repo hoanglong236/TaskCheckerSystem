@@ -14,6 +14,8 @@ import org.swing.app.view.components.ui.button.CheckBox;
 import org.swing.app.view.components.ui.button.PopupItem;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
+import org.swing.app.view.home.observer.TaskPanelEventObservable;
+import org.swing.app.view.home.observer.TaskPanelEventObserver;
 import org.swing.app.view.taskform.factory.TaskFormModalFactory;
 
 import java.awt.Dimension;
@@ -24,9 +26,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.Optional;
+import java.util.Set;
 
-public abstract class TaskPanel extends HomeWrapperComponent implements ActionListener, MouseListener {
+public abstract class TaskPanel extends HomeWrapperComponent
+        implements ActionListener, MouseListener, TaskPanelEventObservable {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
@@ -40,7 +45,7 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
     private PopupItem editPopupItem;
     private PopupItem deletePopupItem;
 
-    private final TaskPanelManager taskPanelManager;
+    private final Set<TaskPanelEventObserver> taskPanelEventObservers = new LinkedHashSet<>();
 
     private final int preferHeight;
 
@@ -48,11 +53,10 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
 
     private final TaskFormModalFactory taskFormModalFactory;
 
-    public TaskPanel(HomeFrameController homeFrameController, TaskPanelManager taskPanelManager,
-            TaskFormModalFactory taskFormModalFactory, int preferHeight, TaskPanelDto taskPanelDto) {
+    public TaskPanel(HomeFrameController homeFrameController, TaskFormModalFactory taskFormModalFactory,
+            int preferHeight, TaskPanelDto taskPanelDto) {
 
         super(homeFrameController);
-        this.taskPanelManager = taskPanelManager;
         this.preferHeight = preferHeight;
         this.taskPanelDto = taskPanelDto;
         this.taskFormModalFactory = taskFormModalFactory;
@@ -261,7 +265,7 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
 
             if (updatedTaskPanelDtoOptional.isPresent()) {
                 update((TaskPanelDto) updatedTaskPanelDtoOptional.get());
-                this.taskPanelManager.handleUpdateTaskPanel(this);
+                notifyObserversWhenUpdateTaskPanel();
 
                 if (isShowSuccessDialog) {
                     OptionPane.showMessageDialog(messageLoader.getMessage("update.task.success.dialog"));
@@ -296,7 +300,8 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
 
         if (response.getResponseType() == ControllerResponse.RESPONSE_TYPE_SUCCESS) {
             cancelAllEventListeners();
-            this.taskPanelManager.handleDeleteTaskPanel(this);
+            notifyObserversWhenDeleteTaskPanel();
+
             OptionPane.showMessageDialog(messageLoader.getMessage("delete.task.success.dialog"));
             return;
         }
@@ -386,5 +391,33 @@ public abstract class TaskPanel extends HomeWrapperComponent implements ActionLi
 
     @Override
     public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void registerObserver(TaskPanelEventObserver observer) {
+        this.taskPanelEventObservers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(TaskPanelEventObserver observer) {
+        this.taskPanelEventObservers.remove(observer);
+    }
+
+    @Override
+    public void notifyObserversWhenInsertTaskPanel() {
+    }
+
+    @Override
+    public void notifyObserversWhenUpdateTaskPanel() {
+        for (TaskPanelEventObserver observer : this.taskPanelEventObservers) {
+            observer.handleUpdateTaskPanel(this);
+        }
+    }
+
+    @Override
+    public void notifyObserversWhenDeleteTaskPanel() {
+        for (TaskPanelEventObserver observer : this.taskPanelEventObservers) {
+            observer.handleDeleteTaskPanel(this);
+        }
     }
 }

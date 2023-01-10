@@ -11,7 +11,7 @@ import org.swing.app.view.components.ui.button.BasicButton;
 import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
-import org.swing.app.view.home.components.factory.TaskPanelManagerComponentFactory;
+import org.swing.app.view.home.components.factory.TaskPanelContainerWrapperFactory;
 import org.swing.app.view.taskform.factory.TaskFormModalFactory;
 
 import java.awt.Dimension;
@@ -29,22 +29,22 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements A
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private Label masterTitleLabel;
-    private TaskPanelManagerComponent childTaskPanelManagerComponent;
+    private TaskPanelContainerWrapper childTaskPanelContainerWrapper;
     private BasicButton addNewChildTaskButton;
 
-    private final TaskPanelManagerComponentFactory taskPanelManagerComponentFactory;
+    private final TaskPanelContainerWrapperFactory taskPanelContainerWrapperFactory;
 
     private final TaskFormModalFactory taskFormModalFactory;
 
     private final String masterTaskPanelDtoId;
 
     public TaskContentPanel(HomeFrameController homeFrameController,
-            TaskPanelManagerComponentFactory taskPanelManagerComponentFactory,
+            TaskPanelContainerWrapperFactory taskPanelContainerWrapperFactory,
             TaskFormModalFactory taskFormModalFactory,
             TaskPanelDto masterTaskPanelDto, Set<TaskPanelDto> childTaskPanelDtos) {
 
         super(homeFrameController);
-        this.taskPanelManagerComponentFactory = taskPanelManagerComponentFactory;
+        this.taskPanelContainerWrapperFactory = taskPanelContainerWrapperFactory;
         this.taskFormModalFactory = taskFormModalFactory;
 
         final TaskDto masterTaskDto = masterTaskPanelDto.getTaskDto();
@@ -58,11 +58,11 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements A
         this.masterTitleLabel = UIComponentFactory.createLabel(title);
     }
 
-    private void initChildTaskPanelManagerComponent(Set<TaskPanelDto> taskPanelDtos) {
+    private void initChildTaskPanelContainerWrapper(Set<TaskPanelDto> taskPanelDtos) {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final String taskPanelManagerComponentTitle = messageLoader.getMessage("task.panel.manager.title");
 
-        this.childTaskPanelManagerComponent = this.taskPanelManagerComponentFactory.createTaskPanelManagerComponent(
+        this.childTaskPanelContainerWrapper = this.taskPanelContainerWrapperFactory.createTaskPanelContainerWrapper(
                 this.homeFrameController, taskPanelManagerComponentTitle, taskPanelDtos);
     }
 
@@ -79,8 +79,8 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements A
         initMasterTitleLabel(masterTaskDto.getTitle());
         addChildComponent(this.masterTitleLabel);
 
-        initChildTaskPanelManagerComponent(childTaskPanelDtos);
-        addChildComponent(this.childTaskPanelManagerComponent);
+        initChildTaskPanelContainerWrapper(childTaskPanelDtos);
+        addChildComponent(this.childTaskPanelContainerWrapper);
 
         initAddNewChildTaskButton();
         addChildComponent(this.addNewChildTaskButton);
@@ -97,9 +97,9 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements A
         this.childComponentSizeMap.put(this.masterTitleLabel,
                 new Dimension(maxChildComponentWidth, masterTitleLabelHeight));
 
-        final int childTaskPanelManagerComponentHeight = (int) (((float) 0.8 * availableHeight) - VERTICAL_GAP);
-        this.childComponentSizeMap.put(this.childTaskPanelManagerComponent,
-                new Dimension(maxChildComponentWidth, childTaskPanelManagerComponentHeight));
+        final int childTaskPanelContainerWrapperHeight = (int) (((float) 0.8 * availableHeight) - VERTICAL_GAP);
+        this.childComponentSizeMap.put(this.childTaskPanelContainerWrapper,
+                new Dimension(maxChildComponentWidth, childTaskPanelContainerWrapperHeight));
 
         final int addNewChildTaskButtonWidth = 100;
         final int addNewChildTaskButtonHeight = 50;
@@ -110,7 +110,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements A
     @Override
     protected void setNotResizableChildComponents() {
         this.masterTitleLabel.setResizable(true);
-        this.childTaskPanelManagerComponent.setResizable(true);
+        this.childTaskPanelContainerWrapper.setResizable(true);
         this.addNewChildTaskButton.setResizable(false);
     }
 
@@ -122,7 +122,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements A
                     messageLoader.getMessage("inserted.task.panel.dto"));
 
             if (insertedTaskPanelDtoOptional.isPresent()) {
-                this.childTaskPanelManagerComponent.addTaskPanelByDto(
+                this.childTaskPanelContainerWrapper.addTaskPanelByDto(
                         (TaskPanelDto) insertedTaskPanelDtoOptional.get());
                 OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.success.dialog"));
                 return;

@@ -13,6 +13,7 @@ import org.swing.app.view.components.ui.VerticalScrollPane;
 import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.home.components.factory.TaskPanelContainerFactory;
 import org.swing.app.view.home.components.factory.TaskPanelFactory;
+import org.swing.app.view.home.observer.TaskPanelEventObserver;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -21,8 +22,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
 
-public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
-        implements TaskPanelManager, ActionListener {
+public abstract class TaskPanelContainerWrapper extends HomeWrapperComponent
+        implements TaskPanelEventObserver, ActionListener {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
@@ -40,7 +41,7 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
     private final TaskPanelFactory taskPanelFactory;
     private final TaskPanelContainerFactory taskPanelContainerFactory;
 
-    public TaskPanelManagerComponent(HomeFrameController homeFrameController,
+    public TaskPanelContainerWrapper(HomeFrameController homeFrameController,
             TaskPanelFactory taskPanelFactory, TaskPanelContainerFactory taskPanelContainerFactory,
             String title, Set<TaskPanelDto> taskPanelDtos) {
 
@@ -114,15 +115,18 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
 
     public void addTaskPanelByDto(TaskPanelDto taskPanelDto) {
         final TaskPanel taskPanel = this.taskPanelFactory.createTaskPanel(
-                this.homeFrameController, this, taskPanelDto);
+                this.homeFrameController, taskPanelDto);
+
         addTaskPanel(taskPanel);
     }
 
     private void addTaskPanel(TaskPanel taskPanel) {
+        taskPanel.registerObserver(this);
         this.taskPanelContainer.addTaskPanel(taskPanel);
     }
 
     private void deleteTaskPanel(TaskPanel taskPanel) {
+        taskPanel.removeObserver(this);
         this.taskPanelContainer.deleteTaskPanel(taskPanel);
     }
 
@@ -182,6 +186,11 @@ public abstract class TaskPanelManagerComponent extends HomeWrapperComponent
             return;
         }
         throw new IllegalArgumentException();
+    }
+
+    @Override
+    public void handleInsertTaskPanelByDto(TaskPanelDto taskPanelDto) {
+        addTaskPanelByDto(taskPanelDto);
     }
 
     @Override
