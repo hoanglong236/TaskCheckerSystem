@@ -5,7 +5,6 @@ import org.swing.app.view.components.form.components.InputComponent;
 import org.swing.app.view.components.form.components.InputComponentWrapperBase;
 
 import java.awt.Dimension;
-import java.util.Optional;
 
 public class SingleInputComponentWrapper<T> extends InputComponentWrapperBase<T> {
 
@@ -41,7 +40,7 @@ public class SingleInputComponentWrapper<T> extends InputComponentWrapperBase<T>
     }
 
     @Override
-    public Optional<T> getValue() {
+    public T getValue() {
         return this.inputField.getValue();
     }
 

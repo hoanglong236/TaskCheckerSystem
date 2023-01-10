@@ -12,7 +12,7 @@ public interface InputComponentWrapper<T> extends ViewComponent {
 
     void setValue(T value);
 
-    Optional<T> getValue();
+    T getValue();
 
     void clear();
 }

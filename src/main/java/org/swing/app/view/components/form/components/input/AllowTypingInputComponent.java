@@ -5,9 +5,18 @@ import org.swing.app.view.components.form.components.InputComponent;
 
 import javax.swing.text.JTextComponent;
 import java.awt.event.KeyListener;
-import java.util.Optional;
 
 public abstract class AllowTypingInputComponent extends SimpleComponent implements InputComponent<String> {
+
+    public AllowTypingInputComponent() {
+        super();
+        setDefaultValue();
+    }
+
+    private void setDefaultValue() {
+        final String emptyText = "";
+        ((JTextComponent) this.sourceComponent).setText(emptyText);
+    }
 
     @Override
     public void setValue(String value) {
@@ -19,14 +28,13 @@ public abstract class AllowTypingInputComponent extends SimpleComponent implemen
     }
 
     @Override
-    public Optional<String> getValue() {
-        final String inputValue = ((JTextComponent) this.sourceComponent).getText();
-        return Optional.ofNullable(inputValue);
+    public String getValue() {
+        return ((JTextComponent) this.sourceComponent).getText().trim();
     }
 
     @Override
     public void clear() {
-        ((JTextComponent) this.sourceComponent).setText("");
+        setDefaultValue();
     }
 
     public void addKeyListener(KeyListener keyListener) {

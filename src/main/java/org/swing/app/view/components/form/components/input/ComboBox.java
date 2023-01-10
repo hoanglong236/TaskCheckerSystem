@@ -5,12 +5,11 @@ import org.swing.app.view.components.factory.JComponentFactory;
 import org.swing.app.view.components.form.components.InputComponent;
 
 import javax.swing.JComboBox;
-import java.util.Optional;
 import java.util.Set;
 
 public class ComboBox extends SimpleComponent implements InputComponent<String> {
 
-    private Set<String> valueRange;
+    private final Set<String> valueRange;
 
     public ComboBox(Set<String> valueRange) {
         super();
@@ -20,6 +19,12 @@ public class ComboBox extends SimpleComponent implements InputComponent<String> 
         final String[] valueRangeArray = valueRange.toArray(new String[0]);
         this.sourceComponent = JComponentFactory.createJComboBox(valueRangeArray);
         this.valueRange = valueRange;
+        setDefaultValue();
+    }
+
+    private void setDefaultValue() {
+        final String firstValueInRange = this.valueRange.iterator().next();
+        ((JComboBox<?>) this.sourceComponent).setSelectedItem(firstValueInRange);
     }
 
     @Override
@@ -35,17 +40,12 @@ public class ComboBox extends SimpleComponent implements InputComponent<String> 
     }
 
     @Override
-    public Optional<String> getValue() {
-        final Object selectedItem = ((JComboBox<?>) this.sourceComponent).getSelectedItem();
-        if (selectedItem == null) {
-            return Optional.empty();
-        }
-        return Optional.of(selectedItem.toString());
+    public String getValue() {
+        return (String) ((JComboBox<?>) this.sourceComponent).getSelectedItem();
     }
 
     @Override
     public void clear() {
-        final String firstValueInRange = this.valueRange.iterator().next();
-        ((JComboBox<?>) this.sourceComponent).setSelectedItem(firstValueInRange);
+        setDefaultValue();
     }
 }

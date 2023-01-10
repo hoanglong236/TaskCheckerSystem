@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.LinkedHashSet;
-import java.util.Optional;
 import java.util.Set;
 
 public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateTime> {
@@ -167,26 +166,23 @@ public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateT
     }
 
     @Override
-    public Optional<LocalDateTime> getValue() {
-        final Optional<LocalDate> optionalDateChosen = this.dateChooser.getValue();
-        if (!optionalDateChosen.isPresent()) {
-            return Optional.empty();
+    public LocalDateTime getValue() {
+        final LocalDate dateChooserValue = this.dateChooser.getValue();
+        if (dateChooserValue == null) {
+            return null;
         }
 
-        final String defaultTimeValue = "0";
+        final String hourChooserValue = this.hourChooser.getValue();
+        final byte hour = Byte.parseByte(hourChooserValue);
 
-        final Optional<String> optionalHourChosen = this.hourChooser.getValue();
-        final byte hour = Byte.parseByte(optionalHourChosen.orElse(defaultTimeValue));
+        final String minuteChooserValue = this.minuteChooser.getValue();
+        final byte minute = Byte.parseByte(minuteChooserValue);
 
-        final Optional<String> optionalMinuteChosen = this.minuteChooser.getValue();
-        final byte minute = Byte.parseByte(optionalMinuteChosen.orElse(defaultTimeValue));
-
-        final Optional<String> optionalSecondChosen = this.secondChooser.getValue();
-        final byte second = Byte.parseByte(optionalSecondChosen.orElse(defaultTimeValue));
+        final String secondChooserValue = this.secondChooser.getValue();
+        final byte second = Byte.parseByte(secondChooserValue);
 
         final LocalTime timeInputValue = LocalTime.of(hour, minute, second);
-        final LocalDateTime dateTime = LocalDateTime.of(optionalDateChosen.get(), timeInputValue);
-        return Optional.of(dateTime);
+        return LocalDateTime.of(dateChooserValue, timeInputValue);
     }
 
     @Override

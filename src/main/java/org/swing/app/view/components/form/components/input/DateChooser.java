@@ -9,7 +9,6 @@ import org.swing.app.view.components.form.components.InputComponent;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.Optional;
 
 public class DateChooser extends SimpleComponent implements InputComponent<LocalDate> {
 
@@ -31,12 +30,12 @@ public class DateChooser extends SimpleComponent implements InputComponent<Local
     }
 
     @Override
-    public Optional<LocalDate> getValue() {
+    public LocalDate getValue() {
         final Date chosenDate = ((JDateChooser) this.sourceComponent).getDate();
         if (chosenDate == null) {
-            return Optional.empty();
+            return null;
         }
-        return Optional.of(DateConverter.toLocalDate(chosenDate));
+        return DateConverter.toLocalDate(chosenDate);
     }
 
     @Override

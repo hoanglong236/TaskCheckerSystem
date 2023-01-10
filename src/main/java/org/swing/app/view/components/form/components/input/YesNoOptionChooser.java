@@ -10,7 +10,6 @@ import org.swing.app.view.components.ui.button.RadioButton;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
-import java.util.Optional;
 
 public class YesNoOptionChooser extends PanelWrapperComponent implements InputComponent<Boolean> {
 
@@ -27,6 +26,8 @@ public class YesNoOptionChooser extends PanelWrapperComponent implements InputCo
         super();
         setLayout(MAIN_LAYOUT);
         this.buttonGrouper = new ButtonGrouper();
+        init();
+        setDefaultValue();
     }
 
     private void initYesRadioButton() {
@@ -82,19 +83,19 @@ public class YesNoOptionChooser extends PanelWrapperComponent implements InputCo
     }
 
     @Override
-    public Optional<Boolean> getValue() {
+    public Boolean getValue() {
         if (this.yesRadioButton.isSelected()) {
-            return Optional.of(Boolean.TRUE);
+            return Boolean.TRUE;
         }
-        if (this.noRadioButton.isSelected()) {
-            return Optional.of(Boolean.FALSE);
-        }
+        return Boolean.FALSE;
+    }
 
-        return Optional.empty();
+    private void setDefaultValue() {
+        this.noRadioButton.setSelected(true);
     }
 
     @Override
     public void clear() {
-        this.noRadioButton.setSelected(true);
+        setDefaultValue();
     }
 }
