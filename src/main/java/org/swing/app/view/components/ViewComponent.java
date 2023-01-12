@@ -12,6 +12,10 @@ public interface ViewComponent {
     WrapperComponent getParent();
     void setParent(WrapperComponent parent);
 
+    /**
+     * TODO: comment this
+     * @return
+     */
     Component getSourceComponent();
 
     void setVisible(boolean visible);

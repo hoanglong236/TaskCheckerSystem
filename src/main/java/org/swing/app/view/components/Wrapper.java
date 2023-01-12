@@ -9,11 +9,19 @@ public interface Wrapper {
      * @param childComponent
      */
     void addChildComponent(ViewComponent childComponent);
+
     void addChildComponent(ViewComponent childComponent, int position);
+
     void removeChildComponent(ViewComponent childComponent);
+
     int getChildComponentPosition(ViewComponent childComponent);
+
     int getChildComponentCount();
+
     Iterator<ViewComponent> getChildComponentIterator();
 
+    /**
+     * TODO: comment this
+     */
     void refreshUI();
 }

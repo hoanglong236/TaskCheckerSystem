@@ -3,7 +3,10 @@ package org.swing.app.view.home.observer;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.home.components.taskbase.TaskPanel;
 
-public interface TaskPanelEventObserver {
+/**
+ * TODO: comment this
+ */
+public interface TaskPanelModificationEventObserver {
 
     void handleInsertTaskPanelByDto(TaskPanelDto taskPanelDto);
 

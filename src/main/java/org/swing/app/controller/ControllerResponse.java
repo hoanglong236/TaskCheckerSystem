@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * TODO: comment this
+ */
 public class ControllerResponse {
 
     public static final byte RESPONSE_TYPE_SUCCESS = 0;
