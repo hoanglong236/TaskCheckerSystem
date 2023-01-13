@@ -30,17 +30,15 @@ public class HomeFrameController {
         }
     }
 
-    // TODO: handle static task panel dtos
     public void startHomeFrame() {
-        Set<TaskPanelDto> staticTaskPanelDtos = new LinkedHashSet<>();
-        Set<TaskPanelDto> dynamicTaskPanelDtos = new LinkedHashSet<>();
+        Set<TaskPanelDto> rootTaskPanelDtos = new LinkedHashSet<>();
 
         try {
-            dynamicTaskPanelDtos = this.homeFrameBusiness.getIncompleteRootTaskPanelDtos();
+            rootTaskPanelDtos = this.homeFrameBusiness.getIncompleteRootTaskPanelDtos();
         } catch (BusinessException e) {
         }
 
-        this.homeFrame = new HomeFrame(this, staticTaskPanelDtos, dynamicTaskPanelDtos);
+        this.homeFrame = new HomeFrame(this, rootTaskPanelDtos);
         this.homeFrame.resize(ViewConstant.HOME_FRAME_PREFER_SIZE);
         this.homeFrame.setDefaultCloseOperation(FrameWrapperComponent.EXIT_ON_CLOSE);
         this.homeFrame.setVisible(true);

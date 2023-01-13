@@ -25,21 +25,19 @@ public class HomeFrame extends FrameWrapperComponent {
 
     private final HomeFrameController homeFrameController;
 
-    public HomeFrame(HomeFrameController homeFrameController,
-            Set<TaskPanelDto> staticTaskPanelDtos, Set<TaskPanelDto> dynamicTaskPanelDtos) {
-
+    public HomeFrame(HomeFrameController homeFrameController, Set<TaskPanelDto> taskPanelDtos) {
         super();
         this.homeFrameController = homeFrameController;
         setLayout(MAIN_LAYOUT);
         setBackgroundColor(ViewConstant.PRIMARY_BACKGROUND_COLOR);
-        init(staticTaskPanelDtos, dynamicTaskPanelDtos);
+        init(taskPanelDtos);
 
         final MessageLoader messageLoader = MessageLoader.getInstance();
         setFrameTitle(messageLoader.getMessage("home.frame.title"));
     }
 
-    private void initSideBar(Set<TaskPanelDto> staticTaskPanelDtos, Set<TaskPanelDto> dynamicTaskPanelDtos) {
-        this.sideBar = new HomeSideBar(this.homeFrameController, staticTaskPanelDtos, dynamicTaskPanelDtos);
+    private void initSideBar(Set<TaskPanelDto> taskPanelDtos) {
+        this.sideBar = new HomeSideBar(this.homeFrameController, taskPanelDtos);
         this.sideBar.setBackgroundColor(Color.cyan);
         this.sideBar.setOpaque(true);
     }
@@ -48,8 +46,8 @@ public class HomeFrame extends FrameWrapperComponent {
         this.bodyPanel = new HomeBodyPanel(this.homeFrameController);
     }
 
-    private void init(Set<TaskPanelDto> staticTaskPanelDtos, Set<TaskPanelDto> dynamicTaskPanelDtos) {
-        initSideBar(staticTaskPanelDtos, dynamicTaskPanelDtos);
+    private void init(Set<TaskPanelDto> taskPanelDtos) {
+        initSideBar(taskPanelDtos);
         addChildComponent(this.sideBar);
 
         initBodyPanel();

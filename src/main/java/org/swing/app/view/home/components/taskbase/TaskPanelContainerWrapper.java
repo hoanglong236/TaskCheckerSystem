@@ -13,7 +13,7 @@ import org.swing.app.view.components.ui.VerticalScrollPane;
 import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.home.components.factory.TaskPanelContainerFactory;
 import org.swing.app.view.home.components.factory.TaskPanelFactory;
-import org.swing.app.view.home.observer.TaskPanelEventObserver;
+import org.swing.app.view.home.observer.TaskPanelModificationEventObserver;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -23,7 +23,7 @@ import java.awt.event.ActionListener;
 import java.util.Set;
 
 public abstract class TaskPanelContainerWrapper extends HomeWrapperComponent
-        implements TaskPanelEventObserver, ActionListener {
+        implements ActionListener, TaskPanelModificationEventObserver {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;

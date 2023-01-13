@@ -14,8 +14,8 @@ import org.swing.app.view.components.ui.button.CheckBox;
 import org.swing.app.view.components.ui.button.PopupItem;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.home.HomeWrapperComponent;
-import org.swing.app.view.home.observer.TaskPanelEventObservable;
-import org.swing.app.view.home.observer.TaskPanelEventObserver;
+import org.swing.app.view.home.observer.TaskPanelModificationEventObserver;
+import org.swing.app.view.home.observer.TaskPanelModificationEventSubject;
 import org.swing.app.view.taskform.factory.TaskFormModalFactory;
 
 import java.awt.Dimension;
@@ -31,7 +31,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public abstract class TaskPanel extends HomeWrapperComponent
-        implements ActionListener, MouseListener, TaskPanelEventObservable {
+        implements ActionListener, MouseListener, TaskPanelModificationEventSubject {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
@@ -45,7 +45,7 @@ public abstract class TaskPanel extends HomeWrapperComponent
     private PopupItem editPopupItem;
     private PopupItem deletePopupItem;
 
-    private final Set<TaskPanelEventObserver> taskPanelEventObservers = new LinkedHashSet<>();
+    private final Set<TaskPanelModificationEventObserver> taskPanelModificationEventObservers = new LinkedHashSet<>();
 
     private final int preferHeight;
 
@@ -394,13 +394,13 @@ public abstract class TaskPanel extends HomeWrapperComponent
     }
 
     @Override
-    public void registerObserver(TaskPanelEventObserver observer) {
-        this.taskPanelEventObservers.add(observer);
+    public void registerObserver(TaskPanelModificationEventObserver observer) {
+        this.taskPanelModificationEventObservers.add(observer);
     }
 
     @Override
-    public void removeObserver(TaskPanelEventObserver observer) {
-        this.taskPanelEventObservers.remove(observer);
+    public void removeObserver(TaskPanelModificationEventObserver observer) {
+        this.taskPanelModificationEventObservers.remove(observer);
     }
 
     @Override
@@ -409,14 +409,14 @@ public abstract class TaskPanel extends HomeWrapperComponent
 
     @Override
     public void notifyObserversWhenUpdateTaskPanel() {
-        for (TaskPanelEventObserver observer : this.taskPanelEventObservers) {
+        for (final TaskPanelModificationEventObserver observer : this.taskPanelModificationEventObservers) {
             observer.handleUpdateTaskPanel(this);
         }
     }
 
     @Override
     public void notifyObserversWhenDeleteTaskPanel() {
-        for (TaskPanelEventObserver observer : this.taskPanelEventObservers) {
+        for (final TaskPanelModificationEventObserver observer : this.taskPanelModificationEventObservers) {
             observer.handleDeleteTaskPanel(this);
         }
     }

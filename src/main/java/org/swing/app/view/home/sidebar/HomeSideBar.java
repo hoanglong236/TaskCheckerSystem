@@ -30,36 +30,24 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener 
     private static final byte VERTICAL_GAP = ViewConstant.MEDIUM_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
-    private TaskPanelContainerWrapper staticTaskPanelContainerWrapper;
-    private TaskPanelContainerWrapper dynamicTaskPanelContainerWrapper;
+    private TaskPanelContainerWrapper taskPanelContainerWrapper;
     private BasicButton addNewTaskBtn;
 
-    private final TaskPanelContainerWrapperFactory taskPanelContainerWrapperFactory;
-
-    public HomeSideBar(HomeFrameController homeFrameController,
-            Set<TaskPanelDto> staticTaskPanelDtos, Set<TaskPanelDto> dynamicTaskPanelDtos) {
-
+    public HomeSideBar(HomeFrameController homeFrameController, Set<TaskPanelDto> taskPanelDtos) {
         super(homeFrameController);
-        this.taskPanelContainerWrapperFactory = new RootTaskPanelContainerWrapperFactory();
         setLayout(MAIN_LAYOUT);
-        init(staticTaskPanelDtos, dynamicTaskPanelDtos);
+        init(taskPanelDtos);
     }
 
-    private void initStaticTaskPanelContainerWrapper(Set<TaskPanelDto> taskPanelDtos) {
+    private void initTaskPanelContainerWrapper(Set<TaskPanelDto> taskPanelDtos) {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final String taskPanelContainerTitle =
                 messageLoader.getMessage("task.panel.container.title");
 
-        this.staticTaskPanelContainerWrapper = this.taskPanelContainerWrapperFactory.createTaskPanelContainerWrapper(
-                this.homeFrameController, taskPanelContainerTitle, taskPanelDtos);
-    }
+        final TaskPanelContainerWrapperFactory rootTaskPanelContainerWrapperFactory
+                = new RootTaskPanelContainerWrapperFactory();
 
-    private void initDynamicTaskPanelContainerWrapper(Set<TaskPanelDto> taskPanelDtos) {
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-        final String taskPanelContainerTitle =
-                messageLoader.getMessage("task.panel.container.title");
-
-        this.dynamicTaskPanelContainerWrapper = this.taskPanelContainerWrapperFactory.createTaskPanelContainerWrapper(
+        this.taskPanelContainerWrapper = rootTaskPanelContainerWrapperFactory.createTaskPanelContainerWrapper(
                 this.homeFrameController, taskPanelContainerTitle, taskPanelDtos);
     }
 
@@ -70,12 +58,9 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener 
         this.addNewTaskBtn.addActionListener(this);
     }
 
-    private void init(Set<TaskPanelDto> staticTaskPanelDtos, Set<TaskPanelDto> dynamicTaskPanelDtos) {
-        initStaticTaskPanelContainerWrapper(staticTaskPanelDtos);
-        addChildComponent(this.staticTaskPanelContainerWrapper);
-
-        initDynamicTaskPanelContainerWrapper(dynamicTaskPanelDtos);
-        addChildComponent(this.dynamicTaskPanelContainerWrapper);
+    private void init(Set<TaskPanelDto> taskPanelDtos) {
+        initTaskPanelContainerWrapper(taskPanelDtos);
+        addChildComponent(this.taskPanelContainerWrapper);
 
         initAddNewTaskBtn();
         addChildComponent(this.addNewTaskBtn);
@@ -88,24 +73,18 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener 
 
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
-        final int staticTaskPanelContainerWrapperHeight = (int) (((float) 0.2 * availableHeight) - VERTICAL_GAP);
-        this.childComponentSizeMap.put(this.staticTaskPanelContainerWrapper,
-                new Dimension(maxChildComponentWidth, staticTaskPanelContainerWrapperHeight));
-
         final int addNewTaskBtnHeight = 45;
         this.childComponentSizeMap.put(this.addNewTaskBtn, new Dimension(maxChildComponentWidth, addNewTaskBtnHeight));
 
-        final int dynamicTaskPanelContainerWrapperHeight = availableHeight
-                - VERTICAL_GAP - staticTaskPanelContainerWrapperHeight
+        final int taskPanelContainerWrapperHeight = availableHeight
                 - VERTICAL_GAP - addNewTaskBtnHeight - VERTICAL_GAP;
-        this.childComponentSizeMap.put(this.dynamicTaskPanelContainerWrapper,
-                new Dimension(maxChildComponentWidth, dynamicTaskPanelContainerWrapperHeight));
+        this.childComponentSizeMap.put(this.taskPanelContainerWrapper,
+                new Dimension(maxChildComponentWidth, taskPanelContainerWrapperHeight));
     }
 
     @Override
     protected void setNotResizableChildComponents() {
-        this.staticTaskPanelContainerWrapper.setResizable(false);
-        this.dynamicTaskPanelContainerWrapper.setResizable(false);
+        this.taskPanelContainerWrapper.setResizable(false);
         this.addNewTaskBtn.setResizable(false);
     }
 
@@ -117,7 +96,7 @@ public class HomeSideBar extends HomeWrapperComponent implements ActionListener 
                     messageLoader.getMessage("inserted.task.panel.dto"));
 
             if (insertedTaskPanelDtoOptional.isPresent()) {
-                this.dynamicTaskPanelContainerWrapper.addTaskPanelByDto(
+                this.taskPanelContainerWrapper.addTaskPanelByDto(
                         (TaskPanelDto) insertedTaskPanelDtoOptional.get());
                 OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.success.dialog"));
                 return;
