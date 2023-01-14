@@ -1,6 +1,6 @@
-package org.swing.app.dao.sql;
+package org.swing.app.dao.homeframedao;
 
-public class HomeFrameDaoSql {
+class HomeFrameDaoSql {
 
     public static final String createSqlToGetTaskPanelDto() {
         final StringBuilder sql = new StringBuilder();

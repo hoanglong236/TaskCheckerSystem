@@ -3,9 +3,9 @@ package org.swing.app.business;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.swing.app.business.exception.BusinessException;
-import org.swing.app.dao.HomeFrameDao;
+import org.swing.app.dao.homeframedao.HomeFrameDao;
+import org.swing.app.dao.homeframedao.HomeFrameDaoImpl;
 import org.swing.app.dao.exception.DaoException;
-import org.swing.app.dao.impl.HomeFrameDaoImpl;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 

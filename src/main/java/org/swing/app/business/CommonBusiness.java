@@ -4,9 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.swing.app.business.exception.BusinessException;
 import org.swing.app.common.Constant;
-import org.swing.app.dao.CommonDao;
+import org.swing.app.dao.commondao.CommonDao;
+import org.swing.app.dao.commondao.CommonDaoImpl;
 import org.swing.app.dao.exception.DaoException;
-import org.swing.app.dao.impl.CommonDaoImpl;
 import org.swing.app.util.RandomString;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package org.swing.app.dao;
+package org.swing.app.dao.homeframedao;
 
 import org.swing.app.dao.exception.DaoException;
 import org.swing.app.dto.TaskDto;

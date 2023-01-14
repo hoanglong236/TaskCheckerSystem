@@ -1,4 +1,4 @@
-package org.swing.app.dao;
+package org.swing.app.dao.commondao;
 
 import org.swing.app.dao.exception.DaoException;
 

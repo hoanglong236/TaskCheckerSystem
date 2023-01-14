@@ -1,4 +1,4 @@
-package org.swing.app.dao.sql;
+package org.swing.app.dao.commondao;
 
 public class CommonDaoSql {
 

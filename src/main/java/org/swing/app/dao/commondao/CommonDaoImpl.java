@@ -1,11 +1,9 @@
-package org.swing.app.dao.impl;
+package org.swing.app.dao.commondao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.swing.app.dao.CommonDao;
 import org.swing.app.dao.connection.MySQLConnection;
 import org.swing.app.dao.exception.DaoException;
-import org.swing.app.dao.sql.CommonDaoSql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

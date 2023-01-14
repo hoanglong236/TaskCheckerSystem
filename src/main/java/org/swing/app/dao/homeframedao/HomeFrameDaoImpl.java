@@ -1,11 +1,9 @@
-package org.swing.app.dao.impl;
+package org.swing.app.dao.homeframedao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.swing.app.dao.HomeFrameDao;
 import org.swing.app.dao.connection.MySQLConnection;
 import org.swing.app.dao.exception.DaoException;
-import org.swing.app.dao.sql.HomeFrameDaoSql;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 
