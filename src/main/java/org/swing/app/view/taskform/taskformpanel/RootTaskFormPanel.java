@@ -1,16 +1,9 @@
-package org.swing.app.view.taskform.leaftask;
+package org.swing.app.view.taskform.taskformpanel;
 
-import org.swing.app.dto.TaskDto;
-import org.swing.app.view.taskform.TaskForm;
+public class RootTaskFormPanel extends TaskFormPanel {
 
-public class LeafTaskForm extends TaskForm {
-
-    public LeafTaskForm() {
+    public RootTaskFormPanel() {
         super();
-    }
-
-    public LeafTaskForm(TaskDto taskDto) {
-        super(taskDto);
     }
 
     @Override
@@ -20,12 +13,12 @@ public class LeafTaskForm extends TaskForm {
 
     @Override
     protected boolean isNeedStartDateTimeInputWrapper() {
-        return false;
+        return true;
     }
 
     @Override
     protected boolean isNeedFinishDateTimeInputWrapper() {
-        return false;
+        return true;
     }
 
     @Override

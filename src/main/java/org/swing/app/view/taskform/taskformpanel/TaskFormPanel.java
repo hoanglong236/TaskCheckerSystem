@@ -1,4 +1,4 @@
-package org.swing.app.view.taskform;
+package org.swing.app.view.taskform.taskformpanel;
 
 import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
@@ -16,7 +16,7 @@ import java.awt.LayoutManager;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 
-public abstract class TaskForm extends PanelWrapperComponent implements Form<TaskDto> {
+public abstract class TaskFormPanel extends PanelWrapperComponent implements Form<TaskDto> {
 
     private static final int TITLE_MAX_LENGTH = 150;
     private static final int NOTE_MAX_LENGTH = 300;
@@ -40,22 +40,12 @@ public abstract class TaskForm extends PanelWrapperComponent implements Form<Tas
     private int labelWidthInWrapper;
     private float rateOfLabelWidthInWrapper;
 
-    private TaskDto taskDto;
+    private TaskDto taskDto = null;
 
-    public TaskForm() {
+    public TaskFormPanel() {
         super();
-        this.taskDto = null;
-
         setLayout(MAIN_LAYOUT);
         init();
-    }
-
-    public TaskForm(TaskDto taskDto) {
-        super();
-        this.taskDto = taskDto;
-
-        setLayout(MAIN_LAYOUT);
-        init(taskDto);
     }
 
     public void setLabelWidthInWrapper(int labelWidthInWrapper) {
@@ -75,18 +65,9 @@ public abstract class TaskForm extends PanelWrapperComponent implements Form<Tas
         this.titleInputWrapper = InputComponentWrapperFactory.createTextFieldWrapper(TITLE_LABEL_TEXT);
     }
 
-    private void initTitleInputWrapper(String title) {
-        this.titleInputWrapper = InputComponentWrapperFactory.createTextFieldWrapper(TITLE_LABEL_TEXT, title);
-    }
-
     private void initImportantInputWrapper() {
         this.importantInputWrapper = InputComponentWrapperFactory
                 .createYesNoOptionChooserWrapper(IMPORTANT_LABEL_TEXT);
-    }
-
-    private void initImportantInputWrapper(boolean important) {
-        this.importantInputWrapper = InputComponentWrapperFactory
-                .createYesNoOptionChooserWrapper(IMPORTANT_LABEL_TEXT, important);
     }
 
     private void initStartDateTimeInputWrapper() {
@@ -94,27 +75,13 @@ public abstract class TaskForm extends PanelWrapperComponent implements Form<Tas
                 .createDateTimeChooserWrapper(START_DATETIME_LABEL_TEXT);
     }
 
-    private void initStartDateTimeInputWrapper(LocalDateTime startDateTime) {
-        this.startDateTimeInputWrapper = InputComponentWrapperFactory
-                .createDateTimeChooserWrapper(START_DATETIME_LABEL_TEXT, startDateTime);
-    }
-
     private void initFinishDateTimeInputWrapper() {
         this.finishDateTimeInputWrapper = InputComponentWrapperFactory
                 .createDateTimeChooserWrapper(FINISH_DATETIME_LABEL_TEXT);
     }
 
-    private void initFinishDateTimeInputWrapper(LocalDateTime finishDateTime) {
-        this.finishDateTimeInputWrapper = InputComponentWrapperFactory
-                .createDateTimeChooserWrapper(FINISH_DATETIME_LABEL_TEXT, finishDateTime);
-    }
-
     private void initNoteInputWrapper() {
         this.noteInputWrapper = InputComponentWrapperFactory.createTextAreaWrapper(NOTE_LABEL_TEXT);
-    }
-
-    private void initNoteInputWrapper(String note) {
-        this.noteInputWrapper = InputComponentWrapperFactory.createTextAreaWrapper(NOTE_LABEL_TEXT, note);
     }
 
     private void init() {
@@ -135,28 +102,6 @@ public abstract class TaskForm extends PanelWrapperComponent implements Form<Tas
         }
         if (isNeedNoteInputWrapper()) {
             initNoteInputWrapper();
-            addChildComponent(this.noteInputWrapper);
-        }
-    }
-
-    private void init(TaskDto taskDto) {
-        initTitleInputWrapper(taskDto.getTitle());
-        addChildComponent(this.titleInputWrapper);
-
-        if (isNeedImportantInputWrapper()) {
-            initImportantInputWrapper(taskDto.isImportant());
-            addChildComponent(this.importantInputWrapper);
-        }
-        if (isNeedStartDateTimeInputWrapper()) {
-            initStartDateTimeInputWrapper(taskDto.getStartDateTime());
-            addChildComponent(this.startDateTimeInputWrapper);
-        }
-        if (isNeedFinishDateTimeInputWrapper()) {
-            initFinishDateTimeInputWrapper(taskDto.getFinishDateTime());
-            addChildComponent(this.finishDateTimeInputWrapper);
-        }
-        if (isNeedNoteInputWrapper()) {
-            initNoteInputWrapper(taskDto.getNote());
             addChildComponent(this.noteInputWrapper);
         }
     }

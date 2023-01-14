@@ -1,4 +1,4 @@
-package org.swing.app.view.taskform;
+package org.swing.app.view.taskform.taskformmodal;
 
 import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
@@ -8,7 +8,8 @@ import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.components.modal.ModalWrapperComponent;
 import org.swing.app.view.components.modal.OptionPane;
 import org.swing.app.view.components.ui.button.BasicButton;
-import org.swing.app.view.taskform.factory.TaskFormFactory;
+import org.swing.app.view.taskform.taskformpanel.TaskFormPanel;
+import org.swing.app.view.taskform.taskformpanel.factory.TaskFormPanelFactory;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -23,33 +24,22 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
     private static final byte VERTICAL_GAP = ViewConstant.FORM_WRAPPER_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
-    private TaskForm taskForm;
+    private TaskFormPanel taskFormPanel;
     private BasicButton submitButton;
     private BasicButton resetButton;
     private BasicButton clearButton;
 
-    private final TaskFormFactory taskFormFactory;
+    private final TaskFormPanelFactory taskFormPanelFactory;
 
-    public TaskFormModal(FrameWrapperComponent parentFrame, TaskFormFactory taskFormFactory) {
+    public TaskFormModal(FrameWrapperComponent parentFrame, TaskFormPanelFactory taskFormPanelFactory) {
         super(parentFrame);
-        this.taskFormFactory = taskFormFactory;
+        this.taskFormPanelFactory = taskFormPanelFactory;
         setLayout(MAIN_LAYOUT);
         init();
     }
 
-    public TaskFormModal(FrameWrapperComponent parentFrame, TaskFormFactory taskFormFactory, TaskDto taskDto) {
-        super(parentFrame);
-        this.taskFormFactory = taskFormFactory;
-        setLayout(MAIN_LAYOUT);
-        init(taskDto);
-    }
-
-    private void initTaskForm() {
-        this.taskForm = this.taskFormFactory.createTaskForm();
-    }
-
-    private void initTaskForm(TaskDto taskDto) {
-        this.taskForm = this.taskFormFactory.createTaskForm(taskDto);
+    private void initTaskFormPanel() {
+        this.taskFormPanel = this.taskFormPanelFactory.createTaskFormPanel();
     }
 
     private void initSubmitButton() {
@@ -71,22 +61,8 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
     }
 
     private void init() {
-        initTaskForm();
-        addChildComponent(this.taskForm);
-
-        initSubmitButton();
-        addChildComponent(this.submitButton);
-
-        initResetButton();
-        addChildComponent(this.resetButton);
-
-        initClearButton();
-        addChildComponent(this.clearButton);
-    }
-
-    private void init(TaskDto taskDto) {
-        initTaskForm(taskDto);
-        addChildComponent(this.taskForm);
+        initTaskFormPanel();
+        addChildComponent(this.taskFormPanel);
 
         initSubmitButton();
         addChildComponent(this.submitButton);
@@ -99,7 +75,7 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
     }
 
     private boolean validateFormData() {
-        final String validateMessage = this.taskForm.validate();
+        final String validateMessage = this.taskFormPanel.validate();
         if (validateMessage.isEmpty()) {
             return true;
         }
@@ -108,11 +84,11 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
     }
 
     public void reset() {
-        this.taskForm.reset();
+        this.taskFormPanel.reset();
     }
 
     public void clear() {
-        this.taskForm.clear();
+        this.taskFormPanel.clear();
     }
 
     @Override
@@ -128,8 +104,8 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
         this.childComponentSizeMap.put(this.resetButton, new Dimension(controlButtonWidth, controlButtonHeight));
         this.childComponentSizeMap.put(this.clearButton, new Dimension(controlButtonWidth, controlButtonHeight));
 
-        final int taskFormHeight = availableHeight - VERTICAL_GAP - controlButtonHeight - VERTICAL_GAP;
-        this.childComponentSizeMap.put(this.taskForm, new Dimension(maxChildComponentWidth, taskFormHeight));
+        final int taskFormPanelHeight = availableHeight - VERTICAL_GAP - controlButtonHeight - VERTICAL_GAP;
+        this.childComponentSizeMap.put(this.taskFormPanel, new Dimension(maxChildComponentWidth, taskFormPanelHeight));
     }
 
     @Override
@@ -177,7 +153,11 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
         throw new IllegalArgumentException();
     }
 
+    public void setFormData(TaskDto taskDto) {
+        this.taskFormPanel.setFormData(taskDto);
+    }
+
     public Optional<TaskDto> getFormData() {
-        return Optional.ofNullable(this.taskForm.getFormData());
+        return Optional.ofNullable(this.taskFormPanel.getFormData());
     }
 }

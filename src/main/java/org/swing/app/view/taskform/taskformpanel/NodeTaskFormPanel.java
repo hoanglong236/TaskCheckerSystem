@@ -1,16 +1,9 @@
-package org.swing.app.view.taskform.nodetask;
+package org.swing.app.view.taskform.taskformpanel;
 
-import org.swing.app.dto.TaskDto;
-import org.swing.app.view.taskform.TaskForm;
+public class NodeTaskFormPanel extends TaskFormPanel {
 
-public class NodeTaskForm extends TaskForm {
-
-    public NodeTaskForm() {
+    public NodeTaskFormPanel() {
         super();
-    }
-
-    public NodeTaskForm(TaskDto taskDto) {
-        super(taskDto);
     }
 
     @Override
