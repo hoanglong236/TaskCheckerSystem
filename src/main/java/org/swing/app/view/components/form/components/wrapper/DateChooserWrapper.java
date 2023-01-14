@@ -6,10 +6,9 @@ import java.time.LocalDate;
 
 public class DateChooserWrapper extends SingleInputComponentWrapper<LocalDate> {
 
-    public DateChooserWrapper(String labelText, LocalDate initValue) {
+    public DateChooserWrapper(String labelText) {
         super();
         init(labelText);
-        setValue(initValue);
     }
 
     private void initInputField() {

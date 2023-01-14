@@ -18,6 +18,11 @@ public class DateChooser extends SimpleComponent implements InputComponent<Local
         super();
         this.sourceComponent = JComponentFactory.createJDateChooser();
         ((JDateChooser) this.sourceComponent).setDateFormatString(DATE_CHOOSER_FORMAT);
+        setDefaultValue();
+    }
+
+    private void setDefaultValue() {
+        ((JDateChooser) this.sourceComponent).setDate(null);
     }
 
     @Override
@@ -40,6 +45,6 @@ public class DateChooser extends SimpleComponent implements InputComponent<Local
 
     @Override
     public void clear() {
-        ((JDateChooser) this.sourceComponent).cleanup();
+        setDefaultValue();
     }
 }

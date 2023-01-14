@@ -4,10 +4,9 @@ import org.swing.app.view.components.form.components.factory.InputComponentFacto
 
 public class TextFieldWrapper extends SingleInputComponentWrapper<String> {
 
-    public TextFieldWrapper(String labelText, String initValue) {
+    public TextFieldWrapper(String labelText) {
         super();
         init(labelText);
-        setValue(initValue);
     }
 
     private void initInputField() {

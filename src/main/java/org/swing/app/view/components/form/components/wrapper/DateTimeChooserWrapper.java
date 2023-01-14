@@ -27,10 +27,9 @@ public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateT
 
     private int dateChooserWidth = ViewConstant.DEFAULT_DATE_CHOOSER_WIDTH;
 
-    public DateTimeChooserWrapper(String labelText, LocalDateTime initValue) {
+    public DateTimeChooserWrapper(String labelText) {
         super();
         init(labelText);
-        setValue(initValue);
     }
 
     public void setDateChooserWidth(int dateChooserWidth) {

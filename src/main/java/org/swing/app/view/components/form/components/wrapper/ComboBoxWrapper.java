@@ -6,10 +6,9 @@ import java.util.Set;
 
 public class ComboBoxWrapper extends SingleInputComponentWrapper<String> {
 
-    public ComboBoxWrapper(String labelText, Set<String> valueRange, String initValue) {
+    public ComboBoxWrapper(String labelText, Set<String> valueRange) {
         super();
         init(labelText, valueRange);
-        setValue(initValue);
     }
 
     private void initInputField(Set<String> valueRange) {

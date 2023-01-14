@@ -14,55 +14,27 @@ import java.util.Set;
 
 public class InputComponentWrapperFactory {
 
-    public static InputComponentWrapper<String> createTextFieldWrapper(String labelText, String initValue) {
-        return new TextFieldWrapper(labelText, initValue);
-    }
-
     public static InputComponentWrapper<String> createTextFieldWrapper(String labelText) {
-        return createTextFieldWrapper(labelText, null);
-    }
-
-    public static InputComponentWrapper<String> createTextAreaWrapper(String labelText, String initValue) {
-        return new TextAreaWrapper(labelText, initValue);
+        return new TextFieldWrapper(labelText);
     }
 
     public static InputComponentWrapper<String> createTextAreaWrapper(String labelText) {
-        return createTextAreaWrapper(labelText, null);
-    }
-
-    public static InputComponentWrapper<String> createComboBoxWrapper(
-            String labelText, Set<String> valueRange, String initValue) {
-
-        return new ComboBoxWrapper(labelText, valueRange, initValue);
+        return new TextAreaWrapper(labelText);
     }
 
     public static InputComponentWrapper<String> createComboBoxWrapper(String labelText, Set<String> valueRange) {
-        return createComboBoxWrapper(labelText, valueRange, null);
-    }
-
-    public static InputComponentWrapper<LocalDate> createDateChooserWrapper(String labelText, LocalDate initValue) {
-        return new DateChooserWrapper(labelText, initValue);
+        return new ComboBoxWrapper(labelText, valueRange);
     }
 
     public static InputComponentWrapper<LocalDate> createDateChooserWrapper(String labelText) {
-        return createDateChooserWrapper(labelText, null);
-    }
-
-    public static InputComponentWrapper<LocalDateTime> createDateTimeChooserWrapper(
-            String labelText, LocalDateTime initValue) {
-
-        return new DateTimeChooserWrapper(labelText, initValue);
+        return new DateChooserWrapper(labelText);
     }
 
     public static InputComponentWrapper<LocalDateTime> createDateTimeChooserWrapper(String labelText) {
-        return createDateTimeChooserWrapper(labelText, null);
-    }
-
-    public static InputComponentWrapper<Boolean> createYesNoOptionChooserWrapper(String labelText, boolean initValue) {
-        return new YesNoOptionChooserWrapper(labelText, initValue);
+        return new DateTimeChooserWrapper(labelText);
     }
 
     public static InputComponentWrapper<Boolean> createYesNoOptionChooserWrapper(String labelText) {
-        return createYesNoOptionChooserWrapper(labelText, false);
+        return new YesNoOptionChooserWrapper(labelText);
     }
 }

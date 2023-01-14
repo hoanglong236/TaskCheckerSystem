@@ -5,10 +5,9 @@ import org.swing.app.view.components.form.components.factory.InputComponentFacto
 
 public class TextAreaWrapper extends SingleInputComponentWrapper<String> {
 
-    public TextAreaWrapper(String labelText, String initValue) {
+    public TextAreaWrapper(String labelText) {
         super();
         init(labelText);
-        setValue(initValue);
     }
 
     @Override

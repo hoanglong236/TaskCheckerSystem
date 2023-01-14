@@ -4,10 +4,9 @@ import org.swing.app.view.components.form.components.factory.InputComponentFacto
 
 public class YesNoOptionChooserWrapper extends SingleInputComponentWrapper<Boolean> {
 
-    public YesNoOptionChooserWrapper(String labelText, boolean initValue) {
+    public YesNoOptionChooserWrapper(String labelText) {
         super();
         init(labelText);
-        setValue(initValue);
     }
 
     private void initInputField() {
