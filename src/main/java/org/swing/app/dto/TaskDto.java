@@ -1,7 +1,6 @@
 package org.swing.app.dto;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class TaskDto {
 
@@ -9,11 +8,14 @@ public class TaskDto {
     private String parentId = null;
     private String title = null;
     private boolean important = false;
-    private LocalDateTime startDateTime = null;
-    private LocalDateTime finishDateTime = null;
+    private LocalDateTime deadline = null;
     private LocalDateTime submitDateTime = null;
     private boolean completed = false;
     private String note = null;
+
+    private LocalDateTime createdAt = null;
+
+    private LocalDateTime updatedAt = null;
 
     public TaskDto() {
     }
@@ -50,20 +52,12 @@ public class TaskDto {
         this.important = important;
     }
 
-    public LocalDateTime getStartDateTime() {
-        return startDateTime;
+    public LocalDateTime getDeadline() {
+        return deadline;
     }
 
-    public void setStartDateTime(LocalDateTime startDateTime) {
-        this.startDateTime = startDateTime;
-    }
-
-    public LocalDateTime getFinishDateTime() {
-        return finishDateTime;
-    }
-
-    public void setFinishDateTime(LocalDateTime finishDateTime) {
-        this.finishDateTime = finishDateTime;
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
     }
 
     public LocalDateTime getSubmitDateTime() {
@@ -90,51 +84,20 @@ public class TaskDto {
         this.note = note;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof TaskDto) {
-            final TaskDto taskDtoInstance = (TaskDto) obj;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
-            final boolean idCompare = Objects.equals(taskDtoInstance.id, this.id);
-            if (!idCompare) {
-                return false;
-            }
-            final boolean parentIdCompare = Objects.equals(taskDtoInstance.parentId, this.parentId);
-            if (!parentIdCompare) {
-                return false;
-            }
-            final boolean titleCompare = Objects.equals(taskDtoInstance.title, this.title);
-            if (!titleCompare) {
-                return false;
-            }
-            final boolean importantCompare = taskDtoInstance.important == this.important;
-            if (!importantCompare) {
-                return false;
-            }
-            final boolean startDateTimeCompare = Objects.equals(taskDtoInstance.startDateTime, this.startDateTime);
-            if (!startDateTimeCompare) {
-                return false;
-            }
-            final boolean finishDateTimeCompare = Objects.equals(taskDtoInstance.finishDateTime, this.finishDateTime);
-            if (!finishDateTimeCompare) {
-                return false;
-            }
-            final boolean submitDateTimeCompare = Objects.equals(taskDtoInstance.submitDateTime, this.submitDateTime);
-            if (!submitDateTimeCompare) {
-                return false;
-            }
-            final boolean completedCompare = taskDtoInstance.completed == this.completed;
-            if (!completedCompare) {
-                return false;
-            }
-            final boolean noteCompare = Objects.equals(taskDtoInstance.note, this.note);
-            if (!noteCompare) {
-                return false;
-            }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
-            return true;
-        }
-        return false;
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public TaskDto getCopy() {
@@ -144,11 +107,12 @@ public class TaskDto {
         copy.setParentId(this.parentId);
         copy.setTitle(this.title);
         copy.setImportant(this.important);
-        copy.setStartDateTime(this.startDateTime);
-        copy.setFinishDateTime(this.finishDateTime);
+        copy.setDeadline(this.deadline);
         copy.setSubmitDateTime(this.submitDateTime);
         copy.setCompleted(this.completed);
         copy.setNote(this.note);
+        copy.setCreatedAt(this.createdAt);
+        copy.setUpdatedAt(this.updatedAt);
 
         return copy;
     }

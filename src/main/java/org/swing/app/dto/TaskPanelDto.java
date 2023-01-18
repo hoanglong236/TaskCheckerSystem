@@ -1,15 +1,10 @@
 package org.swing.app.dto;
 
-import java.time.LocalDateTime;
-
 public class TaskPanelDto {
 
     private TaskDto taskDto = null;
-    private int childCompletedTaskCount = 0;
+    private int completedChildTaskCount = 0;
     private int childTaskCount = 0;
-
-    private LocalDateTime createdAt = null;
-    private LocalDateTime updatedAt = null;
 
     public TaskPanelDto() {
     }
@@ -22,12 +17,12 @@ public class TaskPanelDto {
         this.taskDto = taskDto;
     }
 
-    public int getChildCompletedTaskCount() {
-        return childCompletedTaskCount;
+    public int getCompletedChildTaskCount() {
+        return completedChildTaskCount;
     }
 
-    public void setChildCompletedTaskCount(int childCompletedTaskCount) {
-        this.childCompletedTaskCount = childCompletedTaskCount;
+    public void setCompletedChildTaskCount(int completedChildTaskCount) {
+        this.completedChildTaskCount = completedChildTaskCount;
     }
 
     public int getChildTaskCount() {
@@ -38,30 +33,12 @@ public class TaskPanelDto {
         this.childTaskCount = childTaskCount;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     public TaskPanelDto getCopy() {
         final TaskPanelDto copy = new TaskPanelDto();
 
         copy.setTaskDto(this.taskDto);
-        copy.setChildCompletedTaskCount(this.childCompletedTaskCount);
+        copy.setCompletedChildTaskCount(this.completedChildTaskCount);
         copy.setChildTaskCount(this.childTaskCount);
-        copy.setCreatedAt(this.createdAt);
-        copy.setUpdatedAt(this.updatedAt);
 
         return copy;
     }

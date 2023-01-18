@@ -2,11 +2,10 @@ package org.swing.app.dao.homeframedao;
 
 class HomeFrameDaoSql {
 
-    public static final String createSqlToGetTaskPanelDto() {
+    public static String createSqlToGetTaskPanelDto() {
         final StringBuilder sql = new StringBuilder();
 
-        sql.append("SELECT id, parent_id, title, start_datetime, finish_datetime\n");
-        sql.append("    , submit_datetime, completed, note, created_at, updated_at\n");
+        sql.append("SELECT task.*\n");
         sql.append("    , (\n");
         sql.append("        SELECT count(*)\n");
         sql.append("        FROM task t1\n");
@@ -22,7 +21,7 @@ class HomeFrameDaoSql {
         return sql.toString();
     }
 
-    public static final String createSqlToGetIncompleteRootTaskPanelDto() {
+    public static String createSqlToGetIncompleteRootTaskPanelDto() {
         final StringBuilder sql = new StringBuilder();
 
         sql.append(createSqlToGetTaskPanelDto());
@@ -31,7 +30,7 @@ class HomeFrameDaoSql {
         return sql.toString();
     }
 
-    public static final String createSqlToGetTaskPanelDtoByParentId() {
+    public static String createSqlToGetTaskPanelDtoByParentId() {
         final StringBuilder sql = new StringBuilder();
 
         sql.append(createSqlToGetTaskPanelDto());
@@ -41,7 +40,7 @@ class HomeFrameDaoSql {
         return sql.toString();
     }
 
-    public static final String createSqlToGetTaskPanelDtoById() {
+    public static String createSqlToGetTaskPanelDtoById() {
         final StringBuilder sql = new StringBuilder();
 
         sql.append(createSqlToGetTaskPanelDto());
@@ -50,41 +49,36 @@ class HomeFrameDaoSql {
         return sql.toString();
     }
 
-    public static final String createSqlToGetTaskDtoById() {
+    public static String createSqlToGetTaskDtoById() {
+        final StringBuilder sql = new StringBuilder();
+        sql.append("SELECT * FROM task WHERE id = ?");
+        return sql.toString();
+    }
+
+    public static String createSqlToInsertTask() {
         final StringBuilder sql = new StringBuilder();
 
-        sql.append("SELECT id, parent_id, title, important, start_datetime, finish_datetime, submit_datetime note\n");
-        sql.append("FROM task\n");
+        sql.append("INSERT INTO task(id, parent_id, title, important, deadline, note)\n");
+        sql.append("VALUES(?, ?, ?, ?, ?, ?)\n");
+
+        return sql.toString();
+    }
+
+    public static String createSqlToUpdateTaskById() {
+        final StringBuilder sql = new StringBuilder();
+
+        sql.append("UPDATE task\n");
+        sql.append("SET title = ?\n");
+        sql.append("    AND important = ?\n");
+        sql.append("    AND deadline = ?\n");
+        sql.append("    AND submit_datetime = ?\n");
+        sql.append("    AND note = ?\n");
         sql.append("WHERE id = ?");
 
         return sql.toString();
     }
 
-    public static final String createSqlToInsertTask() {
-        final StringBuilder sql = new StringBuilder();
-
-        sql.append("INSERT INTO task(id, parent_id, title, important, start_datetime, finish_datetime, note)\n");
-        sql.append("VALUES(?, ?, ?, ?, ?, ?, ?)\n");
-
-        return sql.toString();
-    }
-
-    public static final String createSqlToUpdateTaskById() {
-        final StringBuilder query = new StringBuilder();
-
-        query.append("UPDATE task\n");
-        query.append("SET title = ?\n");
-        query.append("    AND important = ?\n");
-        query.append("    AND start_datetime = ?\n");
-        query.append("    AND finish_datetime = ?\n");
-        query.append("    AND submit_datetime = ?\n");
-        query.append("    AND note = ?\n");
-        query.append("WHERE id = ?");
-
-        return query.toString();
-    }
-
-    public static final String createSqlToDeleteTaskById() {
+    public static String createSqlToDeleteTaskById() {
         final StringBuilder sql = new StringBuilder();
         sql.append("DELETE FROM task WHERE id = ?\n");
         return sql.toString();

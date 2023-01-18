@@ -41,9 +41,8 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
             preStmt.setString(2, taskDto.getParentId());
             preStmt.setString(3, taskDto.getTitle());
             preStmt.setBoolean(4, taskDto.isImportant());
-            preStmt.setTimestamp(5, Timestamp.valueOf(taskDto.getStartDateTime()));
-            preStmt.setTimestamp(6, Timestamp.valueOf(taskDto.getFinishDateTime()));
-            preStmt.setString(7, taskDto.getNote());
+            preStmt.setTimestamp(5, Timestamp.valueOf(taskDto.getDeadline()));
+            preStmt.setString(6, taskDto.getNote());
 
             preStmt.executeUpdate();
         } catch (SQLException e) {
@@ -61,11 +60,10 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
 
             preStmt.setString(1, taskDto.getTitle());
             preStmt.setBoolean(2, taskDto.isImportant());
-            preStmt.setTimestamp(3, Timestamp.valueOf(taskDto.getStartDateTime()));
-            preStmt.setTimestamp(4, Timestamp.valueOf(taskDto.getFinishDateTime()));
-            preStmt.setTimestamp(5, Timestamp.valueOf(taskDto.getSubmitDateTime()));
-            preStmt.setString(6, taskDto.getNote());
-            preStmt.setString(7, taskDto.getId());
+            preStmt.setTimestamp(3, Timestamp.valueOf(taskDto.getDeadline()));
+            preStmt.setTimestamp(4, Timestamp.valueOf(taskDto.getSubmitDateTime()));
+            preStmt.setString(5, taskDto.getNote());
+            preStmt.setString(6, taskDto.getId());
 
             preStmt.executeUpdate();
         } catch (SQLException e) {
@@ -97,14 +95,17 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
         taskDto.setTitle(resultSet.getString("title"));
         taskDto.setImportant(resultSet.getBoolean("important"));
 
-        final Timestamp startTimestamp = resultSet.getTimestamp("start_datetime");
-        taskDto.setStartDateTime(startTimestamp == null ? null : startTimestamp.toLocalDateTime());
-
-        final Timestamp finishTimestamp = resultSet.getTimestamp("finish_datetime");
-        taskDto.setFinishDateTime(finishTimestamp == null ? null : finishTimestamp.toLocalDateTime());
+        final Timestamp deadlineTimestamp = resultSet.getTimestamp("deadline");
+        taskDto.setDeadline(deadlineTimestamp == null ? null : deadlineTimestamp.toLocalDateTime());
 
         final Timestamp submitTimestamp = resultSet.getTimestamp("submit_datetime");
         taskDto.setSubmitDateTime(submitTimestamp == null ? null : submitTimestamp.toLocalDateTime());
+
+        final Timestamp createdAtTimestamp = resultSet.getTimestamp("created_at");
+        taskDto.setCreatedAt(createdAtTimestamp == null ? null : createdAtTimestamp.toLocalDateTime());
+
+        final Timestamp updatedAtTimestamp = resultSet.getTimestamp("updated_at");
+        taskDto.setUpdatedAt(updatedAtTimestamp == null ? null : updatedAtTimestamp.toLocalDateTime());
 
         taskDto.setNote(resultSet.getString("note"));
         return taskDto;
@@ -116,14 +117,9 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
         final TaskDto taskDto = getTaskDtoFromResultSet(resultSet);
         taskPanelDto.setTaskDto(taskDto);
 
-        final Timestamp createdAtTimestamp = resultSet.getTimestamp("created_at");
-        taskPanelDto.setCreatedAt(createdAtTimestamp == null ? null : createdAtTimestamp.toLocalDateTime());
-
-        final Timestamp updatedAtTimestamp = resultSet.getTimestamp("updated_at");
-        taskPanelDto.setUpdatedAt(updatedAtTimestamp == null ? null : updatedAtTimestamp.toLocalDateTime());
-
-        taskPanelDto.setChildCompletedTaskCount(resultSet.getInt("child_task_completed_count"));
+        taskPanelDto.setCompletedChildTaskCount(resultSet.getInt("child_task_completed_count"));
         taskPanelDto.setChildTaskCount(resultSet.getInt("child_task_count"));
+
         return taskPanelDto;
     }
 
