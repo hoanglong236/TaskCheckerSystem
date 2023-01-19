@@ -1,10 +1,9 @@
-package org.swing.app.view.home.components.listeners;
+package org.swing.app.view.home.components.listeners.loadtaskcontent;
 
 import org.swing.app.controller.ControllerResponse;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.home.components.listeners.subjects.LoadTaskContentListenerSubject;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

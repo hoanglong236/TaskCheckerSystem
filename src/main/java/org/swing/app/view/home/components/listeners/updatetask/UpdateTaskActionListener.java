@@ -1,7 +1,6 @@
-package org.swing.app.view.home.components.listeners;
+package org.swing.app.view.home.components.listeners.updatetask;
 
 import org.swing.app.controller.HomeFrameController;
-import org.swing.app.view.home.components.listeners.subjects.UpdateTaskListenerSubject;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

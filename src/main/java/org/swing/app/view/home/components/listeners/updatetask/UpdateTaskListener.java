@@ -1,10 +1,9 @@
-package org.swing.app.view.home.components.listeners;
+package org.swing.app.view.home.components.listeners.updatetask;
 
 import org.swing.app.controller.ControllerResponse;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.home.components.listeners.subjects.UpdateTaskListenerSubject;
 
 import java.util.EventObject;
 import java.util.Optional;

@@ -1,10 +1,10 @@
-package org.swing.app.view.home.components.listeners;
+package org.swing.app.view.home.components.listeners.inserttask;
 
 import org.swing.app.controller.ControllerResponse;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.home.components.listeners.subjects.InsertTaskListenerSubject;
+import org.swing.app.view.home.components.listeners.inserttask.InsertTaskListenerSubject;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

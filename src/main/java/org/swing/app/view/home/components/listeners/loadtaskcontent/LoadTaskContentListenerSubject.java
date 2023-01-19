@@ -1,4 +1,4 @@
-package org.swing.app.view.home.components.listeners.subjects;
+package org.swing.app.view.home.components.listeners.loadtaskcontent;
 
 import org.swing.app.dto.TaskPanelDto;
 
