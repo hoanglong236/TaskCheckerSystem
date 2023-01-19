@@ -4,9 +4,8 @@ import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.factory.UIComponentFactory;
-import org.swing.app.view.components.form.components.InputComponent;
-import org.swing.app.view.components.form.components.InputComponentWrapperBase;
-import org.swing.app.view.components.form.components.factory.InputComponentFactory;
+import org.swing.app.view.components.form.components.input.InputComponent;
+import org.swing.app.view.components.form.components.input.factory.InputComponentFactory;
 
 import java.awt.Dimension;
 import java.time.LocalDate;

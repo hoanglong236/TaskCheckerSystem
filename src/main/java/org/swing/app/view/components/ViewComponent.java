@@ -35,6 +35,8 @@ public interface ViewComponent {
     void cancelAllEventListeners();
     void setBackgroundColor(Color color);
 
+    void setForegroundColor(Color color);
+
     boolean requestFocusInWindow();
 
     void setFont(Font font);

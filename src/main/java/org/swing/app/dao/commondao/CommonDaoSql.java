@@ -2,7 +2,7 @@ package org.swing.app.dao.commondao;
 
 public class CommonDaoSql {
 
-    public static final String createSqlToGetDataValueFromGenMaster() {
+    public static String createSqlToGetDataValueFromGenMaster() {
         final StringBuilder sql = new StringBuilder();
 
         sql.append("SELECT data_value\n");
@@ -12,7 +12,7 @@ public class CommonDaoSql {
         return sql.toString();
     }
 
-    public static final String createSqlToGetDataNameFromGenMaster() {
+    public static String createSqlToGetDataNameFromGenMaster() {
         final StringBuilder sql = new StringBuilder();
 
         sql.append("SELECT data_name\n");
@@ -22,7 +22,7 @@ public class CommonDaoSql {
         return sql.toString();
     }
 
-    public static final String createSqlToCheckTaskIdExist() {
+    public static String createSqlToCheckTaskIdExist() {
         final StringBuilder sql = new StringBuilder();
 
         sql.append("SELECT COUNT(*) AS task_count FROM task\n");

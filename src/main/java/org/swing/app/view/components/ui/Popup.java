@@ -44,6 +44,7 @@ public class Popup extends SimpleComponent {
 
     @Override
     public void cancelAllEventListeners() {
+        super.cancelAllEventListeners();
         cancelAllEventListenersForPopupItems();
     }
 

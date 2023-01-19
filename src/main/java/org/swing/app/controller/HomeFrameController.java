@@ -44,7 +44,7 @@ public class HomeFrameController {
         this.homeFrame.setVisible(true);
     }
 
-    public ControllerResponse requestInsertTaskPanel(TaskDto taskDto) {
+    public ControllerResponse requestInsertTask(TaskDto taskDto) {
         final ControllerResponse controllerResponse = new ControllerResponse();
         final MessageLoader messageLoader = MessageLoader.getInstance();
 
@@ -58,9 +58,9 @@ public class HomeFrameController {
             taskDto.setId(taskId);
 
             this.homeFrameBusiness.insertTaskByDto(taskDto);
-            final TaskPanelDto insertedTaskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
+            final TaskDto insertedTaskDto = this.homeFrameBusiness.getTaskDtoById(taskId);
 
-            controllerResponse.putData(messageLoader.getMessage("inserted.task.panel.dto"), insertedTaskPanelDto);
+            controllerResponse.putData(messageLoader.getMessage("inserted.task.dto"), insertedTaskDto);
             controllerResponse.setResponseType(ControllerResponse.RESPONSE_TYPE_SUCCESS);
         } catch (BusinessException e) {
             controllerResponse.setResponseType(ControllerResponse.RESPONSE_TYPE_ERROR);
@@ -69,7 +69,7 @@ public class HomeFrameController {
         return controllerResponse;
     }
 
-    public ControllerResponse requestUpdateTaskPanel(TaskDto taskDto) {
+    public ControllerResponse requestUpdateTask(TaskDto taskDto) {
         final ControllerResponse controllerResponse = new ControllerResponse();
         final MessageLoader messageLoader = MessageLoader.getInstance();
 
@@ -80,10 +80,9 @@ public class HomeFrameController {
 
         try {
             this.homeFrameBusiness.updateTaskByDto(taskDto);
-            final TaskPanelDto updatedTaskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(
-                    taskDto.getId());
+            final TaskDto updatedTaskDto = this.homeFrameBusiness.getTaskDtoById(taskDto.getId());
 
-            controllerResponse.putData(messageLoader.getMessage("updated.task.panel.dto"), updatedTaskPanelDto);
+            controllerResponse.putData(messageLoader.getMessage("updated.task.dto"), updatedTaskDto);
             controllerResponse.setResponseType(ControllerResponse.RESPONSE_TYPE_SUCCESS);
         } catch (BusinessException e) {
             controllerResponse.setResponseType(ControllerResponse.RESPONSE_TYPE_ERROR);
@@ -92,7 +91,7 @@ public class HomeFrameController {
         return controllerResponse;
     }
 
-    public ControllerResponse requestDeleteTaskPanel(String taskId) {
+    public ControllerResponse requestDeleteTask(String taskId) {
         final ControllerResponse controllerResponse = new ControllerResponse();
 
         if (taskId == null) {
@@ -120,8 +119,7 @@ public class HomeFrameController {
         }
 
         try {
-            final TaskPanelDto masterTaskPanelDto =
-                    this.homeFrameBusiness.getTaskPanelDtoById(taskId);
+            final TaskPanelDto masterTaskPanelDto = this.homeFrameBusiness.getTaskPanelDtoById(taskId);
             controllerResponse.putData(
                     messageLoader.getMessage("master.task.panel.dto"), masterTaskPanelDto);
 

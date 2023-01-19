@@ -101,6 +101,11 @@ public abstract class ViewComponentBase implements ViewComponent {
     }
 
     @Override
+    public void setForegroundColor(Color color) {
+        this.sourceComponent.setForeground(color);
+    }
+
+    @Override
     public void cancelAllEventListeners() {
         removeComponentListeners(getComponentListeners());
         removeMouseListeners(getMouseListeners());

@@ -1,7 +1,6 @@
 package org.swing.app.view.components.form.components.input;
 
 import org.swing.app.view.components.SimpleComponent;
-import org.swing.app.view.components.form.components.InputComponent;
 
 import javax.swing.text.JTextComponent;
 import java.awt.event.KeyListener;

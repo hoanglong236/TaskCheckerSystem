@@ -12,12 +12,7 @@ public class RootTaskFormPanel extends TaskFormPanel {
     }
 
     @Override
-    protected boolean isNeedStartDateTimeInputWrapper() {
-        return true;
-    }
-
-    @Override
-    protected boolean isNeedFinishDateTimeInputWrapper() {
+    protected boolean isNeedDeadlineInputWrapper() {
         return true;
     }
 

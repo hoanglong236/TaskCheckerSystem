@@ -14,7 +14,7 @@ import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.util.Set;
 
-public class HomeFrame extends FrameWrapperComponent {
+public class HomeFrame extends FrameWrapperComponent  {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.LARGE_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.LARGE_V_GAP;
@@ -52,18 +52,8 @@ public class HomeFrame extends FrameWrapperComponent {
 
         initBodyPanel();
         addChildComponent(this.bodyPanel);
-    }
 
-    public void loadRootTaskContent(TaskPanelDto masterTaskPanelDto, Set<TaskPanelDto> childTaskPanelDtos) {
-        this.bodyPanel.loadRootTaskContent(masterTaskPanelDto, childTaskPanelDtos);
-    }
 
-    public void loadNodeTaskContent(TaskPanelDto masterTaskPanelDto, Set<TaskPanelDto> childTaskPanelDtos) {
-        this.bodyPanel.loadNodeTaskContent(masterTaskPanelDto, childTaskPanelDtos);
-    }
-
-    public void clearContentOf(String taskPanelDtoId) {
-        this.bodyPanel.clearContentOf(taskPanelDtoId);
     }
 
     @Override

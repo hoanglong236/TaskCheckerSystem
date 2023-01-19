@@ -1,8 +1,7 @@
 package org.swing.app.view.components.form.components.wrapper;
 
 import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.form.components.InputComponent;
-import org.swing.app.view.components.form.components.InputComponentWrapperBase;
+import org.swing.app.view.components.form.components.input.InputComponent;
 
 import java.awt.Dimension;
 

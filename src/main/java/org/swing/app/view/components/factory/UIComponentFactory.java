@@ -7,7 +7,7 @@ import org.swing.app.view.components.ui.button.PopupItem;
 import org.swing.app.view.components.ui.button.RadioButton;
 import org.swing.app.view.components.ui.label.ActivationLabel;
 import org.swing.app.view.components.ui.label.CompletionRateLabel;
-import org.swing.app.view.components.ui.label.DeadlineLabel;
+import org.swing.app.view.components.ui.label.CountDownLabel;
 import org.swing.app.view.components.ui.label.Label;
 
 import java.time.LocalDateTime;
@@ -50,11 +50,11 @@ public class UIComponentFactory {
         return new CompletionRateLabel(completedCount, totalCount);
     }
 
-    public static DeadlineLabel createDeadlineLabel(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
-        if (startDateTime == null || finishDateTime == null) {
+    public static CountDownLabel createCountDownLabel(LocalDateTime deadline, String lateText) {
+        if (deadline == null) {
             throw new IllegalArgumentException();
         }
-        return new DeadlineLabel(startDateTime, finishDateTime);
+        return new CountDownLabel(deadline, lateText);
     }
 
     public static LabelArea createLabelArea(String text) {

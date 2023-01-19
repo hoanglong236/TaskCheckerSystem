@@ -1,6 +1,8 @@
 package org.swing.app.view.home.comparetor;
 
-import org.swing.app.view.home.components.taskbase.TaskPanel;
+import org.swing.app.dto.TaskDto;
+import org.swing.app.dto.TaskPanelDto;
+import org.swing.app.view.home.components.taskpanel.TaskPanel;
 
 import java.time.LocalDateTime;
 
@@ -8,8 +10,14 @@ public class TaskPanelCreateDateComparator extends TaskPanelComparator {
 
     @Override
     public int compare(TaskPanel o1, TaskPanel o2) {
-        final LocalDateTime dateTime1 = o1.getCreateDateTime();
-        final LocalDateTime dateTime2 = o2.getCreateDateTime();
+        final TaskPanelDto taskPanelDto1 = o1.getTaskPanelDto();
+        final TaskPanelDto taskPanelDto2 = o2.getTaskPanelDto();
+
+        final TaskDto taskDto1 = taskPanelDto1.getTaskDto();
+        final TaskDto taskDto2 = taskPanelDto2.getTaskDto();
+
+        final LocalDateTime dateTime1 = taskDto1.getCreatedAt();
+        final LocalDateTime dateTime2 = taskDto2.getCreatedAt();
 
         if (dateTime1 == null && dateTime2 == null) {
             return compareTaskId(o1, o2);

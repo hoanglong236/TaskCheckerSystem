@@ -6,8 +6,8 @@ import org.swing.app.view.common.ViewConstant;
 import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.form.Form;
-import org.swing.app.view.components.form.components.InputComponentWrapper;
-import org.swing.app.view.components.form.components.factory.InputComponentWrapperFactory;
+import org.swing.app.view.components.form.components.wrapper.InputComponentWrapper;
+import org.swing.app.view.components.form.components.wrapper.factory.InputComponentWrapperFactory;
 import org.swing.app.view.components.form.validators.TextValidator;
 
 import java.awt.Dimension;
@@ -26,14 +26,12 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private static final String TITLE_LABEL_TEXT = "Title: ";
-    private static final String START_DATETIME_LABEL_TEXT = "Start datetime: ";
-    private static final String FINISH_DATETIME_LABEL_TEXT = "Finish datetime: ";
+    private static final String DEADLINE_LABEL_TEXT = "Deadline: ";
     private static final String IMPORTANT_LABEL_TEXT = "Important: ";
     private static final String NOTE_LABEL_TEXT = "Note: ";
 
     private InputComponentWrapper<String> titleInputWrapper;
-    private InputComponentWrapper<LocalDateTime> startDateTimeInputWrapper;
-    private InputComponentWrapper<LocalDateTime> finishDateTimeInputWrapper;
+    private InputComponentWrapper<LocalDateTime> deadlineInputWrapper;
     private InputComponentWrapper<Boolean> importantInputWrapper;
     private InputComponentWrapper<String> noteInputWrapper;
 
@@ -57,8 +55,7 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
     }
 
     protected abstract boolean isNeedImportantInputWrapper();
-    protected abstract boolean isNeedStartDateTimeInputWrapper();
-    protected abstract boolean isNeedFinishDateTimeInputWrapper();
+    protected abstract boolean isNeedDeadlineInputWrapper();
     protected abstract boolean isNeedNoteInputWrapper();
 
     private void initTitleInputWrapper() {
@@ -70,14 +67,9 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
                 .createYesNoOptionChooserWrapper(IMPORTANT_LABEL_TEXT);
     }
 
-    private void initStartDateTimeInputWrapper() {
-        this.startDateTimeInputWrapper = InputComponentWrapperFactory
-                .createDateTimeChooserWrapper(START_DATETIME_LABEL_TEXT);
-    }
-
-    private void initFinishDateTimeInputWrapper() {
-        this.finishDateTimeInputWrapper = InputComponentWrapperFactory
-                .createDateTimeChooserWrapper(FINISH_DATETIME_LABEL_TEXT);
+    private void initDeadlineInputWrapper() {
+        this.deadlineInputWrapper = InputComponentWrapperFactory
+                .createDateTimeChooserWrapper(DEADLINE_LABEL_TEXT);
     }
 
     private void initNoteInputWrapper() {
@@ -92,13 +84,9 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
             initImportantInputWrapper();
             addChildComponent(this.importantInputWrapper);
         }
-        if (isNeedStartDateTimeInputWrapper()) {
-            initStartDateTimeInputWrapper();
-            addChildComponent(this.startDateTimeInputWrapper);
-        }
-        if (isNeedFinishDateTimeInputWrapper()) {
-            initFinishDateTimeInputWrapper();
-            addChildComponent(this.finishDateTimeInputWrapper);
+        if (isNeedDeadlineInputWrapper()) {
+            initDeadlineInputWrapper();
+            addChildComponent(this.deadlineInputWrapper);
         }
         if (isNeedNoteInputWrapper()) {
             initNoteInputWrapper();
@@ -116,19 +104,16 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
 
         this.childComponentSizeMap.put(this.titleInputWrapper,
                 new Dimension(maxChildComponentWidth, smallInputWrapperHeight));
-        if (this.importantInputWrapper != null) {
+
+        if (isNeedImportantInputWrapper()) {
             this.childComponentSizeMap.put(this.importantInputWrapper,
                     new Dimension(maxChildComponentWidth, smallInputWrapperHeight));
         }
-        if (this.startDateTimeInputWrapper != null) {
-            this.childComponentSizeMap.put(this.startDateTimeInputWrapper,
+        if (isNeedDeadlineInputWrapper()) {
+            this.childComponentSizeMap.put(this.deadlineInputWrapper,
                     new Dimension(maxChildComponentWidth, smallInputWrapperHeight));
         }
-        if (this.finishDateTimeInputWrapper != null) {
-            this.childComponentSizeMap.put(this.finishDateTimeInputWrapper,
-                    new Dimension(maxChildComponentWidth, smallInputWrapperHeight));
-        }
-        if (this.noteInputWrapper != null) {
+        if (isNeedNoteInputWrapper()) {
             final int noteInputWrapperHeight = availableHeight - (VERTICAL_GAP + smallInputWrapperHeight) * 4;
             this.childComponentSizeMap.put(this.noteInputWrapper,
                     new Dimension(maxChildComponentWidth, noteInputWrapperHeight));
@@ -139,7 +124,7 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
     protected void setNotResizableChildComponents() {
     }
 
-    private String validateForTitleInputWrapper() {
+    private String validateTitleInputWrapper() {
         final String emptyMessage = "";
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final String title = this.titleInputWrapper.getValue();
@@ -153,22 +138,22 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
         return emptyMessage;
     }
 
-    private String validateForStartAndFinishDateTimeWrapper() {
+    private String validateDeadlineDateTimeWrapper() {
         final String emptyMessage = "";
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-        final LocalDateTime startDateTime = this.startDateTimeInputWrapper.getValue();
-        final LocalDateTime finishDateTime = this.finishDateTimeInputWrapper.getValue();
+        final LocalDateTime deadline = this.deadlineInputWrapper.getValue();
 
-        if ((startDateTime == null) != (finishDateTime == null)) {
-            return messageLoader.getMessage("datetime.range.invalid");
+        if (deadline == null) {
+            return emptyMessage;
         }
-        if (startDateTime != null && startDateTime.isAfter(finishDateTime)) {
-            return messageLoader.getMessage("finish.datetime.must.be.after.start.datetime");
+        if (deadline.isAfter(LocalDateTime.now())) {
+            return emptyMessage;
         }
-        return emptyMessage;
+
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        return messageLoader.getMessage("deadline.invalid");
     }
 
-    public String validateForNoteInputWrapper() {
+    public String validateNoteInputWrapper() {
         final String emptyMessage = "";
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final String note = this.noteInputWrapper.getValue();
@@ -183,15 +168,15 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
     public String validate() {
         final StringBuilder validateMessage = new StringBuilder();
 
-        final String validateTitleInputWrapperResult = validateForTitleInputWrapper();
+        final String validateTitleInputWrapperResult = validateTitleInputWrapper();
         validateMessage.append(validateTitleInputWrapperResult);
 
-        if (this.startDateTimeInputWrapper != null && this.finishDateTimeInputWrapper != null) {
-            final String validateStartAndFinishDateTimeWrapperResult = validateForStartAndFinishDateTimeWrapper();
-            validateMessage.append(validateStartAndFinishDateTimeWrapperResult);
+        if (isNeedDeadlineInputWrapper()) {
+            final String validateDeadlineDateTimeWrapperResult = validateDeadlineDateTimeWrapper();
+            validateMessage.append(validateDeadlineDateTimeWrapperResult);
         }
-        if (this.noteInputWrapper != null) {
-            final String validateNoteResult = validateForNoteInputWrapper();
+        if (isNeedNoteInputWrapper()) {
+            final String validateNoteResult = validateNoteInputWrapper();
             validateMessage.append(validateNoteResult);
         }
 
@@ -211,19 +196,15 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
         final String title = this.titleInputWrapper.getValue();
         taskDtoFormData.setTitle(title);
 
-        if (this.importantInputWrapper != null) {
+        if (isNeedImportantInputWrapper()) {
             final boolean important = this.importantInputWrapper.getValue();
             taskDtoFormData.setImportant(important);
         }
-        if (this.startDateTimeInputWrapper != null) {
-            final LocalDateTime startDateTime = this.startDateTimeInputWrapper.getValue();
-            taskDtoFormData.setStartDateTime(startDateTime);
+        if (isNeedDeadlineInputWrapper()) {
+            final LocalDateTime deadline = this.deadlineInputWrapper.getValue();
+            taskDtoFormData.setDeadline(deadline);
         }
-        if (this.finishDateTimeInputWrapper != null) {
-            final LocalDateTime finishDateTime = this.startDateTimeInputWrapper.getValue();
-            taskDtoFormData.setFinishDateTime(finishDateTime);
-        }
-        if (this.noteInputWrapper != null) {
+        if (isNeedNoteInputWrapper()) {
             final String note = this.noteInputWrapper.getValue();
             taskDtoFormData.setNote(note);
         }
@@ -241,16 +222,13 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
         }
 
         this.titleInputWrapper.setValue(taskDto.getTitle());
-        if (this.importantInputWrapper != null) {
+        if (isNeedImportantInputWrapper()) {
             this.importantInputWrapper.setValue(taskDto.isImportant());
         }
-        if (this.startDateTimeInputWrapper != null) {
-            this.startDateTimeInputWrapper.setValue(taskDto.getStartDateTime());
+        if (isNeedDeadlineInputWrapper()) {
+            this.deadlineInputWrapper.setValue(taskDto.getDeadline());
         }
-        if (this.finishDateTimeInputWrapper != null) {
-            this.finishDateTimeInputWrapper.setValue(taskDto.getFinishDateTime());
-        }
-        if (this.noteInputWrapper != null) {
+        if (isNeedNoteInputWrapper()) {
             this.noteInputWrapper.setValue(taskDto.getNote());
         }
     }

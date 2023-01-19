@@ -44,6 +44,7 @@ public class ViewConstant {
     public static final String ICON_LOCATION_MORE_ACTIONS = "icons/more.png";
     public static final String ICON_LOCATION_FILTER = "icons/filter.png";
     public static final String ICON_LOCATION_REMOVE = "icons/remove.png";
+    public static final String ICON_LOCATION_CLOSE = "icons/close.png";
 
     public static final Color PRIMARY_BACKGROUND_COLOR = new Color(242, 242, 242);
     public static final String PRIMARY_FONT_NAME = "Segoe UI";

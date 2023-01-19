@@ -7,8 +7,4 @@ public interface TaskPanelModificationEventSubject {
 
     void registerObserver(TaskPanelModificationEventObserver observer);
     void removeObserver(TaskPanelModificationEventObserver observer);
-
-    void notifyObserversWhenInsertTaskPanel();
-    void notifyObserversWhenUpdateTaskPanel();
-    void notifyObserversWhenDeleteTaskPanel();
 }

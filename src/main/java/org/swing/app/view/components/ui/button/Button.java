@@ -11,11 +11,8 @@ import java.util.Iterator;
 
 public abstract class Button extends SimpleComponent {
 
-    public void setIcon(String iconLocation) {
-        final byte iconWidth = 15;
-        final byte iconHeight = 15;
+    public void setIcon(String iconLocation, short iconWidth, short iconHeight) {
         final ImageIcon imageIcon = ViewUtil.getImageIcon(iconLocation, iconWidth, iconHeight);
-
         ((AbstractButton) this.sourceComponent).setIcon(imageIcon);
     }
 

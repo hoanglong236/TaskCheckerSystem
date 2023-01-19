@@ -1,6 +1,6 @@
 package org.swing.app.view.home.comparetor;
 
-import org.swing.app.view.home.components.taskbase.TaskPanel;
+import org.swing.app.view.home.components.taskpanel.TaskPanel;
 
 import java.util.Comparator;
 

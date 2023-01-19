@@ -12,12 +12,7 @@ public class LeafTaskFormPanel extends TaskFormPanel {
     }
 
     @Override
-    protected boolean isNeedStartDateTimeInputWrapper() {
-        return false;
-    }
-
-    @Override
-    protected boolean isNeedFinishDateTimeInputWrapper() {
+    protected boolean isNeedDeadlineInputWrapper() {
         return false;
     }
 
