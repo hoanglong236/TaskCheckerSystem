@@ -19,9 +19,7 @@ import org.swing.app.view.home.components.listeners.updatetask.UpdateTaskActionL
 import org.swing.app.view.home.components.listeners.updatetask.UpdateTaskMouseListener;
 import org.swing.app.view.home.components.listeners.deletetask.DeleteTaskListenerSubject;
 import org.swing.app.view.home.components.listeners.updatetask.UpdateTaskListenerSubject;
-import org.swing.app.view.home.observer.TaskPanelDeleteEventSubject;
-import org.swing.app.view.home.observer.TaskPanelModificationEventObserver;
-import org.swing.app.view.home.observer.TaskPanelUpdateEventSubject;
+import org.swing.app.view.home.observer.taskpanel.modificationevent.TaskPanelModificationEventSubject;
 import org.swing.app.view.taskform.taskformmodal.factory.TaskFormModalFactory;
 
 import java.awt.Dimension;
@@ -31,12 +29,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
 import java.util.EventObject;
-import java.util.LinkedHashSet;
 import java.util.Optional;
-import java.util.Set;
 
-public abstract class TaskPanel extends HomeWrapperComponent implements TaskPanelUpdateEventSubject,
-        TaskPanelDeleteEventSubject, UpdateTaskListenerSubject, DeleteTaskListenerSubject {
+public abstract class TaskPanel extends HomeWrapperComponent
+        implements UpdateTaskListenerSubject, DeleteTaskListenerSubject {
 
     private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
@@ -50,11 +46,11 @@ public abstract class TaskPanel extends HomeWrapperComponent implements TaskPane
     private PopupItem editPopupItem;
     private PopupItem deletePopupItem;
 
-    private final Set<TaskPanelModificationEventObserver> taskPanelModificationEventObservers = new LinkedHashSet<>();
+    private final TaskPanelModificationEventSubject taskPanelModificationEventSubject;
 
     private final int preferHeight;
 
-    private TaskPanelDto taskPanelDto;
+    private final TaskPanelDto taskPanelDto;
 
     private final TaskFormModalFactory taskFormModalFactory;
 
@@ -65,6 +61,7 @@ public abstract class TaskPanel extends HomeWrapperComponent implements TaskPane
         this.preferHeight = preferHeight;
         this.taskPanelDto = taskPanelDto;
         this.taskFormModalFactory = taskFormModalFactory;
+        this.taskPanelModificationEventSubject = new TaskPanelModificationEventSubject(this);
 
         setLayout(MAIN_LAYOUT);
         init(taskPanelDto);
@@ -86,6 +83,10 @@ public abstract class TaskPanel extends HomeWrapperComponent implements TaskPane
 
     public int getPreferHeight() {
         return preferHeight;
+    }
+
+    public TaskPanelModificationEventSubject getTaskPanelModificationEventSubject() {
+        return taskPanelModificationEventSubject;
     }
 
     protected abstract boolean isNeedStatusChecker();
@@ -190,19 +191,6 @@ public abstract class TaskPanel extends HomeWrapperComponent implements TaskPane
         }
     }
 
-    public void update(TaskPanelDto taskPanelDto) {
-        this.taskPanelDto = taskPanelDto;
-        updateTaskCenterPanel(this.taskPanelDto);
-
-        final TaskDto taskDto = taskPanelDto.getTaskDto();
-        if (isNeedStatusChecker()) {
-            updateStatusChecker(taskDto.isCompleted());
-        }
-        if (isNeedImportantLabel()) {
-            updateImportantLabel(taskDto.isImportant());
-        }
-    }
-
     public void updateTask(TaskDto taskDto) {
         this.taskPanelDto.setTaskDto(taskDto);
         updateTaskCenterPanel(this.taskPanelDto);
@@ -278,44 +266,6 @@ public abstract class TaskPanel extends HomeWrapperComponent implements TaskPane
     }
 
     @Override
-    public void registerObserver(TaskPanelModificationEventObserver observer) {
-        this.taskPanelModificationEventObservers.add(observer);
-    }
-
-    @Override
-    public void removeObserver(TaskPanelModificationEventObserver observer) {
-        this.taskPanelModificationEventObservers.remove(observer);
-    }
-
-    @Override
-    public void notifyObserversToUpdate(TaskPanelDto updatedTaskPanelDto) {
-        for (final TaskPanelModificationEventObserver observer : this.taskPanelModificationEventObservers) {
-            observer.handleUpdateTaskPanel(this, updatedTaskPanelDto);
-        }
-    }
-
-    @Override
-    public void notifyObserversToUpdateTask(TaskDto updatedTaskDto) {
-        for (final TaskPanelModificationEventObserver observer : this.taskPanelModificationEventObservers) {
-            observer.handleUpdateTaskInTaskPanel(this, updatedTaskDto);
-        }
-    }
-
-    @Override
-    public void notifyObserversToUpdateTaskCompletionRate(int completedChildTaskCount, int childTaskCount) {
-        for (final TaskPanelModificationEventObserver observer : this.taskPanelModificationEventObservers) {
-            observer.handleUpdateTaskCompletionRateInTaskPanel(this, completedChildTaskCount, childTaskCount);
-        }
-    }
-
-    @Override
-    public void notifyObserversToDelete() {
-        for (final TaskPanelModificationEventObserver observer : this.taskPanelModificationEventObservers) {
-            observer.handleDeleteTaskPanel(this);
-        }
-    }
-
-    @Override
     public Optional<TaskDto> getTaskDtoToUpdate(EventObject eventObject) {
         final Object eventSource = eventObject.getSource();
 
@@ -341,7 +291,7 @@ public abstract class TaskPanel extends HomeWrapperComponent implements TaskPane
 
     @Override
     public void onUpdateTaskSuccess(EventObject eventObject, TaskDto updatedTaskDto) {
-        notifyObserversToUpdateTask(updatedTaskDto);
+        this.taskPanelModificationEventSubject.notifyObserversToUpdateTask(updatedTaskDto);
 
         final Object eventSource = eventObject.getSource();
         final MessageLoader messageLoader = MessageLoader.getInstance();
@@ -369,7 +319,7 @@ public abstract class TaskPanel extends HomeWrapperComponent implements TaskPane
 
     @Override
     public void onDeleteTaskSuccess(EventObject eventObject) {
-        notifyObserversToDelete();
+        this.taskPanelModificationEventSubject.notifyObserversToDelete();
 
         final MessageLoader messageLoader = MessageLoader.getInstance();
         OptionPane.showMessageDialog(messageLoader.getMessage("delete.task.success.dialog"));

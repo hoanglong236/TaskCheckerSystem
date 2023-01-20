@@ -1,7 +1,6 @@
-package org.swing.app.view.home.observer;
+package org.swing.app.view.home.observer.taskpanel.modificationevent;
 
 import org.swing.app.dto.TaskDto;
-import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.home.components.taskpanel.TaskPanel;
 
 /**
@@ -9,7 +8,6 @@ import org.swing.app.view.home.components.taskpanel.TaskPanel;
  */
 public interface TaskPanelModificationEventObserver {
 
-    void handleUpdateTaskPanel(TaskPanel taskPanel, TaskPanelDto updatedTaskPanelDto);
     void handleUpdateTaskInTaskPanel(TaskPanel taskPanel, TaskDto updatedTaskDto);
     void handleUpdateTaskCompletionRateInTaskPanel(TaskPanel taskPanel,
             int completedChildTaskCount, int childTaskCount);

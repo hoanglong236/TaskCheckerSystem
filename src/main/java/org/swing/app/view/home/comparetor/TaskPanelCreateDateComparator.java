@@ -6,6 +6,7 @@ import org.swing.app.view.home.components.taskpanel.TaskPanel;
 
 import java.time.LocalDateTime;
 
+// TODO: handle this (optimize)
 public class TaskPanelCreateDateComparator extends TaskPanelComparator {
 
     @Override
