@@ -1,12 +1,12 @@
 package org.swing.app.view.components.ui.label;
 
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.IconUrlConstants;
 
 public class CompletionRateLabel extends Label {
 
     public CompletionRateLabel(int completedCount, int totalCount) {
         super(CompletionRateLabel.getCompletionRate(completedCount, totalCount));
-        setIcon(ViewConstant.ICON_LOCATION_PLANNING);
+        setIcon(IconUrlConstants.ICON_PLANNING);
     }
 
     public void update(int completedCount, int totalCount) {

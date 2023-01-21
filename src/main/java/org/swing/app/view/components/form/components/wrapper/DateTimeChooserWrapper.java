@@ -1,7 +1,8 @@
 package org.swing.app.view.components.form.components.wrapper;
 
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.ComponentSizeConstants;
+import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.components.form.components.input.InputComponent;
@@ -24,15 +25,9 @@ public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateT
     private SimpleComponent secondChooserLabel;
     private InputComponent<String> secondChooser;
 
-    private int dateChooserWidth = ViewConstant.DEFAULT_DATE_CHOOSER_WIDTH;
-
     public DateTimeChooserWrapper(String labelText) {
         super();
         init(labelText);
-    }
-
-    public void setDateChooserWidth(int dateChooserWidth) {
-        this.dateChooserWidth = dateChooserWidth;
     }
 
     private void initDateChooser() {
@@ -113,7 +108,7 @@ public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateT
 
     @Override
     protected void loadChildComponentsSize() {
-        final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
+        final int availableHeight = getSize().height - ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
         final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 
         if (this.rateOfLabelFieldWidthInTotal > 0) {
@@ -121,8 +116,9 @@ public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateT
         }
         this.childComponentSizeMap.put(this.labelField, new Dimension(this.labelFieldWidth, maxChildComponentHeight));
 
+        final byte dateChooserWidth = ComponentSizeConstants.DEFAULT_DATE_CHOOSER_WIDTH;
         this.childComponentSizeMap.put(this.dateChooser,
-                new Dimension(this.dateChooserWidth, maxChildComponentHeight));
+                new Dimension(dateChooserWidth, maxChildComponentHeight));
 
         final byte timeChooserLabelWidth = 20;
         this.childComponentSizeMap.put(this.hourChooserLabel,

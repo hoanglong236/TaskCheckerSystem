@@ -1,6 +1,6 @@
 package org.swing.app.view.components.form.components.wrapper;
 
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.components.form.components.input.InputComponent;
 
 import java.awt.Dimension;
@@ -15,8 +15,8 @@ public class SingleInputComponentWrapper<T> extends InputComponentWrapperBase<T>
 
     @Override
     protected void loadChildComponentsSize() {
-        final int availableWidth = getSize().width - ViewConstant.MEDIUM_RESERVE_WIDTH;
-        final int availableHeight = getSize().height - ViewConstant.MEDIUM_RESERVE_HEIGHT;
+        final int availableWidth = getSize().width - ReserveSizeConstants.MEDIUM_RESERVE_WIDTH;
+        final int availableHeight = getSize().height - ReserveSizeConstants.MEDIUM_RESERVE_HEIGHT;
 
         final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 

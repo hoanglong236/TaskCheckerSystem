@@ -1,7 +1,8 @@
 package org.swing.app.view.home.body;
 
 import org.swing.app.controller.HomeFrameController;
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.LayoutGapConstants;
+import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.home.HomeWrapperComponent;
 import org.swing.app.view.home.components.taskcontentpanel.TaskContentPanel;
 
@@ -12,12 +13,12 @@ import java.awt.LayoutManager;
 // TODO: handle this
 public class HomeBodyPanel extends HomeWrapperComponent {
 
-    private static final byte HORIZONTAL_GAP = ViewConstant.MEDIUM_H_GAP;
-    private static final byte VERTICAL_GAP = ViewConstant.MEDIUM_V_GAP;
+    private static final byte HORIZONTAL_GAP = LayoutGapConstants.MEDIUM_H_GAP;
+    private static final byte VERTICAL_GAP = LayoutGapConstants.MEDIUM_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
-    private TaskContentPanel rootTaskContentPanel = null;
-    private TaskContentPanel nodeTaskContentPanel = null;
+    private TaskContentPanel rootTaskContentPanel;
+    private TaskContentPanel nodeTaskContentPanel;
 
     public HomeBodyPanel(HomeFrameController homeFrameController) {
         super(homeFrameController);
@@ -26,8 +27,8 @@ public class HomeBodyPanel extends HomeWrapperComponent {
 
     @Override
     protected void loadChildComponentsSize() {
-        int availableWidth = getSize().width - ViewConstant.MEDIUM_RESERVE_WIDTH;
-        final int availableHeight = getSize().height - ViewConstant.MEDIUM_RESERVE_HEIGHT;
+        int availableWidth = getSize().width - ReserveSizeConstants.MEDIUM_RESERVE_WIDTH;
+        final int availableHeight = getSize().height - ReserveSizeConstants.MEDIUM_RESERVE_HEIGHT;
 
         final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 

@@ -2,12 +2,18 @@ package org.swing.app.view.home.components.taskpanel;
 
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
+import org.swing.app.view.common.ComponentSizeConstants;
 import org.swing.app.view.taskform.taskformmodal.factory.impl.LeafTaskFormModalFactory;
 
 public class LeafTaskPanel extends TaskPanel {
 
-    public LeafTaskPanel(HomeFrameController homeFrameController, int preferHeight, TaskPanelDto taskPanelDto) {
-        super(homeFrameController, new LeafTaskFormModalFactory(), preferHeight, taskPanelDto);
+    public LeafTaskPanel(HomeFrameController homeFrameController, TaskPanelDto taskPanelDto) {
+        super(homeFrameController, new LeafTaskFormModalFactory(), taskPanelDto);
+    }
+
+    @Override
+    public int getPreferHeight() {
+        return ComponentSizeConstants.LEAF_TASK_PANEL_HEIGHT;
     }
 
     @Override

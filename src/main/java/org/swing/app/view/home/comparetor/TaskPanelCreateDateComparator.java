@@ -4,9 +4,6 @@ import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.home.components.taskpanel.TaskPanel;
 
-import java.time.LocalDateTime;
-
-// TODO: handle this (optimize)
 public class TaskPanelCreateDateComparator extends TaskPanelComparator {
 
     @Override
@@ -17,30 +14,10 @@ public class TaskPanelCreateDateComparator extends TaskPanelComparator {
         final TaskDto taskDto1 = taskPanelDto1.getTaskDto();
         final TaskDto taskDto2 = taskPanelDto2.getTaskDto();
 
-        final LocalDateTime dateTime1 = taskDto1.getCreatedAt();
-        final LocalDateTime dateTime2 = taskDto2.getCreatedAt();
-
-        if (dateTime1 == null && dateTime2 == null) {
-            return compareTaskId(o1, o2);
+        final int createDateCompareResult = TaskDtoPropertyComparator.compareCreateDate(taskDto1, taskDto2);
+        if (createDateCompareResult == 0) {
+            return TaskDtoPropertyComparator.compareId(taskDto1, taskDto2);
         }
-
-        final byte lessThan = -1;
-        final byte moreThan = 1;
-
-        if (dateTime1 == null) {
-            return moreThan;
-        }
-        if (dateTime2 == null) {
-            return lessThan;
-        }
-
-        if (dateTime1.isBefore(dateTime2)) {
-            return lessThan;
-        }
-        if (dateTime1.isAfter(dateTime2)) {
-            return moreThan;
-        }
-
-        return compareTaskId(o1, o2);
+        return createDateCompareResult;
     }
 }

@@ -2,7 +2,8 @@ package org.swing.app.view.taskform.taskformmodal;
 
 import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.LayoutGapConstants;
+import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.components.FrameWrapperComponent;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.components.modal.ModalWrapperComponent;
@@ -20,8 +21,8 @@ import java.util.Optional;
 
 public class TaskFormModal extends ModalWrapperComponent implements ActionListener {
 
-    private static final byte HORIZONTAL_GAP = ViewConstant.FORM_WRAPPER_H_GAP;
-    private static final byte VERTICAL_GAP = ViewConstant.FORM_WRAPPER_V_GAP;
+    private static final byte HORIZONTAL_GAP = LayoutGapConstants.FORM_WRAPPER_H_GAP;
+    private static final byte VERTICAL_GAP = LayoutGapConstants.FORM_WRAPPER_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private TaskFormPanel taskFormPanel;
@@ -93,8 +94,8 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
 
     @Override
     protected void loadChildComponentsSize() {
-        final int availableWidth = getSize().width - ViewConstant.FORM_WRAPPER_RESERVE_WIDTH;
-        final int availableHeight = getSize().height - ViewConstant.FORM_WRAPPER_RESERVE_HEIGHT;
+        final int availableWidth = getSize().width - ReserveSizeConstants.FORM_WRAPPER_RESERVE_WIDTH;
+        final int availableHeight = getSize().height - ReserveSizeConstants.FORM_WRAPPER_RESERVE_HEIGHT;
 
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 

@@ -1,8 +1,6 @@
 package org.swing.app.view.components.countdown;
 
-import org.swing.app.common.Observer;
-
-public interface CountdownObserver extends Observer {
+public interface CountdownObserver {
 
     void decreaseCountDown();
 }

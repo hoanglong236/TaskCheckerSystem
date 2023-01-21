@@ -2,7 +2,9 @@ package org.swing.app.view.home.components;
 
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.ComponentSizeConstants;
+import org.swing.app.view.common.LayoutGapConstants;
+import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.home.HomeWrapperComponent;
@@ -22,20 +24,18 @@ import java.util.List;
 class TaskPanelContainer extends HomeWrapperComponent {
 
     public static final byte SORT_BY_CREATE_DATE_ASC = 0;
-//    public static final byte SORT_BY_CREATE_DATE_DESC = 1;
     public static final byte SORT_BY_UPDATE_DATE_ASC = 2;
-//    public static final byte SORT_BY_UPDATE_DATE_DESC = 3;
 
-    private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
-    private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
+    private static final byte HORIZONTAL_GAP = LayoutGapConstants.SMALL_H_GAP;
+    private static final byte VERTICAL_GAP = LayoutGapConstants.SMALL_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
-    private static final byte NOTIFY_LABEL_WIDTH = ViewConstant.NOTIFY_LABEL_WIDTH;
-    private static final byte NOTIFY_LABEL_HEIGHT = ViewConstant.NOTIFY_LABEL_HEIGHT;
+    private static final byte NOTIFY_LABEL_WIDTH = ComponentSizeConstants.NOTIFY_LABEL_WIDTH;
+    private static final byte NOTIFY_LABEL_HEIGHT = ComponentSizeConstants.NOTIFY_LABEL_HEIGHT;
 
     private Label notifyLabel;
 
-    private int preferHeight = ViewConstant.SMALL_RESERVE_HEIGHT;
+    private int preferHeight = ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
 
     private final List<TaskPanel> incompleteTaskPanels = new ArrayList<>();
     private final List<TaskPanel> completedTaskPanels = new ArrayList<>();
@@ -151,7 +151,7 @@ class TaskPanelContainer extends HomeWrapperComponent {
     }
 
     protected int getPreferChildComponentWidth() {
-        final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
+        final int availableWidth = getSize().width - ReserveSizeConstants.SMALL_RESERVE_WIDTH;
         return availableWidth - HORIZONTAL_GAP;
     }
 

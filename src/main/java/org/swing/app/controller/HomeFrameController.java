@@ -6,7 +6,7 @@ import org.swing.app.business.exception.BusinessException;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.ComponentSizeConstants;
 import org.swing.app.view.components.FrameWrapperComponent;
 import org.swing.app.view.home.HomeFrame;
 
@@ -39,7 +39,7 @@ public class HomeFrameController {
         }
 
         this.homeFrame = new HomeFrame(this, rootTaskPanelDtos);
-        this.homeFrame.resize(ViewConstant.HOME_FRAME_PREFER_SIZE);
+        this.homeFrame.resize(ComponentSizeConstants.HOME_FRAME_PREFER_SIZE);
         this.homeFrame.setDefaultCloseOperation(FrameWrapperComponent.EXIT_ON_CLOSE);
         this.homeFrame.setVisible(true);
     }

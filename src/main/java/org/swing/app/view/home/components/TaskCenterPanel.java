@@ -3,8 +3,9 @@ package org.swing.app.view.home.components;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
-import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.ViewComponent;
+import org.swing.app.view.common.IconUrlConstants;
+import org.swing.app.view.common.LayoutGapConstants;
+import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.components.ui.label.CompletionRateLabel;
 import org.swing.app.view.components.ui.label.CountDownLabel;
 import org.swing.app.view.components.ui.label.Label;
@@ -18,13 +19,8 @@ import java.time.LocalDateTime;
 
 public class TaskCenterPanel extends HomeWrapperComponent {
 
-    private static final byte DO_NOTHING_ACTION_CHILD_COMPONENT = 0;
-    private static final byte INIT_ACTION_CHILD_COMPONENT = 1;
-    private static final byte UPDATE_ACTION_CHILD_COMPONENT = 2;
-    private static final byte REMOVE_ACTION_CHILD_COMPONENT = 3;
-
-    private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
-    private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
+    private static final byte HORIZONTAL_GAP = LayoutGapConstants.SMALL_H_GAP;
+    private static final byte VERTICAL_GAP = LayoutGapConstants.SMALL_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private Label titleLabel;
@@ -43,7 +39,7 @@ public class TaskCenterPanel extends HomeWrapperComponent {
     }
 
     private void initDeadlineLabel(LocalDateTime deadline) {
-        this.deadlineLabel = UIComponentFactory.createCountDownLabel(deadline, deadline.toLocalDate().toString());
+        this.deadlineLabel = UIComponentFactory.createCountDownLabel(deadline);
     }
 
     private void initCompletionRateLabel(int completedCount, int totalCount) {
@@ -51,7 +47,8 @@ public class TaskCenterPanel extends HomeWrapperComponent {
     }
 
     private void initNoteNotifyLabel() {
-        this.noteNotifyLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_NOTE);
+        this.noteNotifyLabel = UIComponentFactory.createLabel("");
+        this.noteNotifyLabel.setIcon(IconUrlConstants.ICON_NOTE);
     }
 
     private void init(TaskPanelDto taskPanelDto) {
@@ -74,111 +71,97 @@ public class TaskCenterPanel extends HomeWrapperComponent {
         }
     }
 
-    private void updateTitleLabel(String title) {
-        this.titleLabel.setText(title);
+    private boolean isNeedUpdateChildComponentFowNewData(boolean isChildComponentExist, boolean isNewDataValid) {
+        return isChildComponentExist && isNewDataValid;
     }
 
-    private void updateDeadlineLabel(LocalDateTime deadline) {
-        this.deadlineLabel.update(deadline);
+    private boolean isNeedRemoveChildComponentFowNewData(boolean isChildComponentExist, boolean isNewDataValid) {
+        return isChildComponentExist && !isNewDataValid;
     }
 
-    private void updateCompletionRateLabel(int completedCount, int totalCount) {
-        this.completionRateLabel.update(completedCount, totalCount);
+    private boolean isNeedInitChildComponentFowNewData(boolean isChildComponentExist, boolean isNewDataValid) {
+        return !isChildComponentExist && isNewDataValid;
     }
 
-    private byte getActionChildComponentWhenTryToUpdate(ViewComponent componentTryToUpdate, boolean hasData) {
-        if (hasData) {
-            if (componentTryToUpdate != null) {
-                return UPDATE_ACTION_CHILD_COMPONENT;
-            }
-            return INIT_ACTION_CHILD_COMPONENT;
-        }
-        if (componentTryToUpdate != null) {
-            return REMOVE_ACTION_CHILD_COMPONENT;
-        }
-        return DO_NOTHING_ACTION_CHILD_COMPONENT;
-    }
+    private void handleDeadlineLabelForNewData(LocalDateTime newDeadline) {
+        final boolean isChildComponentExist = this.deadlineLabel != null;
+        final boolean isNewDataValid = newDeadline != null;
 
-    private void handleDeadlineLabelByActionChildComponent(byte actionChildComponent, LocalDateTime deadline) {
-        if (actionChildComponent == INIT_ACTION_CHILD_COMPONENT) {
-            initDeadlineLabel(deadline);
-            addChildComponent(this.deadlineLabel);
+        if (isNeedUpdateChildComponentFowNewData(isChildComponentExist, isNewDataValid)) {
+            this.deadlineLabel.update(newDeadline);
+            return;
         }
-        else if (actionChildComponent == UPDATE_ACTION_CHILD_COMPONENT) {
-            updateDeadlineLabel(deadline);
-        }
-        else if (actionChildComponent == REMOVE_ACTION_CHILD_COMPONENT) {
+        if (isNeedRemoveChildComponentFowNewData(isChildComponentExist, isNewDataValid)) {
             removeChildComponent(this.deadlineLabel);
             this.deadlineLabel.cancelAllEventListeners();
             this.deadlineLabel = null;
+            return;
+        }
+        if (isNeedInitChildComponentFowNewData(isChildComponentExist, isNewDataValid)) {
+            initDeadlineLabel(newDeadline);
+            addChildComponent(this.deadlineLabel);
         }
     }
 
-    private void handleCompletionRateLabelByActionChildComponent(byte actionChildComponent,
-            int completedCount, int totalCount) {
+    private void handleCompletionRateLabelForNewData(int completedChildTaskCount, int childTaskCount) {
+        final boolean isChildComponentExist = this.completionRateLabel != null;
+        final boolean isNewDataValid = childTaskCount > 0;
 
-        if (actionChildComponent == INIT_ACTION_CHILD_COMPONENT) {
-            initCompletionRateLabel(completedCount, totalCount);
-            addChildComponent(this.completionRateLabel);
+        if (isNeedUpdateChildComponentFowNewData(isChildComponentExist, isNewDataValid)) {
+            this.completionRateLabel.update(completedChildTaskCount, childTaskCount);
+            return;
         }
-        else if (actionChildComponent == UPDATE_ACTION_CHILD_COMPONENT) {
-            updateCompletionRateLabel(completedCount, totalCount);
-        }
-        else if (actionChildComponent == REMOVE_ACTION_CHILD_COMPONENT) {
+        if (isNeedRemoveChildComponentFowNewData(isChildComponentExist, isNewDataValid)) {
             removeChildComponent(this.completionRateLabel);
             this.completionRateLabel.cancelAllEventListeners();
             this.completionRateLabel = null;
+            return;
+        }
+        if (isNeedInitChildComponentFowNewData(isChildComponentExist, isNewDataValid)) {
+            initCompletionRateLabel(completedChildTaskCount, childTaskCount);
+            addChildComponent(this.completionRateLabel);
         }
     }
 
-    private void handleNoteNotifyLabelByActionChildComponent(byte actionChildComponent) {
-        if (actionChildComponent == INIT_ACTION_CHILD_COMPONENT) {
-            initNoteNotifyLabel();
-            addChildComponent(this.noteNotifyLabel);
-            return;
-        }
-        if (actionChildComponent == REMOVE_ACTION_CHILD_COMPONENT) {
+    private void handleNoteNotifyLabelForNewData(boolean hasNote) {
+        final boolean isChildComponentExist = this.noteNotifyLabel != null;
+        final boolean isNewDataValid = hasNote;
+
+        if (isNeedRemoveChildComponentFowNewData(isChildComponentExist, isNewDataValid)) {
             removeChildComponent(this.noteNotifyLabel);
             this.noteNotifyLabel.cancelAllEventListeners();
             this.noteNotifyLabel = null;
+            return;
+        }
+        if (isNeedInitChildComponentFowNewData(isChildComponentExist, isNewDataValid)) {
+            initNoteNotifyLabel();
+            addChildComponent(this.noteNotifyLabel);
         }
     }
 
     public void update(TaskPanelDto taskPanelDto) {
         final TaskDto taskDto = taskPanelDto.getTaskDto();
-        updateTitleLabel(taskDto.getTitle());
+        this.titleLabel.setText(taskDto.getTitle());
 
-        final boolean hasDataForDeadlineLabel = taskDto.getDeadline() == null;
-        handleDeadlineLabelByActionChildComponent(
-                getActionChildComponentWhenTryToUpdate(this.deadlineLabel, hasDataForDeadlineLabel),
-                taskDto.getDeadline());
+        handleDeadlineLabelForNewData(taskDto.getDeadline());
+        handleCompletionRateLabelForNewData(taskPanelDto.getCompletedChildTaskCount(),
+                taskPanelDto.getChildTaskCount());
 
-        final boolean hasDataForCompletionRateLabel = taskPanelDto.getChildTaskCount() > 0;
-        handleCompletionRateLabelByActionChildComponent(
-                getActionChildComponentWhenTryToUpdate(this.completionRateLabel, hasDataForCompletionRateLabel),
-                taskPanelDto.getCompletedChildTaskCount(), taskPanelDto.getChildTaskCount());
-
-        final boolean hasDataForNoteNotifyLabel =
-                (taskDto.getNote() != null) && !(taskDto.getNote().isEmpty());
-        handleNoteNotifyLabelByActionChildComponent(
-                getActionChildComponentWhenTryToUpdate(this.noteNotifyLabel, hasDataForNoteNotifyLabel));
+        final boolean hasNote = (taskDto.getNote() != null) && !(taskDto.getNote().isEmpty());
+        handleNoteNotifyLabelForNewData(hasNote);
 
         resize(getSize());
     }
 
     public void updateCompletionRate(int completedChildTaskCount, int childTaskCount) {
-        final boolean hasDataForCompletionRateLabel = childTaskCount > 0;
-        handleCompletionRateLabelByActionChildComponent(
-                getActionChildComponentWhenTryToUpdate(this.completionRateLabel, hasDataForCompletionRateLabel),
-                completedChildTaskCount, childTaskCount);
-
+        handleCompletionRateLabelForNewData(completedChildTaskCount, childTaskCount);
         resize(getSize());
     }
 
     @Override
     protected void loadChildComponentsSize() {
-        final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
-        int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
+        final int availableWidth = getSize().width - ReserveSizeConstants.SMALL_RESERVE_WIDTH;
+        int availableHeight = getSize().height - ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
 
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 

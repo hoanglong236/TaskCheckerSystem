@@ -1,12 +1,12 @@
 package org.swing.app.view.components.ui.label;
 
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.ViewConstants;
 
 public class ActivationLabel extends Label {
 
      public ActivationLabel() {
         super("");
-        setBackgroundColor(ViewConstant.ACTIVATION_COLOR);
+        setBackgroundColor(ViewConstants.ACTIVATION_COLOR);
         deactivate();
     }
 

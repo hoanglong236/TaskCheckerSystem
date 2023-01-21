@@ -1,6 +1,6 @@
 package org.swing.app.view.components.ui;
 
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.ComponentSizeConstants;
 import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.SimpleComponent;
 import org.swing.app.view.components.factory.JComponentFactory;
@@ -20,7 +20,7 @@ public class VerticalScrollPane extends SimpleComponent {
     private void customVerticalScrollBar() {
         final JScrollBar verticalScrollBar = ((JScrollPane) this.sourceComponent).getVerticalScrollBar();
         final int scrollBarHeight = verticalScrollBar.getPreferredSize().height;
-        verticalScrollBar.setPreferredSize(new Dimension(ViewConstant.VERTICAL_SCROLLBAR_WIDTH, scrollBarHeight));
+        verticalScrollBar.setPreferredSize(new Dimension(ComponentSizeConstants.SCROLLBAR_WIDTH, scrollBarHeight));
     }
 
     private void init() {

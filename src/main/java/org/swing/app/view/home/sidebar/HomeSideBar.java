@@ -4,7 +4,8 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.LayoutGapConstants;
+import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.components.modal.OptionPane;
 import org.swing.app.view.components.ui.button.BasicButton;
 import org.swing.app.view.components.factory.UIComponentFactory;
@@ -36,8 +37,8 @@ import java.util.Set;
 public class HomeSideBar extends HomeWrapperComponent implements InsertTaskListenerSubject,
         LoadTaskContentListenerSubject, TaskPanelModificationEventObserver {
 
-    private static final byte HORIZONTAL_GAP = ViewConstant.MEDIUM_H_GAP;
-    private static final byte VERTICAL_GAP = ViewConstant.MEDIUM_V_GAP;
+    private static final byte HORIZONTAL_GAP = LayoutGapConstants.MEDIUM_H_GAP;
+    private static final byte VERTICAL_GAP = LayoutGapConstants.MEDIUM_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private TaskPanelContainerWrapper taskPanelContainerWrapper;
@@ -89,8 +90,8 @@ public class HomeSideBar extends HomeWrapperComponent implements InsertTaskListe
 
     @Override
     protected void loadChildComponentsSize() {
-        final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
-        final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
+        final int availableWidth = getSize().width - ReserveSizeConstants.SMALL_RESERVE_WIDTH;
+        final int availableHeight = getSize().height - ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
 
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
@@ -163,7 +164,6 @@ public class HomeSideBar extends HomeWrapperComponent implements InsertTaskListe
         if (this.activeTaskPanel != null && eventSource == this.activeTaskPanel.getSourceComponent()) {
             return Optional.empty();
         }
-
         if (this.sourceComponentTaskPanelMap.containsKey(eventSource)) {
             final TaskPanel taskPanelToActive = this.sourceComponentTaskPanelMap.get(eventSource);
             return Optional.of(taskPanelToActive.getTaskId());

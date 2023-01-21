@@ -4,7 +4,8 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.LayoutGapConstants;
+import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.components.modal.OptionPane;
 import org.swing.app.view.components.ui.button.BasicButton;
 import org.swing.app.view.components.ui.label.Label;
@@ -32,12 +33,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-// TODO: neu taskcontentpanel bi xoa thi TaskPanelContentEventObserver cua no thi sao?
 public abstract class TaskContentPanel extends HomeWrapperComponent implements InsertTaskListenerSubject,
         LoadTaskContentListenerSubject, TaskPanelModificationEventObserver {
 
-    private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
-    private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
+    private static final byte HORIZONTAL_GAP = LayoutGapConstants.SMALL_H_GAP;
+    private static final byte VERTICAL_GAP = LayoutGapConstants.SMALL_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private Label masterTitleLabel;
@@ -52,27 +52,28 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
 
     private final Map<Object, TaskPanel> sourceComponentTaskPanelMap = new HashMap<>();
 
-    private final String masterTaskPanelDtoId;
+    private final TaskPanelDto masterTaskPanelDto;
 
     public TaskContentPanel(HomeFrameController homeFrameController,
-            TaskFormModalFactory taskFormModalFactory,
-            TaskPanelFactory taskPanelFactory,
+            TaskFormModalFactory taskFormModalFactory, TaskPanelFactory taskPanelFactory,
             TaskPanelDto masterTaskPanelDto, Set<TaskPanelDto> taskPanelDtos) {
 
         super(homeFrameController);
         this.taskFormModalFactory = taskFormModalFactory;
         this.taskPanelFactory = taskPanelFactory;
-
-        final TaskDto masterTaskDto = masterTaskPanelDto.getTaskDto();
-        this.masterTaskPanelDtoId = masterTaskDto.getId();
+        this.masterTaskPanelDto = masterTaskPanelDto;
 
         setLayout(MAIN_LAYOUT);
         init(masterTaskPanelDto, taskPanelDtos);
     }
 
+    private String getMasterTaskId() {
+        final TaskDto masterTaskDto = this.masterTaskPanelDto.getTaskDto();
+        return masterTaskDto.getId();
+    }
+
     private void initMasterTitleLabel(String title) {
         this.masterTitleLabel = UIComponentFactory.createLabel(title);
-        addChildComponent(this.masterTitleLabel);
     }
 
     private void initTaskPanelContainerWrapper(Set<TaskPanelDto> taskPanelDtos) {
@@ -85,8 +86,6 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         for (final TaskPanelDto taskPanelDto : taskPanelDtos) {
             addTaskPanelByDto(taskPanelDto);
         }
-
-        addChildComponent(this.taskPanelContainerWrapper);
     }
 
     private void initAddNewTaskBtn() {
@@ -97,22 +96,25 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         final ActionListener actionListener = new InsertTaskActionListener(
                 this.homeFrameController, this);
         this.addNewTaskBtn.addActionListener(actionListener);
-
-        addChildComponent(this.addNewTaskBtn);
     }
 
     private void init(TaskPanelDto masterTaskPanelDto, Set<TaskPanelDto> taskPanelDtos) {
         final TaskDto masterTaskDto = masterTaskPanelDto.getTaskDto();
 
         initMasterTitleLabel(masterTaskDto.getTitle());
+        addChildComponent(this.masterTitleLabel);
+
         initTaskPanelContainerWrapper(taskPanelDtos);
+        addChildComponent(this.taskPanelContainerWrapper);
+
         initAddNewTaskBtn();
+        addChildComponent(this.addNewTaskBtn);
     }
 
     @Override
     protected void loadChildComponentsSize() {
-        final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
-        final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
+        final int availableWidth = getSize().width - ReserveSizeConstants.SMALL_RESERVE_WIDTH;
+        final int availableHeight = getSize().height - ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
 
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
@@ -134,6 +136,11 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         this.masterTitleLabel.setResizable(true);
         this.taskPanelContainerWrapper.setResizable(true);
         this.addNewTaskBtn.setResizable(false);
+    }
+
+    public void updateMasterTask(TaskDto masterTaskDto) {
+        this.masterTaskPanelDto.setTaskDto(masterTaskDto);
+        this.masterTitleLabel.setText(masterTaskDto.getTitle());
     }
 
     private void addTaskPanelByDto(TaskPanelDto taskPanelDto) {
@@ -169,7 +176,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         }
 
         final TaskDto taskDtoToInsert = formModalResult.get();
-        taskDtoToInsert.setParentId(this.masterTaskPanelDtoId);
+        taskDtoToInsert.setParentId(getMasterTaskId());
 
         return Optional.of(taskDtoToInsert);
     }

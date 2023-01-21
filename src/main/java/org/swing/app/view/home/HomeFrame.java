@@ -3,7 +3,10 @@ package org.swing.app.view.home;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.ComponentSizeConstants;
+import org.swing.app.view.common.LayoutGapConstants;
+import org.swing.app.view.common.ReserveSizeConstants;
+import org.swing.app.view.common.ViewConstants;
 import org.swing.app.view.components.FrameWrapperComponent;
 import org.swing.app.view.home.body.HomeBodyPanel;
 import org.swing.app.view.home.sidebar.HomeSideBar;
@@ -16,8 +19,8 @@ import java.util.Set;
 
 public class HomeFrame extends FrameWrapperComponent  {
 
-    private static final byte HORIZONTAL_GAP = ViewConstant.LARGE_H_GAP;
-    private static final byte VERTICAL_GAP = ViewConstant.LARGE_V_GAP;
+    private static final byte HORIZONTAL_GAP = LayoutGapConstants.LARGE_H_GAP;
+    private static final byte VERTICAL_GAP = LayoutGapConstants.LARGE_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private HomeSideBar sideBar;
@@ -29,7 +32,7 @@ public class HomeFrame extends FrameWrapperComponent  {
         super();
         this.homeFrameController = homeFrameController;
         setLayout(MAIN_LAYOUT);
-        setBackgroundColor(ViewConstant.PRIMARY_BACKGROUND_COLOR);
+        setBackgroundColor(ViewConstants.PRIMARY_BACKGROUND_COLOR);
         init(taskPanelDtos);
 
         final MessageLoader messageLoader = MessageLoader.getInstance();
@@ -58,12 +61,12 @@ public class HomeFrame extends FrameWrapperComponent  {
 
     @Override
     protected void loadChildComponentsSize() {
-        final int availableWidth = getSize().width - ViewConstant.FRAME_RESERVE_WIDTH;
-        final int availableHeight = getSize().height - ViewConstant.FRAME_RESERVE_HEIGHT;
+        final int availableWidth = getSize().width - ReserveSizeConstants.FRAME_RESERVE_WIDTH;
+        final int availableHeight = getSize().height - ReserveSizeConstants.FRAME_RESERVE_HEIGHT;
 
         final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 
-        final int sideBarWidth = ViewConstant.SIDEBAR_WIDTH;
+        final int sideBarWidth = ComponentSizeConstants.SIDEBAR_WIDTH;
         this.childComponentSizeMap.put(this.sideBar, new Dimension(sideBarWidth, maxChildComponentHeight));
 
         final int bodyPanelWidth = availableWidth - HORIZONTAL_GAP - sideBarWidth - HORIZONTAL_GAP;

@@ -50,11 +50,8 @@ public class UIComponentFactory {
         return new CompletionRateLabel(completedCount, totalCount);
     }
 
-    public static CountDownLabel createCountDownLabel(LocalDateTime deadline, String lateText) {
-        if (deadline == null) {
-            throw new IllegalArgumentException();
-        }
-        return new CountDownLabel(deadline, lateText);
+    public static CountDownLabel createCountDownLabel(LocalDateTime deadline) {
+        return new CountDownLabel(deadline);
     }
 
     public static LabelArea createLabelArea(String text) {

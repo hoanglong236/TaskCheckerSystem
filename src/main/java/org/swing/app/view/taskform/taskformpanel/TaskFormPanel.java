@@ -2,7 +2,9 @@ package org.swing.app.view.taskform.taskformpanel;
 
 import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.LayoutGapConstants;
+import org.swing.app.view.common.ReserveSizeConstants;
+import org.swing.app.view.common.ViewConstants;
 import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.form.Form;
@@ -18,11 +20,8 @@ import java.util.Iterator;
 
 public abstract class TaskFormPanel extends PanelWrapperComponent implements Form<TaskDto> {
 
-    private static final int TITLE_MAX_LENGTH = 150;
-    private static final int NOTE_MAX_LENGTH = 300;
-
-    private static final byte HORIZONTAL_GAP = ViewConstant.MEDIUM_H_GAP;
-    private static final byte VERTICAL_GAP = ViewConstant.MEDIUM_V_GAP;
+    private static final byte HORIZONTAL_GAP = LayoutGapConstants.MEDIUM_H_GAP;
+    private static final byte VERTICAL_GAP = LayoutGapConstants.MEDIUM_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private static final String TITLE_LABEL_TEXT = "Title: ";
@@ -96,8 +95,8 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
 
     @Override
     protected void loadChildComponentsSize() {
-        final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
-        final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
+        final int availableWidth = getSize().width - ReserveSizeConstants.SMALL_RESERVE_WIDTH;
+        final int availableHeight = getSize().height - ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
 
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
         final byte smallInputWrapperHeight = 50;
@@ -128,12 +127,13 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
         final String emptyMessage = "";
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final String title = this.titleInputWrapper.getValue();
+        final int titleMaxLength = ViewConstants.DEFAULT_TITLE_MAX_LENGTH;
 
         if (!TextValidator.validateNotEmpty(title)) {
             return messageLoader.getMessage("title.not.empty");
         }
-        if (!TextValidator.validateMaxLength(title, TITLE_MAX_LENGTH)) {
-            return messageLoader.getMessage("title.length.invalid") + TITLE_MAX_LENGTH;
+        if (!TextValidator.validateMaxLength(title, titleMaxLength)) {
+            return messageLoader.getMessage("title.length.invalid") + titleMaxLength;
         }
         return emptyMessage;
     }
@@ -157,9 +157,10 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
         final String emptyMessage = "";
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final String note = this.noteInputWrapper.getValue();
+        final int noteMaxLength = ViewConstants.DEFAULT_NOTE_MAX_LENGTH;
 
-        if (!TextValidator.validateMaxLength(note, TITLE_MAX_LENGTH)) {
-            return messageLoader.getMessage("note.length.invalid") + NOTE_MAX_LENGTH;
+        if (!TextValidator.validateMaxLength(note, noteMaxLength)) {
+            return messageLoader.getMessage("note.length.invalid") + noteMaxLength;
         }
         return emptyMessage;
     }

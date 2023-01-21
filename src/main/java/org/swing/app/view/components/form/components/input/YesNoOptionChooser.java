@@ -1,6 +1,7 @@
 package org.swing.app.view.components.form.components.input;
 
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.LayoutGapConstants;
+import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.components.PanelWrapperComponent;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.components.group.ButtonGrouper;
@@ -12,19 +13,18 @@ import java.awt.LayoutManager;
 
 public class YesNoOptionChooser extends PanelWrapperComponent implements InputComponent<Boolean> {
 
-    private static final byte HORIZONTAL_GAP = ViewConstant.LARGE_H_GAP;
-    private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
+    private static final byte HORIZONTAL_GAP = LayoutGapConstants.LARGE_H_GAP;
+    private static final byte VERTICAL_GAP = LayoutGapConstants.SMALL_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private RadioButton yesRadioButton;
     private RadioButton noRadioButton;
 
-    private ButtonGrouper buttonGrouper;
+    private final ButtonGrouper buttonGrouper = new ButtonGrouper();
 
     public YesNoOptionChooser() {
         super();
         setLayout(MAIN_LAYOUT);
-        this.buttonGrouper = new ButtonGrouper();
         init();
         setDefaultValue();
     }
@@ -50,7 +50,7 @@ public class YesNoOptionChooser extends PanelWrapperComponent implements InputCo
 
     @Override
     protected void loadChildComponentsSize() {
-        final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
+        final int availableHeight = getSize().height - ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
         final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 
         final int yesRadioButtonWidth = 60;
@@ -74,7 +74,7 @@ public class YesNoOptionChooser extends PanelWrapperComponent implements InputCo
             clear();
             return;
         }
-        if (value.booleanValue()) {
+        if (value) {
             this.yesRadioButton.setSelected(true);
         } else {
             this.noRadioButton.setSelected(true);

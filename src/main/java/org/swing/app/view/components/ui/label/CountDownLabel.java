@@ -1,9 +1,9 @@
 package org.swing.app.view.components.ui.label;
 
-import org.swing.app.common.Observable;
-import org.swing.app.view.common.ViewConstant;
-import org.swing.app.view.components.countdown.Countdown;
+import org.swing.app.view.common.IconUrlConstants;
+import org.swing.app.view.components.countdown.CountDownSubject;
 import org.swing.app.view.components.countdown.CountdownObserver;
+import org.swing.app.view.components.countdown.CountdownTimer;
 import org.swing.app.view.components.countdown.DateTimeCountDown;
 
 import java.awt.Color;
@@ -11,36 +11,53 @@ import java.time.LocalDateTime;
 
 public class CountDownLabel extends Label implements CountdownObserver {
 
-    private final Observable countdownObservable;
+    private final CountdownTimer countdownTimer = CountdownTimer.getInstance();
     private DateTimeCountDown deadlineCountDown;
 
-    private final String lateText;
+    private String finishCountDownText;
 
-    public CountDownLabel(LocalDateTime deadline, String lateText) {
+    public CountDownLabel(LocalDateTime deadline) {
         super("");
-        setIcon(ViewConstant.ICON_LOCATION_DEADLINE);
+        setIcon(IconUrlConstants.ICON_DEADLINE);
         setValueForCountDown(deadline);
+        init();
+    }
 
-        this.lateText = lateText;
-        this.countdownObservable = Countdown.getInstance();
-        this.countdownObservable.registerObserver(this);
+    private void init() {
+        final CountDownSubject countDownSubject = this.countdownTimer.getCountDownSubject();
+        countDownSubject.registerObserver(this);
+    }
+
+    public void setFinishCountDownText(String finishCountDownText) {
+        this.finishCountDownText = finishCountDownText;
     }
 
     private void setValueForCountDown(LocalDateTime deadline) {
-        this.deadlineCountDown = new DateTimeCountDown(LocalDateTime.now(), deadline);
+        if (deadline == null) {
+            this.deadlineCountDown = new DateTimeCountDown();
+        } else {
+            this.deadlineCountDown = new DateTimeCountDown(LocalDateTime.now(), deadline);
+        }
     }
 
     public void update(LocalDateTime deadline) {
         setValueForCountDown(deadline);
-        if (!((Countdown) this.countdownObservable).isObserverRegistered(this)) {
-            this.countdownObservable.registerObserver(this);
+
+        final CountDownSubject countDownSubject = this.countdownTimer.getCountDownSubject();
+        if (countDownSubject.isObserverExist(this)) {
+            return;
         }
+        countDownSubject.registerObserver(this);
     }
 
     @Override
     public void cancelAllEventListeners() {
         super.cancelAllEventListeners();
-        this.countdownObservable.removeObserver(this);
+
+        final CountDownSubject countDownSubject = this.countdownTimer.getCountDownSubject();
+        if (countDownSubject.isObserverExist(this)) {
+            countDownSubject.removeObserver(this);
+        }
     }
 
     @Override
@@ -51,8 +68,10 @@ public class CountDownLabel extends Label implements CountdownObserver {
             return;
         }
 
-        this.countdownObservable.removeObserver(this);
-        setText(this.lateText);
+        final CountDownSubject countDownSubject = this.countdownTimer.getCountDownSubject();
+        countDownSubject.removeObserver(this);
+
+        setText(this.finishCountDownText);
         setForegroundColor(Color.red);
     }
 }

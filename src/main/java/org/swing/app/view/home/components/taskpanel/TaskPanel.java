@@ -4,7 +4,9 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.IconUrlConstants;
+import org.swing.app.view.common.LayoutGapConstants;
+import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.components.modal.OptionPane;
 import org.swing.app.view.components.ui.label.ActivationLabel;
 import org.swing.app.view.components.ui.label.Label;
@@ -34,8 +36,8 @@ import java.util.Optional;
 public abstract class TaskPanel extends HomeWrapperComponent
         implements UpdateTaskListenerSubject, DeleteTaskListenerSubject {
 
-    private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
-    private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
+    private static final byte HORIZONTAL_GAP = LayoutGapConstants.SMALL_H_GAP;
+    private static final byte VERTICAL_GAP = LayoutGapConstants.SMALL_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private ActivationLabel activationLabel;
@@ -48,17 +50,14 @@ public abstract class TaskPanel extends HomeWrapperComponent
 
     private final TaskPanelModificationEventSubject taskPanelModificationEventSubject;
 
-    private final int preferHeight;
-
     private final TaskPanelDto taskPanelDto;
 
     private final TaskFormModalFactory taskFormModalFactory;
 
     public TaskPanel(HomeFrameController homeFrameController, TaskFormModalFactory taskFormModalFactory,
-            int preferHeight, TaskPanelDto taskPanelDto) {
+            TaskPanelDto taskPanelDto) {
 
         super(homeFrameController);
-        this.preferHeight = preferHeight;
         this.taskPanelDto = taskPanelDto;
         this.taskFormModalFactory = taskFormModalFactory;
         this.taskPanelModificationEventSubject = new TaskPanelModificationEventSubject(this);
@@ -81,9 +80,7 @@ public abstract class TaskPanel extends HomeWrapperComponent
         return taskDto.isCompleted();
     }
 
-    public int getPreferHeight() {
-        return preferHeight;
-    }
+    public abstract int getPreferHeight();
 
     public TaskPanelModificationEventSubject getTaskPanelModificationEventSubject() {
         return taskPanelModificationEventSubject;
@@ -111,10 +108,11 @@ public abstract class TaskPanel extends HomeWrapperComponent
     }
 
     private void initImportantLabel(boolean important) {
+        this.importantLabel = UIComponentFactory.createLabel("");
         if (important) {
-            this.importantLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_IMPORTANT);
+            this.importantLabel.setIcon(IconUrlConstants.ICON_IMPORTANT);
         } else {
-            this.importantLabel = UIComponentFactory.createLabel(ViewConstant.ICON_LOCATION_UNIMPORTANT);
+            this.importantLabel.setIcon(IconUrlConstants.ICON_UNIMPORTANT);
         }
 
         final MouseListener mouseListener = new UpdateTaskMouseListener(
@@ -185,9 +183,9 @@ public abstract class TaskPanel extends HomeWrapperComponent
 
     private void updateImportantLabel(boolean important) {
         if (important) {
-            this.importantLabel.setIcon(ViewConstant.ICON_LOCATION_IMPORTANT);
+            this.importantLabel.setIcon(IconUrlConstants.ICON_IMPORTANT);
         } else {
-            this.importantLabel.setIcon(ViewConstant.ICON_LOCATION_UNIMPORTANT);
+            this.importantLabel.setIcon(IconUrlConstants.ICON_UNIMPORTANT);
         }
     }
 
@@ -212,8 +210,8 @@ public abstract class TaskPanel extends HomeWrapperComponent
 
     @Override
     protected void loadChildComponentsSize() {
-        int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
-        final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
+        int availableWidth = getSize().width - ReserveSizeConstants.SMALL_RESERVE_WIDTH;
+        final int availableHeight = getSize().height - ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
 
         final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 

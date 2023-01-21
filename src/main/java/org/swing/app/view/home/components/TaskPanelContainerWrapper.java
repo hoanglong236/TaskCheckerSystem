@@ -2,7 +2,9 @@ package org.swing.app.view.home.components;
 
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.util.MessageLoader;
-import org.swing.app.view.common.ViewConstant;
+import org.swing.app.view.common.IconUrlConstants;
+import org.swing.app.view.common.LayoutGapConstants;
+import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.components.ui.button.BasicButton;
 import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.components.factory.UIComponentFactory;
@@ -20,8 +22,8 @@ import java.awt.event.ActionListener;
 
 public class TaskPanelContainerWrapper extends HomeWrapperComponent implements ActionListener {
 
-    private static final byte HORIZONTAL_GAP = ViewConstant.SMALL_H_GAP;
-    private static final byte VERTICAL_GAP = ViewConstant.SMALL_V_GAP;
+    private static final byte HORIZONTAL_GAP = LayoutGapConstants.SMALL_H_GAP;
+    private static final byte VERTICAL_GAP = LayoutGapConstants.SMALL_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private Label titleLabel;
@@ -44,7 +46,7 @@ public class TaskPanelContainerWrapper extends HomeWrapperComponent implements A
     }
 
     private void initFilterButton() {
-        this.filterButton = UIComponentFactory.createBasicButton(ViewConstant.ICON_LOCATION_FILTER);
+        this.filterButton = UIComponentFactory.createBasicButton(IconUrlConstants.ICON_FILTER);
         this.filterButton.addActionListener(this);
     }
 
@@ -106,8 +108,8 @@ public class TaskPanelContainerWrapper extends HomeWrapperComponent implements A
 
     @Override
     protected void loadChildComponentsSize() {
-        final int availableWidth = getSize().width - ViewConstant.SMALL_RESERVE_WIDTH;
-        final int availableHeight = getSize().height - ViewConstant.SMALL_RESERVE_HEIGHT;
+        final int availableWidth = getSize().width - ReserveSizeConstants.SMALL_RESERVE_WIDTH;
+        final int availableHeight = getSize().height - ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
 
         final int commonChildComponentHeight = 40;
 
