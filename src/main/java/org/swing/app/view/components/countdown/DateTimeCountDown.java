@@ -1,6 +1,6 @@
 package org.swing.app.view.components.countdown;
 
-import org.swing.app.common.Constant;
+import org.swing.app.common.Constants;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -24,12 +24,12 @@ public class DateTimeCountDown {
     private void setTimeProperties(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
         long durationSeconds = ChronoUnit.SECONDS.between(startDateTime, finishDateTime);
 
-        this.day = (int) (durationSeconds / Constant.SECOND_PER_DAY);
-        durationSeconds -= this.day * Constant.SECOND_PER_DAY;
-        this.hour = (byte) (durationSeconds / Constant.SECOND_PER_HOUR);
-        durationSeconds -= this.hour * Constant.SECOND_PER_HOUR;
-        this.minute = (byte) (durationSeconds / Constant.SECOND_PER_MINUTE);
-        durationSeconds -= this.minute * Constant.SECOND_PER_MINUTE;
+        this.day = (int) (durationSeconds / Constants.SECOND_PER_DAY);
+        durationSeconds -= this.day * Constants.SECOND_PER_DAY;
+        this.hour = (byte) (durationSeconds / Constants.SECOND_PER_HOUR);
+        durationSeconds -= this.hour * Constants.SECOND_PER_HOUR;
+        this.minute = (byte) (durationSeconds / Constants.SECOND_PER_MINUTE);
+        durationSeconds -= this.minute * Constants.SECOND_PER_MINUTE;
         this.second = (byte) durationSeconds;
     }
 

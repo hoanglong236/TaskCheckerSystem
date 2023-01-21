@@ -3,7 +3,7 @@ package org.swing.app.business;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.swing.app.business.exception.BusinessException;
-import org.swing.app.common.Constant;
+import org.swing.app.common.Constants;
 import org.swing.app.dao.commondao.CommonDao;
 import org.swing.app.dao.commondao.CommonDaoImpl;
 import org.swing.app.dao.exception.DaoException;
@@ -40,7 +40,7 @@ public class CommonBusiness {
             LOGGER.error("Method: initTaskIdMaxLength", e);
         }
 
-        return Constant.DEFAULT_TASK_ID_MAX_LENGTH;
+        return Constants.DEFAULT_TASK_ID_MAX_LENGTH;
     }
 
     public String generateTaskId() throws BusinessException {

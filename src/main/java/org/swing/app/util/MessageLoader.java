@@ -1,6 +1,6 @@
 package org.swing.app.util;
 
-import org.swing.app.common.Constant;
+import org.swing.app.common.Constants;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +15,7 @@ public class MessageLoader {
         this.properties = new Properties();
         try {
             final ClassLoader currentClassLoader = getClass().getClassLoader();
-            final InputStream inputStream = currentClassLoader.getResourceAsStream(Constant.MESSAGE_FILE_PATH);
+            final InputStream inputStream = currentClassLoader.getResourceAsStream(Constants.MESSAGE_FILE_PATH);
             this.properties.load(inputStream);
         } catch (IOException ex) {
             ex.printStackTrace();
