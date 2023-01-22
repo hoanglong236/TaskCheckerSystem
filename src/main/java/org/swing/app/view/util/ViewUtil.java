@@ -8,7 +8,7 @@ import java.net.URL;
 
 public class ViewUtil {
 
-    public static ImageIcon getImageIcon(String iconLocation, short width, short height) {
+    public static ImageIcon getImageIcon(String iconLocation, int iconWidth, int iconHeight) {
         final URL iconUrl = ViewUtil.class.getClassLoader().getResource(iconLocation);
         if (iconUrl == null) {
             final MessageLoader messageLoader = MessageLoader.getInstance();
@@ -22,6 +22,6 @@ public class ViewUtil {
             throw new IllegalArgumentException(messageLoader.getMessage("icon.location.not.valid"));
         }
 
-        return new ImageIcon(originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH));
+        return new ImageIcon(originalImage.getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
     }
 }

@@ -18,7 +18,7 @@ public class CountDownLabel extends Label implements CountdownObserver {
 
     public CountDownLabel(LocalDateTime deadline) {
         super("");
-        setIcon(IconUrlConstants.ICON_DEADLINE);
+        setIcon(IconUrlConstants.DEADLINE_ICON);
         setValueForCountDown(deadline);
         init();
     }

@@ -1,6 +1,7 @@
 package org.swing.app.view.home.components;
 
 import org.swing.app.controller.HomeFrameController;
+import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.ComponentSizeConstants;
 import org.swing.app.view.common.LayoutGapConstants;
@@ -40,12 +41,10 @@ class TaskPanelContainer extends HomeWrapperComponent {
     private final List<TaskPanel> incompleteTaskPanels = new ArrayList<>();
     private final List<TaskPanel> completedTaskPanels = new ArrayList<>();
 
-    private Comparator<TaskPanel> comparator;
+    private Comparator<TaskPanel> comparator = new TaskPanelCreateDateComparator();
 
     public TaskPanelContainer(HomeFrameController homeFrameController) {
         super(homeFrameController);
-        this.comparator = new TaskPanelCreateDateComparator();
-
         setLayout(MAIN_LAYOUT);
         init();
     }
@@ -107,7 +106,9 @@ class TaskPanelContainer extends HomeWrapperComponent {
     }
 
     private int getTaskPanelPositionToAdding(TaskPanel taskPanel) {
-        if (!taskPanel.isCompleted()) {
+        final TaskDto taskDto = taskPanel.getTaskDto();
+
+        if (!taskDto.isCompleted()) {
             this.incompleteTaskPanels.add(taskPanel);
             this.incompleteTaskPanels.sort(this.comparator);
 
@@ -135,7 +136,9 @@ class TaskPanelContainer extends HomeWrapperComponent {
     }
 
     public void removeTaskPanel(TaskPanel taskPanel) {
-        if (taskPanel.isCompleted()) {
+        final TaskDto taskDto = taskPanel.getTaskDto();
+
+        if (taskDto.isCompleted()) {
             this.completedTaskPanels.remove(taskPanel);
         } else {
             this.incompleteTaskPanels.remove(taskPanel);

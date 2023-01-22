@@ -7,5 +7,6 @@ public class TextArea extends AllowTypingInputComponent {
     public TextArea() {
         super();
         this.sourceComponent = JComponentFactory.createJTextArea();
+        setDefaultValue();
     }
 }

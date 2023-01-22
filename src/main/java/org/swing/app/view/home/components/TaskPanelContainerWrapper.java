@@ -46,7 +46,7 @@ public class TaskPanelContainerWrapper extends HomeWrapperComponent implements A
     }
 
     private void initFilterButton() {
-        this.filterButton = UIComponentFactory.createBasicButton(IconUrlConstants.ICON_FILTER);
+        this.filterButton = UIComponentFactory.createBasicButton(IconUrlConstants.FILTER_ICON);
         this.filterButton.addActionListener(this);
     }
 

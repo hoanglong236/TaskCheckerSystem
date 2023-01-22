@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class TextValidator {
 
     public static boolean validateNotEmpty(String text) {
-        return (text == null || text.isEmpty());
+        return (text != null && !text.isEmpty());
     }
 
     public static boolean validateMaxLength(String text, int maxLength) {

@@ -14,9 +14,12 @@ public class RandomString {
 
     public String generateString(int length) {
         final StringBuilder stringBuilder = new StringBuilder();
+        final int upperBound = ALPHA_NUM.length();
+
         for (int index = 0; index < length; index++) {
-            stringBuilder.append(random.nextInt(ALPHA_NUM.length()));
+            stringBuilder.append(ALPHA_NUM.charAt(random.nextInt(upperBound)));
         }
+
         return stringBuilder.toString();
     }
 }

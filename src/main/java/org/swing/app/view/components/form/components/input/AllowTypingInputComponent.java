@@ -7,12 +7,7 @@ import java.awt.event.KeyListener;
 
 public abstract class AllowTypingInputComponent extends SimpleComponent implements InputComponent<String> {
 
-    public AllowTypingInputComponent() {
-        super();
-        setDefaultValue();
-    }
-
-    private void setDefaultValue() {
+    protected void setDefaultValue() {
         final String emptyText = "";
         ((JTextComponent) this.sourceComponent).setText(emptyText);
     }

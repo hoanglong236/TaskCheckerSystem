@@ -21,7 +21,8 @@ import org.swing.app.view.home.components.listeners.updatetask.UpdateTaskActionL
 import org.swing.app.view.home.components.listeners.updatetask.UpdateTaskMouseListener;
 import org.swing.app.view.home.components.listeners.deletetask.DeleteTaskListenerSubject;
 import org.swing.app.view.home.components.listeners.updatetask.UpdateTaskListenerSubject;
-import org.swing.app.view.home.observer.taskpanel.modificationevent.TaskPanelModificationEventSubject;
+import org.swing.app.view.home.observer.taskpanel.modification.TaskPanelModificationEventObserver;
+import org.swing.app.view.home.observer.taskpanel.modification.TaskPanelModificationEventSubject;
 import org.swing.app.view.taskform.taskformmodal.factory.TaskFormModalFactory;
 
 import java.awt.Dimension;
@@ -52,38 +53,27 @@ public abstract class TaskPanel extends HomeWrapperComponent
 
     private final TaskPanelDto taskPanelDto;
 
-    private final TaskFormModalFactory taskFormModalFactory;
-
-    public TaskPanel(HomeFrameController homeFrameController, TaskFormModalFactory taskFormModalFactory,
-            TaskPanelDto taskPanelDto) {
-
+    public TaskPanel(HomeFrameController homeFrameController, TaskPanelDto taskPanelDto) {
         super(homeFrameController);
         this.taskPanelDto = taskPanelDto;
-        this.taskFormModalFactory = taskFormModalFactory;
         this.taskPanelModificationEventSubject = new TaskPanelModificationEventSubject(this);
 
         setLayout(MAIN_LAYOUT);
         init(taskPanelDto);
     }
 
-    public TaskPanelDto getTaskPanelDto() {
-        return taskPanelDto;
-    }
-
-    public String getTaskId() {
-        final TaskDto taskDto = this.taskPanelDto.getTaskDto();
-        return taskDto.getId();
-    }
-
-    public boolean isCompleted() {
-        final TaskDto taskDto = this.taskPanelDto.getTaskDto();
-        return taskDto.isCompleted();
+    public TaskDto getTaskDto() {
+        return this.taskPanelDto.getTaskDto();
     }
 
     public abstract int getPreferHeight();
 
-    public TaskPanelModificationEventSubject getTaskPanelModificationEventSubject() {
-        return taskPanelModificationEventSubject;
+    public void registerModificationEventObserver(TaskPanelModificationEventObserver observer) {
+        this.taskPanelModificationEventSubject.registerObserver(observer);
+    }
+
+    public void removeModificationEventObserver(TaskPanelModificationEventObserver observer) {
+        this.taskPanelModificationEventSubject.removeObserver(observer);
     }
 
     protected abstract boolean isNeedStatusChecker();
@@ -110,9 +100,9 @@ public abstract class TaskPanel extends HomeWrapperComponent
     private void initImportantLabel(boolean important) {
         this.importantLabel = UIComponentFactory.createLabel("");
         if (important) {
-            this.importantLabel.setIcon(IconUrlConstants.ICON_IMPORTANT);
+            this.importantLabel.setIcon(IconUrlConstants.IMPORTANT_ICON);
         } else {
-            this.importantLabel.setIcon(IconUrlConstants.ICON_UNIMPORTANT);
+            this.importantLabel.setIcon(IconUrlConstants.UNIMPORTANT_ICON);
         }
 
         final MouseListener mouseListener = new UpdateTaskMouseListener(
@@ -173,41 +163,6 @@ public abstract class TaskPanel extends HomeWrapperComponent
         setPopup(this.popup);
     }
 
-    private void updateStatusChecker(boolean checked) {
-        this.statusChecker.setSelected(checked);
-    }
-
-    private void updateTaskCenterPanel(TaskPanelDto taskPanelDto) {
-        this.taskCenterPanel.update(taskPanelDto);
-    }
-
-    private void updateImportantLabel(boolean important) {
-        if (important) {
-            this.importantLabel.setIcon(IconUrlConstants.ICON_IMPORTANT);
-        } else {
-            this.importantLabel.setIcon(IconUrlConstants.ICON_UNIMPORTANT);
-        }
-    }
-
-    public void updateTask(TaskDto taskDto) {
-        this.taskPanelDto.setTaskDto(taskDto);
-        updateTaskCenterPanel(this.taskPanelDto);
-
-        if (isNeedStatusChecker()) {
-            updateStatusChecker(taskDto.isCompleted());
-        }
-        if (isNeedImportantLabel()) {
-            updateImportantLabel(taskDto.isImportant());
-        }
-    }
-
-    public void updateTaskCompletionRate(int completedChildTaskCount, int childTaskCount) {
-        this.taskPanelDto.setCompletedChildTaskCount(completedChildTaskCount);
-        this.taskPanelDto.setChildTaskCount(childTaskCount);
-
-        this.taskCenterPanel.updateCompletionRate(completedChildTaskCount, childTaskCount);
-    }
-
     @Override
     protected void loadChildComponentsSize() {
         int availableWidth = getSize().width - ReserveSizeConstants.SMALL_RESERVE_WIDTH;
@@ -263,23 +218,49 @@ public abstract class TaskPanel extends HomeWrapperComponent
         this.popup.cancelAllEventListeners();
     }
 
+    public void updateTask(TaskDto taskDto) {
+        this.taskPanelModificationEventSubject.notifyObserversForUpdateTaskEvent(taskDto);
+
+        this.taskPanelDto.setTaskDto(taskDto);
+        this.taskCenterPanel.update(this.taskPanelDto);
+
+        if (isNeedStatusChecker()) {
+            this.statusChecker.setSelected(taskDto.isCompleted());
+        }
+        if (isNeedImportantLabel()) {
+            this.importantLabel.setIcon(
+                    taskDto.isImportant() ? IconUrlConstants.IMPORTANT_ICON : IconUrlConstants.UNIMPORTANT_ICON);
+        }
+    }
+
+    public void updateTaskCompletionRate(int completedChildTaskCount, int childTaskCount) {
+        this.taskPanelDto.setCompletedChildTaskCount(completedChildTaskCount);
+        this.taskPanelDto.setChildTaskCount(childTaskCount);
+
+        this.taskCenterPanel.updateCompletionRate(completedChildTaskCount, childTaskCount);
+    }
+
+    protected abstract TaskFormModalFactory createTaskFormModalFactory();
+
     @Override
     public Optional<TaskDto> getTaskDtoToUpdate(EventObject eventObject) {
         final Object eventSource = eventObject.getSource();
 
         if (eventSource == this.editPopupItem.getSourceComponent()) {
-            final TaskDto currentTaskDto = this.taskPanelDto.getTaskDto();
-            return this.taskFormModalFactory.showUpdatingTaskFormModal(getRootFrame(), currentTaskDto);
+            final TaskDto currentTaskDto = getTaskDto();
+            final TaskFormModalFactory taskFormModalFactory = createTaskFormModalFactory();
+
+            return taskFormModalFactory.showUpdatingTaskFormModal(getRootFrame(), currentTaskDto);
         }
         if (isNeedStatusChecker() && eventSource == this.statusChecker.getSourceComponent()) {
-            final TaskDto taskDtoToUpdate = this.taskPanelDto.getTaskDto();
-            taskDtoToUpdate.setCompleted(!isCompleted());
+            final TaskDto taskDtoToUpdate = getTaskDto();
+            taskDtoToUpdate.setCompleted(!taskDtoToUpdate.isCompleted());
             taskDtoToUpdate.setSubmitDateTime(LocalDateTime.now());
 
             return Optional.of(taskDtoToUpdate);
         }
         if (isNeedImportantLabel() && eventSource == this.importantLabel.getSourceComponent()) {
-            final TaskDto taskDtoToUpdate = this.taskPanelDto.getTaskDto();
+            final TaskDto taskDtoToUpdate = getTaskDto();
             taskDtoToUpdate.setImportant(!taskDtoToUpdate.isImportant());
 
             return Optional.of(taskDtoToUpdate);
@@ -289,7 +270,7 @@ public abstract class TaskPanel extends HomeWrapperComponent
 
     @Override
     public void onUpdateTaskSuccess(EventObject eventObject, TaskDto updatedTaskDto) {
-        this.taskPanelModificationEventSubject.notifyObserversToUpdateTask(updatedTaskDto);
+        updateTask(updatedTaskDto);
 
         final Object eventSource = eventObject.getSource();
         final MessageLoader messageLoader = MessageLoader.getInstance();
@@ -306,18 +287,29 @@ public abstract class TaskPanel extends HomeWrapperComponent
 
         final Object eventSource = eventObject.getSource();
         if (isNeedStatusChecker() && eventSource == this.statusChecker.getSourceComponent()) {
-            this.statusChecker.setSelected(isCompleted());
+            this.statusChecker.setSelected(!this.statusChecker.isSelected());
         }
     }
 
     @Override
     public Optional<String> getTaskIdToDelete(EventObject eventObject) {
-        return Optional.of(getTaskId());
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        final int confirmResult = OptionPane.showConfirmDialog(
+                messageLoader.getMessage("delete.task.confirm.dialog.question"),
+                messageLoader.getMessage("delete.task.confirm.dialog.title"));
+
+        if (confirmResult == OptionPane.YES_DIALOG_OPTION) {
+            final TaskDto taskDto = getTaskDto();
+            return Optional.of(taskDto.getId());
+        }
+
+        return Optional.empty();
     }
 
     @Override
     public void onDeleteTaskSuccess(EventObject eventObject) {
-        this.taskPanelModificationEventSubject.notifyObserversToDelete();
+        this.taskPanelModificationEventSubject.notifyObserversForDeleteEvent();
+        cancelAllEventListeners();
 
         final MessageLoader messageLoader = MessageLoader.getInstance();
         OptionPane.showMessageDialog(messageLoader.getMessage("delete.task.success.dialog"));

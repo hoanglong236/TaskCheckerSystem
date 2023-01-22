@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -41,7 +42,10 @@ public class HomeFrameDaoImpl implements HomeFrameDao {
             preStmt.setString(2, taskDto.getParentId());
             preStmt.setString(3, taskDto.getTitle());
             preStmt.setBoolean(4, taskDto.isImportant());
-            preStmt.setTimestamp(5, Timestamp.valueOf(taskDto.getDeadline()));
+
+            final LocalDateTime deadline = taskDto.getDeadline();
+            preStmt.setTimestamp(5, deadline == null ? null : Timestamp.valueOf(deadline));
+
             preStmt.setString(6, taskDto.getNote());
 
             preStmt.executeUpdate();

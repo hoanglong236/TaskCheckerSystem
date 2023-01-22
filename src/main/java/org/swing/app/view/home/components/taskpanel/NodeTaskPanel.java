@@ -3,12 +3,13 @@ package org.swing.app.view.home.components.taskpanel;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.ComponentSizeConstants;
+import org.swing.app.view.taskform.taskformmodal.factory.TaskFormModalFactory;
 import org.swing.app.view.taskform.taskformmodal.factory.impl.NodeTaskFormModalFactory;
 
 public class NodeTaskPanel extends TaskPanel {
 
     public NodeTaskPanel(HomeFrameController homeFrameController, TaskPanelDto taskPanelDto) {
-        super(homeFrameController, new NodeTaskFormModalFactory(), taskPanelDto);
+        super(homeFrameController, taskPanelDto);
     }
 
     @Override
@@ -24,5 +25,10 @@ public class NodeTaskPanel extends TaskPanel {
     @Override
     protected boolean isNeedImportantLabel() {
         return true;
+    }
+
+    @Override
+    protected TaskFormModalFactory createTaskFormModalFactory() {
+        return new NodeTaskFormModalFactory();
     }
 }

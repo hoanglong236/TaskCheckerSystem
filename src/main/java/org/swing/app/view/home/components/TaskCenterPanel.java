@@ -48,7 +48,7 @@ public class TaskCenterPanel extends HomeWrapperComponent {
 
     private void initNoteNotifyLabel() {
         this.noteNotifyLabel = UIComponentFactory.createLabel("");
-        this.noteNotifyLabel.setIcon(IconUrlConstants.ICON_NOTE);
+        this.noteNotifyLabel.setIcon(IconUrlConstants.NOTE_ICON);
     }
 
     private void init(TaskPanelDto taskPanelDto) {

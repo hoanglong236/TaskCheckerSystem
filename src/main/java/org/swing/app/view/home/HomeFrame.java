@@ -9,6 +9,8 @@ import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.common.ViewConstants;
 import org.swing.app.view.components.FrameWrapperComponent;
 import org.swing.app.view.home.body.HomeBodyPanel;
+import org.swing.app.view.home.observer.taskcontent.MainTaskContentEventSubject;
+import org.swing.app.view.home.observer.taskcontent.TaskContentEventSubject;
 import org.swing.app.view.home.sidebar.HomeSideBar;
 
 import java.awt.Color;
@@ -56,7 +58,10 @@ public class HomeFrame extends FrameWrapperComponent  {
         initBodyPanel();
         addChildComponent(this.bodyPanel);
 
+        final TaskContentEventSubject taskContentEventSubject = new MainTaskContentEventSubject();
+        taskContentEventSubject.registerObserver(this.bodyPanel);
 
+        this.sideBar.setTaskContentEventSubject(taskContentEventSubject);
     }
 
     @Override

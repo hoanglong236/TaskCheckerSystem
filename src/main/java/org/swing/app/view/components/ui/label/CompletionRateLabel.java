@@ -6,7 +6,7 @@ public class CompletionRateLabel extends Label {
 
     public CompletionRateLabel(int completedCount, int totalCount) {
         super(CompletionRateLabel.getCompletionRate(completedCount, totalCount));
-        setIcon(IconUrlConstants.ICON_PLANNING);
+        setIcon(IconUrlConstants.PLANNING_ICON);
     }
 
     public void update(int completedCount, int totalCount) {

@@ -4,6 +4,7 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
+import org.swing.app.view.common.IconUrlConstants;
 import org.swing.app.view.common.LayoutGapConstants;
 import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.components.modal.OptionPane;
@@ -18,8 +19,11 @@ import org.swing.app.view.home.components.listeners.loadtaskcontent.LoadTaskCont
 import org.swing.app.view.home.components.taskpanel.TaskPanel;
 import org.swing.app.view.home.components.taskpanel.factory.TaskPanelFactory;
 import org.swing.app.view.home.components.TaskPanelContainerWrapper;
-import org.swing.app.view.home.observer.taskpanel.modificationevent.TaskPanelModificationEventObserver;
-import org.swing.app.view.home.observer.taskpanel.modificationevent.TaskPanelModificationEventSubject;
+import org.swing.app.view.home.observer.taskcompletionrate.TaskCompletionRateEventObserver;
+import org.swing.app.view.home.observer.taskcompletionrate.TaskCompletionRateEventSubject;
+import org.swing.app.view.home.observer.taskcontent.EmptyTaskContentEventSubject;
+import org.swing.app.view.home.observer.taskcontent.TaskContentEventSubject;
+import org.swing.app.view.home.observer.taskpanel.modification.TaskPanelModificationEventObserver;
 import org.swing.app.view.taskform.taskformmodal.factory.TaskFormModalFactory;
 
 import java.awt.Dimension;
@@ -34,7 +38,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public abstract class TaskContentPanel extends HomeWrapperComponent implements InsertTaskListenerSubject,
-        LoadTaskContentListenerSubject, TaskPanelModificationEventObserver {
+        LoadTaskContentListenerSubject, TaskPanelModificationEventObserver, TaskCompletionRateEventObserver {
 
     private static final byte HORIZONTAL_GAP = LayoutGapConstants.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = LayoutGapConstants.SMALL_V_GAP;
@@ -44,27 +48,34 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
     private TaskPanelContainerWrapper taskPanelContainerWrapper;
     private BasicButton addNewTaskBtn;
 
-    private final TaskFormModalFactory taskFormModalFactory;
-
-    private final TaskPanelFactory taskPanelFactory;
-
     private TaskPanel activeTaskPanel = null;
 
     private final Map<Object, TaskPanel> sourceComponentTaskPanelMap = new HashMap<>();
 
+    private final TaskCompletionRateEventSubject masterTaskCompletionRateEventSubject;
+
+    private TaskContentEventSubject taskContentEventSubject = new EmptyTaskContentEventSubject();
+
     private final TaskPanelDto masterTaskPanelDto;
 
     public TaskContentPanel(HomeFrameController homeFrameController,
-            TaskFormModalFactory taskFormModalFactory, TaskPanelFactory taskPanelFactory,
-            TaskPanelDto masterTaskPanelDto, Set<TaskPanelDto> taskPanelDtos) {
+            TaskPanelDto masterTaskPanelDto, Set<TaskPanelDto> taskPanelDtos,
+            TaskCompletionRateEventSubject masterTaskCompletionRateEventSubject) {
 
         super(homeFrameController);
-        this.taskFormModalFactory = taskFormModalFactory;
-        this.taskPanelFactory = taskPanelFactory;
         this.masterTaskPanelDto = masterTaskPanelDto;
+        this.masterTaskCompletionRateEventSubject = masterTaskCompletionRateEventSubject;
 
         setLayout(MAIN_LAYOUT);
         init(masterTaskPanelDto, taskPanelDtos);
+    }
+
+    public void setTaskContentEventSubject(TaskContentEventSubject taskContentEventSubject) {
+        this.taskContentEventSubject = taskContentEventSubject;
+    }
+
+    public TaskContentEventSubject getTaskContentEventSubject() {
+        return taskContentEventSubject;
     }
 
     private String getMasterTaskId() {
@@ -78,10 +89,9 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
 
     private void initTaskPanelContainerWrapper(Set<TaskPanelDto> taskPanelDtos) {
         final MessageLoader messageLoader = MessageLoader.getInstance();
-        final String taskPanelManagerComponentTitle = messageLoader.getMessage("task.panel.manager.title");
+        final String title = messageLoader.getMessage("task.panel.wrapper.title");
 
-        this.taskPanelContainerWrapper = new TaskPanelContainerWrapper(
-                this.homeFrameController, taskPanelManagerComponentTitle);
+        this.taskPanelContainerWrapper = new TaskPanelContainerWrapper(this.homeFrameController, title);
 
         for (final TaskPanelDto taskPanelDto : taskPanelDtos) {
             addTaskPanelByDto(taskPanelDto);
@@ -92,6 +102,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         final MessageLoader messageLoader = MessageLoader.getInstance();
         this.addNewTaskBtn = UIComponentFactory.createBasicButton(
                 messageLoader.getMessage("add.task.component.text"));
+        this.addNewTaskBtn.setIcon(IconUrlConstants.NEW_TASK_ICON, 15, 15);
 
         final ActionListener actionListener = new InsertTaskActionListener(
                 this.homeFrameController, this);
@@ -143,12 +154,13 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         this.masterTitleLabel.setText(masterTaskDto.getTitle());
     }
 
-    private void addTaskPanelByDto(TaskPanelDto taskPanelDto) {
-        final TaskPanel taskPanel = this.taskPanelFactory.createTaskPanel(this.homeFrameController, taskPanelDto);
+    protected abstract TaskPanelFactory createTaskPanelFactory();
 
-        final TaskPanelModificationEventSubject taskPanelModificationEventSubject =
-                taskPanel.getTaskPanelModificationEventSubject();
-        taskPanelModificationEventSubject.registerObserver(this);
+    private void addTaskPanelByDto(TaskPanelDto taskPanelDto) {
+        final TaskPanelFactory taskPanelFactory = createTaskPanelFactory();
+
+        final TaskPanel taskPanel = taskPanelFactory.createTaskPanel(this.homeFrameController, taskPanelDto);
+        taskPanel.registerModificationEventObserver(this);
 
         final MouseListener mouseListener = new LoadTaskContentMouseListener(
                 this.homeFrameController, this);
@@ -167,9 +179,12 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         this.sourceComponentTaskPanelMap.remove(taskPanel.getSourceComponent());
     }
 
+    protected abstract TaskFormModalFactory createTaskFormModalFactory();
+
     @Override
     public Optional<TaskDto> getTaskDtoToInsert(EventObject eventObject) {
-        final Optional<TaskDto> formModalResult = this.taskFormModalFactory.showAddingTaskFormModal(getRootFrame());
+        final TaskFormModalFactory taskFormModalFactory = createTaskFormModalFactory();
+        final Optional<TaskDto> formModalResult = taskFormModalFactory.showAddingTaskFormModal(getRootFrame());
 
         if (!formModalResult.isPresent()) {
             return Optional.empty();
@@ -208,7 +223,9 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
 
         if (this.sourceComponentTaskPanelMap.containsKey(eventSource)) {
             final TaskPanel taskPanelToActive = this.sourceComponentTaskPanelMap.get(eventSource);
-            return Optional.of(taskPanelToActive.getTaskId());
+            final TaskDto taskDto = taskPanelToActive.getTaskDto();
+
+            return Optional.of(taskDto.getId());
         }
         return Optional.empty();
     }
@@ -225,7 +242,8 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
             }
             this.activeTaskPanel = this.sourceComponentTaskPanelMap.get(eventSource);
             this.activeTaskPanel.activate();
-            // TODO: handle this
+
+
         }
     }
 
@@ -236,36 +254,55 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
     }
 
     @Override
-    public void handleUpdateTaskInTaskPanel(TaskPanel taskPanel, TaskDto updatedTaskDto) {
-        taskPanel.updateTask(updatedTaskDto);
+    public void handleUpdateTaskInTaskPanelEvent(TaskPanel taskPanel, TaskDto newTaskDto) {
+        final TaskDto oldTaskDto = taskPanel.getTaskDto();
 
-        if (taskPanel == this.activeTaskPanel) {
-            // TODO: handle this
+        final boolean oldTaskCompleted = oldTaskDto.isCompleted();
+        final boolean newTaskCompleted = newTaskDto.isCompleted();
+
+        if (oldTaskCompleted != newTaskCompleted) {
+            removeTaskPanel(taskPanel);
+            addTaskPanel(taskPanel);
+
+            final int completedChildTaskCountOfMaster = this.masterTaskPanelDto.getCompletedChildTaskCount();
+            final int childTaskCountOfMaster = this.masterTaskPanelDto.getChildTaskCount();
+
+            if (newTaskCompleted) {
+                this.masterTaskCompletionRateEventSubject.notifyObserversToUpdateCompletionRate(
+                        completedChildTaskCountOfMaster + 1, childTaskCountOfMaster);
+            } else {
+                this.masterTaskCompletionRateEventSubject.notifyObserversToUpdateCompletionRate(
+                        completedChildTaskCountOfMaster - 1, childTaskCountOfMaster);
+            }
         }
     }
 
     @Override
-    public void handleUpdateTaskCompletionRateInTaskPanel(TaskPanel taskPanel,
-            int completedChildTaskCount, int childTaskCount) {
-
-        taskPanel.updateTaskCompletionRate(completedChildTaskCount, childTaskCount);
-
-        removeTaskPanel(taskPanel);
-        addTaskPanel(taskPanel);
-    }
-
-    @Override
-    public void handleDeleteTaskPanel(TaskPanel taskPanel) {
-        final TaskPanelModificationEventSubject taskPanelModificationEventSubject =
-                taskPanel.getTaskPanelModificationEventSubject();
-        taskPanelModificationEventSubject.removeObserver(this);
-
-        taskPanel.cancelAllEventListeners();
+    public void handleDeleteTaskPanelEvent(TaskPanel taskPanel) {
+        taskPanel.removeModificationEventObserver(this);
         removeTaskPanel(taskPanel);
 
         if (taskPanel == this.activeTaskPanel) {
             this.activeTaskPanel = null;
-            // TODO: handle this
         }
+
+        final TaskDto taskDto = taskPanel.getTaskDto();
+        final boolean isTaskCompleted = taskDto.isCompleted();
+
+        final int completedChildTaskCountOfMaster = this.masterTaskPanelDto.getCompletedChildTaskCount();
+        final int childTaskCountOfMaster = this.masterTaskPanelDto.getChildTaskCount();
+
+        if (isTaskCompleted) {
+            this.masterTaskCompletionRateEventSubject.notifyObserversToUpdateCompletionRate(
+                    completedChildTaskCountOfMaster - 1, childTaskCountOfMaster - 1);
+        } else {
+            this.masterTaskCompletionRateEventSubject.notifyObserversToUpdateCompletionRate(
+                    completedChildTaskCountOfMaster, childTaskCountOfMaster - 1);
+        }
+    }
+
+    @Override
+    public void handleUpdateCompletionRate(int completedChildTaskCount, int childTaskCount) {
+        this.activeTaskPanel.updateTaskCompletionRate(completedChildTaskCount, childTaskCount);
     }
 }

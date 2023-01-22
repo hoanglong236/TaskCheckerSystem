@@ -14,15 +14,17 @@ public class TaskDtoPropertyComparator {
     }
 
     /**
+     * If both values are null, they will be considered equal,
+     * otherwise if either value is null, then the null value will be considered greater.
      *
      * @param o1
      * @param o2
-     * @return a negative integer, zero, or a positive integer as the first argument is less than,
-     * equal to, or greater than the second.
+     * @return a negative integer, zero, or a positive integer as the first argument is less than, equal to,
+     * or greater than the second.
      */
     private static int compareDateTime(LocalDateTime o1, LocalDateTime o2) {
         final byte lessThan = -1;
-        final byte equal = 1;
+        final byte equal = 0;
         final byte moreThan = 1;
 
         if (o1 == null && o2 == null) {

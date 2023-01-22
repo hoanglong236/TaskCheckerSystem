@@ -7,5 +7,6 @@ public class TextField extends AllowTypingInputComponent {
     public TextField() {
         super();
         this.sourceComponent = JComponentFactory.createJTextField();
+        setDefaultValue();
     }
 }

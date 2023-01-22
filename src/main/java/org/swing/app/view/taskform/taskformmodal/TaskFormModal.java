@@ -19,7 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Optional;
 
-public class TaskFormModal extends ModalWrapperComponent implements ActionListener {
+public abstract class TaskFormModal extends ModalWrapperComponent implements ActionListener {
 
     private static final byte HORIZONTAL_GAP = LayoutGapConstants.FORM_WRAPPER_H_GAP;
     private static final byte VERTICAL_GAP = LayoutGapConstants.FORM_WRAPPER_V_GAP;
@@ -30,17 +30,17 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
     private BasicButton resetButton;
     private BasicButton clearButton;
 
-    private final TaskFormPanelFactory taskFormPanelFactory;
-
-    public TaskFormModal(FrameWrapperComponent parentFrame, TaskFormPanelFactory taskFormPanelFactory) {
+    public TaskFormModal(FrameWrapperComponent parentFrame) {
         super(parentFrame);
-        this.taskFormPanelFactory = taskFormPanelFactory;
         setLayout(MAIN_LAYOUT);
         init();
     }
 
+    protected abstract TaskFormPanelFactory createTaskFormPanelFactory();
+
     private void initTaskFormPanel() {
-        this.taskFormPanel = this.taskFormPanelFactory.createTaskFormPanel();
+        final TaskFormPanelFactory taskFormPanelFactory = createTaskFormPanelFactory();
+        this.taskFormPanel = taskFormPanelFactory.createTaskFormPanel();
     }
 
     private void initSubmitButton() {
@@ -99,7 +99,7 @@ public class TaskFormModal extends ModalWrapperComponent implements ActionListen
 
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
-        final byte controlButtonWidth = 80;
+        final byte controlButtonWidth = 90;
         final int controlButtonHeight = 30;
         this.childComponentSizeMap.put(this.submitButton, new Dimension(controlButtonWidth, controlButtonHeight));
         this.childComponentSizeMap.put(this.resetButton, new Dimension(controlButtonWidth, controlButtonHeight));

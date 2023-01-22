@@ -14,9 +14,7 @@ CREATE TABLE `task` (
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-	CONSTRAINT fk_task FOREIGN KEY (`parent_id`) REFERENCES `task`(`id`),
-	CONSTRAINT check_finish_datetime CHECK (`finish_datetime` >= `start_datetime`),
-	CONSTRAINT check_submit_datetime CHECK (`submit_datetime` >= `start_datetime`)
+	CONSTRAINT fk_task FOREIGN KEY (`parent_id`) REFERENCES `task`(`id`)
 );
 
 CREATE TABLE `gen_master` (
