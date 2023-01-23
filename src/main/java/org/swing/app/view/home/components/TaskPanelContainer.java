@@ -35,11 +35,10 @@ class TaskPanelContainer extends HomeWrapperComponent {
     private static final byte NOTIFY_LABEL_HEIGHT = ComponentSizeConstants.NOTIFY_LABEL_HEIGHT;
 
     private Label notifyLabel;
-
-    private int preferHeight = ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
-
     private final List<TaskPanel> incompleteTaskPanels = new ArrayList<>();
     private final List<TaskPanel> completedTaskPanels = new ArrayList<>();
+
+    private int preferHeight = ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
 
     private Comparator<TaskPanel> comparator = new TaskPanelCreateDateComparator();
 
@@ -60,7 +59,14 @@ class TaskPanelContainer extends HomeWrapperComponent {
         addChildComponent(this.notifyLabel);
     }
 
-    private void loadTaskPanelsSize(Iterator<TaskPanel> taskPanelIterator, int taskPanelWidth) {
+    private int getPreferChildComponentWidth() {
+        final int availableWidth = getSize().width - ReserveSizeConstants.SMALL_RESERVE_WIDTH;
+        return availableWidth - HORIZONTAL_GAP;
+    }
+
+    private void loadTaskPanelsSize(Iterator<TaskPanel> taskPanelIterator) {
+        final int taskPanelWidth = getPreferChildComponentWidth();
+
         while (taskPanelIterator.hasNext()) {
             final TaskPanel taskPanel = taskPanelIterator.next();
             this.childComponentSizeMap.put(taskPanel, new Dimension(taskPanelWidth, taskPanel.getPreferHeight()));
@@ -69,10 +75,8 @@ class TaskPanelContainer extends HomeWrapperComponent {
 
     @Override
     protected void loadChildComponentsSize() {
-        final int preferChildComponentWidth = getPreferChildComponentWidth();
-
-        loadTaskPanelsSize(this.incompleteTaskPanels.iterator(), preferChildComponentWidth);
-        loadTaskPanelsSize(this.completedTaskPanels.iterator(), preferChildComponentWidth);
+        loadTaskPanelsSize(this.incompleteTaskPanels.iterator());
+        loadTaskPanelsSize(this.completedTaskPanels.iterator());
 
         this.childComponentSizeMap.put(this.notifyLabel, new Dimension(NOTIFY_LABEL_WIDTH, NOTIFY_LABEL_HEIGHT));
     }
@@ -82,22 +86,24 @@ class TaskPanelContainer extends HomeWrapperComponent {
     }
 
     private void displayNotifyLabelIfNecessary() {
-        if (!(this.notifyLabel.isVisible())) {
-            if (this.completedTaskPanels.size() > 0) {
-                this.notifyLabel.setVisible(true);
-                this.preferHeight += VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
-                resizeHeightWithoutResizeChildComponent(this.preferHeight);
-            }
+        if (this.notifyLabel.isVisible()) {
+            return;
+        }
+        if (this.completedTaskPanels.size() > 0) {
+            this.notifyLabel.setVisible(true);
+            this.preferHeight += VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
+            resizeHeightWithoutResizeChildComponent(this.preferHeight);
         }
     }
 
     private void hiddenNotifyLabelIfNecessary() {
-        if (this.notifyLabel.isVisible()) {
-            if (this.completedTaskPanels.size() == 0) {
-                this.notifyLabel.setVisible(false);
-                this.preferHeight -= VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
-                resizeHeightWithoutResizeChildComponent(this.preferHeight);
-            }
+        if (!this.notifyLabel.isVisible()) {
+            return;
+        }
+        if (this.completedTaskPanels.size() == 0) {
+            this.notifyLabel.setVisible(false);
+            this.preferHeight -= VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
+            resizeHeightWithoutResizeChildComponent(this.preferHeight);
         }
     }
 
@@ -147,11 +153,6 @@ class TaskPanelContainer extends HomeWrapperComponent {
 
         hiddenNotifyLabelIfNecessary();
         refreshUI();
-    }
-
-    protected int getPreferChildComponentWidth() {
-        final int availableWidth = getSize().width - ReserveSizeConstants.SMALL_RESERVE_WIDTH;
-        return availableWidth - HORIZONTAL_GAP;
     }
 
     private void reSortTaskPanels(TaskPanelComparator taskPanelComparator) {

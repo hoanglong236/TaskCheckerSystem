@@ -40,7 +40,7 @@ public abstract class FormPanel<T> extends PanelWrapperComponent {
         }
     }
 
-    public void setRateOfLabelWidthInEachInputWrapper(float rateOfLabelWidthInWrapper) {
+    public void setRateOfLabelWidthForAllInputWrappers(float rateOfLabelWidthInWrapper) {
         final Iterator<ViewComponent> childComponentIterator = getChildComponentIterator();
 
         while (childComponentIterator.hasNext()) {
