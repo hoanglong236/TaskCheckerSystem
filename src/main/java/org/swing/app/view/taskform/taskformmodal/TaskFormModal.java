@@ -30,6 +30,8 @@ public abstract class TaskFormModal extends ModalWrapperComponent implements Act
     private BasicButton resetButton;
     private BasicButton clearButton;
 
+    private boolean isSubmitted = false;
+
     public TaskFormModal(FrameWrapperComponent parentFrame) {
         super(parentFrame);
         setLayout(MAIN_LAYOUT);
@@ -75,23 +77,6 @@ public abstract class TaskFormModal extends ModalWrapperComponent implements Act
         addChildComponent(this.clearButton);
     }
 
-    private boolean validateFormData() {
-        final String validateMessage = this.taskFormPanel.validate();
-        if (validateMessage.isEmpty()) {
-            return true;
-        }
-        OptionPane.showErrorDialog(validateMessage);
-        return false;
-    }
-
-    public void reset() {
-        this.taskFormPanel.reset();
-    }
-
-    public void clear() {
-        this.taskFormPanel.clear();
-    }
-
     @Override
     protected void loadChildComponentsSize() {
         final int availableWidth = getSize().width - ReserveSizeConstants.FORM_WRAPPER_RESERVE_WIDTH;
@@ -109,6 +94,15 @@ public abstract class TaskFormModal extends ModalWrapperComponent implements Act
         this.childComponentSizeMap.put(this.taskFormPanel, new Dimension(maxChildComponentWidth, taskFormPanelHeight));
     }
 
+    private boolean validateFormData() {
+        final String validateMessage = this.taskFormPanel.validate();
+        if (validateMessage.isEmpty()) {
+            return true;
+        }
+        OptionPane.showErrorDialog(validateMessage);
+        return false;
+    }
+
     private void onActionPerformedForSubmitButton() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final int result = OptionPane.showConfirmDialog(messageLoader.getMessage("confirm.dialog.question"),
@@ -119,16 +113,17 @@ public abstract class TaskFormModal extends ModalWrapperComponent implements Act
         }
 
         if (validateFormData()) {
+            this.isSubmitted = true;
             dispose();
         }
     }
 
     private void onActionPerformedForResetButton() {
-        reset();
+        this.taskFormPanel.reset();
     }
 
     private void onActionPerformedForClearButton() {
-        clear();
+        this.taskFormPanel.clear();
     }
 
     @Override
@@ -155,6 +150,9 @@ public abstract class TaskFormModal extends ModalWrapperComponent implements Act
     }
 
     public Optional<TaskDto> getFormData() {
-        return Optional.ofNullable(this.taskFormPanel.getFormData());
+        if (this.isSubmitted) {
+            return Optional.of(this.taskFormPanel.getFormData());
+        }
+        return Optional.empty();
     }
 }
