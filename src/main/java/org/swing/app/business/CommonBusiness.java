@@ -23,7 +23,7 @@ public class CommonBusiness {
         try {
             this.commonDao = new CommonDaoImpl();
         } catch (DaoException e) {
-            LOGGER.error("Constructor: CommonBusiness", e);
+            LOGGER.error("Constructor: CommonBusiness");
             throw new BusinessException(e);
         }
         this.taskIdMaxLength = getTaskIdMaxLength();
@@ -37,7 +37,7 @@ public class CommonBusiness {
                 return taskIdMaxLengthOptional.get();
             }
         } catch (DaoException e) {
-            LOGGER.error("Method: initTaskIdMaxLength", e);
+            LOGGER.error("Method: initTaskIdMaxLength");
         }
 
         return Constants.DEFAULT_TASK_ID_MAX_LENGTH;
@@ -54,7 +54,7 @@ public class CommonBusiness {
                     return taskId;
                 }
             } catch (DaoException e) {
-                LOGGER.error("Method: generateTaskId", e);
+                LOGGER.error("Method: generateTaskId");
                 throw new BusinessException(e);
             }
         }

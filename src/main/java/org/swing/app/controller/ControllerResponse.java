@@ -5,7 +5,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * TODO: comment this
+ * Save the results of controller processing, with data saved as a map and has a response type
+ * that makes it easy for interactive classes to know what to do
  */
 public class ControllerResponse {
 

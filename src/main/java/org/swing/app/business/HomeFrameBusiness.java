@@ -21,7 +21,7 @@ public class HomeFrameBusiness {
         try {
             this.homeFrameDao = new HomeFrameDaoImpl();
         } catch (DaoException e) {
-            LOGGER.error("Constructor: HomeFrameBusiness", e);
+            LOGGER.error("Constructor: HomeFrameBusiness");
             throw new BusinessException(e);
         }
     }
@@ -39,7 +39,7 @@ public class HomeFrameBusiness {
         try {
             this.homeFrameDao.updateTaskByDto(taskDto);
         } catch (DaoException e) {
-            LOGGER.error("Method: updateTaskByDto", e);
+            LOGGER.error("Method: updateTaskByDto");
             throw new BusinessException(e);
         }
     }
@@ -48,7 +48,7 @@ public class HomeFrameBusiness {
         try {
             this.homeFrameDao.deleteTaskById(taskId);
         } catch (DaoException e) {
-            LOGGER.error("Method: deleteTaskById", e);
+            LOGGER.error("Method: deleteTaskById");
             throw new BusinessException(e);
         }
     }
@@ -57,7 +57,7 @@ public class HomeFrameBusiness {
         try {
             return this.homeFrameDao.getTaskPanelDtoById(taskId);
         } catch (DaoException e) {
-            LOGGER.error("Method: getTaskPanelDtoById", e);
+            LOGGER.error("Method: getTaskPanelDtoById");
             throw new BusinessException(e);
         }
     }
@@ -66,7 +66,7 @@ public class HomeFrameBusiness {
         try {
             return this.homeFrameDao.getTaskDtoById(taskId);
         } catch (DaoException e) {
-            LOGGER.error("Method: getTaskDtoById", e);
+            LOGGER.error("Method: getTaskDtoById");
             throw new BusinessException(e);
         }
     }
@@ -75,7 +75,7 @@ public class HomeFrameBusiness {
         try {
             return this.homeFrameDao.getIncompleteRootTaskPanelDtos();
         } catch (DaoException e) {
-            LOGGER.error("Method: getIncompleteRootTaskPanelDtos", e);
+            LOGGER.error("Method: getIncompleteRootTaskPanelDtos");
             throw new BusinessException(e);
         }
     }
@@ -84,7 +84,7 @@ public class HomeFrameBusiness {
         try {
             return this.homeFrameDao.getTaskPanelDtosByParentId(parentId);
         } catch (DaoException e) {
-            LOGGER.error("Method: getTaskPanelDtosByParentId", e);
+            LOGGER.error("Method: getTaskPanelDtosByParentId");
             throw new BusinessException(e);
         }
     }

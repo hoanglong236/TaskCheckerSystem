@@ -3,6 +3,10 @@ package org.swing.app.view.home.comparetor;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.view.home.components.taskpanel.TaskPanel;
 
+/**
+ * Sort TaskPanel by createdAt property (this property is in TaskDto).
+ * All TaskPanels with a null value of createdAt property will be at the end of this collection
+ */
 public class TaskPanelCreateDateComparator extends TaskPanelComparator {
 
     @Override
