@@ -109,10 +109,6 @@ public abstract class TaskFormModal extends ModalWrapperComponent implements Act
         this.childComponentSizeMap.put(this.taskFormPanel, new Dimension(maxChildComponentWidth, taskFormPanelHeight));
     }
 
-    @Override
-    protected void setNotResizableChildComponents() {
-    }
-
     private void onActionPerformedForSubmitButton() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         final int result = OptionPane.showConfirmDialog(messageLoader.getMessage("confirm.dialog.question"),

@@ -4,6 +4,7 @@ import org.swing.app.view.components.FrameWrapperComponent;
 import org.swing.app.view.components.WrapperComponent;
 
 import javax.swing.JDialog;
+import java.awt.Dimension;
 import java.awt.Frame;
 
 public abstract class ModalWrapperComponent extends WrapperComponent {
@@ -26,16 +27,21 @@ public abstract class ModalWrapperComponent extends WrapperComponent {
         ((JDialog) this.sourceComponent).setTitle(title);
     }
 
-    public void dispose() {
-        ((JDialog) this.sourceComponent).dispose();
-        cancelAllEventListeners();
+    @Override
+    public void resize(Dimension dimension) {
+        super.resize(dimension);
+        ((JDialog) this.sourceComponent).pack();
+        ((JDialog) this.sourceComponent).setLocationRelativeTo(null);
     }
 
     @Override
     public void refreshUI() {
         ((JDialog) this.sourceComponent).getContentPane().revalidate();
         ((JDialog) this.sourceComponent).getContentPane().repaint();
-        ((JDialog) this.sourceComponent).pack();
-        ((JDialog) this.sourceComponent).setLocationRelativeTo(null);
+    }
+
+    public void dispose() {
+        ((JDialog) this.sourceComponent).dispose();
+        cancelAllEventListeners();
     }
 }

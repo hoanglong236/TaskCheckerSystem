@@ -119,10 +119,6 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
         }
     }
 
-    @Override
-    protected void setNotResizableChildComponents() {
-    }
-
     private String validateTitleInputWrapper() {
         final String emptyMessage = "";
         final MessageLoader messageLoader = MessageLoader.getInstance();

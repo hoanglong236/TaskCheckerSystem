@@ -126,13 +126,6 @@ public class TaskPanelContainerWrapper extends HomeWrapperComponent implements A
                 new Dimension(verticalScrollPaneWidth, verticalScrollPaneHeight));
     }
 
-    @Override
-    protected void setNotResizableChildComponents() {
-        this.verticalScrollPane.setResizable(true);
-        this.filterButton.setResizable(false);
-        this.titleLabel.setResizable(true);
-    }
-
     private void onActionPerformedForFilterButton() {
         this.filterPopup.show(this.filterButton, 0, this.filterButton.getSize().height);
     }

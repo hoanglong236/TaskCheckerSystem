@@ -15,7 +15,11 @@ public abstract class ViewComponentBase implements ViewComponent {
 
     protected WrapperComponent parent;
     protected Container sourceComponent = null;
-    private boolean resizable = true;
+
+    @Override
+    public Component getSourceComponent() {
+        return this.sourceComponent;
+    }
 
     @Override
     public WrapperComponent getParent() {
@@ -27,25 +31,12 @@ public abstract class ViewComponentBase implements ViewComponent {
         this.parent = parent;
     }
 
-    @Override
-    public Component getSourceComponent() {
-        return this.sourceComponent;
-    }
-
     public boolean isVisible() {
         return this.sourceComponent.isVisible();
     }
 
     public void setVisible(boolean visible) {
         this.sourceComponent.setVisible(visible);
-    }
-
-    public boolean isResizable() {
-        return resizable;
-    }
-
-    public void setResizable(boolean resizable) {
-        this.resizable = resizable;
     }
 
     public abstract void resize(Dimension dimension);

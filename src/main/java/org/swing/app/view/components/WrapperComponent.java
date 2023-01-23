@@ -67,23 +67,17 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
 
         while (childComponentIterator.hasNext()) {
             final ViewComponent childComponent = childComponentIterator.next();
-
-            if (childComponent.isResizable()) {
-                childComponent.resize(this.childComponentSizeMap.get(childComponent));
-            }
+            childComponent.resize(this.childComponentSizeMap.get(childComponent));
         }
 
         this.childComponentSizeMap.clear();
     }
-
-    protected abstract void setNotResizableChildComponents();
 
     @Override
     public void resize(Dimension dimension) {
         this.sourceComponent.setPreferredSize(dimension);
         loadChildComponentsSize();
         resizeChildComponents();
-        setNotResizableChildComponents();
         refreshUI();
     }
 

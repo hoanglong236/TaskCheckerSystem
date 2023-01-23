@@ -77,10 +77,4 @@ public class HomeFrame extends FrameWrapperComponent  {
         final int bodyPanelWidth = availableWidth - HORIZONTAL_GAP - sideBarWidth - HORIZONTAL_GAP;
         this.childComponentSizeMap.put(this.bodyPanel, new Dimension(bodyPanelWidth, maxChildComponentHeight));
     }
-
-    @Override
-    protected void setNotResizableChildComponents() {
-        this.sideBar.setResizable(true);
-        this.bodyPanel.setResizable(true);
-    }
 }

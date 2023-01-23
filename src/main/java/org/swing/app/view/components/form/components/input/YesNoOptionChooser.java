@@ -63,12 +63,6 @@ public class YesNoOptionChooser extends PanelWrapperComponent implements InputCo
     }
 
     @Override
-    protected void setNotResizableChildComponents() {
-        this.yesRadioButton.setResizable(false);
-        this.noRadioButton.setResizable(false);
-    }
-
-    @Override
     public void setValue(Boolean value) {
         if (value == null) {
             clear();

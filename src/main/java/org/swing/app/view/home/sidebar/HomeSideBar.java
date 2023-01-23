@@ -113,12 +113,6 @@ public class HomeSideBar extends HomeWrapperComponent implements InsertTaskListe
                 new Dimension(maxChildComponentWidth, taskPanelContainerWrapperHeight));
     }
 
-    @Override
-    protected void setNotResizableChildComponents() {
-        this.taskPanelContainerWrapper.setResizable(false);
-        this.addNewTaskBtn.setResizable(false);
-    }
-
     private void addTaskPanelByDto(TaskPanelDto taskPanelDto) {
         final TaskPanelFactory taskPanelFactory = new RootTaskPanelFactory();
 
@@ -219,6 +213,7 @@ public class HomeSideBar extends HomeWrapperComponent implements InsertTaskListe
     @Override
     public void handleDeleteTaskPanelEvent(TaskPanel taskPanel) {
         taskPanel.removeModificationEventObserver(this);
+        taskPanel.cancelAllEventListeners();
         removeTaskPanel(taskPanel);
 
         if (taskPanel == this.activeTaskPanel) {

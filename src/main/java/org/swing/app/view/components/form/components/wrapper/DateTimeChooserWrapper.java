@@ -138,16 +138,6 @@ public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateT
     }
 
     @Override
-    protected void setNotResizableChildComponents() {
-        this.hourChooserLabel.setResizable(false);
-        this.hourChooser.setResizable(false);
-        this.minuteChooserLabel.setResizable(false);
-        this.minuteChooser.setResizable(false);
-        this.secondChooserLabel.setResizable(false);
-        this.secondChooser.setResizable(false);
-    }
-
-    @Override
     public void setValue(LocalDateTime value) {
         if (value == null) {
             clear();

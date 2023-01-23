@@ -9,20 +9,18 @@ import java.awt.event.MouseListener;
 
 public interface ViewComponent {
 
-    WrapperComponent getParent();
-    void setParent(WrapperComponent parent);
-
     /**
      * TODO: comment this
      * @return
      */
     Component getSourceComponent();
 
+    WrapperComponent getParent();
+    void setParent(WrapperComponent parent);
+
     void setVisible(boolean visible);
     boolean isVisible();
 
-    void setResizable(boolean resizable);
-    boolean isResizable();
     void resize(Dimension dimension);
     Dimension getSize();
 

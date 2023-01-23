@@ -81,10 +81,6 @@ class TaskPanelContainer extends HomeWrapperComponent {
         this.sourceComponent.setPreferredSize(new Dimension(getSize().width, height));
     }
 
-    @Override
-    protected void setNotResizableChildComponents() {
-    }
-
     private void displayNotifyLabelIfNecessary() {
         if (!(this.notifyLabel.isVisible())) {
             if (this.completedTaskPanels.size() > 0) {

@@ -142,13 +142,6 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         this.childComponentSizeMap.put(this.addNewTaskBtn, new Dimension(addNewTaskBtnWidth, addNewTaskBtnHeight));
     }
 
-    @Override
-    protected void setNotResizableChildComponents() {
-        this.masterTitleLabel.setResizable(true);
-        this.taskPanelContainerWrapper.setResizable(true);
-        this.addNewTaskBtn.setResizable(false);
-    }
-
     public void updateMasterTask(TaskDto masterTaskDto) {
         this.masterTaskPanelDto.setTaskDto(masterTaskDto);
         this.masterTitleLabel.setText(masterTaskDto.getTitle());
@@ -280,6 +273,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
     @Override
     public void handleDeleteTaskPanelEvent(TaskPanel taskPanel) {
         taskPanel.removeModificationEventObserver(this);
+        taskPanel.cancelAllEventListeners();
         removeTaskPanel(taskPanel);
 
         if (taskPanel == this.activeTaskPanel) {

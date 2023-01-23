@@ -53,10 +53,6 @@ public class HomeBodyPanel extends HomeWrapperComponent implements TaskContentEv
         }
     }
 
-    @Override
-    protected void setNotResizableChildComponents() {
-    }
-
     private void initMainContentPanel(TaskPanelDto masterTaskPanelDto, Set<TaskPanelDto> taskPanelDtos,
             TaskCompletionRateEventSubject taskCompletionRateEventSubject) {
 

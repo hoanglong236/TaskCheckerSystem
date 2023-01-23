@@ -194,17 +194,4 @@ public class TaskCenterPanel extends HomeWrapperComponent {
         final int titleLabelHeight = availableHeight - VERTICAL_GAP;
         this.childComponentSizeMap.put(this.titleLabel, new Dimension(maxChildComponentWidth, titleLabelHeight));
     }
-
-    @Override
-    protected void setNotResizableChildComponents() {
-        if (this.deadlineLabel != null) {
-            this.deadlineLabel.setResizable(false);
-        }
-        if (this.completionRateLabel != null) {
-            this.completionRateLabel.setResizable(false);
-        }
-        if (this.noteNotifyLabel != null) {
-            this.noteNotifyLabel.setResizable(false);
-        }
-    }
 }

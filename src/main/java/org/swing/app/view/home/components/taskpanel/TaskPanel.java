@@ -193,17 +193,6 @@ public abstract class TaskPanel extends HomeWrapperComponent
                 new Dimension(taskCenterPanelWidth, maxChildComponentHeight));
     }
 
-    @Override
-    protected void setNotResizableChildComponents() {
-        this.activationLabel.setResizable(false);
-        if (isNeedStatusChecker()) {
-            this.statusChecker.setResizable(false);
-        }
-        if (isNeedImportantLabel()) {
-            this.importantLabel.setResizable(false);
-        }
-    }
-
     public void activate() {
         this.activationLabel.activate();
     }
@@ -309,7 +298,6 @@ public abstract class TaskPanel extends HomeWrapperComponent
     @Override
     public void onDeleteTaskSuccess(EventObject eventObject) {
         this.taskPanelModificationEventSubject.notifyObserversForDeleteEvent();
-        cancelAllEventListeners();
 
         final MessageLoader messageLoader = MessageLoader.getInstance();
         OptionPane.showMessageDialog(messageLoader.getMessage("delete.task.success.dialog"));

@@ -30,10 +30,6 @@ public class SingleInputComponentWrapper<T> extends InputComponentWrapperBase<T>
     }
 
     @Override
-    protected void setNotResizableChildComponents() {
-    }
-
-    @Override
     public void setValue(T value) {
         this.inputField.setValue(value);
     }
