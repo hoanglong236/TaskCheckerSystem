@@ -18,7 +18,7 @@ public abstract class InputComponentWrapperBase<T> extends PanelWrapperComponent
     protected static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     protected static final Font DEFAULT_LABEL_FIELD_FONT = new Font(ViewConstants.PRIMARY_FONT_NAME,
-            Font.BOLD, ViewConstants.DEFAULT_LABEL_FIELD_FONT_SIZE);
+            Font.PLAIN, ViewConstants.DEFAULT_LABEL_FIELD_FONT_SIZE);
 
     protected static final Font DEFAULT_INPUT_FIELD_FONT = new Font(ViewConstants.PRIMARY_FONT_NAME,
             Font.PLAIN, ViewConstants.DEFAULT_INPUT_FIELD_FONT_SIZE);

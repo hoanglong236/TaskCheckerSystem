@@ -13,10 +13,12 @@ public class TextAreaWrapper extends SingleInputComponentWrapper<String> {
     @Override
     protected void initLabelField(String labelText) {
         this.labelField = UIComponentFactory.createLabelArea(labelText);
+        this.labelField.setFont(DEFAULT_LABEL_FIELD_FONT);
     }
 
     private void initInputField() {
         this.inputField = InputComponentFactory.createTextArea();
+        this.inputField.setFont(DEFAULT_INPUT_FIELD_FONT);
     }
 
     private void init(String labelText) {

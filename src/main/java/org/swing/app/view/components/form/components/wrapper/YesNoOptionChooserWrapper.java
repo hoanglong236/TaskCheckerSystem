@@ -11,6 +11,7 @@ public class YesNoOptionChooserWrapper extends SingleInputComponentWrapper<Boole
 
     private void initInputField() {
         this.inputField = InputComponentFactory.createYesNoOptionChooser();
+        this.inputField.setFont(DEFAULT_INPUT_FIELD_FONT);
     }
 
     private void init(String labelText) {

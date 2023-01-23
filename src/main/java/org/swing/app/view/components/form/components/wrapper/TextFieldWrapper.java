@@ -11,6 +11,7 @@ public class TextFieldWrapper extends SingleInputComponentWrapper<String> {
 
     private void initInputField() {
         this.inputField = InputComponentFactory.createTextField();
+        this.inputField.setFont(DEFAULT_INPUT_FIELD_FONT);
     }
 
     private void init(String labelText) {

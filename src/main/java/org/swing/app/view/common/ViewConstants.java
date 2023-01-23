@@ -9,8 +9,8 @@ public class ViewConstants {
 
     public static final byte DEFAULT_BUTTON_FONT_SIZE = 14;
 
-    public static final byte DEFAULT_LABEL_FIELD_FONT_SIZE = 13;
-    public static final byte DEFAULT_INPUT_FIELD_FONT_SIZE = 13;
+    public static final byte DEFAULT_LABEL_FIELD_FONT_SIZE = 14;
+    public static final byte DEFAULT_INPUT_FIELD_FONT_SIZE = 14;
 
     public static final Color ACTIVATION_COLOR = new Color(230, 230, 230);
 
