@@ -25,4 +25,10 @@ public abstract class PanelWrapperComponent extends WrapperComponent {
         }
         return ((PanelWrapperComponent) this.parent).getRootFrame();
     }
+
+    @Override
+    public void refreshUI() {
+        this.sourceComponent.revalidate();
+        this.sourceComponent.repaint();
+    }
 }

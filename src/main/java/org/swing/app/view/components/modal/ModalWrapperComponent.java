@@ -4,6 +4,7 @@ import org.swing.app.view.components.FrameWrapperComponent;
 import org.swing.app.view.components.WrapperComponent;
 
 import javax.swing.JDialog;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 
@@ -25,6 +26,11 @@ public abstract class ModalWrapperComponent extends WrapperComponent {
 
     public void setModalTitle(String title) {
         ((JDialog) this.sourceComponent).setTitle(title);
+    }
+
+    @Override
+    public void setBackgroundColor(Color color) {
+        ((JDialog) this.sourceComponent).getContentPane().setBackground(color);
     }
 
     @Override

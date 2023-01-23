@@ -5,9 +5,7 @@ import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.LayoutGapConstants;
 import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.common.ViewConstants;
-import org.swing.app.view.components.PanelWrapperComponent;
-import org.swing.app.view.components.ViewComponent;
-import org.swing.app.view.components.form.Form;
+import org.swing.app.view.components.form.FormPanel;
 import org.swing.app.view.components.form.components.wrapper.InputComponentWrapper;
 import org.swing.app.view.components.form.components.wrapper.factory.InputComponentWrapperFactory;
 import org.swing.app.view.components.form.validators.TextValidator;
@@ -16,9 +14,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.time.LocalDateTime;
-import java.util.Iterator;
 
-public abstract class TaskFormPanel extends PanelWrapperComponent implements Form<TaskDto> {
+public abstract class TaskFormPanel extends FormPanel<TaskDto> {
 
     private static final byte HORIZONTAL_GAP = LayoutGapConstants.MEDIUM_H_GAP;
     private static final byte VERTICAL_GAP = LayoutGapConstants.MEDIUM_V_GAP;
@@ -34,23 +31,12 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
     private InputComponentWrapper<Boolean> importantInputWrapper;
     private InputComponentWrapper<String> noteInputWrapper;
 
-    private int labelWidthInWrapper;
-    private float rateOfLabelWidthInWrapper;
-
     private TaskDto taskDto = null;
 
     public TaskFormPanel() {
         super();
         setLayout(MAIN_LAYOUT);
         init();
-    }
-
-    public void setLabelWidthInWrapper(int labelWidthInWrapper) {
-        this.labelWidthInWrapper = labelWidthInWrapper;
-    }
-
-    public void setRateOfLabelWidthInWrapper(float rateOfLabelWidthInWrapper) {
-        this.rateOfLabelWidthInWrapper = rateOfLabelWidthInWrapper;
     }
 
     protected abstract boolean isNeedImportantInputWrapper();
@@ -181,6 +167,27 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
     }
 
     @Override
+    public void setFormData(TaskDto taskDto) {
+        this.taskDto = taskDto;
+
+        if (taskDto == null) {
+            clear();
+            return;
+        }
+
+        this.titleInputWrapper.setValue(taskDto.getTitle());
+        if (isNeedImportantInputWrapper()) {
+            this.importantInputWrapper.setValue(taskDto.isImportant());
+        }
+        if (isNeedDeadlineInputWrapper()) {
+            this.deadlineInputWrapper.setValue(taskDto.getDeadline());
+        }
+        if (isNeedNoteInputWrapper()) {
+            this.noteInputWrapper.setValue(taskDto.getNote());
+        }
+    }
+
+    @Override
     public TaskDto getFormData() {
         TaskDto taskDtoFormData;
 
@@ -209,40 +216,7 @@ public abstract class TaskFormPanel extends PanelWrapperComponent implements For
         return taskDtoFormData;
     }
 
-    @Override
-    public void setFormData(TaskDto taskDto) {
-        this.taskDto = taskDto;
-
-        if (taskDto == null) {
-            clear();
-            return;
-        }
-
-        this.titleInputWrapper.setValue(taskDto.getTitle());
-        if (isNeedImportantInputWrapper()) {
-            this.importantInputWrapper.setValue(taskDto.isImportant());
-        }
-        if (isNeedDeadlineInputWrapper()) {
-            this.deadlineInputWrapper.setValue(taskDto.getDeadline());
-        }
-        if (isNeedNoteInputWrapper()) {
-            this.noteInputWrapper.setValue(taskDto.getNote());
-        }
-    }
-
     public void reset() {
         setFormData(this.taskDto);
-    }
-
-    @Override
-    public void clear() {
-        final Iterator<ViewComponent> childComponentIterator = getChildComponentIterator();
-
-        while (childComponentIterator.hasNext()) {
-            final ViewComponent childComponent = childComponentIterator.next();
-            if (childComponent instanceof InputComponentWrapper) {
-                ((InputComponentWrapper) childComponent).clear();
-            }
-        }
     }
 }

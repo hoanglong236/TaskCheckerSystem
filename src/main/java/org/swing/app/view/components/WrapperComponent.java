@@ -100,10 +100,4 @@ public abstract class WrapperComponent extends ViewComponentBase implements Wrap
     public Iterator<ViewComponent> getChildComponentIterator() {
         return this.childComponents.iterator();
     }
-
-    @Override
-    public void refreshUI() {
-        this.sourceComponent.revalidate();
-        this.sourceComponent.repaint();
-    }
 }
