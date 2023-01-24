@@ -53,18 +53,15 @@ public class DateTimeCountDown {
         return this.day == 0 && this.hour == 0 && this.minute == 0 && this.second == 0;
     }
 
-    @Override
-    public String toString() {
+    public String getCountDownString() {
         final StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append(this.day);
-        stringBuilder.append("D : ");
+        stringBuilder.append("d : ");
         stringBuilder.append(this.hour);
         stringBuilder.append("h : ");
         stringBuilder.append(this.minute);
-        stringBuilder.append("m : ");
-        stringBuilder.append(this.second);
-        stringBuilder.append("s");
+        stringBuilder.append("m");
 
         return stringBuilder.toString();
     }

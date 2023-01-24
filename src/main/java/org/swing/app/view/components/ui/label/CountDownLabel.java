@@ -64,7 +64,7 @@ public class CountDownLabel extends Label implements CountdownObserver {
     public void decreaseCountDown() {
         if (!this.deadlineCountDown.isFinish()) {
             this.deadlineCountDown.decreaseCountDown();
-            setText(this.deadlineCountDown.toString());
+            setText(this.deadlineCountDown.getCountDownString());
             return;
         }
 

@@ -22,8 +22,6 @@ public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateT
     private InputComponent<String> hourChooser;
     private SimpleComponent minuteChooserLabel;
     private InputComponent<String> minuteChooser;
-    private SimpleComponent secondChooserLabel;
-    private InputComponent<String> secondChooser;
 
     public DateTimeChooserWrapper(String labelText) {
         super();
@@ -65,21 +63,6 @@ public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateT
         this.minuteChooser.setFont(DEFAULT_INPUT_FIELD_FONT);
     }
 
-    private void initSecondChooserLabel() {
-        final MessageLoader messageLoader = MessageLoader.getInstance();
-        this.secondChooserLabel = UIComponentFactory.createLabel(messageLoader.getMessage("second.chooser.label"));
-        this.secondChooserLabel.setFont(DEFAULT_LABEL_FIELD_FONT);
-    }
-
-    private void initSecondChooser() {
-        final Set<String> secondValueRange = new LinkedHashSet<>();
-        for (byte s = 0; s < 60; s++) {
-            secondValueRange.add(String.valueOf(s));
-        }
-        this.secondChooser = InputComponentFactory.createComboBox(secondValueRange);
-        this.secondChooser.setFont(DEFAULT_INPUT_FIELD_FONT);
-    }
-
     private void init(String labelText) {
         initLabelField(labelText);
         addChildComponent(this.labelField);
@@ -98,12 +81,6 @@ public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateT
 
         initMinuteChooser();
         addChildComponent(this.minuteChooser);
-
-        initSecondChooserLabel();
-        addChildComponent(this.secondChooserLabel);
-
-        initSecondChooser();
-        addChildComponent(this.secondChooser);
     }
 
     @Override
@@ -125,15 +102,11 @@ public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateT
                 new Dimension(timeChooserLabelWidth, maxChildComponentHeight));
         this.childComponentSizeMap.put(this.minuteChooserLabel,
                 new Dimension(timeChooserLabelWidth, maxChildComponentHeight));
-        this.childComponentSizeMap.put(this.secondChooserLabel,
-                new Dimension(timeChooserLabelWidth, maxChildComponentHeight));
 
         final byte timeChooserWidth = 45;
         this.childComponentSizeMap.put(this.hourChooser,
                 new Dimension(timeChooserWidth, maxChildComponentHeight));
         this.childComponentSizeMap.put(this.minuteChooser,
-                new Dimension(timeChooserWidth, maxChildComponentHeight));
-        this.childComponentSizeMap.put(this.secondChooser,
                 new Dimension(timeChooserWidth, maxChildComponentHeight));
     }
 
@@ -146,7 +119,6 @@ public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateT
         this.dateChooser.setValue(value.toLocalDate());
         this.hourChooser.setValue(String.valueOf(value.getHour()));
         this.minuteChooser.setValue(String.valueOf(value.getMinute()));
-        this.secondChooser.setValue(String.valueOf(value.getSecond()));
     }
 
     @Override
@@ -162,10 +134,7 @@ public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateT
         final String minuteChooserValue = this.minuteChooser.getValue();
         final byte minute = Byte.parseByte(minuteChooserValue);
 
-        final String secondChooserValue = this.secondChooser.getValue();
-        final byte second = Byte.parseByte(secondChooserValue);
-
-        final LocalTime timeInputValue = LocalTime.of(hour, minute, second);
+        final LocalTime timeInputValue = LocalTime.of(hour, minute);
         return LocalDateTime.of(dateChooserValue, timeInputValue);
     }
 
@@ -174,6 +143,5 @@ public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateT
         this.dateChooser.clear();
         this.hourChooser.clear();
         this.minuteChooser.clear();
-        this.secondChooser.clear();
     }
 }
