@@ -66,11 +66,11 @@ public class HomeBodyPanel extends HomeWrapperComponent implements TaskContentEv
     }
 
     private void removeMainContentPanel() {
-        this.mainContentPanel.cancelAllEventListeners();
-
         final TaskContentEventSubject taskContentEventSubject = this.mainContentPanel.getTaskContentEventSubject();
         taskContentEventSubject.removeObserver(this);
 
+        removeChildComponent(this.mainContentPanel);
+        this.mainContentPanel.cancelAllEventListeners();
         this.mainContentPanel = null;
     }
 
@@ -82,6 +82,7 @@ public class HomeBodyPanel extends HomeWrapperComponent implements TaskContentEv
     }
 
     private void removeSubContentPanel() {
+        removeChildComponent(this.mainContentPanel);
         this.subContentPanel.cancelAllEventListeners();
         this.subContentPanel = null;
     }

@@ -11,11 +11,11 @@ public class ReserveSizeConstants {
     public static final byte LARGE_RESERVE_WIDTH = 12;
     public static final byte LARGE_RESERVE_HEIGHT = 12;
 
-    public static final byte MEDIUM_RESERVE_WIDTH = 9;
-    public static final byte MEDIUM_RESERVE_HEIGHT = 9;
+    public static final byte MEDIUM_RESERVE_WIDTH = 8;
+    public static final byte MEDIUM_RESERVE_HEIGHT = 8;
 
-    public static final byte SMALL_RESERVE_WIDTH = 6;
-    public static final byte SMALL_RESERVE_HEIGHT = 6;
+    public static final byte SMALL_RESERVE_WIDTH = 4;
+    public static final byte SMALL_RESERVE_HEIGHT = 4;
 
     private ReserveSizeConstants() {}
 }

@@ -22,7 +22,6 @@ import org.swing.app.view.home.components.TaskPanelContainerWrapper;
 import org.swing.app.view.home.observer.taskcompletionrate.TaskCompletionRateEventObserver;
 import org.swing.app.view.home.observer.taskcompletionrate.TaskCompletionRateEventSubject;
 import org.swing.app.view.home.observer.taskcontent.EmptyTaskContentEventSubject;
-import org.swing.app.view.home.observer.taskcontent.MainTaskContentEventSubject;
 import org.swing.app.view.home.observer.taskcontent.TaskContentEventSubject;
 import org.swing.app.view.home.observer.taskpanel.modification.TaskPanelModificationEventObserver;
 import org.swing.app.view.taskform.taskformmodal.factory.TaskFormModalFactory;

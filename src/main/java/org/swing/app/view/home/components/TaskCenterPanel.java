@@ -6,6 +6,7 @@ import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.view.common.IconUrlConstants;
 import org.swing.app.view.common.LayoutGapConstants;
 import org.swing.app.view.common.ReserveSizeConstants;
+import org.swing.app.view.common.ViewConstants;
 import org.swing.app.view.components.ui.label.CompletionRateLabel;
 import org.swing.app.view.components.ui.label.CountDownLabel;
 import org.swing.app.view.components.ui.label.Label;
@@ -14,6 +15,7 @@ import org.swing.app.view.home.HomeWrapperComponent;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.LayoutManager;
 import java.time.LocalDateTime;
 
@@ -22,6 +24,9 @@ public class TaskCenterPanel extends HomeWrapperComponent {
     private static final byte HORIZONTAL_GAP = LayoutGapConstants.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = LayoutGapConstants.SMALL_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
+
+    private static final Font TITLE_FONT = new Font(ViewConstants.PRIMARY_FONT_NAME, Font.PLAIN,
+            ViewConstants.DEFAULT_FONT_SIZE);
 
     private Label titleLabel;
     private CountDownLabel deadlineLabel;
@@ -36,6 +41,7 @@ public class TaskCenterPanel extends HomeWrapperComponent {
 
     private void initTitleLabel(String title) {
         this.titleLabel = UIComponentFactory.createLabel(title);
+        this.titleLabel.setFont(TITLE_FONT);
     }
 
     private void initDeadlineLabel(LocalDateTime deadline) {
