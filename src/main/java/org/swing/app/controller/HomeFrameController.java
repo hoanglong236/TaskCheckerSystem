@@ -123,7 +123,7 @@ public class HomeFrameController {
             controllerResponse.putData(
                     messageLoader.getMessage("master.task.panel.dto"), masterTaskPanelDto);
 
-            if (masterTaskPanelDto == null) {
+            if (masterTaskPanelDto != null) {
                 final Set<TaskPanelDto> childTaskPanelDtos = this.homeFrameBusiness.getTaskPanelDtosByParentId(taskId);
                 controllerResponse.putData(
                         messageLoader.getMessage("child.task.panel.dtos"), childTaskPanelDtos);

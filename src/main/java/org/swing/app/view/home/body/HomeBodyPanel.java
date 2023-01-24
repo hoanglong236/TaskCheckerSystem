@@ -90,7 +90,9 @@ public class HomeBodyPanel extends HomeWrapperComponent implements TaskContentEv
     public void handleLoadMainContent(TaskPanelDto masterTaskPanelDto, Set<TaskPanelDto> taskPanelDtos,
             TaskCompletionRateEventSubject masterTaskCompletionRateEventSubject) {
 
-        handleClearMainContent();
+        if (this.mainContentPanel != null) {
+            handleClearMainContent();
+        }
 
         initMainContentPanel(masterTaskPanelDto, taskPanelDtos, masterTaskCompletionRateEventSubject);
         addChildComponent(this.mainContentPanel);
