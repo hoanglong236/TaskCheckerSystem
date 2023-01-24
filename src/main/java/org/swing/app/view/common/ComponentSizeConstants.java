@@ -9,7 +9,7 @@ public class ComponentSizeConstants {
     public static final Dimension NODE_TASK_FORM_MODAL_PREFER_SIZE = new Dimension(600, 420);
     public static final Dimension LEAF_TASK_FORM_MODAL_PREFER_SIZE = new Dimension(600, 160);
 
-    public static final short SIDEBAR_WIDTH = 330;
+    public static final short SIDEBAR_WIDTH = 340;
 
     public static final byte ROOT_TASK_PANEL_HEIGHT = 60;
     public static final byte NODE_TASK_PANEL_HEIGHT = 50;

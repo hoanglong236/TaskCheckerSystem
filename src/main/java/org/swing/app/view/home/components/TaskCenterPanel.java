@@ -175,7 +175,7 @@ public class TaskCenterPanel extends HomeWrapperComponent {
         final int commonChildComponentHeight = availableHeight / 2 - VERTICAL_GAP;
 
         if (this.deadlineLabel != null) {
-            final int deadlineLabelWidth = 100;
+            final int deadlineLabelWidth = 120;
             this.childComponentSizeMap.put(this.deadlineLabel,
                     new Dimension(deadlineLabelWidth, commonChildComponentHeight));
             hasOtherChildComponents = true;
