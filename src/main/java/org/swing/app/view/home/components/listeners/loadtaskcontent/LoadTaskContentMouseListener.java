@@ -67,7 +67,6 @@ public class LoadTaskContentMouseListener implements MouseListener {
         handleLoadTaskContentResponse(e, response);
     }
 
-
     @Override
     public void mouseReleased(MouseEvent e) {
     }

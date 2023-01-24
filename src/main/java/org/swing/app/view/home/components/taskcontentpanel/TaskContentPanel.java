@@ -94,7 +94,8 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         this.taskPanelContainerWrapper = new TaskPanelContainerWrapper(this.homeFrameController, title);
 
         for (final TaskPanelDto taskPanelDto : taskPanelDtos) {
-            addTaskPanelByDto(taskPanelDto);
+            final TaskPanel taskPanel = createTaskPanelByDto(taskPanelDto);
+            addTaskPanel(taskPanel);
         }
     }
 
@@ -149,7 +150,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
 
     protected abstract TaskPanelFactory createTaskPanelFactory();
 
-    private void addTaskPanelByDto(TaskPanelDto taskPanelDto) {
+    private TaskPanel createTaskPanelByDto(TaskPanelDto taskPanelDto) {
         final TaskPanelFactory taskPanelFactory = createTaskPanelFactory();
 
         final TaskPanel taskPanel = taskPanelFactory.createTaskPanel(this.homeFrameController, taskPanelDto);
@@ -159,7 +160,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
                 this.homeFrameController, this);
         taskPanel.addMouseListener(mouseListener);
 
-        addTaskPanel(taskPanel);
+        return taskPanel;
     }
 
     private void addTaskPanel(TaskPanel taskPanel) {
@@ -194,7 +195,12 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         final TaskPanelDto insertedTaskPanelDto = new TaskPanelDto();
         insertedTaskPanelDto.setTaskDto(insertedTaskDto);
 
-        addTaskPanelByDto(insertedTaskPanelDto);
+        final TaskPanel taskPanel = createTaskPanelByDto(insertedTaskPanelDto);
+        addTaskPanel(taskPanel);
+
+        // When this method is called, it means that all the old task panels in taskPanelContainerWrapper are resized.
+        // The task panel has just been added has not been resized. So we need to resize it
+        this.taskPanelContainerWrapper.resizeTaskPanelInContainer(taskPanel);
 
         final MessageLoader messageLoader = MessageLoader.getInstance();
         OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.success.dialog"));
@@ -236,7 +242,11 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
             this.activeTaskPanel = this.sourceComponentTaskPanelMap.get(eventSource);
             this.activeTaskPanel.activate();
 
+            final TaskCompletionRateEventSubject taskCompletionRateEventSubject = new TaskCompletionRateEventSubject();
+            taskCompletionRateEventSubject.registerObserver(this);
 
+            this.taskContentEventSubject.notifyObserversToLoadContent(masterTaskPanelDto, taskPanelDtos,
+                    taskCompletionRateEventSubject);
         }
     }
 

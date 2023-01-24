@@ -74,7 +74,8 @@ public class HomeSideBar extends HomeWrapperComponent implements InsertTaskListe
         this.taskPanelContainerWrapper = new TaskPanelContainerWrapper(this.homeFrameController, title);
 
         for (final TaskPanelDto taskPanelDto : taskPanelDtos) {
-            addTaskPanelByDto(taskPanelDto);
+            final TaskPanel taskPanel = createTaskPanelByDto(taskPanelDto);
+            addTaskPanel(taskPanel);
         }
     }
 
@@ -113,7 +114,7 @@ public class HomeSideBar extends HomeWrapperComponent implements InsertTaskListe
                 new Dimension(maxChildComponentWidth, taskPanelContainerWrapperHeight));
     }
 
-    private void addTaskPanelByDto(TaskPanelDto taskPanelDto) {
+    private TaskPanel createTaskPanelByDto(TaskPanelDto taskPanelDto) {
         final TaskPanelFactory taskPanelFactory = new RootTaskPanelFactory();
 
         final TaskPanel taskPanel = taskPanelFactory.createTaskPanel(homeFrameController, taskPanelDto);
@@ -123,7 +124,7 @@ public class HomeSideBar extends HomeWrapperComponent implements InsertTaskListe
                 this.homeFrameController, this);
         taskPanel.addMouseListener(mouseListener);
 
-        addTaskPanel(taskPanel);
+        return taskPanel;
     }
 
     private void addTaskPanel(TaskPanel taskPanel) {
@@ -147,7 +148,12 @@ public class HomeSideBar extends HomeWrapperComponent implements InsertTaskListe
         final TaskPanelDto insertedTaskPanelDto = new TaskPanelDto();
         insertedTaskPanelDto.setTaskDto(insertedTaskDto);
 
-        addTaskPanelByDto(insertedTaskPanelDto);
+        final TaskPanel taskPanel = createTaskPanelByDto(insertedTaskPanelDto);
+        addTaskPanel(taskPanel);
+
+        // When this method is called, it means that all the old task panels in taskPanelContainerWrapper are resized.
+        // The task panel has just been added has not been resized. So we need to resize it
+        this.taskPanelContainerWrapper.resizeTaskPanelInContainer(taskPanel);
 
         final MessageLoader messageLoader = MessageLoader.getInstance();
         OptionPane.showMessageDialog(messageLoader.getMessage("insert.task.success.dialog"));

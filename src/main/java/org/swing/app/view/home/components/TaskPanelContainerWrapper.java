@@ -2,6 +2,7 @@ package org.swing.app.view.home.components;
 
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.util.MessageLoader;
+import org.swing.app.view.common.ComponentSizeConstants;
 import org.swing.app.view.common.IconUrlConstants;
 import org.swing.app.view.common.LayoutGapConstants;
 import org.swing.app.view.common.ReserveSizeConstants;
@@ -30,6 +31,8 @@ public class TaskPanelContainerWrapper extends HomeWrapperComponent implements A
     private BasicButton filterButton;
     private VerticalScrollPane verticalScrollPane;
     private TaskPanelContainer taskPanelContainer;
+
+    private int taskPanelContainerWidth;
 
     private Popup filterPopup;
     private PopupItem sortByCreateDatePopupItem;
@@ -106,6 +109,16 @@ public class TaskPanelContainerWrapper extends HomeWrapperComponent implements A
         this.taskPanelContainer.removeTaskPanel(taskPanel);
     }
 
+    public void resizeTaskPanelInContainer(TaskPanel taskPanel) {
+        this.taskPanelContainer.resizeTaskPanel(taskPanel);
+    }
+
+    @Override
+    public void resize(Dimension dimension) {
+        super.resize(dimension);
+        this.taskPanelContainer.resizeWidth(this.taskPanelContainerWidth);
+    }
+
     @Override
     protected void loadChildComponentsSize() {
         final int availableWidth = getSize().width - ReserveSizeConstants.SMALL_RESERVE_WIDTH;
@@ -124,6 +137,9 @@ public class TaskPanelContainerWrapper extends HomeWrapperComponent implements A
                 availableHeight - VERTICAL_GAP - commonChildComponentHeight - VERTICAL_GAP;
         this.childComponentSizeMap.put(this.verticalScrollPane,
                 new Dimension(verticalScrollPaneWidth, verticalScrollPaneHeight));
+
+        this.taskPanelContainerWidth = verticalScrollPaneWidth - ComponentSizeConstants.SCROLLBAR_WIDTH
+                - ReserveSizeConstants.SMALL_RESERVE_WIDTH;
     }
 
     private void onActionPerformedForFilterButton() {

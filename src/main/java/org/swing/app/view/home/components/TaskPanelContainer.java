@@ -73,6 +73,10 @@ class TaskPanelContainer extends HomeWrapperComponent {
         }
     }
 
+    public void resizeWidth(int width) {
+        resize(new Dimension(width, this.preferHeight));
+    }
+
     @Override
     protected void loadChildComponentsSize() {
         loadTaskPanelsSize(this.incompleteTaskPanels.iterator());
@@ -81,7 +85,14 @@ class TaskPanelContainer extends HomeWrapperComponent {
         this.childComponentSizeMap.put(this.notifyLabel, new Dimension(NOTIFY_LABEL_WIDTH, NOTIFY_LABEL_HEIGHT));
     }
 
-    public void resizeHeightWithoutResizeChildComponent(int height) {
+    public void resizeTaskPanel(TaskPanel taskPanel) {
+        final int taskPanelWidth = getPreferChildComponentWidth();
+        final int taskPanelHeight = taskPanel.getPreferHeight();
+
+        taskPanel.resize(new Dimension(taskPanelWidth, taskPanelHeight));
+    }
+
+    private void resizeHeightWithoutResizeChildComponent(int height) {
         this.sourceComponent.setPreferredSize(new Dimension(getSize().width, height));
     }
 
@@ -92,17 +103,6 @@ class TaskPanelContainer extends HomeWrapperComponent {
         if (this.completedTaskPanels.size() > 0) {
             this.notifyLabel.setVisible(true);
             this.preferHeight += VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
-            resizeHeightWithoutResizeChildComponent(this.preferHeight);
-        }
-    }
-
-    private void hiddenNotifyLabelIfNecessary() {
-        if (!this.notifyLabel.isVisible()) {
-            return;
-        }
-        if (this.completedTaskPanels.size() == 0) {
-            this.notifyLabel.setVisible(false);
-            this.preferHeight -= VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
             resizeHeightWithoutResizeChildComponent(this.preferHeight);
         }
     }
@@ -125,8 +125,6 @@ class TaskPanelContainer extends HomeWrapperComponent {
     }
 
     public void addTaskPanel(TaskPanel taskPanel) {
-        taskPanel.resize(new Dimension(getPreferChildComponentWidth(), taskPanel.getPreferHeight()));
-
         final int positionToAddInUI = getTaskPanelPositionToAdding(taskPanel);
         addChildComponent(taskPanel, positionToAddInUI);
 
@@ -135,6 +133,17 @@ class TaskPanelContainer extends HomeWrapperComponent {
 
         displayNotifyLabelIfNecessary();
         refreshUI();
+    }
+
+    private void hiddenNotifyLabelIfNecessary() {
+        if (!this.notifyLabel.isVisible()) {
+            return;
+        }
+        if (this.completedTaskPanels.size() == 0) {
+            this.notifyLabel.setVisible(false);
+            this.preferHeight -= VERTICAL_GAP + NOTIFY_LABEL_HEIGHT;
+            resizeHeightWithoutResizeChildComponent(this.preferHeight);
+        }
     }
 
     public void removeTaskPanel(TaskPanel taskPanel) {
