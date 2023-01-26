@@ -19,16 +19,17 @@ public abstract class PanelWrapperComponent extends WrapperComponent {
         ((JPanel) this.sourceComponent).setOpaque(opaque);
     }
 
-    public FrameWrapperComponent getRootFrame() {
-        if (this.parent instanceof FrameWrapperComponent) {
-            return (FrameWrapperComponent) this.parent;
-        }
-        return ((PanelWrapperComponent) this.parent).getRootFrame();
-    }
-
     @Override
     public void refreshUI() {
         this.sourceComponent.revalidate();
         this.sourceComponent.repaint();
+    }
+
+    @Override
+    public ViewComponent getWindowComponent() {
+        if (this.parent == null) {
+            throw new UnsupportedOperationException();
+        }
+        return this.parent.getWindowComponent();
     }
 }

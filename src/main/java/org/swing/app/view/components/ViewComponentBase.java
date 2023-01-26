@@ -13,7 +13,7 @@ import java.util.Iterator;
 
 public abstract class ViewComponentBase implements ViewComponent {
 
-    protected WrapperComponent parent;
+    protected ViewComponent parent;
     protected Container sourceComponent = null;
 
     @Override
@@ -22,12 +22,12 @@ public abstract class ViewComponentBase implements ViewComponent {
     }
 
     @Override
-    public WrapperComponent getParent() {
+    public ViewComponent getParent() {
         return parent;
     }
 
     @Override
-    public void setParent(WrapperComponent parent) {
+    public void setParent(ViewComponent parent) {
         this.parent = parent;
     }
 

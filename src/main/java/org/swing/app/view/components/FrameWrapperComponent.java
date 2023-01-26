@@ -46,4 +46,9 @@ public abstract class FrameWrapperComponent extends WrapperComponent {
         ((JFrame) this.sourceComponent).dispose();
         cancelAllEventListeners();
     }
+
+    @Override
+    public ViewComponent getWindowComponent() {
+        return this;
+    }
 }

@@ -239,7 +239,7 @@ public abstract class TaskPanel extends HomeWrapperComponent
             final TaskDto currentTaskDto = getTaskDto();
             final TaskFormModalFactory taskFormModalFactory = createTaskFormModalFactory();
 
-            return taskFormModalFactory.showUpdatingTaskFormModal(getRootFrame(), currentTaskDto);
+            return taskFormModalFactory.showUpdatingTaskFormModal(getWindowComponent(), currentTaskDto);
         }
         if (isNeedStatusChecker() && eventSource == this.statusChecker.getSourceComponent()) {
             final TaskDto taskDtoToUpdate = getTaskDto();

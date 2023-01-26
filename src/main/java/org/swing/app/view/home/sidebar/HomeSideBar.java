@@ -139,7 +139,7 @@ public class HomeSideBar extends HomeWrapperComponent implements InsertTaskListe
     @Override
     public Optional<TaskDto> getTaskDtoToInsert(EventObject eventObject) {
         final TaskFormModalFactory taskFormModalFactory = new RootTaskFormModalFactory();
-        return taskFormModalFactory.showAddingTaskFormModal(getRootFrame());
+        return taskFormModalFactory.showAddingTaskFormModal(getWindowComponent());
     }
 
     @Override

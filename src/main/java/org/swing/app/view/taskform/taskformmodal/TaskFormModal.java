@@ -4,7 +4,7 @@ import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
 import org.swing.app.view.common.LayoutGapConstants;
 import org.swing.app.view.common.ReserveSizeConstants;
-import org.swing.app.view.components.FrameWrapperComponent;
+import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.factory.UIComponentFactory;
 import org.swing.app.view.components.modal.ModalWrapperComponent;
 import org.swing.app.view.components.modal.OptionPane;
@@ -32,8 +32,8 @@ public abstract class TaskFormModal extends ModalWrapperComponent implements Act
 
     private boolean isSubmitted = false;
 
-    public TaskFormModal(FrameWrapperComponent parentFrame) {
-        super(parentFrame);
+    public TaskFormModal(ViewComponent windowComponent) {
+        super(windowComponent);
         setLayout(MAIN_LAYOUT);
         init();
     }

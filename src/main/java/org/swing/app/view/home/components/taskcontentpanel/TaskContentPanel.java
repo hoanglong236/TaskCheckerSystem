@@ -178,7 +178,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
     @Override
     public Optional<TaskDto> getTaskDtoToInsert(EventObject eventObject) {
         final TaskFormModalFactory taskFormModalFactory = createTaskFormModalFactory();
-        final Optional<TaskDto> formModalResult = taskFormModalFactory.showAddingTaskFormModal(getRootFrame());
+        final Optional<TaskDto> formModalResult = taskFormModalFactory.showAddingTaskFormModal(getWindowComponent());
 
         if (!formModalResult.isPresent()) {
             return Optional.empty();

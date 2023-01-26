@@ -15,8 +15,8 @@ public interface ViewComponent {
      */
     Component getSourceComponent();
 
-    WrapperComponent getParent();
-    void setParent(WrapperComponent parent);
+    ViewComponent getParent();
+    void setParent(ViewComponent parent);
 
     void setVisible(boolean visible);
     boolean isVisible();
@@ -38,4 +38,6 @@ public interface ViewComponent {
     boolean requestFocusInWindow();
 
     void setFont(Font font);
+
+    ViewComponent getWindowComponent();
 }

@@ -18,4 +18,12 @@ public abstract class SimpleComponent extends ViewComponentBase {
     public void setBorder(Border border) {
         ((JComponent) this.sourceComponent).setBorder(border);
     }
+
+    @Override
+    public ViewComponent getWindowComponent() {
+        if (this.parent == null) {
+            throw new UnsupportedOperationException();
+        }
+        return this.parent.getWindowComponent();
+    }
 }

@@ -1,12 +1,12 @@
 package org.swing.app.view.components.modal;
 
-import org.swing.app.view.components.FrameWrapperComponent;
+import org.swing.app.view.components.ViewComponent;
 import org.swing.app.view.components.WrapperComponent;
 
 import javax.swing.JDialog;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Frame;
+import java.awt.Window;
 
 public abstract class ModalWrapperComponent extends WrapperComponent {
 
@@ -15,9 +15,10 @@ public abstract class ModalWrapperComponent extends WrapperComponent {
     public static final int DISPOSE_ON_CLOSE = JDialog.DISPOSE_ON_CLOSE;
     public static final int EXIT_ON_CLOSE = JDialog.EXIT_ON_CLOSE;
 
-    public ModalWrapperComponent(FrameWrapperComponent parentFrame) {
+    public ModalWrapperComponent(ViewComponent windowComponent) {
         super();
-        this.sourceComponent = new JDialog((Frame) parentFrame.getSourceComponent(), true);
+        this.sourceComponent = new JDialog((Window) windowComponent.getSourceComponent());
+        ((JDialog) this.sourceComponent).setModal(true);
     }
 
     public void setDefaultCloseOperation(int operation) {
@@ -49,5 +50,10 @@ public abstract class ModalWrapperComponent extends WrapperComponent {
     public void dispose() {
         ((JDialog) this.sourceComponent).dispose();
         cancelAllEventListeners();
+    }
+
+    @Override
+    public ViewComponent getWindowComponent() {
+        return this;
     }
 }
