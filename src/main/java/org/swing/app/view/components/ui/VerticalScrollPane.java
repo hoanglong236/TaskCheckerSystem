@@ -34,5 +34,6 @@ public class VerticalScrollPane extends SimpleComponent {
 
     public void setViewportViewPanel(PanelWrapperComponent viewportViewPanel) {
         ((JScrollPane) this.sourceComponent).setViewportView(viewportViewPanel.getSourceComponent());
+        viewportViewPanel.setParent(this);
     }
 }
