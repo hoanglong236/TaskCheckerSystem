@@ -32,6 +32,10 @@ public abstract class Button extends SimpleComponent {
         return ((AbstractButton) this.sourceComponent).getText();
     }
 
+    public void setFocusOutline(boolean enable) {
+        ((AbstractButton) this.sourceComponent).setFocusPainted(enable);
+    }
+
     public void addActionListener(ActionListener actionListener) {
         ((AbstractButton) this.sourceComponent).addActionListener(actionListener);
     }

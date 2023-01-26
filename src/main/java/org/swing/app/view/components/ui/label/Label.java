@@ -14,11 +14,8 @@ public class Label extends SimpleComponent {
         setText(text);
     }
 
-    public void setIcon(String iconLocation) {
-        final byte iconWidth = 15;
-        final byte iconHeight = 15;
+    public void setIcon(String iconLocation, int iconWidth, int iconHeight) {
         final ImageIcon imageIcon = ViewUtil.getImageIcon(iconLocation, iconWidth, iconHeight);
-
         ((JLabel) this.sourceComponent).setIcon(imageIcon);
     }
 

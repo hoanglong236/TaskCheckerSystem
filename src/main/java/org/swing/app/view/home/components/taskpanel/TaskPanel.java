@@ -4,6 +4,7 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
+import org.swing.app.view.common.ComponentSizeConstants;
 import org.swing.app.view.common.IconUrlConstants;
 import org.swing.app.view.common.LayoutGapConstants;
 import org.swing.app.view.common.ReserveSizeConstants;
@@ -100,9 +101,11 @@ public abstract class TaskPanel extends HomeWrapperComponent
     private void initImportantLabel(boolean important) {
         this.importantLabel = UIComponentFactory.createLabel("");
         if (important) {
-            this.importantLabel.setIcon(IconUrlConstants.IMPORTANT_ICON);
+            this.importantLabel.setIcon(IconUrlConstants.IMPORTANT_ICON,
+                    ComponentSizeConstants.SMALL_ICON_WIDTH, ComponentSizeConstants.SMALL_ICON_HEIGHT);
         } else {
-            this.importantLabel.setIcon(IconUrlConstants.UNIMPORTANT_ICON);
+            this.importantLabel.setIcon(IconUrlConstants.UNIMPORTANT_ICON,
+                    ComponentSizeConstants.SMALL_ICON_WIDTH, ComponentSizeConstants.SMALL_ICON_HEIGHT);
         }
 
         final MouseListener mouseListener = new UpdateTaskMouseListener(
@@ -217,8 +220,10 @@ public abstract class TaskPanel extends HomeWrapperComponent
             this.statusChecker.setSelected(taskDto.isCompleted());
         }
         if (isNeedImportantLabel()) {
-            this.importantLabel.setIcon(
-                    taskDto.isImportant() ? IconUrlConstants.IMPORTANT_ICON : IconUrlConstants.UNIMPORTANT_ICON);
+            final String importantIconUrl = taskDto.isImportant()
+                    ? IconUrlConstants.IMPORTANT_ICON : IconUrlConstants.UNIMPORTANT_ICON;
+            this.importantLabel.setIcon(importantIconUrl,
+                    ComponentSizeConstants.SMALL_ICON_WIDTH, ComponentSizeConstants.SMALL_ICON_HEIGHT);
         }
     }
 
@@ -236,10 +241,8 @@ public abstract class TaskPanel extends HomeWrapperComponent
         final Object eventSource = eventObject.getSource();
 
         if (eventSource == this.editPopupItem.getSourceComponent()) {
-            final TaskDto currentTaskDto = getTaskDto();
             final TaskFormModalFactory taskFormModalFactory = createTaskFormModalFactory();
-
-            return taskFormModalFactory.showUpdatingTaskFormModal(getWindowComponent(), currentTaskDto);
+            return taskFormModalFactory.showUpdatingTaskFormModal(getWindowComponent(), getTaskDto());
         }
         if (isNeedStatusChecker() && eventSource == this.statusChecker.getSourceComponent()) {
             final TaskDto taskDtoToUpdate = getTaskDto();

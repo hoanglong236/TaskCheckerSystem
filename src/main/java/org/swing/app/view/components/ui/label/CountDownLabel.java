@@ -1,5 +1,6 @@
 package org.swing.app.view.components.ui.label;
 
+import org.swing.app.view.common.ComponentSizeConstants;
 import org.swing.app.view.common.IconUrlConstants;
 import org.swing.app.view.components.countdown.CountDownSubject;
 import org.swing.app.view.components.countdown.CountdownObserver;
@@ -18,7 +19,8 @@ public class CountDownLabel extends Label implements CountdownObserver {
 
     public CountDownLabel(LocalDateTime deadline) {
         super("");
-        setIcon(IconUrlConstants.DEADLINE_ICON);
+        setIcon(IconUrlConstants.DEADLINE_ICON,
+                ComponentSizeConstants.SMALL_ICON_WIDTH, ComponentSizeConstants.SMALL_ICON_HEIGHT);
         setValueForCountDown(deadline);
         init();
     }

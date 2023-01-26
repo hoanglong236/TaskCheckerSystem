@@ -6,6 +6,7 @@ import org.swing.app.view.common.ComponentSizeConstants;
 import org.swing.app.view.common.IconUrlConstants;
 import org.swing.app.view.common.LayoutGapConstants;
 import org.swing.app.view.common.ReserveSizeConstants;
+import org.swing.app.view.components.group.ButtonGrouper;
 import org.swing.app.view.components.ui.button.BasicButton;
 import org.swing.app.view.components.ui.label.Label;
 import org.swing.app.view.components.factory.UIComponentFactory;
@@ -37,6 +38,7 @@ public class TaskPanelContainerWrapper extends HomeWrapperComponent implements A
     private Popup filterPopup;
     private PopupItem sortByCreateDatePopupItem;
     private PopupItem sortByUpdateDatePopupItem;
+    private ButtonGrouper buttonGrouper;
 
     public TaskPanelContainerWrapper(HomeFrameController homeFrameController, String title) {
         super(homeFrameController);
@@ -49,7 +51,10 @@ public class TaskPanelContainerWrapper extends HomeWrapperComponent implements A
     }
 
     private void initFilterButton() {
-        this.filterButton = UIComponentFactory.createBasicButton(IconUrlConstants.FILTER_ICON);
+        this.filterButton = UIComponentFactory.createBasicButton("");
+
+        this.filterButton.setIcon(IconUrlConstants.FILTER_ICON,
+                ComponentSizeConstants.DEFAULT_ICON_WIDTH, ComponentSizeConstants.DEFAULT_ICON_HEIGHT);
         this.filterButton.addActionListener(this);
     }
 
@@ -83,6 +88,10 @@ public class TaskPanelContainerWrapper extends HomeWrapperComponent implements A
 
         initSortByUpdateDatePopupItem();
         this.filterPopup.addPopupItem(this.sortByUpdateDatePopupItem);
+
+        this.buttonGrouper = new ButtonGrouper();
+        this.buttonGrouper.group(this.sortByCreateDatePopupItem);
+        this.buttonGrouper.group(this.sortByUpdateDatePopupItem);
     }
 
     private void init(String title) {
@@ -124,9 +133,9 @@ public class TaskPanelContainerWrapper extends HomeWrapperComponent implements A
         final int availableWidth = getSize().width - ReserveSizeConstants.SMALL_RESERVE_WIDTH;
         final int availableHeight = getSize().height - ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
 
-        final int commonChildComponentHeight = 40;
+        final int commonChildComponentHeight = 36;
 
-        final int filterBtnWidth = 40;
+        final int filterBtnWidth = 36;
         this.childComponentSizeMap.put(this.filterButton, new Dimension(filterBtnWidth, commonChildComponentHeight));
 
         final int titleLabelWidth = availableWidth - HORIZONTAL_GAP - filterBtnWidth - HORIZONTAL_GAP;

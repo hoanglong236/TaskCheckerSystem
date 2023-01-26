@@ -14,5 +14,6 @@ public class BasicButton extends Button {
         this.sourceComponent = JComponentFactory.createJButton();
         setText(text);
         setFont(DEFAULT_BUTTON_FONT);
+        setFocusOutline(false);
     }
 }

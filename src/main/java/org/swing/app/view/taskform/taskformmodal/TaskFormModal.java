@@ -2,6 +2,8 @@ package org.swing.app.view.taskform.taskformmodal;
 
 import org.swing.app.dto.TaskDto;
 import org.swing.app.util.MessageLoader;
+import org.swing.app.view.common.ComponentSizeConstants;
+import org.swing.app.view.common.IconUrlConstants;
 import org.swing.app.view.common.LayoutGapConstants;
 import org.swing.app.view.common.ReserveSizeConstants;
 import org.swing.app.view.components.ViewComponent;
@@ -48,18 +50,27 @@ public abstract class TaskFormModal extends ModalWrapperComponent implements Act
     private void initSubmitButton() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         this.submitButton = UIComponentFactory.createBasicButton(messageLoader.getMessage("submit.button.text"));
+
+        this.submitButton.setIcon(IconUrlConstants.SUBMIT_ICON,
+                ComponentSizeConstants.SMALL_ICON_WIDTH, ComponentSizeConstants.SMALL_ICON_HEIGHT);
         this.submitButton.addActionListener(this);
     }
 
     private void initResetButton() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         this.resetButton = UIComponentFactory.createBasicButton(messageLoader.getMessage("reset.button.text"));
+
+        this.resetButton.setIcon(IconUrlConstants.RESET_ICON,
+                ComponentSizeConstants.SMALL_ICON_WIDTH, ComponentSizeConstants.SMALL_ICON_HEIGHT);
         this.resetButton.addActionListener(this);
     }
 
     private void initClearButton() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         this.clearButton = UIComponentFactory.createBasicButton(messageLoader.getMessage("clear.button.text"));
+
+        this.clearButton.setIcon(IconUrlConstants.CLEAR_ICON,
+                ComponentSizeConstants.SMALL_ICON_WIDTH, ComponentSizeConstants.SMALL_ICON_HEIGHT);
         this.clearButton.addActionListener(this);
     }
 
@@ -84,7 +95,7 @@ public abstract class TaskFormModal extends ModalWrapperComponent implements Act
 
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
-        final byte controlButtonWidth = 90;
+        final byte controlButtonWidth = 100;
         final int controlButtonHeight = 30;
         this.childComponentSizeMap.put(this.submitButton, new Dimension(controlButtonWidth, controlButtonHeight));
         this.childComponentSizeMap.put(this.resetButton, new Dimension(controlButtonWidth, controlButtonHeight));

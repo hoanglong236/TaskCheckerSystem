@@ -42,7 +42,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
 
     private static final byte HORIZONTAL_GAP = LayoutGapConstants.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = LayoutGapConstants.SMALL_V_GAP;
-    private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
+    private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.RIGHT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private Label masterTitleLabel;
     private TaskPanelContainerWrapper taskPanelContainerWrapper;
@@ -134,13 +134,14 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         this.childComponentSizeMap.put(this.masterTitleLabel,
                 new Dimension(maxChildComponentWidth, masterTitleLabelHeight));
 
-        final int taskPanelContainerWrapperHeight = (int) (((float) 0.8 * availableHeight) - VERTICAL_GAP);
+        final int addNewTaskBtnWidth = 130;
+        final int addNewTaskBtnHeight = 40;
+        this.childComponentSizeMap.put(this.addNewTaskBtn, new Dimension(addNewTaskBtnWidth, addNewTaskBtnHeight));
+
+        final int taskPanelContainerWrapperHeight = availableHeight - VERTICAL_GAP - masterTitleLabelHeight
+                - VERTICAL_GAP - addNewTaskBtnHeight - VERTICAL_GAP;
         this.childComponentSizeMap.put(this.taskPanelContainerWrapper,
                 new Dimension(maxChildComponentWidth, taskPanelContainerWrapperHeight));
-
-        final int addNewTaskBtnWidth = 100;
-        final int addNewTaskBtnHeight = 50;
-        this.childComponentSizeMap.put(this.addNewTaskBtn, new Dimension(addNewTaskBtnWidth, addNewTaskBtnHeight));
     }
 
     public void updateMasterTask(TaskDto masterTaskDto) {

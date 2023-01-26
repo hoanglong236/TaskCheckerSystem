@@ -9,11 +9,12 @@ import org.swing.app.view.components.ui.button.RadioButton;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.LayoutManager;
 
 public class YesNoOptionChooser extends PanelWrapperComponent implements InputComponent<Boolean> {
 
-    private static final byte HORIZONTAL_GAP = LayoutGapConstants.LARGE_H_GAP;
+    private static final byte HORIZONTAL_GAP = LayoutGapConstants.SMALL_H_GAP;
     private static final byte VERTICAL_GAP = LayoutGapConstants.SMALL_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
@@ -45,7 +46,7 @@ public class YesNoOptionChooser extends PanelWrapperComponent implements InputCo
         addChildComponent(this.noRadioButton);
 
         this.buttonGrouper.group(this.yesRadioButton);
-        this.buttonGrouper.ungroup(this.noRadioButton);
+        this.buttonGrouper.group(this.noRadioButton);
     }
 
     @Override
@@ -53,7 +54,7 @@ public class YesNoOptionChooser extends PanelWrapperComponent implements InputCo
         final int availableHeight = getSize().height - ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
         final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 
-        final int yesRadioButtonWidth = 60;
+        final int yesRadioButtonWidth = 50;
         this.childComponentSizeMap.put(this.yesRadioButton,
                 new Dimension(yesRadioButtonWidth, maxChildComponentHeight));
 
@@ -90,5 +91,13 @@ public class YesNoOptionChooser extends PanelWrapperComponent implements InputCo
     @Override
     public void clear() {
         setDefaultValue();
+    }
+
+    @Override
+    public void setFont(Font font) {
+        super.setFont(font);
+
+        this.yesRadioButton.setFont(font);
+        this.noRadioButton.setFont(font);
     }
 }

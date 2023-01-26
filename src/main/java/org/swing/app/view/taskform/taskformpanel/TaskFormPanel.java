@@ -85,7 +85,7 @@ public abstract class TaskFormPanel extends FormPanel<TaskDto> {
         final int availableHeight = getSize().height - ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
 
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
-        final byte smallInputWrapperHeight = 50;
+        final byte smallInputWrapperHeight = 45;
 
         this.childComponentSizeMap.put(this.titleInputWrapper,
                 new Dimension(maxChildComponentWidth, smallInputWrapperHeight));

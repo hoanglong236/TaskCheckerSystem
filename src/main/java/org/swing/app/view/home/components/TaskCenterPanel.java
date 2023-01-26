@@ -3,6 +3,7 @@ package org.swing.app.view.home.components;
 import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
+import org.swing.app.view.common.ComponentSizeConstants;
 import org.swing.app.view.common.IconUrlConstants;
 import org.swing.app.view.common.LayoutGapConstants;
 import org.swing.app.view.common.ReserveSizeConstants;
@@ -54,7 +55,8 @@ public class TaskCenterPanel extends HomeWrapperComponent {
 
     private void initNoteNotifyLabel() {
         this.noteNotifyLabel = UIComponentFactory.createLabel("");
-        this.noteNotifyLabel.setIcon(IconUrlConstants.NOTE_ICON);
+        this.noteNotifyLabel.setIcon(IconUrlConstants.NOTE_ICON,
+                ComponentSizeConstants.SMALL_ICON_WIDTH, ComponentSizeConstants.SMALL_ICON_HEIGHT);
     }
 
     private void init(TaskPanelDto taskPanelDto) {

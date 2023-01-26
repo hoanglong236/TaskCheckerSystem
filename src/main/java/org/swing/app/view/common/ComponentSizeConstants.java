@@ -23,5 +23,15 @@ public class ComponentSizeConstants {
 
     public static final byte SCROLLBAR_WIDTH = 12;
 
+    public static final byte DEFAULT_ICON_WIDTH = 18;
+    public static final byte DEFAULT_ICON_HEIGHT = 18;
+
+    public static final byte SMALL_ICON_WIDTH = 15;
+    public static final byte SMALL_ICON_HEIGHT = 15;
+
+    public static final byte MEDIUM_ICON_WIDTH = 20;
+    public static final byte MEDIUM_ICON_HEIGHT = 20;
+
+
     private ComponentSizeConstants() {}
 }
