@@ -4,6 +4,7 @@ import org.swing.app.controller.HomeFrameController;
 import org.swing.app.dto.TaskDto;
 import org.swing.app.dto.TaskPanelDto;
 import org.swing.app.util.MessageLoader;
+import org.swing.app.view.common.ComponentSizeConstants;
 import org.swing.app.view.common.IconUrlConstants;
 import org.swing.app.view.common.LayoutGapConstants;
 import org.swing.app.view.common.ReserveSizeConstants;
@@ -103,7 +104,8 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         final MessageLoader messageLoader = MessageLoader.getInstance();
         this.addNewTaskBtn = UIComponentFactory.createBasicButton(
                 messageLoader.getMessage("add.task.component.text"));
-        this.addNewTaskBtn.setIcon(IconUrlConstants.NEW_TASK_ICON, 15, 15);
+        this.addNewTaskBtn.setIcon(IconUrlConstants.NEW_TASK_ICON,
+                ComponentSizeConstants.DEFAULT_ICON_WIDTH, ComponentSizeConstants.DEFAULT_ICON_HEIGHT);
 
         final ActionListener actionListener = new InsertTaskActionListener(
                 this.homeFrameController, this);
