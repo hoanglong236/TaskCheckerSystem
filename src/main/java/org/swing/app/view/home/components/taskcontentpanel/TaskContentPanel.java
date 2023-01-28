@@ -275,6 +275,10 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
 
     @Override
     public void handleUpdateTaskInTaskPanelEvent(TaskPanel taskPanel, TaskDto newTaskDto) {
+        if (taskPanel == this.activeTaskPanel) {
+            this.taskContentEventSubject.notifyObserversToUpdateMasterTask(newTaskDto);
+        }
+
         final TaskDto oldTaskDto = taskPanel.getTaskDto();
 
         final boolean oldTaskCompleted = oldTaskDto.isCompleted();
@@ -305,6 +309,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
 
         if (taskPanel == this.activeTaskPanel) {
             this.activeTaskPanel = null;
+            this.taskContentEventSubject.notifyObserversToClearContent();
         }
 
         final TaskDto taskDto = taskPanel.getTaskDto();

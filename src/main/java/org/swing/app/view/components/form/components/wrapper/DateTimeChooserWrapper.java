@@ -85,7 +85,7 @@ public class DateTimeChooserWrapper extends InputComponentWrapperBase<LocalDateT
 
     @Override
     protected void loadChildComponentsSize() {
-        final int availableHeight = getSize().height - ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
+        final int availableHeight = getSize().height - ReserveSizeConstants.LARGE_RESERVE_HEIGHT;
         final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 
         if (this.rateOfLabelFieldWidthInTotal > 0) {

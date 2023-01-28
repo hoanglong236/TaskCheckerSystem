@@ -101,8 +101,8 @@ public class HomeSideBar extends HomeWrapperComponent implements InsertTaskListe
 
     @Override
     protected void loadChildComponentsSize() {
-        final int availableWidth = getSize().width - ReserveSizeConstants.SMALL_RESERVE_WIDTH;
-        final int availableHeight = getSize().height - ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
+        final int availableWidth = getSize().width - ReserveSizeConstants.MEDIUM_RESERVE_WIDTH;
+        final int availableHeight = getSize().height - ReserveSizeConstants.MEDIUM_RESERVE_HEIGHT;
 
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
@@ -225,6 +225,7 @@ public class HomeSideBar extends HomeWrapperComponent implements InsertTaskListe
 
         if (taskPanel == this.activeTaskPanel) {
             this.activeTaskPanel = null;
+            this.taskContentEventSubject.notifyObserversToClearContent();
         }
     }
 

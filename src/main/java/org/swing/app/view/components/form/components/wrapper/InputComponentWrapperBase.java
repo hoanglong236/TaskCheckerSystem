@@ -13,8 +13,8 @@ import java.awt.LayoutManager;
 
 public abstract class InputComponentWrapperBase<T> extends PanelWrapperComponent implements InputComponentWrapper<T> {
 
-    protected static final byte HORIZONTAL_GAP = LayoutGapConstants.MEDIUM_H_GAP;
-    protected static final byte VERTICAL_GAP = LayoutGapConstants.MEDIUM_V_GAP;
+    protected static final byte HORIZONTAL_GAP = LayoutGapConstants.LARGE_H_GAP;
+    protected static final byte VERTICAL_GAP = LayoutGapConstants.LARGE_V_GAP;
     protected static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
 
     protected static final Font DEFAULT_LABEL_FIELD_FONT = new Font(ViewConstants.PRIMARY_FONT_NAME,

@@ -21,8 +21,8 @@ import java.util.Set;
 
 public class HomeFrame extends FrameWrapperComponent  {
 
-    private static final byte HORIZONTAL_GAP = LayoutGapConstants.LARGE_H_GAP;
-    private static final byte VERTICAL_GAP = LayoutGapConstants.LARGE_V_GAP;
+    private static final byte HORIZONTAL_GAP = LayoutGapConstants.VERY_LARGE_H_GAP;
+    private static final byte VERTICAL_GAP = LayoutGapConstants.VERY_LARGE_V_GAP;
     private static final LayoutManager MAIN_LAYOUT = new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP);
 
     private HomeSideBar sideBar;

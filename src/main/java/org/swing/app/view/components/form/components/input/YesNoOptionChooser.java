@@ -54,13 +54,12 @@ public class YesNoOptionChooser extends PanelWrapperComponent implements InputCo
         final int availableHeight = getSize().height - ReserveSizeConstants.SMALL_RESERVE_HEIGHT;
         final int maxChildComponentHeight = availableHeight - VERTICAL_GAP;
 
-        final int yesRadioButtonWidth = 50;
-        this.childComponentSizeMap.put(this.yesRadioButton,
-                new Dimension(yesRadioButtonWidth, maxChildComponentHeight));
+        final int commonButtonWidth = 50;
 
-        final int noRadioButtonWidth = 50;
+        this.childComponentSizeMap.put(this.yesRadioButton,
+                new Dimension(commonButtonWidth, maxChildComponentHeight));
         this.childComponentSizeMap.put(this.noRadioButton,
-                new Dimension(noRadioButtonWidth, maxChildComponentHeight));
+                new Dimension(commonButtonWidth, maxChildComponentHeight));
     }
 
     @Override
