@@ -2,7 +2,6 @@ package org.swing.app.view.home.components.listeners.deletetask;
 
 import org.swing.app.controller.ControllerResponse;
 import org.swing.app.controller.HomeFrameController;
-import org.swing.app.view.home.components.listeners.deletetask.DeleteTaskListenerSubject;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
