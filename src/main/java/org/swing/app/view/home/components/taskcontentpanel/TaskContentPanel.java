@@ -47,6 +47,7 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
 
     private Label masterTitleLabel;
     private TaskPanelContainerWrapper taskPanelContainerWrapper;
+    private BasicButton completedMasterTaskBtn;
     private BasicButton addNewTaskBtn;
 
     private TaskPanel activeTaskPanel = null;
@@ -100,6 +101,14 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         }
     }
 
+    private void initCompleteMasterTaskBtn() {
+        final MessageLoader messageLoader = MessageLoader.getInstance();
+        this.completedMasterTaskBtn = UIComponentFactory.createBasicButton(
+                messageLoader.getMessage("complete.master.task.btn"));
+        this.completedMasterTaskBtn.setIcon(IconUrlConstants.CHECK_ICON,
+                ComponentSizeConstants.DEFAULT_ICON_WIDTH, ComponentSizeConstants.DEFAULT_ICON_HEIGHT);
+    }
+
     private void initAddNewTaskBtn() {
         final MessageLoader messageLoader = MessageLoader.getInstance();
         this.addNewTaskBtn = UIComponentFactory.createBasicButton(
@@ -121,6 +130,9 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         initTaskPanelContainerWrapper(taskPanelDtos);
         addChildComponent(this.taskPanelContainerWrapper);
 
+        initCompleteMasterTaskBtn();
+        addChildComponent(this.completedMasterTaskBtn);
+
         initAddNewTaskBtn();
         addChildComponent(this.addNewTaskBtn);
     }
@@ -136,12 +148,14 @@ public abstract class TaskContentPanel extends HomeWrapperComponent implements I
         this.childComponentSizeMap.put(this.masterTitleLabel,
                 new Dimension(maxChildComponentWidth, masterTitleLabelHeight));
 
-        final int addNewTaskBtnWidth = 130;
-        final int addNewTaskBtnHeight = 40;
-        this.childComponentSizeMap.put(this.addNewTaskBtn, new Dimension(addNewTaskBtnWidth, addNewTaskBtnHeight));
+        final int commonBtnWidth = 125;
+        final int commonBtnHeight = 36;
+
+        this.childComponentSizeMap.put(this.completedMasterTaskBtn, new Dimension(commonBtnWidth, commonBtnHeight));
+        this.childComponentSizeMap.put(this.addNewTaskBtn, new Dimension(commonBtnWidth, commonBtnHeight));
 
         final int taskPanelContainerWrapperHeight = availableHeight - VERTICAL_GAP - masterTitleLabelHeight
-                - VERTICAL_GAP - addNewTaskBtnHeight - VERTICAL_GAP;
+                - VERTICAL_GAP - commonBtnHeight - VERTICAL_GAP;
         this.childComponentSizeMap.put(this.taskPanelContainerWrapper,
                 new Dimension(maxChildComponentWidth, taskPanelContainerWrapperHeight));
     }

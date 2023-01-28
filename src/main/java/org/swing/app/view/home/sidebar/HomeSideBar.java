@@ -106,7 +106,7 @@ public class HomeSideBar extends HomeWrapperComponent implements InsertTaskListe
 
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
-        final int addNewTaskBtnHeight = 45;
+        final int addNewTaskBtnHeight = 40;
         this.childComponentSizeMap.put(this.addNewTaskBtn, new Dimension(maxChildComponentWidth, addNewTaskBtnHeight));
 
         final int taskPanelContainerWrapperHeight = availableHeight

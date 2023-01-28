@@ -96,7 +96,7 @@ public abstract class TaskFormModal extends ModalWrapperComponent implements Act
         final int maxChildComponentWidth = availableWidth - HORIZONTAL_GAP;
 
         final byte controlButtonWidth = 100;
-        final int controlButtonHeight = 30;
+        final int controlButtonHeight = 32;
         this.childComponentSizeMap.put(this.submitButton, new Dimension(controlButtonWidth, controlButtonHeight));
         this.childComponentSizeMap.put(this.resetButton, new Dimension(controlButtonWidth, controlButtonHeight));
         this.childComponentSizeMap.put(this.clearButton, new Dimension(controlButtonWidth, controlButtonHeight));
