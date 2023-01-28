@@ -102,10 +102,10 @@ public abstract class TaskPanel extends HomeWrapperComponent
         this.importantLabel = UIComponentFactory.createLabel("");
         if (important) {
             this.importantLabel.setIcon(IconUrlConstants.IMPORTANT_ICON,
-                    ComponentSizeConstants.SMALL_ICON_WIDTH, ComponentSizeConstants.SMALL_ICON_HEIGHT);
+                    ComponentSizeConstants.MEDIUM_ICON_WIDTH, ComponentSizeConstants.MEDIUM_ICON_WIDTH);
         } else {
             this.importantLabel.setIcon(IconUrlConstants.UNIMPORTANT_ICON,
-                    ComponentSizeConstants.SMALL_ICON_WIDTH, ComponentSizeConstants.SMALL_ICON_HEIGHT);
+                    ComponentSizeConstants.MEDIUM_ICON_WIDTH, ComponentSizeConstants.MEDIUM_ICON_WIDTH);
         }
 
         final MouseListener mouseListener = new UpdateTaskMouseListener(
@@ -223,7 +223,7 @@ public abstract class TaskPanel extends HomeWrapperComponent
             final String importantIconUrl = taskDto.isImportant()
                     ? IconUrlConstants.IMPORTANT_ICON : IconUrlConstants.UNIMPORTANT_ICON;
             this.importantLabel.setIcon(importantIconUrl,
-                    ComponentSizeConstants.SMALL_ICON_WIDTH, ComponentSizeConstants.SMALL_ICON_HEIGHT);
+                    ComponentSizeConstants.MEDIUM_ICON_WIDTH, ComponentSizeConstants.MEDIUM_ICON_WIDTH);
         }
     }
 
