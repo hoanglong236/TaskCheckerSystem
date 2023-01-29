@@ -64,12 +64,17 @@ public class CountDownLabel extends Label implements CountdownObserver {
 
     @Override
     public void decreaseCountDown() {
-        if (!this.deadlineCountDown.isFinish()) {
-            this.deadlineCountDown.decreaseCountDown();
-            setText(this.deadlineCountDown.getCountDownString());
-            return;
-        }
+        this.deadlineCountDown.decreaseCountDown();
+        setText(this.deadlineCountDown.getCountDownString());
+    }
 
+    @Override
+    public boolean isCountDownFinish() {
+        return this.deadlineCountDown.isFinish();
+    }
+
+    @Override
+    public void handleCountDownFinish() {
         final CountDownSubject countDownSubject = this.countdownTimer.getCountDownSubject();
         countDownSubject.removeObserver(this);
 

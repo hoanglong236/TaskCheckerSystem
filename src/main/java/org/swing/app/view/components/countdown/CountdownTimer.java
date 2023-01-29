@@ -10,10 +10,9 @@ public class CountdownTimer implements ActionListener {
 
     private final CountDownSubject countDownSubject = new CountDownSubject();
 
-    private final Timer timer = new Timer(1000, null);
+    private final Timer timer = new Timer(1000, this);
 
     private CountdownTimer() {
-        this.timer.addActionListener(this);
         start();
     }
 

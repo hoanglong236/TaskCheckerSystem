@@ -20,8 +20,18 @@ public class CountDownSubject {
     }
 
     public void notifyObserversToDecreaseCountDown() {
+        final Set<CountdownObserver> finishCountdownObservers = new LinkedHashSet<>();
+
         for (final CountdownObserver observer : this.observers) {
-            observer.decreaseCountDown();
+            if (observer.isCountDownFinish()) {
+                finishCountdownObservers.add(observer);
+            } else {
+                observer.decreaseCountDown();
+            }
+        }
+
+        for (final CountdownObserver observer : finishCountdownObservers) {
+            observer.handleCountDownFinish();
         }
     }
 }
